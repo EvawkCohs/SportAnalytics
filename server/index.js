@@ -15,7 +15,7 @@ import scrapeAllGames, { overalldata } from "./scrapeModels/scrapeAllGames.js";
 
 //MODEL IMPORTS
 import gameModel from "./models/gameModel.js";
-import allGamesModel from "./models/allGamesModel.js";
+import allGamesModel from "./models/allgamesmodel.js";
 
 //CONFIGURATION
 dotenv.config();
@@ -44,7 +44,7 @@ mongoose
 
     //DATA UPLOAD
     //gameModel.insertMany(overalldata);
-    //allGamesModel.insertMany(overalldata);
+    allGamesModel.insertMany(overalldata);
   })
   .catch((error) => console.log(`${error} did not connect`));
 
