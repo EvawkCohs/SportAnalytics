@@ -12,11 +12,15 @@ import generalRoutes from "./routes/general.js";
 
 //Scrape IMPORT
 import scrapeAllGames, { overalldata } from "./scrapeModels/scrapeAllGames.js";
+//import scrapeTeamID, { overalldata } from "./scrapeModels/scrapeTeamID.js";
 
 //MODEL IMPORTS
 import gameModel from "./models/gameModel.js";
 import allGamesModel from "./models/allgamesmodel.js";
+import TeamModel from "./models/TeamModel.js";
 
+//DATA IMPORT
+import { dataTeams } from "./data/teams.js";
 //CONFIGURATION
 dotenv.config();
 const app = express();
@@ -44,9 +48,19 @@ mongoose
 
     //DATA UPLOAD
     //gameModel.insertMany(overalldata);
-    allGamesModel.insertMany(overalldata);
+    //allGamesModel.insertMany(overalldata);
+    //TeamModel.insertMany(dataTeams);
   })
   .catch((error) => console.log(`${error} did not connect`));
 
 //SCRAPE DATA
 //scrapeAllGames();
+//scrapeTeamID();
+//console.log(overalldata);
+// require("fs").writeFile(
+//   "./data/teamID.json",
+//   JSON.stringify(overalldata),
+//   (error) => {
+//     if (error) throw error;
+//   }
+// );

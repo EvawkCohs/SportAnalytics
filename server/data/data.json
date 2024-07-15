@@ -1,0 +1,1087 @@
+{
+  "pageProps": {
+    "params": { "season": null, "phase": "sportradar.dhbdata.18161" },
+    "schedule": {
+      "data": [
+        {
+          "id": "sportradar.dhbdata.83226",
+          "tournament": {
+            "id": "sportradar.dhbdata.16059",
+            "name": "3. Liga M\u00e4nner",
+            "acronym": "",
+            "logo": "handball-net:files/tournaments/logos/b8da2892-a790-4010-a276-4cdee6c58b0d.png",
+            "livestreamUrl": null,
+            "organization": null,
+            "currentRound": null,
+            "table": null,
+            "tournamentType": "League",
+            "ageGroup": "Men",
+            "tableHint": "Nach Abschluss der einzelnen Runden entscheidet bei Punktgleichheit der direkte Vergleich. Bei Entscheidungs- und Ausscheidungsspielen erfolgt die Wertung nach Punkten, bei Punktgleichheit entscheidet die Tordifferenz.",
+            "type": "TournamentSummary"
+          },
+          "phase": {
+            "id": "sportradar.dhbdata.18161",
+            "name": "3. Liga M\u00e4nner 24/25 - Staffel S\u00fcd-West",
+            "acronym": "",
+            "type": "PhaseSummary"
+          },
+          "round": {
+            "id": "sportradar.dhbdata.18162",
+            "name": "Spieltag 1",
+            "acronym": "1.",
+            "number": 1,
+            "startsAt": 1725148800000,
+            "endsAt": 1725148800000,
+            "current": false,
+            "games": null,
+            "type": "RoundSummary"
+          },
+          "field": {
+            "id": "sportradar.dhbdata.2534",
+            "name": "Max-Siebold-Halle",
+            "acronym": "",
+            "logo": null,
+            "livestreamUrl": null,
+            "city": "Burscheid",
+            "type": "FieldSummary"
+          },
+          "homeTeam": {
+            "id": "sportradar.dhbdata.489-1648",
+            "name": "Bergische Panther",
+            "acronym": "BGP",
+            "logo": "handball-net:files/clubs/logos/b49d3d0a-9b2f-42a5-b22b-6ccebb5263fd.png",
+            "livestreamUrl": null,
+            "teamGroupId": 21270,
+            "club": null,
+            "defaultTournament": null,
+            "previousGame": null,
+            "nextGame": null,
+            "type": "TeamSummary"
+          },
+          "awayTeam": {
+            "id": "sportradar.dhbdata.1893-1648",
+            "name": "HLZ Friesenheim-Hochdorf  II",
+            "acronym": "HLZ",
+            "logo": "handball-net:files/clubs/logos/44ca5d2f-356a-4dc3-8822-5de97ad924ed.jpeg",
+            "livestreamUrl": null,
+            "teamGroupId": 21095,
+            "club": null,
+            "defaultTournament": null,
+            "previousGame": null,
+            "nextGame": null,
+            "type": "TeamSummary"
+          },
+          "refereeInfo": null,
+          "livestreamUrl": null,
+          "customUrl": null,
+          "customUrlLabel": null,
+          "startsAt": 1725120000000,
+          "attendance": null,
+          "pdfUrl": null,
+          "tickerRef": null,
+          "showTime": true,
+          "state": "Pre",
+          "extraStates": null,
+          "remarks": null,
+          "homeGoals": 0,
+          "awayGoals": 0,
+          "homeGoalsHalf": 0,
+          "awayGoalsHalf": 0,
+          "type": "GameSummary"
+        },
+        {
+          "id": "sportradar.dhbdata.83228",
+          "tournament": {
+            "id": "sportradar.dhbdata.16059",
+            "name": "3. Liga M\u00e4nner",
+            "acronym": "",
+            "logo": "handball-net:files/tournaments/logos/b8da2892-a790-4010-a276-4cdee6c58b0d.png",
+            "livestreamUrl": null,
+            "organization": null,
+            "currentRound": null,
+            "table": null,
+            "tournamentType": "League",
+            "ageGroup": "Men",
+            "tableHint": "Nach Abschluss der einzelnen Runden entscheidet bei Punktgleichheit der direkte Vergleich. Bei Entscheidungs- und Ausscheidungsspielen erfolgt die Wertung nach Punkten, bei Punktgleichheit entscheidet die Tordifferenz.",
+            "type": "TournamentSummary"
+          },
+          "phase": {
+            "id": "sportradar.dhbdata.18161",
+            "name": "3. Liga M\u00e4nner 24/25 - Staffel S\u00fcd-West",
+            "acronym": "",
+            "type": "PhaseSummary"
+          },
+          "round": {
+            "id": "sportradar.dhbdata.18162",
+            "name": "Spieltag 1",
+            "acronym": "1.",
+            "number": 1,
+            "startsAt": 1725148800000,
+            "endsAt": 1725148800000,
+            "current": false,
+            "games": null,
+            "type": "RoundSummary"
+          },
+          "field": {
+            "id": "sportradar.dhbdata.1422",
+            "name": "Schulzentrum (mT) Mundenheim",
+            "acronym": "",
+            "logo": null,
+            "livestreamUrl": null,
+            "city": "Ludwigshafen",
+            "type": "FieldSummary"
+          },
+          "homeTeam": {
+            "id": "sportradar.dhbdata.885-1648",
+            "name": "VTV Mundenheim 1883",
+            "acronym": "VTV",
+            "logo": "handball-net:files/clubs/logos/0a08aea0-43d0-44ed-b85f-eb81624eb532.png",
+            "livestreamUrl": null,
+            "teamGroupId": 21318,
+            "club": null,
+            "defaultTournament": null,
+            "previousGame": null,
+            "nextGame": null,
+            "type": "TeamSummary"
+          },
+          "awayTeam": {
+            "id": "sportradar.dhbdata.420-1648",
+            "name": "HSG Dutenhofen-M\u00fcnchholzhausen II",
+            "acronym": "HSG",
+            "logo": "handball-net:files/clubs/logos/b2e9613a-f3f1-41fa-a5d9-b57320236df6.jpeg",
+            "livestreamUrl": null,
+            "teamGroupId": 21273,
+            "club": null,
+            "defaultTournament": null,
+            "previousGame": null,
+            "nextGame": null,
+            "type": "TeamSummary"
+          },
+          "refereeInfo": null,
+          "livestreamUrl": null,
+          "customUrl": null,
+          "customUrlLabel": null,
+          "startsAt": 1725123600000,
+          "attendance": null,
+          "pdfUrl": null,
+          "tickerRef": null,
+          "showTime": true,
+          "state": "Pre",
+          "extraStates": null,
+          "remarks": null,
+          "homeGoals": 0,
+          "awayGoals": 0,
+          "homeGoalsHalf": 0,
+          "awayGoalsHalf": 0,
+          "type": "GameSummary"
+        },
+        {
+          "id": "sportradar.dhbdata.83229",
+          "tournament": {
+            "id": "sportradar.dhbdata.16059",
+            "name": "3. Liga M\u00e4nner",
+            "acronym": "",
+            "logo": "handball-net:files/tournaments/logos/b8da2892-a790-4010-a276-4cdee6c58b0d.png",
+            "livestreamUrl": null,
+            "organization": null,
+            "currentRound": null,
+            "table": null,
+            "tournamentType": "League",
+            "ageGroup": "Men",
+            "tableHint": "Nach Abschluss der einzelnen Runden entscheidet bei Punktgleichheit der direkte Vergleich. Bei Entscheidungs- und Ausscheidungsspielen erfolgt die Wertung nach Punkten, bei Punktgleichheit entscheidet die Tordifferenz.",
+            "type": "TournamentSummary"
+          },
+          "phase": {
+            "id": "sportradar.dhbdata.18161",
+            "name": "3. Liga M\u00e4nner 24/25 - Staffel S\u00fcd-West",
+            "acronym": "",
+            "type": "PhaseSummary"
+          },
+          "round": {
+            "id": "sportradar.dhbdata.18162",
+            "name": "Spieltag 1",
+            "acronym": "1.",
+            "number": 1,
+            "startsAt": 1725148800000,
+            "endsAt": 1725148800000,
+            "current": false,
+            "games": null,
+            "type": "RoundSummary"
+          },
+          "field": {
+            "id": "sportradar.dhbdata.3383",
+            "name": "Sporthalle der Carl-von-Ossietzky Gesamtschule",
+            "acronym": "",
+            "logo": null,
+            "livestreamUrl": null,
+            "city": "K\u00f6ln",
+            "type": "FieldSummary"
+          },
+          "homeTeam": {
+            "id": "sportradar.dhbdata.453-1648",
+            "name": "Longericher SC K\u00f6ln",
+            "acronym": "LSC",
+            "logo": "handball-net:files/clubs/logos/00940fa6-31a5-4c18-a92a-4c49fe61f191.jpeg",
+            "livestreamUrl": null,
+            "teamGroupId": 21114,
+            "club": null,
+            "defaultTournament": null,
+            "previousGame": null,
+            "nextGame": null,
+            "type": "TeamSummary"
+          },
+          "awayTeam": {
+            "id": "sportradar.dhbdata.417-1648",
+            "name": "HSG Rodgau Nieder-Roden",
+            "acronym": "ROD",
+            "logo": "handball-net:files/clubs/logos/6bd8ac5e-578b-4b39-a2f0-77bce30c65ca.png",
+            "livestreamUrl": null,
+            "teamGroupId": 21464,
+            "club": null,
+            "defaultTournament": null,
+            "previousGame": null,
+            "nextGame": null,
+            "type": "TeamSummary"
+          },
+          "refereeInfo": null,
+          "livestreamUrl": null,
+          "customUrl": null,
+          "customUrlLabel": null,
+          "startsAt": 1725123600000,
+          "attendance": null,
+          "pdfUrl": null,
+          "tickerRef": null,
+          "showTime": true,
+          "state": "Pre",
+          "extraStates": null,
+          "remarks": null,
+          "homeGoals": 0,
+          "awayGoals": 0,
+          "homeGoalsHalf": 0,
+          "awayGoalsHalf": 0,
+          "type": "GameSummary"
+        },
+        {
+          "id": "sportradar.dhbdata.83224",
+          "tournament": {
+            "id": "sportradar.dhbdata.16059",
+            "name": "3. Liga M\u00e4nner",
+            "acronym": "",
+            "logo": "handball-net:files/tournaments/logos/b8da2892-a790-4010-a276-4cdee6c58b0d.png",
+            "livestreamUrl": null,
+            "organization": null,
+            "currentRound": null,
+            "table": null,
+            "tournamentType": "League",
+            "ageGroup": "Men",
+            "tableHint": "Nach Abschluss der einzelnen Runden entscheidet bei Punktgleichheit der direkte Vergleich. Bei Entscheidungs- und Ausscheidungsspielen erfolgt die Wertung nach Punkten, bei Punktgleichheit entscheidet die Tordifferenz.",
+            "type": "TournamentSummary"
+          },
+          "phase": {
+            "id": "sportradar.dhbdata.18161",
+            "name": "3. Liga M\u00e4nner 24/25 - Staffel S\u00fcd-West",
+            "acronym": "",
+            "type": "PhaseSummary"
+          },
+          "round": {
+            "id": "sportradar.dhbdata.18162",
+            "name": "Spieltag 1",
+            "acronym": "1.",
+            "number": 1,
+            "startsAt": 1725148800000,
+            "endsAt": 1725148800000,
+            "current": false,
+            "games": null,
+            "type": "RoundSummary"
+          },
+          "field": {
+            "id": "sportradar.dhbdata.3147",
+            "name": "TSG-Sportzentrum",
+            "acronym": "",
+            "logo": null,
+            "livestreamUrl": null,
+            "city": "Ha\u00dfloch",
+            "type": "FieldSummary"
+          },
+          "homeTeam": {
+            "id": "sportradar.dhbdata.513-1648",
+            "name": "TSG Ha\u00dfloch",
+            "acronym": "TSG",
+            "logo": "handball-net:files/clubs/logos/7d43c7c0-01bd-4655-a90d-1a6e8084a337.png",
+            "livestreamUrl": null,
+            "teamGroupId": 21279,
+            "club": null,
+            "defaultTournament": null,
+            "previousGame": null,
+            "nextGame": null,
+            "type": "TeamSummary"
+          },
+          "awayTeam": {
+            "id": "sportradar.dhbdata.516-1648",
+            "name": "HG Saarlouis",
+            "acronym": "HGS",
+            "logo": "handball-net:files/clubs/logos/1736f032-4268-41e9-b7d6-e9fbee615b3c.png",
+            "livestreamUrl": null,
+            "teamGroupId": 21287,
+            "club": null,
+            "defaultTournament": null,
+            "previousGame": null,
+            "nextGame": null,
+            "type": "TeamSummary"
+          },
+          "refereeInfo": null,
+          "livestreamUrl": null,
+          "customUrl": null,
+          "customUrlLabel": null,
+          "startsAt": 1725125400000,
+          "attendance": null,
+          "pdfUrl": null,
+          "tickerRef": null,
+          "showTime": true,
+          "state": "Pre",
+          "extraStates": null,
+          "remarks": null,
+          "homeGoals": 0,
+          "awayGoals": 0,
+          "homeGoalsHalf": 0,
+          "awayGoalsHalf": 0,
+          "type": "GameSummary"
+        },
+        {
+          "id": "sportradar.dhbdata.83225",
+          "tournament": {
+            "id": "sportradar.dhbdata.16059",
+            "name": "3. Liga M\u00e4nner",
+            "acronym": "",
+            "logo": "handball-net:files/tournaments/logos/b8da2892-a790-4010-a276-4cdee6c58b0d.png",
+            "livestreamUrl": null,
+            "organization": null,
+            "currentRound": null,
+            "table": null,
+            "tournamentType": "League",
+            "ageGroup": "Men",
+            "tableHint": "Nach Abschluss der einzelnen Runden entscheidet bei Punktgleichheit der direkte Vergleich. Bei Entscheidungs- und Ausscheidungsspielen erfolgt die Wertung nach Punkten, bei Punktgleichheit entscheidet die Tordifferenz.",
+            "type": "TournamentSummary"
+          },
+          "phase": {
+            "id": "sportradar.dhbdata.18161",
+            "name": "3. Liga M\u00e4nner 24/25 - Staffel S\u00fcd-West",
+            "acronym": "",
+            "type": "PhaseSummary"
+          },
+          "round": {
+            "id": "sportradar.dhbdata.18162",
+            "name": "Spieltag 1",
+            "acronym": "1.",
+            "number": 1,
+            "startsAt": 1725148800000,
+            "endsAt": 1725148800000,
+            "current": false,
+            "games": null,
+            "type": "RoundSummary"
+          },
+          "field": {
+            "id": "sportradar.dhbdata.3159",
+            "name": "Gro\u00dfsporthalle Gelnhausen",
+            "acronym": "",
+            "logo": null,
+            "livestreamUrl": null,
+            "city": "Gelnhausen",
+            "type": "FieldSummary"
+          },
+          "homeTeam": {
+            "id": "sportradar.dhbdata.411-1648",
+            "name": "TV Gelnhausen",
+            "acronym": "TVG",
+            "logo": "handball-net:files/clubs/logos/d5b1e08f-1d6e-40f9-8672-b6db9e6a37cd.jpeg",
+            "livestreamUrl": null,
+            "teamGroupId": 21245,
+            "club": null,
+            "defaultTournament": null,
+            "previousGame": null,
+            "nextGame": null,
+            "type": "TeamSummary"
+          },
+          "awayTeam": {
+            "id": "sportradar.dhbdata.438-1648",
+            "name": "Saase3Leutershausen",
+            "acronym": "S3L",
+            "logo": "handball-net:files/migration/V20210907/H4A_24066_Baden_Leutershausen.png",
+            "livestreamUrl": null,
+            "teamGroupId": 21229,
+            "club": null,
+            "defaultTournament": null,
+            "previousGame": null,
+            "nextGame": null,
+            "type": "TeamSummary"
+          },
+          "refereeInfo": null,
+          "livestreamUrl": null,
+          "customUrl": null,
+          "customUrlLabel": null,
+          "startsAt": 1725125400000,
+          "attendance": null,
+          "pdfUrl": null,
+          "tickerRef": null,
+          "showTime": true,
+          "state": "Pre",
+          "extraStates": null,
+          "remarks": null,
+          "homeGoals": 0,
+          "awayGoals": 0,
+          "homeGoalsHalf": 0,
+          "awayGoalsHalf": 0,
+          "type": "GameSummary"
+        },
+        {
+          "id": "sportradar.dhbdata.83230",
+          "tournament": {
+            "id": "sportradar.dhbdata.16059",
+            "name": "3. Liga M\u00e4nner",
+            "acronym": "",
+            "logo": "handball-net:files/tournaments/logos/b8da2892-a790-4010-a276-4cdee6c58b0d.png",
+            "livestreamUrl": null,
+            "organization": null,
+            "currentRound": null,
+            "table": null,
+            "tournamentType": "League",
+            "ageGroup": "Men",
+            "tableHint": "Nach Abschluss der einzelnen Runden entscheidet bei Punktgleichheit der direkte Vergleich. Bei Entscheidungs- und Ausscheidungsspielen erfolgt die Wertung nach Punkten, bei Punktgleichheit entscheidet die Tordifferenz.",
+            "type": "TournamentSummary"
+          },
+          "phase": {
+            "id": "sportradar.dhbdata.18161",
+            "name": "3. Liga M\u00e4nner 24/25 - Staffel S\u00fcd-West",
+            "acronym": "",
+            "type": "PhaseSummary"
+          },
+          "round": {
+            "id": "sportradar.dhbdata.18162",
+            "name": "Spieltag 1",
+            "acronym": "1.",
+            "number": 1,
+            "startsAt": 1725148800000,
+            "endsAt": 1725148800000,
+            "current": false,
+            "games": null,
+            "type": "RoundSummary"
+          },
+          "field": {
+            "id": "sportradar.dhbdata.3353",
+            "name": "Bielertsporthalle Opladen",
+            "acronym": "",
+            "logo": null,
+            "livestreamUrl": null,
+            "city": "Leverkusen",
+            "type": "FieldSummary"
+          },
+          "homeTeam": {
+            "id": "sportradar.dhbdata.2715-1648",
+            "name": "TuS 1882 Opladen",
+            "acronym": "TUS",
+            "logo": "handball-net:files/clubs/logos/e18b2dd1-f503-4bde-9101-72deeeb85142.jpeg",
+            "livestreamUrl": null,
+            "teamGroupId": 21299,
+            "club": null,
+            "defaultTournament": null,
+            "previousGame": null,
+            "nextGame": null,
+            "type": "TeamSummary"
+          },
+          "awayTeam": {
+            "id": "sportradar.dhbdata.3506-1648",
+            "name": "TV Aldekerk 07",
+            "acronym": "ATV",
+            "logo": "handball-net:files/clubs/logos/04ee2d5d-5ad1-4cb3-bb0c-2ea0c80824b6.png",
+            "livestreamUrl": null,
+            "teamGroupId": 21314,
+            "club": null,
+            "defaultTournament": null,
+            "previousGame": null,
+            "nextGame": null,
+            "type": "TeamSummary"
+          },
+          "refereeInfo": null,
+          "livestreamUrl": null,
+          "customUrl": null,
+          "customUrlLabel": null,
+          "startsAt": 1725125400000,
+          "attendance": null,
+          "pdfUrl": null,
+          "tickerRef": null,
+          "showTime": true,
+          "state": "Pre",
+          "extraStates": null,
+          "remarks": null,
+          "homeGoals": 0,
+          "awayGoals": 0,
+          "homeGoalsHalf": 0,
+          "awayGoalsHalf": 0,
+          "type": "GameSummary"
+        },
+        {
+          "id": "sportradar.dhbdata.83227",
+          "tournament": {
+            "id": "sportradar.dhbdata.16059",
+            "name": "3. Liga M\u00e4nner",
+            "acronym": "",
+            "logo": "handball-net:files/tournaments/logos/b8da2892-a790-4010-a276-4cdee6c58b0d.png",
+            "livestreamUrl": null,
+            "organization": null,
+            "currentRound": null,
+            "table": null,
+            "tournamentType": "League",
+            "ageGroup": "Men",
+            "tableHint": "Nach Abschluss der einzelnen Runden entscheidet bei Punktgleichheit der direkte Vergleich. Bei Entscheidungs- und Ausscheidungsspielen erfolgt die Wertung nach Punkten, bei Punktgleichheit entscheidet die Tordifferenz.",
+            "type": "TournamentSummary"
+          },
+          "phase": {
+            "id": "sportradar.dhbdata.18161",
+            "name": "3. Liga M\u00e4nner 24/25 - Staffel S\u00fcd-West",
+            "acronym": "",
+            "type": "PhaseSummary"
+          },
+          "round": {
+            "id": "sportradar.dhbdata.18162",
+            "name": "Spieltag 1",
+            "acronym": "1.",
+            "number": 1,
+            "startsAt": 1725148800000,
+            "endsAt": 1725148800000,
+            "current": false,
+            "games": null,
+            "type": "RoundSummary"
+          },
+          "field": {
+            "id": "sportradar.dhbdata.134",
+            "name": "Main-Kinzig-Halle",
+            "acronym": "",
+            "logo": null,
+            "livestreamUrl": null,
+            "city": "Hanau",
+            "type": "FieldSummary"
+          },
+          "homeTeam": {
+            "id": "sportradar.dhbdata.426-1648",
+            "name": "HSG Hanau",
+            "acronym": "HSG",
+            "logo": "handball-net:files/clubs/logos/3f94d7ab-b24b-4d4f-942a-723031185e49.png",
+            "livestreamUrl": null,
+            "teamGroupId": 21512,
+            "club": null,
+            "defaultTournament": null,
+            "previousGame": null,
+            "nextGame": null,
+            "type": "TeamSummary"
+          },
+          "awayTeam": {
+            "id": "sportradar.dhbdata.3899-1648",
+            "name": "TV Korschenbroich",
+            "acronym": "TVK",
+            "logo": "handball-net:files/clubs/logos/ff12b07e-7137-4bed-96fb-3eaeef9af31d.jpeg",
+            "livestreamUrl": null,
+            "teamGroupId": 27460355,
+            "club": null,
+            "defaultTournament": null,
+            "previousGame": null,
+            "nextGame": null,
+            "type": "TeamSummary"
+          },
+          "refereeInfo": null,
+          "livestreamUrl": null,
+          "customUrl": null,
+          "customUrlLabel": null,
+          "startsAt": 1725141600000,
+          "attendance": null,
+          "pdfUrl": null,
+          "tickerRef": null,
+          "showTime": false,
+          "state": "Pre",
+          "extraStates": null,
+          "remarks": null,
+          "homeGoals": 0,
+          "awayGoals": 0,
+          "homeGoalsHalf": 0,
+          "awayGoalsHalf": 0,
+          "type": "GameSummary"
+        },
+        {
+          "id": "sportradar.dhbdata.83231",
+          "tournament": {
+            "id": "sportradar.dhbdata.16059",
+            "name": "3. Liga M\u00e4nner",
+            "acronym": "",
+            "logo": "handball-net:files/tournaments/logos/b8da2892-a790-4010-a276-4cdee6c58b0d.png",
+            "livestreamUrl": null,
+            "organization": null,
+            "currentRound": null,
+            "table": null,
+            "tournamentType": "League",
+            "ageGroup": "Men",
+            "tableHint": "Nach Abschluss der einzelnen Runden entscheidet bei Punktgleichheit der direkte Vergleich. Bei Entscheidungs- und Ausscheidungsspielen erfolgt die Wertung nach Punkten, bei Punktgleichheit entscheidet die Tordifferenz.",
+            "type": "TournamentSummary"
+          },
+          "phase": {
+            "id": "sportradar.dhbdata.18161",
+            "name": "3. Liga M\u00e4nner 24/25 - Staffel S\u00fcd-West",
+            "acronym": "",
+            "type": "PhaseSummary"
+          },
+          "round": {
+            "id": "sportradar.dhbdata.18162",
+            "name": "Spieltag 1",
+            "acronym": "1.",
+            "number": 1,
+            "startsAt": 1725148800000,
+            "endsAt": 1725148800000,
+            "current": false,
+            "games": null,
+            "type": "RoundSummary"
+          },
+          "field": {
+            "id": "sportradar.dhbdata.3165",
+            "name": "Glockenspitzhalle",
+            "acronym": "",
+            "logo": null,
+            "livestreamUrl": null,
+            "city": "Krefeld",
+            "type": "FieldSummary"
+          },
+          "homeTeam": {
+            "id": "sportradar.dhbdata.2700-1648",
+            "name": "HSG Krefeld Niederrhein",
+            "acronym": "KRN",
+            "logo": "handball-net:files/clubs/logos/b989552a-27be-48c5-adb9-651beae8065f.png",
+            "livestreamUrl": null,
+            "teamGroupId": 21321,
+            "club": null,
+            "defaultTournament": null,
+            "previousGame": null,
+            "nextGame": null,
+            "type": "TeamSummary"
+          },
+          "awayTeam": {
+            "id": "sportradar.dhbdata.1881-1648",
+            "name": "TV Kirchzell",
+            "acronym": "TVK",
+            "logo": "handball-net:files/clubs/logos/e9cb0bc5-6c0e-485c-af30-a89835fa45df.png",
+            "livestreamUrl": null,
+            "teamGroupId": 21293,
+            "club": null,
+            "defaultTournament": null,
+            "previousGame": null,
+            "nextGame": null,
+            "type": "TeamSummary"
+          },
+          "refereeInfo": null,
+          "livestreamUrl": null,
+          "customUrl": null,
+          "customUrlLabel": null,
+          "startsAt": 1725141600000,
+          "attendance": null,
+          "pdfUrl": null,
+          "tickerRef": null,
+          "showTime": false,
+          "state": "Pre",
+          "extraStates": null,
+          "remarks": null,
+          "homeGoals": 0,
+          "awayGoals": 0,
+          "homeGoalsHalf": 0,
+          "awayGoalsHalf": 0,
+          "type": "GameSummary"
+        }
+      ],
+      "meta": {
+        "facets": [
+          {
+            "key": "season",
+            "values": [
+              { "id": "2018", "name": "2018/19", "selected": false },
+              { "id": "2019", "name": "2019/20", "selected": false },
+              { "id": "2020", "name": "2020/21", "selected": false },
+              { "id": "2021", "name": "2021/22", "selected": false },
+              { "id": "2022", "name": "2022/23", "selected": false },
+              { "id": "2023", "name": "2023/24", "selected": false },
+              { "id": "2024", "name": "2024/25", "selected": true }
+            ],
+            "clearOnChange": ["phase", "round"],
+            "removable": false
+          },
+          {
+            "key": "phase",
+            "values": [
+              {
+                "id": "sportradar.dhbdata.18130",
+                "name": "3. Liga M\u00e4nner 24/25 - Staffel Nord-Ost",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18026",
+                "name": "3. Liga M\u00e4nner 24/25 - Staffel Nord-West",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18192",
+                "name": "3. Liga M\u00e4nner 24/25 - Staffel S\u00fcd",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18161",
+                "name": "3. Liga M\u00e4nner 24/25 - Staffel S\u00fcd-West",
+                "selected": true
+              }
+            ],
+            "clearOnChange": ["round"],
+            "removable": false
+          },
+          {
+            "key": "round",
+            "values": [
+              {
+                "id": "sportradar.dhbdata.18162",
+                "name": "Spieltag 1",
+                "selected": true
+              },
+              {
+                "id": "sportradar.dhbdata.18163",
+                "name": "Spieltag 2",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18164",
+                "name": "Spieltag 3",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18165",
+                "name": "Spieltag 4",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18166",
+                "name": "Spieltag 5",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18167",
+                "name": "Spieltag 6",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18168",
+                "name": "Spieltag 7",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18169",
+                "name": "Spieltag 8",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18170",
+                "name": "Spieltag 9",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18171",
+                "name": "Spieltag 10",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18172",
+                "name": "Spieltag 11",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18173",
+                "name": "Spieltag 12",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18174",
+                "name": "Spieltag 13",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18175",
+                "name": "Spieltag 14",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18176",
+                "name": "Spieltag 15",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18177",
+                "name": "Spieltag 16",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18178",
+                "name": "Spieltag 17",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18179",
+                "name": "Spieltag 18",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18180",
+                "name": "Spieltag 19",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18181",
+                "name": "Spieltag 20",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18182",
+                "name": "Spieltag 21",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18183",
+                "name": "Spieltag 22",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18184",
+                "name": "Spieltag 23",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18185",
+                "name": "Spieltag 24",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18186",
+                "name": "Spieltag 25",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18187",
+                "name": "Spieltag 26",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18188",
+                "name": "Spieltag 27",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18189",
+                "name": "Spieltag 28",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18190",
+                "name": "Spieltag 29",
+                "selected": false
+              },
+              {
+                "id": "sportradar.dhbdata.18191",
+                "name": "Spieltag 30",
+                "selected": false
+              }
+            ],
+            "clearOnChange": [],
+            "removable": false
+          }
+        ],
+        "totalCount": 8
+      }
+    },
+    "tournament": {
+      "data": {
+        "id": "sportradar.dhbdata.16059",
+        "name": "3. Liga M\u00e4nner",
+        "acronym": "",
+        "logo": "handball-net:files/tournaments/logos/b8da2892-a790-4010-a276-4cdee6c58b0d.png",
+        "livestreamUrl": null,
+        "organization": {
+          "id": "DHB",
+          "name": "Deutscher Handballbund",
+          "acronym": "DHB",
+          "logo": "handball-net:files/organizations/logos/7e9bb355-8632-4694-a612-9978f6fa2dd9.jpeg",
+          "livestreamUrl": null,
+          "utmSource": null,
+          "organizationType": "Verb\u00e4nde",
+          "sort": 0,
+          "type": "OrganizationSummary"
+        },
+        "currentRound": null,
+        "table": null,
+        "tournamentType": "League",
+        "ageGroup": "Men",
+        "tableHint": "Nach Abschluss der einzelnen Runden entscheidet bei Punktgleichheit der direkte Vergleich. Bei Entscheidungs- und Ausscheidungsspielen erfolgt die Wertung nach Punkten, bei Punktgleichheit entscheidet die Tordifferenz.",
+        "type": "TournamentSummary"
+      },
+      "meta": { "hasTable": true, "hasStatistics": true }
+    }
+  },
+  "configProps": {
+    "main_navigation": {
+      "main_items": [
+        {
+          "id": "navigation.main.Spielpl%C3%A4ne",
+          "name": "Spielpl\u00e4ne",
+          "href": "/spielplansuche"
+        },
+        { "id": "navigation.main.Ligen", "name": "Ligen", "href": "/ligen" },
+        {
+          "id": "navigation.main.Wettbewerbe",
+          "name": "Wettbewerbe",
+          "href": "/wettbewerbe"
+        },
+        {
+          "id": "navigation.main.Vereine",
+          "name": "Vereine",
+          "href": "/vereine"
+        },
+        {
+          "id": "navigation.main.Verb%C3%A4nde",
+          "name": "Verb\u00e4nde",
+          "href": "/verb\u00e4nde"
+        },
+        { "id": "navigation.main.Hallen", "name": "Hallen", "href": "/hallen" },
+        {
+          "id": "navigation.main.Livestreams%20&%20VIdeos",
+          "name": "Livestreams & VIdeos",
+          "href": "https://live.handball.net/",
+          "target": "_blank"
+        },
+        { "id": "navigation.main.News", "name": "News", "href": "/news" }
+      ],
+      "secondary_items": [
+        {
+          "id": "navigation.secondary.navigation_1_bundesliga",
+          "name": "1. Bundesliga",
+          "items": [
+            {
+              "id": "navigation.main.HBL%20-%201.%20Bundesliga",
+              "name": "HBL - 1. Bundesliga",
+              "href": "/ligen/sr.competition.149/spielplan"
+            },
+            {
+              "id": "navigation.main.HBF%20-%201.%20Bundesliga",
+              "name": "HBF - 1. Bundesliga",
+              "href": "/ligen/sportradar.hbf.228/spielplan"
+            }
+          ]
+        },
+        {
+          "id": "navigation.secondary.navigation_2_bundesliga",
+          "name": "2. Bundesliga",
+          "items": [
+            {
+              "id": "navigation.main.HBL%20-%202.%20Bundesliga",
+              "name": "HBL - 2. Bundesliga",
+              "href": "/ligen/sr.competition.921/spielplan"
+            },
+            {
+              "id": "navigation.main.HBF%20-%202.%20Bundesliga",
+              "name": "HBF - 2. Bundesliga",
+              "href": "/ligen/sportradar.hbf.312/spielplan"
+            }
+          ]
+        }
+      ],
+      "info_items": [
+        {
+          "id": "navigation.info.navigation_uber_handball-net",
+          "name": "\u00dcber Handball.net",
+          "items": [
+            {
+              "id": "navigation.info.Was%20ist%20Handball.net?",
+              "name": "Was ist Handball.net?",
+              "href": "/warum-registrieren"
+            },
+            { "id": "navigation.info.FAQ", "name": "FAQ", "href": "/faq" },
+            {
+              "id": "navigation.info.Kontaktformular",
+              "name": "Kontaktformular",
+              "href": "/kontakt"
+            },
+            {
+              "id": "navigation.info.Newsletter",
+              "name": "Newsletter",
+              "href": "/newsletter"
+            },
+            {
+              "id": "navigation.info.Nutzungsbedingungen",
+              "name": "Nutzungsbedingungen",
+              "href": "/nutzungsbedingungen"
+            },
+            {
+              "id": "navigation.info.Datenschutz",
+              "name": "Datenschutz",
+              "href": "/datenschutz"
+            },
+            {
+              "id": "navigation.info.Impressum",
+              "name": "Impressum",
+              "href": "/impressum"
+            }
+          ]
+        }
+      ],
+      "social_items": [
+        {
+          "id": "navigation.icons.Instagram",
+          "name": "Instagram",
+          "icon": {
+            "url": "https://images.prismic.io/hbdummy/Zhjk6TjCgu4jzxhA_instagram.png?auto=format,compress"
+          },
+          "href": "https://www.instagram.com/handballnet",
+          "target": "_blank"
+        },
+        {
+          "id": "navigation.icons.Facebook",
+          "name": "Facebook",
+          "icon": {
+            "url": "https://images.prismic.io/hbdummy/Zhjk6jjCgu4jzxhB_facebook.png?auto=format,compress"
+          },
+          "href": "https://www.facebook.com/www.handball.net/",
+          "target": "_blank"
+        },
+        {
+          "id": "navigation.icons.X",
+          "name": "X",
+          "href": "https://twitter.com/dhb_themen",
+          "target": "_blank"
+        }
+      ]
+    },
+    "main_shortcuts": [
+      {
+        "id": "livestreams",
+        "href": "https://live.handball.net",
+        "name": "Livestreams"
+      },
+      {
+        "id": "alle-spiele-des-tages",
+        "href": "/spiele-des-tages",
+        "name": "Alle Spiele des Tages"
+      },
+      {
+        "id": "3-liga",
+        "href": "/ligen/sportradar.dhbdata.16059/spielplan",
+        "name": "3. LIGA",
+        "title": "3. LIGA M\u00e4nner"
+      },
+      {
+        "id": "jugendbundesliga",
+        "href": "/ligen/sportradar.dhbdata.15984/spielplan",
+        "name": "JUGENDBUNDESLIGA",
+        "title": "JUGENDBUNDESLIGA - M\u00c4NNLICHE A-JUGEND"
+      },
+      { "id": "fanshop", "href": "/fanshop", "name": "Fanshop" }
+    ]
+  },
+  "__N_SSP": true
+}
