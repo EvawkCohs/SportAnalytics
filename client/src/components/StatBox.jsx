@@ -39,14 +39,9 @@ const StatBox = ({
         {round}
       </Typography>
 
-      <Box display="grid" gridTemplateColumns="repeat(3, 1fr)">
+      <Box display="grid" gridTemplateColumns="repeat(3, 1fr)" p="1.25rem 1rem">
         {/*ROW 1 */}
-        <Box
-          gridColumn="span 1"
-          gridRow="span 1"
-          display="flex"
-          p="1.25rem 1rem"
-        >
+        <Box gridColumn="span 1" gridRow="span 1" display="flex">
           <Typography
             variant="h5"
             textAlign="center"
@@ -56,7 +51,7 @@ const StatBox = ({
             {homeTeam}
           </Typography>
         </Box>
-        <Box gridColumn="span 1" p="1.25rem 1rem">
+        <Box gridColumn="span 1">
           <Typography
             variant="h2"
             fontWeight="600"
@@ -66,13 +61,7 @@ const StatBox = ({
             {finalScore}
           </Typography>
         </Box>
-        <Box
-          gridColumn="span 1"
-          gridRow="span 1"
-          display="flex"
-          justifyContent="center"
-          p="1.25rem 1rem"
-        >
+        <Box gridColumn="span 1" gridRow="span 1" display="flex">
           <Typography
             variant="h5"
             textAlign="center"
@@ -91,7 +80,7 @@ const StatBox = ({
           display="flex"
           justifyContent="center"
           alignItems="center"
-          p="1.25rem 1rem"
+          mt="20px"
         >
           <SportsHandballIcon />
         </Box>
@@ -100,7 +89,6 @@ const StatBox = ({
           fontWeight="400"
           sx={{ color: theme.palette.secondary[200] }}
           textAlign="center"
-          p="1.25rem 1rem"
         >
           {halftimeScore}
         </Typography>
@@ -109,7 +97,7 @@ const StatBox = ({
           display="flex"
           justifyContent="center"
           alignItems="center"
-          p="1.25rem 1rem"
+          mt="20px"
         >
           <SportsHandballIcon />
         </Box>

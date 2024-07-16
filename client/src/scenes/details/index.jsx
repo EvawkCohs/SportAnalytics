@@ -33,7 +33,7 @@ function Details() {
             }}
           >
             <DownloadOutlined sx={{ mr: "10px" }} />
-            Download Report
+            Download Gamestats
           </Button>
         </Box>
       </FlexBetween>
@@ -44,7 +44,7 @@ function Details() {
         mt="20px"
         display="grid"
         gridTemplateColumns="repeat(8, 1fr)"
-        gridAutoRows="250px"
+        gridAutoRows="225px"
         gap="20px"
         sx={{
           "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
@@ -55,7 +55,7 @@ function Details() {
           title={`${row.phase.name}`}
           round={`${row.round.name} - ${formatTimestamp(row.startsAt)}`}
           finalScore={`${row.homeGoals} : ${row.awayGoals}`}
-          halftimeScore={`${row.homeGoalsHalf} : ${row.awayGoalsHalf}`}
+          halftimeScore={`(${row.homeGoalsHalf} : ${row.awayGoalsHalf})`}
           homeTeam={row.homeTeam.name}
           awayTeam={row.awayTeam.name}
         />
