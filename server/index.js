@@ -11,7 +11,7 @@ import clientRoutes from "./routes/client.js";
 import generalRoutes from "./routes/general.js";
 
 //Scrape IMPORT
-import scrapeAllGames, { overalldata } from "./scrapeModels/scrapeAllGames.js";
+//import scrapeAllGames, { overalldata } from "./scrapeModels/scrapeAllGames.js";
 //import scrapeTeamID, { overalldata } from "./scrapeModels/scrapeTeamID.js";
 
 //MODEL IMPORTS
@@ -38,6 +38,7 @@ app.use("/general", generalRoutes);
 
 //MONGOOSE SETUP
 const PORT = process.env.PORT || 9000;
+const PORT2 = 5002;
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
@@ -53,14 +54,26 @@ mongoose
   })
   .catch((error) => console.log(`${error} did not connect`));
 
-//SCRAPE DATA
-//scrapeAllGames();
-//scrapeTeamID();
-//console.log(overalldata);
-// require("fs").writeFile(
-//   "./data/teamID.json",
-//   JSON.stringify(overalldata),
-//   (error) => {
-//     if (error) throw error;
-//   }
-// );
+app.get("/proxy", async (req, res) => {
+  const { url } = req.query; // URL aus den Query-Parametern holen
+
+  if (!url) {
+    return res.status(400).send("Fehlende URL");
+  }
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP-Fehler! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    res.status(500).send("Fehler beim Abrufen der Daten: " + error.message);
+  }
+});
+
+app.listen(PORT2, () => {
+  console.log(`Proxy-Server läuft auf http://localhost:${PORT2}`);
+});

@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { setId } from "state";
 
-function Gameids() {
+function GameIDs() {
   const [team, setTeam] = React.useState("");
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -97,4 +97,4 @@ function Gameids() {
     </Box>
   );
 }
-export default Gameids;
+export default GameIDs;

@@ -28,6 +28,7 @@ import {
   TrendingUpOutlined,
   PieChartOutlined,
 } from "@mui/icons-material";
+import KeyIcon from "@mui/icons-material/Key";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FlexBetween from "./FlexBetween.jsx";
@@ -42,12 +43,12 @@ const navItems = [
     icon: null,
   },
   {
-    text: "Products",
-    icon: <ShoppingCartOutlined />,
+    text: "GameIDs",
+    icon: <KeyIcon />,
   },
   {
-    text: "Customers",
-    icon: <Groups2Outlined />,
+    text: "Schedule",
+    icon: <CalendarMonthOutlined />,
   },
   {
     text: "Transactions",
@@ -131,7 +132,7 @@ const Sidebar = ({
               <FlexBetween color={theme.palette.secondary.main}>
                 <Box display="flex" alignItems="center" gap="0.5rem">
                   <Typography variant="h4" fontWeight="bold">
-                    ECOMVISION
+                    SPORTANALYTICS
                   </Typography>
                 </Box>
                 {!isNonMobile && (

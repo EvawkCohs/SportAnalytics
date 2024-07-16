@@ -4,13 +4,15 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { themeSettings } from "theme";
-import Gameids from "scenes/gameids";
+import GameIDs from "scenes/gameids";
 import Dashboard from "scenes/dashboard";
 import Layout from "scenes/Layout";
+import Schedule from "scenes/schedule";
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+
   return (
     <div className="app">
       <BrowserRouter>
@@ -20,7 +22,8 @@ function App() {
             <Route element={<Layout />}>
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/gameids" element={<Gameids />} />
+              <Route path="/gameids" element={<GameIDs />} />
+              <Route path="/schedule" element={<Schedule />} />
             </Route>
           </Routes>
         </ThemeProvider>
