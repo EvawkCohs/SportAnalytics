@@ -6,6 +6,7 @@ import { DownloadOutlined } from "@mui/icons-material";
 import StatBox from "components/StatBox";
 import { DataContext } from "components/DataContext";
 import { useParams } from "react-router-dom";
+import formatTimestamp from "scenes/schedule/formatTimestamp.js";
 
 function Details() {
   //Daten der Spiele annehmen
@@ -42,7 +43,7 @@ function Details() {
       <Box
         mt="20px"
         display="grid"
-        gridTemplateColumns="repeat(10, 1fr)"
+        gridTemplateColumns="repeat(8, 1fr)"
         gridAutoRows="250px"
         gap="20px"
         sx={{
@@ -51,8 +52,10 @@ function Details() {
       >
         {/* ROW 1*/}
         <StatBox
-          title="Ergebnis"
+          title={`${row.phase.name}`}
+          round={`${row.round.name} - ${formatTimestamp(row.startsAt)}`}
           finalScore={`${row.homeGoals} : ${row.awayGoals}`}
+          halftimeScore={`${row.homeGoalsHalf} : ${row.awayGoalsHalf}`}
           homeTeam={row.homeTeam.name}
           awayTeam={row.awayTeam.name}
         />

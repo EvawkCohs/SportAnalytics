@@ -3,7 +3,14 @@ import { Box, Typography, useTheme } from "@mui/material";
 import FlexBetween from "./FlexBetween";
 import SportsHandballIcon from "@mui/icons-material/SportsHandball";
 
-const StatBox = ({ title, finalScore, homeTeam, awayTeam, halftimeScore }) => {
+const StatBox = ({
+  title,
+  finalScore,
+  homeTeam,
+  awayTeam,
+  halftimeScore,
+  round,
+}) => {
   const theme = useTheme();
   return (
     <Box
@@ -23,6 +30,13 @@ const StatBox = ({ title, finalScore, homeTeam, awayTeam, halftimeScore }) => {
         textAlign="center"
       >
         {title}
+      </Typography>
+      <Typography
+        variant="h4"
+        sx={{ color: theme.palette.secondary[100] }}
+        textAlign="center"
+      >
+        {round}
       </Typography>
 
       <Box display="grid" gridTemplateColumns="repeat(3, 1fr)">
