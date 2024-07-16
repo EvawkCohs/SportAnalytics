@@ -1,24 +1,18 @@
-import React from "react";
-import {
-  Box,
-  FormControl,
-  useTheme,
-  InputLabel,
-  MenuItem,
-  Typography,
-} from "@mui/material";
+import React, { useContext, useEffect } from "react";
+import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { useState } from "react";
 import Header from "components/Header";
 import { useSelector } from "react-redux";
 import CustomColumnMenu from "components/DataGridCustomColumnMenu";
 import useFetchSchedule from "./useFetchSchedule";
 import formatTimestamp from "./formatTimestamp";
+import { useNavigate } from "react-router-dom";
 
 const Schedule = () => {
   const teamId = useSelector((state) => state.global.teamId);
   const { schedule, loading, error } = useFetchSchedule(teamId);
   const theme = useTheme();
+  const navigate = useNavigate();
 
   if (loading) {
     return <div>Loading....</div>; // Später noch Ladekreis einbauen oder etwas vergleichbares
@@ -48,7 +42,14 @@ const Schedule = () => {
       renderCell: (params) => formatTimestamp(params.value),
     },
   ];
-  console.log(schedule);
+
+  //OnClick zu GameDetails
+  const handleCellClick = (param, event) => {
+    navigate(`/details/${param.row.id}`);
+  };
+
+  //Log für die Entwicklung
+  //console.log(schedule);
 
   return (
     <Box m="1.5rem  2.5rem">
@@ -86,20 +87,10 @@ const Schedule = () => {
           rows={schedule || []}
           columns={columns}
           components={{ ColumnMenu: CustomColumnMenu }}
+          onCellClick={handleCellClick}
         />
       </Box>
     </Box>
-
-    // <div>
-    //   <h1>Schedule</h1>
-    //   <ul>
-    //     {schedule.map((game, index) => (
-    //       <li key={index}>
-    //         Heimteam: {game.homeTeam.name}, Auswärtsteam: {game.awayTeam.name}
-    //       </li>
-    //     ))}
-    //   </ul>
-    // </div>
   );
 };
 

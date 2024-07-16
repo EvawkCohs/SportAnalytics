@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { DataContext } from "components/DataContext";
 
 const useFetchSchedule = (teamId) => {
   const [schedule, setSchedule] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { setData } = useContext(DataContext);
 
   //Zusammengesetzte TeamURl
   const url =
@@ -27,7 +29,12 @@ const useFetchSchedule = (teamId) => {
           throw new Error(`HTTP-Fehler! Status: ${response.status}`);
         }
         const data = await response.json();
-        setSchedule(data.pageProps.schedule.data);
+        const fetchedSchedule = data.pageProps.schedule.data;
+        setSchedule(fetchedSchedule);
+
+        //Data setzen für Detailseite/Globale Verwendung
+        setData(fetchedSchedule);
+
         setLoading(false);
       } catch (error) {
         setError(error.message);
@@ -35,7 +42,7 @@ const useFetchSchedule = (teamId) => {
       }
     };
     fetchData();
-  }, [teamId]);
+  }, [teamId, url, setData]);
 
   return { schedule, loading, error };
 };

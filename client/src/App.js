@@ -8,6 +8,8 @@ import GameIDs from "scenes/gameids";
 import Dashboard from "scenes/dashboard";
 import Layout from "scenes/Layout";
 import Schedule from "scenes/schedule";
+import Details from "scenes/details";
+import { DataProvider } from "components/DataContext";
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
@@ -15,19 +17,25 @@ function App() {
 
   return (
     <div className="app">
-      <BrowserRouter>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Routes>
-            <Route element={<Layout />}>
-              <Route path="/" element={<Navigate to="/dashboard" replace />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/gameids" element={<GameIDs />} />
-              <Route path="/schedule" element={<Schedule />} />
-            </Route>
-          </Routes>
-        </ThemeProvider>
-      </BrowserRouter>
+      <DataProvider>
+        <BrowserRouter>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Routes>
+              <Route element={<Layout />}>
+                <Route
+                  path="/"
+                  element={<Navigate to="/dashboard" replace />}
+                />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/gameids" element={<GameIDs />} />
+                <Route path="/schedule" element={<Schedule />} />
+                <Route path="/details/:id" element={<Details />} />
+              </Route>
+            </Routes>
+          </ThemeProvider>
+        </BrowserRouter>
+      </DataProvider>
     </div>
   );
 }
