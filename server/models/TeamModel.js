@@ -4,6 +4,7 @@ const TeamModelSchema = new mongoose.Schema(
   {
     id: String,
     name: String,
+    urlEnding: String,
   },
   { timestamps: true }
 );

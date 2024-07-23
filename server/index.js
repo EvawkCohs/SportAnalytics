@@ -10,10 +10,6 @@ import morgan from "morgan";
 import clientRoutes from "./routes/client.js";
 import generalRoutes from "./routes/general.js";
 
-//Scrape IMPORT
-//import scrapeAllGames, { overalldata } from "./scrapeModels/scrapeAllGames.js";
-//import scrapeTeamID, { overalldata } from "./scrapeModels/scrapeTeamID.js";
-
 //MODEL IMPORTS
 import gameModel from "./models/gameModel.js";
 import allGamesModel from "./models/allgamesmodel.js";
@@ -67,8 +63,17 @@ app.get("/proxy", async (req, res) => {
       throw new Error(`HTTP-Fehler! Status: ${response.status}`);
     }
 
-    const data = await response.json();
-    res.json(data);
+    const contentType = response.headers.get("content-type");
+    if (contentType.includes("application/json")) {
+      const data = await response.json();
+      res.json(data);
+    } else if (contentType.includes("text/csv")) {
+      const data = await response.text();
+      res.header("Content-Type", "text/csv");
+      res.send(data);
+    } else {
+      throw new Error("Unsupported content type: " + contentType);
+    }
   } catch (error) {
     res.status(500).send("Fehler beim Abrufen der Daten: " + error.message);
   }

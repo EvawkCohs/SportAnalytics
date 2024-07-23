@@ -1,18 +1,15 @@
 import { useState, useEffect, useContext } from "react";
 import { DataContext } from "components/DataContext";
+import Papa from "papaparse";
 
-const useFetchSchedule = (teamId) => {
+const useFetchSchedule = (teamId, teamUrlEnding) => {
   const [schedule, setSchedule] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { setData } = useContext(DataContext);
 
   //Zusammengesetzte TeamURl
-  const url =
-    "https://www.handball.net/_next/data/EjPec89zJyU9pmKVkT93R/teams/" +
-    teamId +
-    "/schedule.json?teamId=" +
-    teamId;
+  const url = `https://www.handball.net/a/sportdata/1/teams/${teamId}/team-schedule.csv?_rsc=${teamUrlEnding}`;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,21 +25,31 @@ const useFetchSchedule = (teamId) => {
         if (!response.ok) {
           throw new Error(`HTTP-Fehler! Status: ${response.status}`);
         }
-        const data = await response.json();
-        const fetchedSchedule = data.pageProps.schedule.data;
-        setSchedule(fetchedSchedule);
+        const csvText = await response.text();
 
-        //Data setzen für Detailseite/Globale Verwendung
-        setData(fetchedSchedule);
+        // Parse CSV data
+        Papa.parse(csvText, {
+          header: true,
+          complete: (result) => {
+            const fetchedSchedule = result.data;
+            setSchedule(fetchedSchedule);
 
-        setLoading(false);
+            // Data setzen für Detailseite/Globale Verwendung
+            setData(fetchedSchedule);
+
+            setLoading(false);
+          },
+          error: (error) => {
+            throw new Error(error.message);
+          },
+        });
       } catch (error) {
         setError(error.message);
         setLoading(false);
       }
     };
     fetchData();
-  }, [teamId, url, setData]);
+  }, [url, setData]);
 
   return { schedule, loading, error };
 };

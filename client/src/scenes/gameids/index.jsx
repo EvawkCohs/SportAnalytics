@@ -8,8 +8,6 @@ import {
   Typography,
 } from "@mui/material";
 import Select from "@mui/material/Select";
-import { useGetTeamModelQuery, useGetTeamQuery } from "state/api";
-import { DataGrid } from "@mui/x-data-grid";
 import Header from "components/Header";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -17,16 +15,16 @@ import { setId } from "state";
 
 function GameIDs() {
   const [team, setTeam] = React.useState("");
+  //const [urlEnding, setUrlEnding] = React.useState("");
   const dispatch = useDispatch();
-  const theme = useTheme();
   const teamId = useSelector((state) => state.global.teamId);
+
   const handleChange = (event) => {
     setTeam(event.target.value);
+
     const selectedTeam = event.target.value;
     dispatch(setId(selectedTeam));
   };
-
-  const { data, isLoading } = useGetTeamQuery(teamId);
 
   return (
     <Box m="1.5rem 2.5rem">
@@ -35,13 +33,7 @@ function GameIDs() {
       <Box>
         <FormControl fullWidth>
           <InputLabel id="Mannschaftsauswahl">Mannschaft</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={team}
-            label="team"
-            onChange={handleChange}
-          >
+          <Select value={team} label="team" onChange={handleChange}>
             <MenuItem value={"sportradar.dhbdata.489-1648"}>
               Bergische Panther
             </MenuItem>

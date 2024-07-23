@@ -11,7 +11,7 @@ export const api = createApi({
       providesTags: ["allgamesmodels"],
     }),
     getTeamModel: build.query({
-      query: () => "client/teammodels",
+      query: () => `client/teammodels`,
       providesTags: ["teammodels"],
     }),
     getTeam: build.query({

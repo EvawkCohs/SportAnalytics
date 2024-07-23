@@ -1,6 +1,5 @@
 import React from "react";
 import { Box, Typography, useTheme } from "@mui/material";
-import FlexBetween from "./FlexBetween";
 import SportsHandballIcon from "@mui/icons-material/SportsHandball";
 
 const StatBox = ({

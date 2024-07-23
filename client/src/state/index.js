@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   mode: "dark",
-  teamId: "sportradar.dhbdata.1893-1648",
+  teamId: "sportradar.dhbdata.489-1648",
 };
 export const globalSlice = createSlice({
   name: "global",
@@ -17,6 +17,6 @@ export const globalSlice = createSlice({
   },
 });
 
-export const { setMode, setId } = globalSlice.actions;
+export const { setMode, setId, setUrlEnding } = globalSlice.actions;
 
 export default globalSlice.reducer;

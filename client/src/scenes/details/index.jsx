@@ -6,17 +6,19 @@ import { DownloadOutlined } from "@mui/icons-material";
 import StatBox from "components/StatBox";
 import { DataContext } from "components/DataContext";
 import { useParams } from "react-router-dom";
-import formatTimestamp from "scenes/schedule/formatTimestamp.js";
+import formatTimestamp from "conversionScripts/formatTimestamp.js";
+import useFetchGameDetails from "./useFetchGameDetails";
 
 function Details() {
   //Daten der Spiele annehmen
   const { id } = useParams();
   const { data } = useContext(DataContext);
-  const row = data.find((item) => item.id === id);
+  const row = data.find((item) => item.id === id); // TODO: Stattdessen fetch auf Gamedaten mittels id aus "useParams" -> Detaildaten lassen sich nicht über Schedule einlesen! DataContext somit nicht zwingend notwendig
   const theme = useTheme();
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
+
+  //Log für Entwicklung
   console.log(id);
-  console.log(row);
   return (
     <Box m="1.5rem  2.5rem">
       <FlexBetween>
