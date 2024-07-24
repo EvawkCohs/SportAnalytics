@@ -43,7 +43,7 @@ const navItems = [
     icon: null,
   },
   {
-    text: "GameIDs",
+    text: "TeamIDs",
     icon: <KeyIcon />,
   },
   {

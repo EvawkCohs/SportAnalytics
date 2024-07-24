@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { setId } from "state";
 
-function GameIDs() {
+function TeamIDs() {
   const [team, setTeam] = React.useState("");
   //const [urlEnding, setUrlEnding] = React.useState("");
   const dispatch = useDispatch();
@@ -89,4 +89,4 @@ function GameIDs() {
     </Box>
   );
 }
-export default GameIDs;
+export default TeamIDs;

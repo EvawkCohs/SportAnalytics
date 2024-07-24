@@ -71,6 +71,10 @@ app.get("/proxy", async (req, res) => {
       const data = await response.text();
       res.header("Content-Type", "text/csv");
       res.send(data);
+    } else if (contentType.includes("text/html")) {
+      const data = await response.text();
+      res.header("Content-Type", "text/html");
+      res.send(data);
     } else {
       throw new Error("Unsupported content type: " + contentType);
     }
