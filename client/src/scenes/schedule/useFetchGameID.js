@@ -18,7 +18,6 @@ const useFetchGameIDs = (teamId) => {
 
         //HTML parsen
         const $ = cheerio.load(response.data);
-        console.log(response.data);
 
         //IDS sammeln
         let gameIDs = [];

@@ -11,6 +11,7 @@ const useFetchGameDetails = (gameId) => {
   const combinedUrl = baseUrl + gameId + endUrl;
 
   useEffect(() => {
+    // Gamedaten werden direkt von Handball.net abgerufen
     const fetchData = async () => {
       //Proxy verwenden
       const proxyUrl = "http://localhost:5002/proxy";

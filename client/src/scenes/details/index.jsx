@@ -1,10 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import Header from "components/Header";
 import { Box, useTheme, Button, useMediaQuery } from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 import { DownloadOutlined } from "@mui/icons-material";
 import StatBox from "components/StatBox";
-import { DataContext } from "components/DataContext";
 import { useParams } from "react-router-dom";
 import formatTimestamp from "conversionScripts/formatTimestamp.js";
 import useFetchGameDetails from "./useFetchGameDetails";
@@ -12,17 +11,26 @@ import useFetchGameDetails from "./useFetchGameDetails";
 function Details() {
   //Daten der Spiele annehmen
   const { id } = useParams();
-  const { data } = useContext(DataContext);
-  const row = data.find((item) => item.id === id); // TODO: Stattdessen fetch auf Gamedaten mittels id aus "useParams" -> Detaildaten lassen sich nicht über Schedule einlesen! DataContext somit nicht zwingend notwendig
+  const { gameData, loading, error } = useFetchGameDetails(id);
   const theme = useTheme();
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
 
   //Log für Entwicklung
-  console.log(id);
+  console.log(gameData);
+  if (loading) {
+    return <div>Loading....</div>; // Später noch Ladekreis einbauen oder etwas vergleichbares
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>; // Fehlermeldung Rendern (später anpassen)
+  }
   return (
     <Box m="1.5rem  2.5rem">
       <FlexBetween>
-        <Header title="GAME DETAILS" subtitle="Details of selected game" />{" "}
+        <Header
+          title="GAME DETAILS"
+          subtitle={`${gameData.data.summary.homeTeam.name} vs ${gameData.data.summary.awayTeam.name}`}
+        />
         {/*IN DEN SUBTITLE NOCH DAS SPIEL EINFÜGEN (WER GEGEN WEN)*/}
         <Box>
           <Button
@@ -54,12 +62,18 @@ function Details() {
       >
         {/* ROW 1*/}
         <StatBox
-          title={`${row.phase.name}`}
-          round={`${row.round.name} - ${formatTimestamp(row.startsAt)}`}
-          finalScore={`${row.homeGoals} : ${row.awayGoals}`}
-          halftimeScore={`(${row.homeGoalsHalf} : ${row.awayGoalsHalf})`}
-          homeTeam={row.homeTeam.name}
-          awayTeam={row.awayTeam.name}
+          title={`${gameData.data.summary.phase.name}`}
+          round={`${gameData.data.summary.round.name} - ${formatTimestamp(
+            gameData.data.summary.startsAt
+          )}`}
+          finalScore={`${gameData.data.summary.homeGoals ?? "0"} : ${
+            gameData.data.summary.awayGoals ?? "0"
+          }`}
+          halftimeScore={`(${gameData.data.summary.homeGoalsHalf ?? "0"} : ${
+            gameData.data.summary.awayGoalsHalf ?? "0"
+          })`}
+          homeTeam={gameData.data.summary.homeTeam.name}
+          awayTeam={gameData.data.summary.awayTeam.name}
         />
       </Box>
     </Box>

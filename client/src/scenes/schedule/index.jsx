@@ -22,6 +22,12 @@ function Schedule() {
   const [rows, setRows] = useState([]);
   const [columns, setColumns] = useState([]);
 
+  //Spielplan fetchen
+  const { schedule, loading, error } = useFetchSchedule(teamId);
+
+  //Zugehörigen gameIDs fetchen
+  const gameIDs = useFetchGameIDs(teamId);
+
   //UrlEnding aus Daten herausfinden
   useEffect(() => {
     if (!isLoading && teamData) {
@@ -32,8 +38,11 @@ function Schedule() {
     }
   }, [isLoading, teamData, teamId]);
 
-  const { schedule, loading, error } = useFetchSchedule(teamId);
-  const gameIDs = useFetchGameIDs(teamId, urlEnding);
+  //Daten mit GameIDs versehen
+  const dataWithIDs = schedule.map((item, index) => ({
+    ...item,
+    gameID: gameIDs[index] || "N/A",
+  }));
 
   if (loading) {
     return <div>Loading....</div>; // Später noch Ladekreis einbauen oder etwas vergleichbares
@@ -42,8 +51,6 @@ function Schedule() {
   if (error) {
     return <div>Error: {error}</div>; // Fehlermeldung Rendern (später anpassen)
   }
-
-  console.log(gameIDs);
 
   const cols = [
     {
@@ -81,17 +88,23 @@ function Schedule() {
       headerName: "Ort",
       flex: 1,
     },
+    {
+      field: "gameID",
+      headerName: "GameID",
+      flex: 1,
+    },
   ];
 
-  const row = schedule.map((row, index) => ({
+  const row = dataWithIDs.map((row, index) => ({
     id: index,
     ...row,
     flex: 1,
   }));
-  // //OnClick zu GameDetails
-  // const handleCellClick = (param, event) => {
-  //   navigate(`/details/${param.row.id}`); //TODO Id des Spiels muss aus irgendwie rein aus dem Namen gefiltert werden. Idee: Alle Spiele in eine Collection einlesen und dann das enstprechende Spiel filtern mit teamId und dem Gegnernamen
-  // };
+
+  //OnClick zu GameDetails
+  const handleCellClick = (param, event) => {
+    navigate(`/details/${param.row.gameID}`);
+  };
 
   //Log für die Entwicklung
   //console.log(schedule);
@@ -132,7 +145,7 @@ function Schedule() {
             rows={row || []}
             columns={cols}
             components={{ ColumnMenu: CustomColumnMenu }}
-            //onCellClick={handleCellClick}
+            onCellClick={handleCellClick}
           />
         </Box>
       }

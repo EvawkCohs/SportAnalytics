@@ -1,12 +1,10 @@
-import { useState, useEffect, useContext } from "react";
-import { DataContext } from "components/DataContext";
+import { useState, useEffect } from "react";
 import Papa from "papaparse";
 
 const useFetchSchedule = (teamId, teamUrlEnding) => {
   const [schedule, setSchedule] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { setData } = useContext(DataContext);
 
   //Zusammengesetzte TeamURl
   const url = `https://www.handball.net/a/sportdata/1/teams/${teamId}/team-schedule.csv?_rsc=${teamUrlEnding}`;
@@ -33,10 +31,6 @@ const useFetchSchedule = (teamId, teamUrlEnding) => {
           complete: (result) => {
             const fetchedSchedule = result.data;
             setSchedule(fetchedSchedule);
-
-            // Data setzen für Detailseite/Globale Verwendung
-            setData(fetchedSchedule);
-
             setLoading(false);
           },
           error: (error) => {
@@ -49,7 +43,7 @@ const useFetchSchedule = (teamId, teamUrlEnding) => {
       }
     };
     fetchData();
-  }, [url, setData]);
+  }, [url]);
 
   return { schedule, loading, error };
 };
