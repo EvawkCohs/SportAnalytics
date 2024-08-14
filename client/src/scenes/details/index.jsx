@@ -9,6 +9,8 @@ import formatTimestamp from "conversionScripts/formatTimestamp.js";
 import useFetchGameDetails from "./useFetchGameDetails";
 import TeamGoalChart from "components/TeamGoalChart";
 import { gameExampleData } from "./gameExample";
+import LineChart from "components/LineChart";
+import { formatGameDataBar, formatGameDataLine } from "./formatGameData";
 
 function Details() {
   const theme = useTheme();
@@ -16,77 +18,11 @@ function Details() {
   const { id } = useParams();
   const { gameData, loading, error } = useFetchGameDetails(id);
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
-  const goalDiffData = [
-    {
-      id: "Deutschland",
-      color: "hsl(260, 70%, 50%)",
-      data: [
-        {
-          x: 0,
-          y: 0,
-        },
-        {
-          x: 5,
-          y: 3,
-        },
-        {
-          x: 10,
-          y: 7,
-        },
-      ],
-    },
-    {
-      id: "Spain",
-      color: "hsl(269, 70%, 50%)",
-      data: [
-        {
-          x: 0,
-          y: 0,
-        },
-        {
-          x: 5,
-          y: 5,
-        },
-        {
-          x: 10,
-          y: 9,
-        },
-      ],
-    },
-  ];
-  const teamGoalData = [
-    {
-      Mannschaft: "Gelnhausen",
-      "0 - 10min": 5,
-      "0 - 10minColor": "hsl(62, 70%, 50%)",
-      "11 - 20min": 3,
-      "11 - 20minColor": "hsl(281, 70%, 50%)",
-      "21 - 30min": 5,
-      "21 - 30minColor": "hsl(302, 70%, 50%)",
-      "31 - 40min": 7,
-      "31 - 40minColor": "hsl(355, 70%, 50%)",
-      "41 - 50min": 4,
-      "41 - 50minColor": "hsl(39, 70%, 50%)",
-      "51 - 60min": 4,
-      "51 - 60minColor": "hsl(204, 70%, 50%)",
-    },
-    {
-      Mannschaft: "Leutershausen",
-      "0 - 10min": 6,
-      "0 - 10minColor": "hsl(62, 70%, 50%)",
-      "11 - 20min": 6,
-      "11 - 20minColor": "hsl(281, 70%, 50%)",
-      "21 - 30min": 2,
-      "21 - 30minColor": "hsl(302, 70%, 50%)",
-      "31 - 40min": 5,
-      "31 - 40minColor": "hsl(355, 70%, 50%)",
-      "41 - 50min": 7,
-      "41 - 50minColor": "hsl(39, 70%, 50%)",
-      "51 - 60min": 3,
-      "51 - 60minColor": "hsl(204, 70%, 50%)",
-    },
-  ];
 
+  // Daten formattieren für Charts
+  const teamGoalDataBar = formatGameDataBar(gameExampleData);
+  const teamGoalDataLine = formatGameDataLine(gameExampleData);
+  console.log(teamGoalDataLine);
   //Log für Entwicklung
   //console.log(gameData);
   if (loading) {
@@ -161,6 +97,8 @@ function Details() {
           borderRadius="0.55rem"
         >
           {/* paste Content */}
+
+          <LineChart data={teamGoalDataLine} />
         </Box>
         {/*Box 2nd Column */}
         <Box
@@ -175,7 +113,7 @@ function Details() {
           borderRadius="0.55rem"
         >
           {/* paste Content */}
-          <TeamGoalChart data={gameExampleData} />
+          <TeamGoalChart data={teamGoalDataBar} />
         </Box>
       </Box>
     </Box>

@@ -4,40 +4,79 @@ import { ResponsiveLine } from "@nivo/line";
 
 const LineChart = ({ data }) => {
   const theme = useTheme();
+
   return (
     <ResponsiveLine
       data={data}
+      theme={{
+        axis: {
+          domain: {
+            line: {
+              stroke: theme.palette.secondary[200],
+            },
+          },
+          legend: {
+            text: {
+              fill: theme.palette.secondary[200],
+            },
+          },
+          ticks: {
+            line: {
+              stroke: theme.palette.secondary[200],
+              strokeWidth: 1,
+            },
+            text: {
+              fill: theme.palette.secondary[200],
+            },
+          },
+        },
+        legends: {
+          text: {
+            fill: theme.palette.secondary[200],
+          },
+        },
+        tooltip: {
+          container: {
+            color: theme.palette.primary.main,
+          },
+        },
+      }}
       margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-      xScale={{ type: "point" }}
+      xScale={{ type: "linear", min: 0, max: 60 }}
       yScale={{
         type: "linear",
         min: "auto",
         max: "auto",
-        stacked: true,
+        stacked: false,
         reverse: false,
       }}
-      yFormat=" >-.2f"
+      yFormat=" >-.1~f"
+      xFormat=" >-.1~d"
+      curve="catmullRom"
       axisTop={null}
+      enableGridX={false}
+      enableGridY={false}
       axisRight={null}
       axisBottom={{
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: "minutes",
+        legend: "Minuten",
         legendOffset: 36,
         legendPosition: "middle",
         truncateTickAt: 0,
+        tickValues: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60],
       }}
       axisLeft={{
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: "goals",
+        legend: "Tore",
         legendOffset: -40,
         legendPosition: "middle",
         truncateTickAt: 0,
       }}
-      pointSize={10}
+      pointSize={3}
       pointColor={{ theme: "background" }}
       pointBorderWidth={2}
       pointBorderColor={{ from: "serieColor" }}
