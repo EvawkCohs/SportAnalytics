@@ -1,5 +1,5 @@
 import axios from "axios";
-import cheerio from "cheerio";
+import { load } from "cheerio";
 import { useState, useEffect } from "react";
 
 const useFetchGameIDs = (teamId) => {
@@ -17,7 +17,7 @@ const useFetchGameIDs = (teamId) => {
         const response = await axios.get(fullUrl);
 
         //HTML parsen
-        const $ = cheerio.load(response.data);
+        const $ = load(response.data);
 
         //IDS sammeln
         let gameIDs = [];

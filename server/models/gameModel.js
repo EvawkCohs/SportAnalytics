@@ -158,7 +158,7 @@ const gameModelSchema = new mongoose.Schema(
                 "Warning",
                 "Disqualification",
               ],
-              dafault: "Goal",
+              default: "Goal",
             },
             time: String,
             score: String,

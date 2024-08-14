@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, useTheme } from "@mui/material";
-import { DataGrid, renderBooleanCell } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import Header from "components/Header";
 import { useSelector } from "react-redux";
 import CustomColumnMenu from "components/DataGridCustomColumnMenu";
@@ -8,7 +8,6 @@ import useFetchSchedule from "./useFetchSchedule";
 import useFetchGameIDs from "./useFetchGameID";
 import { useNavigate } from "react-router-dom";
 import { useGetTeamModelQuery } from "state/api";
-import { getValueFormatter } from "@nivo/core";
 
 function Schedule() {
   //Teamdaten aus MongoDB auslesen
@@ -19,8 +18,6 @@ function Schedule() {
   const [urlEnding, setUrlEnding] = useState("");
   const theme = useTheme();
   const navigate = useNavigate();
-  const [rows, setRows] = useState([]);
-  const [columns, setColumns] = useState([]);
 
   //Spielplan fetchen
   const { schedule, loading, error } = useFetchSchedule(teamId);
@@ -112,43 +109,44 @@ function Schedule() {
   return (
     <Box m="1.5rem  2.5rem">
       <Header title="SCHEDULE" subtitle="Schedule der Mannschaft" />
-      {
-        <Box
-          mt="40px"
-          height="75vh"
-          sx={{
-            "& .MuiDataGrid-root": {
-              borderBottom: "none",
-            },
-            "& .MuiDataGrid-cell": {
-              borderBottom: "none",
-            },
-            "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: theme.palette.background.alt,
-              color: theme.palette.secondary[100],
-              borderBottom: "none",
-            },
-            "& .MuiDataGrid-virtualScroller": {
-              backgroundColor: theme.palette.primary.light,
-            },
-            "& .MuiDataGrid-footerContainer": {
-              backgroundColor: theme.palette.background.alt,
-              color: theme.palette.secondary[700],
-              borderTop: "none",
-            },
-            "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-              color: `${theme.palette.secondary[400]} !important`,
-            },
-          }}
-        >
-          <DataGrid
-            rows={row || []}
-            columns={cols}
-            components={{ ColumnMenu: CustomColumnMenu }}
-            onCellClick={handleCellClick}
-          />
-        </Box>
-      }
+
+      <Box
+        mt="40px"
+        height="75vh"
+        sx={{
+          "& .MuiDataGrid-root": {
+            borderBottom: "none",
+          },
+          "& .MuiDataGrid-cell": {
+            borderBottom: "none",
+            backgroundColor: theme.palette.primary[500],
+            cursor: "pointer",
+          },
+          "& .MuiDataGrid-columnHeaders": {
+            backgroundColor: theme.palette.background.alt,
+            color: theme.palette.secondary[100],
+            borderBottom: "none",
+          },
+          "& .MuiDataGrid-virtualScroller": {
+            backgroundColor: theme.palette.primary.light,
+          },
+          "& .MuiDataGrid-footerContainer": {
+            backgroundColor: theme.palette.background.alt,
+            color: theme.palette.secondary[400],
+            borderTop: "none",
+          },
+          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+            color: `${theme.palette.secondary[400]} !important`,
+          },
+        }}
+      >
+        <DataGrid
+          rows={row || []}
+          columns={cols}
+          components={{ ColumnMenu: CustomColumnMenu }}
+          onCellClick={handleCellClick}
+        />
+      </Box>
     </Box>
   );
 }

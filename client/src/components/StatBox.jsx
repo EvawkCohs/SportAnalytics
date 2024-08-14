@@ -13,7 +13,7 @@ const StatBox = ({
   const theme = useTheme();
   return (
     <Box
-      gridColumn="span 2"
+      gridColumn="span 3"
       gridRow="span 1"
       display="flex"
       flexDirection="column"
