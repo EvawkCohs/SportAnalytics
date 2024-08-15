@@ -22,6 +22,7 @@ import { gameExampleData } from "./gameExample";
 import LineChart from "components/LineChart";
 import { FormatGameDataBar, FormatGameDataLine } from "./formatGameData";
 import PieChart from "components/PieChart";
+import { handleDownload } from "./handleDownload";
 
 function Details() {
   const theme = useTheme();
@@ -146,143 +147,148 @@ function Details() {
   }
 
   return (
-    <Box m="1.5rem  2.5rem">
-      <FlexBetween>
-        <Header
-          title="GAME DETAILS"
-          subtitle={`${gameData.data.summary.homeTeam.name} vs ${gameData.data.summary.awayTeam.name}`}
-        />
-        {/*IN DEN SUBTITLE NOCH DAS SPIEL EINFÜGEN (WER GEGEN WEN)*/}
-        <Box>
-          <Button
-            sx={{
-              backgroundColor: theme.palette.secondary.light,
-              color: theme.palette.background.alt,
-              fontSize: "14px",
-              fontWeight: "bold",
-              padding: "10px 20px",
-            }}
-          >
-            <DownloadOutlined sx={{ mr: "10px" }} />
-            Download Gamestats
-          </Button>
-        </Box>
-      </FlexBetween>
+    <div id="content">
+      <Box m="1.5rem  2.5rem">
+        <FlexBetween>
+          <Header
+            title="GAME DETAILS"
+            subtitle={`${gameData.data.summary.homeTeam.name} vs ${gameData.data.summary.awayTeam.name}`}
+          />
+          {/*IN DEN SUBTITLE NOCH DAS SPIEL EINFÜGEN (WER GEGEN WEN)*/}
+          <Box>
+            <Button
+              sx={{
+                backgroundColor: theme.palette.secondary.light,
+                color: theme.palette.background.alt,
+                fontSize: "14px",
+                fontWeight: "bold",
+                padding: "10px 20px",
+              }}
+              onClick={handleDownload}
+            >
+              <DownloadOutlined sx={{ mr: "10px" }} />
+              Download Gamestats
+            </Button>
+          </Box>
+        </FlexBetween>
 
-      {/* GRID ERSTELLUNG */}
+        {/* GRID ERSTELLUNG */}
 
-      <Box
-        mt="20px"
-        display="grid"
-        gridTemplateColumns="repeat(8, 1fr)"
-        gridTemplateRows="repeat(12, 200px)"
-        gap="20px"
-        sx={{
-          "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
-        }}
-      >
-        {/* ROW 1*/}
-        <StatBoxMVP
-          nameMVP={`${mostValuable[0].firstname} ${mostValuable[0].lastname}`}
-          goalsMVP={mostValuable[0].goals}
-          penaltyMVP={mostValuable[0].penalties}
-          teamMVP={mostValuable[0].acronym}
-          name2nd={`${mostValuable[1].firstname} ${mostValuable[1].lastname}`}
-          goals2nd={mostValuable[1].goals}
-          penalty2nd={mostValuable[1].penalties}
-          team2nd={mostValuable[1].acronym}
-          name3rd={`${mostValuable[2].firstname} ${mostValuable[2].lastname}`}
-          goals3rd={mostValuable[2].goals}
-          penalty3rd={mostValuable[2].penalties}
-          team3rd={mostValuable[2].acronym}
-        />
-
-        <StatBoxGameInfo
-          title={`${gameData.data.summary.phase.name}`}
-          round={`${gameData.data.summary.round.name} - ${formatTimestamp(
-            gameData.data.summary.startsAt
-          )}`}
-          finalScore={`${gameData.data.summary.homeGoals ?? "0"} : ${
-            gameData.data.summary.awayGoals ?? "0"
-          }`}
-          halftimeScore={`(${gameData.data.summary.homeGoalsHalf ?? "0"} : ${
-            gameData.data.summary.awayGoalsHalf ?? "0"
-          })`}
-          homeTeam={gameData.data.summary.homeTeam.name}
-          awayTeam={gameData.data.summary.awayTeam.name}
-        />
-
-        <StatBoxGameAttendance
-          attendance={gameExampleData.data.summary.attendance}
-          fieldName={gameExampleData.data.summary.field.name}
-        />
-        {/* ROW 2*/}
-        {/*Box 1st Column */}
-
-        <LineChart data={teamGoalDataLine} />
-
-        {/*Box 2nd Column */}
-
-        <TeamGoalChart data={teamGoalDataBar} />
-
-        {/* ROW 3*/}
-        {/*Box 1st Column */}
-        <PieChart data={suspensionData} />
-        {/*Box 2nd Column */}
         <Box
-          gridColumn="span 8"
-          gridRow="7 / 12"
-          display="flex"
-          flexDirection="column"
-          justifyContent="space-between"
-          p="1.25rem 1rem"
-          flex="1 1 100%"
-          backgroundColor={theme.palette.background.alt}
-          borderRadius="0.55rem"
+          mt="20px"
+          display="grid"
+          gridTemplateColumns="repeat(8, 1fr)"
+          gridTemplateRows="repeat(12, 200px)"
+          gap="20px"
           sx={{
-            "& .MuiDataGrid-root": {
-              borderBottom: "none",
-            },
-            "& .MuiDataGrid-cell": {
-              borderBottom: "none",
-              backgroundColor: theme.palette.primary[500],
-              cursor: "pointer",
-            },
-            "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: theme.palette.background.alt,
-              color: theme.palette.secondary[100],
-              borderBottom: "none",
-            },
-            "& .MuiDataGrid-virtualScroller": {
-              backgroundColor: theme.palette.primary.light,
-            },
-            "& .MuiDataGrid-footerContainer": {
-              backgroundColor: theme.palette.background.alt,
-              color: theme.palette.secondary[400],
-              borderTop: "none",
-            },
-            "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-              color: `${theme.palette.secondary[400]} !important`,
+            "& > div": {
+              gridColumn: isNonMediumScreens ? undefined : "span 12",
             },
           }}
         >
-          <Typography
-            variant="h3"
-            sx={{ color: theme.palette.secondary[100] }}
-            textAlign="center"
-            mb="20px"
-          >
-            {" "}
-            Einzelstatistiken
-          </Typography>
-          <DataGrid
-            rows={row || []}
-            columns={cols}
-            components={{ ColumnMenu: CustomColumnMenu }}
+          {/* ROW 1*/}
+          <StatBoxMVP
+            nameMVP={`${mostValuable[0].firstname} ${mostValuable[0].lastname}`}
+            goalsMVP={mostValuable[0].goals}
+            penaltyMVP={mostValuable[0].penalties}
+            teamMVP={mostValuable[0].acronym}
+            name2nd={`${mostValuable[1].firstname} ${mostValuable[1].lastname}`}
+            goals2nd={mostValuable[1].goals}
+            penalty2nd={mostValuable[1].penalties}
+            team2nd={mostValuable[1].acronym}
+            name3rd={`${mostValuable[2].firstname} ${mostValuable[2].lastname}`}
+            goals3rd={mostValuable[2].goals}
+            penalty3rd={mostValuable[2].penalties}
+            team3rd={mostValuable[2].acronym}
           />
+
+          <StatBoxGameInfo
+            title={`${gameData.data.summary.phase.name}`}
+            round={`${gameData.data.summary.round.name} - ${formatTimestamp(
+              gameData.data.summary.startsAt
+            )}`}
+            finalScore={`${gameData.data.summary.homeGoals ?? "0"} : ${
+              gameData.data.summary.awayGoals ?? "0"
+            }`}
+            halftimeScore={`(${gameData.data.summary.homeGoalsHalf ?? "0"} : ${
+              gameData.data.summary.awayGoalsHalf ?? "0"
+            })`}
+            homeTeam={gameData.data.summary.homeTeam.name}
+            awayTeam={gameData.data.summary.awayTeam.name}
+          />
+
+          <StatBoxGameAttendance
+            attendance={gameExampleData.data.summary.attendance}
+            fieldName={gameExampleData.data.summary.field.name}
+          />
+          {/* ROW 2*/}
+          {/*Box 1st Column */}
+
+          <LineChart data={teamGoalDataLine} />
+
+          {/*Box 2nd Column */}
+
+          <TeamGoalChart data={teamGoalDataBar} />
+
+          {/* ROW 3*/}
+          {/*Box 1st Column */}
+          <PieChart data={suspensionData} />
+          {/*Box 2nd Column */}
+          <Box
+            gridColumn="span 8"
+            gridRow="7 / 12"
+            display="flex"
+            flexDirection="column"
+            justifyContent="space-between"
+            p="1.25rem 1rem"
+            flex="1 1 100%"
+            backgroundColor={theme.palette.background.alt}
+            borderRadius="0.55rem"
+            sx={{
+              "& .MuiDataGrid-root": {
+                borderBottom: "none",
+              },
+              "& .MuiDataGrid-cell": {
+                borderBottom: "none",
+                backgroundColor: theme.palette.primary[500],
+                cursor: "pointer",
+              },
+              "& .MuiDataGrid-columnHeaders": {
+                backgroundColor: theme.palette.background.alt,
+                color: theme.palette.secondary[100],
+                borderBottom: "none",
+              },
+              "& .MuiDataGrid-virtualScroller": {
+                backgroundColor: theme.palette.primary.light,
+              },
+              "& .MuiDataGrid-footerContainer": {
+                backgroundColor: theme.palette.background.alt,
+                color: theme.palette.secondary[400],
+                borderTop: "none",
+              },
+              "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+                color: `${theme.palette.secondary[400]} !important`,
+              },
+            }}
+          >
+            <Typography
+              variant="h3"
+              sx={{ color: theme.palette.secondary[100] }}
+              textAlign="center"
+              mb="20px"
+            >
+              {" "}
+              Einzelstatistiken
+            </Typography>
+            <DataGrid
+              rows={row || []}
+              columns={cols}
+              components={{ ColumnMenu: CustomColumnMenu }}
+            />
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </div>
   );
 }
 export default Details;

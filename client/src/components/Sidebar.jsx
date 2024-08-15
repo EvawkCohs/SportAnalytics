@@ -43,10 +43,6 @@ const navItems = [
     icon: null,
   },
   {
-    text: "TeamIDs",
-    icon: <KeyIcon />,
-  },
-  {
     text: "Schedule",
     icon: <CalendarMonthOutlined />,
   },

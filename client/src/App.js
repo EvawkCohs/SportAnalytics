@@ -4,7 +4,6 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { themeSettings } from "theme";
-import TeamIDs from "scenes/teamids";
 import Dashboard from "scenes/dashboard";
 import Layout from "scenes/Layout";
 import Schedule from "scenes/schedule";
@@ -23,7 +22,6 @@ function App() {
             <Route element={<Layout />}>
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/teamIDs" element={<TeamIDs />} />
               <Route path="/schedule" element={<Schedule />} />
               <Route path="/details/:id" element={<Details />} />
             </Route>
