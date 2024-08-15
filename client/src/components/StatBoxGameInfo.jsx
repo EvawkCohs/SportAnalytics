@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 import SportsHandballIcon from "@mui/icons-material/SportsHandball";
 
-const StatBox = ({
+const StatBoxGameInfo = ({
   title,
   finalScore,
   homeTeam,
@@ -13,7 +13,7 @@ const StatBox = ({
   const theme = useTheme();
   return (
     <Box
-      gridColumn="span 3"
+      gridColumn="3/7"
       gridRow="span 1"
       display="flex"
       flexDirection="column"
@@ -24,8 +24,8 @@ const StatBox = ({
       borderRadius="0.55rem"
     >
       <Typography
-        variant="h3"
-        sx={{ color: theme.palette.secondary[100] }}
+        variant="h2"
+        sx={{ color: theme.palette.secondary[200] }}
         textAlign="center"
       >
         {title}
@@ -38,38 +38,43 @@ const StatBox = ({
         {round}
       </Typography>
 
-      <Box display="grid" gridTemplateColumns="repeat(3, 1fr)" p="1.25rem 1rem">
+      <Box
+        display="grid"
+        gridTemplateColumns="repeat(3, 1fr)"
+        p="1.25rem 1rem"
+        alignItems="center"
+      >
         {/*ROW 1 */}
-        <Box gridColumn="span 1" gridRow="span 1" display="flex">
-          <Typography
-            variant="h5"
-            textAlign="center"
-            fontWeight="300"
-            sx={{ color: theme.palette.secondary[100] }}
-          >
-            {homeTeam}
-          </Typography>
-        </Box>
-        <Box gridColumn="span 1">
-          <Typography
-            variant="h2"
-            fontWeight="600"
-            sx={{ color: theme.palette.secondary[200] }}
-            textAlign="center"
-          >
-            {finalScore}
-          </Typography>
-        </Box>
-        <Box gridColumn="span 1" gridRow="span 1" display="flex">
-          <Typography
-            variant="h5"
-            textAlign="center"
-            fontWeight="300"
-            sx={{ color: theme.palette.secondary[100] }}
-          >
-            {awayTeam}
-          </Typography>
-        </Box>
+
+        <Typography
+          variant="h4"
+          textAlign="center"
+          fontWeight="300"
+          sx={{ color: theme.palette.secondary[100] }}
+          gridColumn="span 1"
+        >
+          {homeTeam}
+        </Typography>
+
+        <Typography
+          variant="h2"
+          fontWeight="600"
+          sx={{ color: theme.palette.secondary[200] }}
+          textAlign="center"
+          gridColumn="2"
+        >
+          {finalScore}
+        </Typography>
+
+        <Typography
+          variant="h4"
+          textAlign="center"
+          fontWeight="300"
+          sx={{ color: theme.palette.secondary[100] }}
+          gridColumn="3"
+        >
+          {awayTeam}
+        </Typography>
 
         {/*ROW 2 */}
 
@@ -105,4 +110,4 @@ const StatBox = ({
   );
 };
 
-export default StatBox;
+export default StatBoxGameInfo;

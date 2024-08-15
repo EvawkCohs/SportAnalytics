@@ -1,6 +1,8 @@
+import { useTheme } from "@mui/material";
 import React from "react";
 
-export const formatGameDataBar = ({ data }) => {
+export const FormatGameDataBar = ({ data }) => {
+  const theme = useTheme();
   const eventsData = data.events;
 
   // Events nach Toren filtern und in 10 Min Sequenzen teilen
@@ -8,32 +10,20 @@ export const formatGameDataBar = ({ data }) => {
     {
       Mannschaft: data.summary.homeTeam.name,
       "0 - 10min": 0,
-      "0 - 10minColor": "hsl(62, 70%, 50%)",
       "11 - 20min": 0,
-      "11 - 20minColor": "hsl(281, 70%, 50%)",
       "21 - 30min": 0,
-      "21 - 30minColor": "hsl(302, 70%, 50%)",
       "31 - 40min": 0,
-      "31 - 40minColor": "hsl(355, 70%, 50%)",
       "41 - 50min": 0,
-      "41 - 50minColor": "hsl(39, 70%, 50%)",
       "51 - 60min": 0,
-      "51 - 60minColor": "hsl(204, 70%, 50%)",
     },
     {
       Mannschaft: data.summary.awayTeam.name,
       "0 - 10min": 0,
-      "0 - 10minColor": "hsl(62, 70%, 50%)",
       "11 - 20min": 0,
-      "11 - 20minColor": "hsl(281, 70%, 50%)",
       "21 - 30min": 0,
-      "21 - 30minColor": "hsl(302, 70%, 50%)",
       "31 - 40min": 0,
-      "31 - 40minColor": "hsl(355, 70%, 50%)",
       "41 - 50min": 0,
-      "41 - 50minColor": "hsl(39, 70%, 50%)",
       "51 - 60min": 0,
-      "51 - 60minColor": "hsl(204, 70%, 50%)",
     },
   ];
   for (const element of eventsData) {
@@ -96,7 +86,7 @@ export const formatGameDataBar = ({ data }) => {
   return teamGoalDataBar;
 };
 
-export const formatGameDataLine = ({ data }) => {
+export const FormatGameDataLine = ({ data }) => {
   const eventsData = data.events;
   const teamGoalDataLine = [
     {
