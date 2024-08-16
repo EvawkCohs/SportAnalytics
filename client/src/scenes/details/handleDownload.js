@@ -5,7 +5,7 @@ export const handleDownload = () => {
   const content = document.getElementById("content");
 
   html2canvas(content, {
-    backgroundColor: "#191F45",
+    backgroundColor: "#292929",
   }).then((canvas) => {
     const imgData = canvas.toDataURL("image/png");
     const pdf = new jsPDF("p", "mm", "a4");

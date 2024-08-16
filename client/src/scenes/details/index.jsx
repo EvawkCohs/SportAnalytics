@@ -20,9 +20,15 @@ import useFetchGameDetails from "./useFetchGameDetails";
 import TeamGoalChart from "components/TeamGoalChart";
 import { gameExampleData } from "./gameExample";
 import LineChart from "components/LineChart";
-import { FormatGameDataBar, FormatGameDataLine } from "./formatGameData";
+import {
+  FormatGameDataBar,
+  FormatGameDataLine,
+  FormatSuspensionData,
+  FormatTableData,
+} from "./formatGameData";
 import PieChart from "components/PieChart";
 import { handleDownload } from "./handleDownload";
+import { columnsDataGrid } from "./dataGridDefinitions";
 
 function Details() {
   const theme = useTheme();
@@ -34,102 +40,14 @@ function Details() {
   // Daten formattieren für Charts
   const teamGoalDataBar = FormatGameDataBar(gameExampleData);
   const teamGoalDataLine = FormatGameDataLine(gameExampleData);
-  //2min Statistiken
-  const suspensionData = [
-    {
-      id: gameExampleData.data.summary.homeTeam.name,
-      label: gameExampleData.data.summary.homeTeam.name,
-      value: 0,
-      color: "hsl(219, 70%, 50%)",
-    },
-    {
-      id: gameExampleData.data.summary.awayTeam.name,
-      label: gameExampleData.data.summary.awayTeam.name,
-      value: 0,
-      color: "hsl(282, 70%, 50%)",
-    },
-  ];
-  for (const element of gameExampleData.data.events) {
-    if (element.type === "TwoMinutePenalty" && element.team === "Home") {
-      suspensionData[0].value += 1;
-    } else if (element.type === "TwoMinutePenalty" && element.team === "Away") {
-      suspensionData[1].value += 1;
-    }
-  }
-  //Daten für Statistiken als Tabelle
-
-  const tableDataHome = gameExampleData.data.lineup.home;
-  tableDataHome.forEach((obj) => {
-    Object.assign(obj, { team: gameExampleData.data.summary.homeTeam.name });
-    Object.assign(obj, {
-      acronym: gameExampleData.data.summary.homeTeam.acronym,
-    });
-  });
-  const tableDataAway = gameExampleData.data.lineup.away;
-  tableDataAway.forEach((obj) => {
-    Object.assign(obj, { team: gameExampleData.data.summary.awayTeam.name });
-    Object.assign(obj, {
-      acronym: gameExampleData.data.summary.awayTeam.acronym,
-    });
-  });
-  const tableData = tableDataHome.concat(tableDataAway);
+  const suspensionData = FormatSuspensionData(gameExampleData);
+  const tableData = FormatTableData(gameExampleData);
 
   //MVP Statistik (Top3 Goalscorer)
   const mostValuable = tableData.sort((a, b) => b.goals - a.goals).slice(0, 3);
 
   //Tabellen Spalten und Reihen
-  const cols = [
-    {
-      field: "firstname",
-      headerName: "Vorname",
-      flex: 1,
-    },
-    {
-      field: "lastname",
-      headerName: "Nachname",
-      flex: 1,
-    },
-    {
-      field: "position",
-      headerName: "Position",
-      flex: 1,
-    },
-    {
-      field: "number",
-      headerName: "Trikotnummer",
-      flex: 1,
-    },
-    {
-      field: "goals",
-      headerName: "Tore",
-      flex: 1,
-    },
-    {
-      field: "penaltyGoals",
-      headerName: "7m Tore",
-      flex: 1,
-    },
-    {
-      field: "penaltyMissed",
-      headerName: "7m Fehlwürfe",
-      flex: 1,
-    },
-    {
-      field: "penalties",
-      headerName: "2min Strafen",
-      flex: 1,
-    },
-    {
-      field: "redCards",
-      headerName: "Rote Karte",
-      flex: 1,
-    },
-    {
-      field: "team",
-      headerName: "Mannschaft",
-      flex: 1,
-    },
-  ];
+  const cols = columnsDataGrid;
   const row = tableData.map((row, index) => ({
     id: index,
     ...row,
@@ -250,7 +168,7 @@ function Details() {
               },
               "& .MuiDataGrid-cell": {
                 borderBottom: "none",
-                backgroundColor: theme.palette.primary[500],
+                backgroundColor: theme.palette.background.alt,
                 cursor: "pointer",
               },
               "& .MuiDataGrid-columnHeaders": {

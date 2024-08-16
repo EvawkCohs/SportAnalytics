@@ -23,6 +23,7 @@ function Schedule() {
   //Teamdaten aus MongoDB auslesen
   const { data: teamData, isLoading } = useGetTeamModelQuery();
   const [team, setTeam] = React.useState("");
+  const [group, setGroup] = useState("SW");
   //Id aus GlboalState einlesen
   const dispatch = useDispatch();
   const teamId = useSelector((state) => state.global.teamId);
@@ -30,12 +31,20 @@ function Schedule() {
   const theme = useTheme();
   const navigate = useNavigate();
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
-  const handleChange = (event) => {
+
+  //Change Handle für Dropdown-Auswahl
+  const handleTeamChange = (event) => {
     setTeam(event.target.value);
 
     const selectedTeam = event.target.value;
     dispatch(setId(selectedTeam));
   };
+
+  const handleGroupChange = (event) => {
+    setGroup(event.target.value);
+  };
+
+  const filteredTeams = teamData?.filter((team) => team.group === group);
   //Spielplan fetchen
   const { schedule, loading, error } = useFetchSchedule(teamId);
 
@@ -65,7 +74,6 @@ function Schedule() {
   if (error) {
     return <div>Error: {error}</div>; // Fehlermeldung Rendern (später anpassen)
   }
-
   const cols = [
     {
       field: "Gegner",
@@ -127,7 +135,7 @@ function Schedule() {
     <Box m="1.5rem  2.5rem">
       <Box
         display="grid"
-        gridTemplateColumns="2"
+        gridTemplateColumns="6"
         gridTemplateRows="1"
         sx={{
           "& > div": {
@@ -138,60 +146,46 @@ function Schedule() {
         <Header
           title="SCHEDULE"
           subtitle="Schedule der Mannschaft"
-          gridColumn="1"
+          gridColumn="1/3"
         />
-        <Box gridColumn="2">
+        {/*Staffelauswahl Dropdown*/}
+        <Box
+          gridColumn="4"
+          display="flex"
+          flexDirection="column"
+          justifyContent="space-between"
+          p="0 2rem"
+          flex="1 1 100%"
+          borderRadius="0.55rem"
+        >
+          <FormControl fullWidth>
+            <InputLabel id="Staffelauswahl">Staffel</InputLabel>
+            <Select value={group} label="group" onChange={handleGroupChange}>
+              <MenuItem value="SW">3. Liga Staffel Süd-West</MenuItem>
+              <MenuItem value="S">3. Liga Staffel Süd</MenuItem>
+              <MenuItem value="NO">3. Liga Staffel Nord-Ost</MenuItem>
+              <MenuItem value="NW">3. Liga Staffel Nord-West</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
+        {/*Teamauswahl Dropdown*/}
+        <Box gridColumn="5/6">
           <FormControl fullWidth>
             <InputLabel id="Mannschaftsauswahl">Mannschaft</InputLabel>
-            <Select value={team} label="team" onChange={handleChange}>
-              <MenuItem value={"sportradar.dhbdata.489-1648"}>
-                Bergische Panther
-              </MenuItem>
-              <MenuItem value={"sportradar.dhbdata.1893-1648"}>
-                HLZ Friesenheim-Hochdorf II
-              </MenuItem>
-              <MenuItem value={"sportradar.dhbdata.885-1648"}>
-                VTV Mundenheim 1883
-              </MenuItem>
-              <MenuItem value={"sportradar.dhbdata.420-1648"}>
-                HSG Dutenhofen-Münchholzhausen II
-              </MenuItem>
-              <MenuItem value={"sportradar.dhbdata.453-1648"}>
-                Longericher SC Köln
-              </MenuItem>
-              <MenuItem value={"sportradar.dhbdata.417-1648"}>
-                HSG Rodgau Nieder-Roden
-              </MenuItem>
-              <MenuItem value={"sportradar.dhbdata.513-1648"}>
-                TSG Haßloch
-              </MenuItem>
-              <MenuItem value={"sportradar.dhbdata.516-1648"}>
-                HG Saarlouis
-              </MenuItem>
-              <MenuItem value={"sportradar.dhbdata.411-1648"}>
-                TV Gelnhausen
-              </MenuItem>
-              <MenuItem value={"sportradar.dhbdata.438-1648"}>
-                Saase3Leutershausen
-              </MenuItem>
-              <MenuItem value={"sportradar.dhbdata.2715-1648"}>
-                TuS 1882 Opladen
-              </MenuItem>
-              <MenuItem value={"sportradar.dhbdata.3506-1648"}>
-                TV Aldekerk 07
-              </MenuItem>
-              <MenuItem value={"sportradar.dhbdata.426-1648"}>
-                HSG Hanau
-              </MenuItem>
-              <MenuItem value={"sportradar.dhbdata.3899-1648"}>
-                TV Korschenbroich
-              </MenuItem>
-              <MenuItem value={"sportradar.dhbdata.2700-1648"}>
-                HSG Krefeld Niederrhein
-              </MenuItem>
-              <MenuItem value={"sportradar.dhbdata.1881-1648"}>
-                TV Kirchzell
-              </MenuItem>
+            <Select value={team} label="team" onChange={handleTeamChange}>
+              {isLoading ? (
+                <MenuItem disabled>Loading...</MenuItem> // Anzeige während des Ladens
+              ) : (
+                filteredTeams?.map(
+                  (
+                    team // Sicherheitsabfrage, ob teamData existiert
+                  ) => (
+                    <MenuItem key={team.id} value={team.id}>
+                      {team.name}
+                    </MenuItem>
+                  )
+                )
+              )}
             </Select>
           </FormControl>
         </Box>
@@ -206,7 +200,7 @@ function Schedule() {
           },
           "& .MuiDataGrid-cell": {
             borderBottom: "none",
-            backgroundColor: theme.palette.primary[500],
+            backgroundColor: theme.palette.grey[800],
             cursor: "pointer",
           },
           "& .MuiDataGrid-columnHeaders": {

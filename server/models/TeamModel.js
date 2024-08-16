@@ -5,8 +5,9 @@ const TeamModelSchema = new mongoose.Schema(
     id: String,
     name: String,
     urlEnding: String,
+    group: String,
   },
-  { timestamps: true }
+  { timestamps: false }
 );
 
 const TeamModel = mongoose.model("TeamModel", TeamModelSchema);
