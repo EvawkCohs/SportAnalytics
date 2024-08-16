@@ -44,7 +44,21 @@ function Schedule() {
     setGroup(event.target.value);
   };
 
-  const filteredTeams = teamData?.filter((team) => team.group === group);
+  const filteredTeams = (teamData || [])
+    .filter((team) => team.group === group)
+    .sort((a, b) => {
+      const nameA = a.name.toLowerCase();
+      const nameB = b.name.toLowerCase();
+
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      return 0;
+    });
+
   //Spielplan fetchen
   const { schedule, loading, error } = useFetchSchedule(teamId);
 
@@ -76,23 +90,31 @@ function Schedule() {
   }
   const cols = [
     {
-      field: "Gegner",
-      headerName: "Gegner",
-      flex: 1,
-    },
-    {
-      field: "Heimspiel",
-      headerName: "Heimspiel?",
+      field: "team1",
+      headerName: "Heimmanschaft",
       flex: 1,
       renderCell: (params) => {
-        const value = params.value;
-        // Konvertiere den Wert, falls er als String importiert wird
-        if (value === true || value === "true") {
-          return "ja";
-        } else if (value === false || value === "false") {
-          return "nein";
+        const { Heimspiel, Gegner } = params.row;
+        const Heimmannschaft = teamData.find((team) => team.id === teamId);
+        if (Heimspiel === "true") {
+          return Heimmannschaft.name;
+        } else {
+          return Gegner;
         }
-        return value;
+      },
+    },
+    {
+      field: "team2",
+      headerName: "Gastmannschaft",
+      flex: 1,
+      renderCell: (params) => {
+        const { Heimspiel, Gegner } = params.row;
+        const Heimmannschaft = teamData.find((team) => team.id === teamId);
+        if (Heimspiel === "false") {
+          return Heimmannschaft.name;
+        } else {
+          return Gegner;
+        }
       },
     },
     {
