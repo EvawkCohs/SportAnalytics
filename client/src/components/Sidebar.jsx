@@ -17,8 +17,6 @@ import {
   ChevronLeft,
   ChevronRightOutlined,
   HomeOutlined,
-  ShoppingCartOutlined,
-  Groups2Outlined,
   ReceiptLongOutlined,
   PublicOutlined,
   PointOfSaleOutlined,
@@ -27,6 +25,7 @@ import {
   AdminPanelSettingsOutlined,
   TrendingUpOutlined,
   PieChartOutlined,
+  LiveTvOutlined,
 } from "@mui/icons-material";
 import KeyIcon from "@mui/icons-material/Key";
 import { useEffect, useState } from "react";
@@ -47,8 +46,8 @@ const navItems = [
     icon: <CalendarMonthOutlined />,
   },
   {
-    text: "Transactions",
-    icon: <ReceiptLongOutlined />,
+    text: "Videoanalyse",
+    icon: <LiveTvOutlined />,
   },
   {
     text: "Geography",

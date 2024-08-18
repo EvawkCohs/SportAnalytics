@@ -81,7 +81,7 @@ function Schedule() {
     gameID: gameIDs[index] || "N/A",
   }));
 
-  if (loading) {
+  if (loading || isLoading) {
     return <div>Loading....</div>; // Später noch Ladekreis einbauen oder etwas vergleichbares
   }
 
@@ -91,10 +91,14 @@ function Schedule() {
   const cols = [
     {
       field: "team1",
-      headerName: "Heimmanschaft",
+      headerName: "Heimmannschaft",
       flex: 1,
       renderCell: (params) => {
         const { Heimspiel, Gegner } = params.row;
+        if (!teamData || !Array.isArray(teamData)) {
+          // Fallback-Wert, falls teamData nicht verfügbar ist
+          return Heimspiel === "true" ? "Keine Daten verfügbar" : Gegner;
+        }
         const Heimmannschaft = teamData.find((team) => team.id === teamId);
         if (Heimspiel === "true") {
           return Heimmannschaft.name;
@@ -109,6 +113,10 @@ function Schedule() {
       flex: 1,
       renderCell: (params) => {
         const { Heimspiel, Gegner } = params.row;
+        if (!teamData || !Array.isArray(teamData)) {
+          // Fallback-Wert, falls teamData nicht verfügbar ist
+          return Heimspiel === "true" ? "Keine Daten verfügbar" : Gegner;
+        }
         const Heimmannschaft = teamData.find((team) => team.id === teamId);
         if (Heimspiel === "false") {
           return Heimmannschaft.name;

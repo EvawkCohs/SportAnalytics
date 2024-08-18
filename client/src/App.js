@@ -8,6 +8,7 @@ import Dashboard from "scenes/dashboard";
 import Layout from "scenes/Layout";
 import Schedule from "scenes/schedule";
 import Details from "scenes/details";
+import VideoAnalyse from "scenes/videoAnalyse";
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
@@ -24,6 +25,7 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/schedule" element={<Schedule />} />
               <Route path="/details/:id" element={<Details />} />
+              <Route path="/videoanalyse" element={<VideoAnalyse />} />
             </Route>
           </Routes>
         </ThemeProvider>
