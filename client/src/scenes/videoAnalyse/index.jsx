@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Box, useTheme, Grid, Typography, Button } from "@mui/material";
 import Header from "components/Header";
 import ReactPlayer from "react-player";
+import SimpleButton from "components/SimpleButton";
 
 function VideoAnalyse() {
   const [videoUrl, setVideoUrl] = useState(null);
@@ -74,13 +75,10 @@ function VideoAnalyse() {
                 id="file-input"
               />
               <label htmlFor="file-input">
-                <Button
-                  sx={{ backgroundColor: theme.palette.primary.main }}
-                  variant="contained"
+                <SimpleButton
                   onClick={() => document.getElementById("file-input").click()}
-                >
-                  Choose a video
-                </Button>
+                  text="Choose a video"
+                ></SimpleButton>
               </label>
             </Box>
           )}
@@ -97,9 +95,33 @@ function VideoAnalyse() {
         ml="2rem"
         gridColumn="1/2"
       >
-        <Button variant="contained">Button 1</Button>
-        <Button variant="contained">Button 2</Button>
-        <Button variant="contained">Button 3</Button>
+        <SimpleButton
+          sx={{
+            backgroundColor: theme.palette.secondary.light,
+            color: theme.palette.background.alt,
+            fontSize: "14px",
+            fontWeight: "bold",
+          }}
+          text="SimpleButton 1"
+        ></SimpleButton>
+        <SimpleButton
+          sx={{
+            backgroundColor: theme.palette.secondary.light,
+            color: theme.palette.background.alt,
+            fontSize: "14px",
+            fontWeight: "bold",
+          }}
+          text="SimpleButton 2"
+        ></SimpleButton>
+        <SimpleButton
+          sx={{
+            backgroundColor: theme.palette.secondary.light,
+            color: theme.palette.background.alt,
+            fontSize: "14px",
+            fontWeight: "bold",
+          }}
+          text="SimpleButton 3"
+        ></SimpleButton>
       </Box>
     </Box>
   );

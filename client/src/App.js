@@ -25,7 +25,7 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/schedule" element={<Schedule />} />
               <Route path="/details/:id" element={<Details />} />
-              <Route path="/videoanalyse" element={<VideoAnalyse />} />
+              <Route path="/videoanalyse/:id" element={<VideoAnalyse />} />
             </Route>
           </Routes>
         </ThemeProvider>

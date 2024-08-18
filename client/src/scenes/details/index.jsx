@@ -8,7 +8,7 @@ import {
   useTheme,
 } from "@mui/material";
 import FlexBetween from "components/FlexBetween";
-import { DownloadOutlined } from "@mui/icons-material";
+import { DownloadOutlined, LiveTvOutlined } from "@mui/icons-material";
 import { DataGrid } from "@mui/x-data-grid";
 import CustomColumnMenu from "components/DataGridCustomColumnMenu";
 import StatBoxGameInfo from "components/StatBoxGameInfo";
@@ -29,9 +29,14 @@ import {
 import PieChart from "components/PieChart";
 import { handleDownload } from "./handleDownload";
 import { columnsDataGrid } from "./dataGridDefinitions";
+import { useNavigate } from "react-router-dom";
+import SimpleButton from "components/SimpleButton";
+//Daten Speicherung
 
 function Details() {
   const theme = useTheme();
+  const navigate = useNavigate();
+
   //Daten der Spiele annehmen
   const { id } = useParams();
   const { gameData, loading, error } = useFetchGameDetails(id);
@@ -54,8 +59,38 @@ function Details() {
     flex: 1,
   }));
 
+  const handleAnalyseButton = () => {
+    navigate(`/videoanalyse/${id}`);
+  };
+
+  const handleAddGame = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:5001/gameUpload/add-game",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(gameExampleData.data),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Game added successfully!");
+      } else {
+        alert(`Error: ${data.message}`);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred while adding the game");
+    }
+  };
+
   //Log für Entwicklung
-  //console.log(gameData);
+
   if (loading) {
     return <div>Loading....</div>; // Später noch Ladekreis einbauen oder etwas vergleichbares
   }
@@ -73,20 +108,31 @@ function Details() {
             subtitle={`${gameData.data.summary.homeTeam.name} vs ${gameData.data.summary.awayTeam.name}`}
           />
           {/*IN DEN SUBTITLE NOCH DAS SPIEL EINFÜGEN (WER GEGEN WEN)*/}
-          <Box>
-            <Button
+          <Box gap="1.5rem" display="flex" flexDirection="row">
+            <SimpleButton
               sx={{
                 backgroundColor: theme.palette.secondary.light,
                 color: theme.palette.background.alt,
                 fontSize: "14px",
                 fontWeight: "bold",
-                padding: "10px 20px",
               }}
-              onClick={handleDownload}
-            >
-              <DownloadOutlined sx={{ mr: "10px" }} />
-              Download Gamestats
-            </Button>
+              onClick={handleAnalyseButton}
+              text="Videoanalyse"
+              Icon={LiveTvOutlined}
+            ></SimpleButton>
+            <SimpleButton
+              sx={{
+                backgroundColor: theme.palette.secondary.light,
+                color: theme.palette.background.alt,
+                fontSize: "14px",
+                fontWeight: "bold",
+              }}
+              onClick={async () => {
+                await handleAddGame();
+              }}
+              text="Download Gamestats"
+              Icon={DownloadOutlined}
+            ></SimpleButton>
           </Box>
         </FlexBetween>
 
