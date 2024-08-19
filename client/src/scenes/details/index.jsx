@@ -1,12 +1,8 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+//Components
 import Header from "components/Header";
-import {
-  Box,
-  Button,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 import { DownloadOutlined, LiveTvOutlined } from "@mui/icons-material";
 import { DataGrid } from "@mui/x-data-grid";
@@ -14,25 +10,28 @@ import CustomColumnMenu from "components/DataGridCustomColumnMenu";
 import StatBoxGameInfo from "components/StatBoxGameInfo";
 import StatBoxMVP from "components/StatBoxMVP";
 import StatBoxGameAttendance from "components/StatBoxGameAttendance";
+import TeamGoalChart from "components/TeamGoalChart";
+import LineChart from "components/LineChart";
+import PieChart from "components/PieChart";
+import SimpleButton from "components/SimpleButton";
+//Scripts
 import { useParams } from "react-router-dom";
 import formatTimestamp from "conversionScripts/formatTimestamp.js";
 import useFetchGameDetails from "./useFetchGameDetails";
-import TeamGoalChart from "components/TeamGoalChart";
+//Data & Format
 import { gameExampleData } from "./gameExample";
-import LineChart from "components/LineChart";
 import {
   FormatGameDataBar,
   FormatGameDataLine,
   FormatSuspensionData,
   FormatTableData,
 } from "./formatGameData";
-import PieChart from "components/PieChart";
-import { handleDownload } from "./handleDownload";
 import { columnsDataGrid } from "./dataGridDefinitions";
-import { useNavigate } from "react-router-dom";
-import SimpleButton from "components/SimpleButton";
-//Daten Speicherung
+import { handleDownload } from "./handleDownload";
+import handleAddGame from "./usePostGameData";
+import { useGetGameModelQuery } from "state/api";
 
+//Daten Speicherung
 function Details() {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -41,6 +40,9 @@ function Details() {
   const { id } = useParams();
   const { gameData, loading, error } = useFetchGameDetails(id);
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
+
+  //UseRef für GameUpload - verhindert Mehrfacheinträge
+  const hasAddedGame = useRef(false);
 
   // Daten formattieren für Charts
   const teamGoalDataBar = FormatGameDataBar(gameExampleData);
@@ -63,33 +65,16 @@ function Details() {
     navigate(`/videoanalyse/${id}`);
   };
 
-  const handleAddGame = async () => {
-    try {
-      const response = await fetch(
-        "http://localhost:5001/gameUpload/add-game",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(gameExampleData.data),
-        }
-      );
+  const checkResponse = useGetGameModelQuery(gameExampleData.data.summary.id);
 
-      const data = await response.json();
-
-      if (response.ok) {
-        alert("Game added successfully!");
-      } else {
-        alert(`Error: ${data.message}`);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred while adding the game");
-    }
-  };
-
-  //Log für Entwicklung
+  useEffect(() => {
+    if (checkResponse.isLoading) return;
+    //useRef um mehrmalige Ausführung zu verhindern
+    if (hasAddedGame.current) return;
+    hasAddedGame.current = true;
+    //Check, ob Daten bereits existieren
+    handleAddGame(gameExampleData.data, checkResponse);
+  }, [checkResponse.isLoading]);
 
   if (loading) {
     return <div>Loading....</div>; // Später noch Ladekreis einbauen oder etwas vergleichbares
@@ -107,7 +92,6 @@ function Details() {
             title="GAME DETAILS"
             subtitle={`${gameData.data.summary.homeTeam.name} vs ${gameData.data.summary.awayTeam.name}`}
           />
-          {/*IN DEN SUBTITLE NOCH DAS SPIEL EINFÜGEN (WER GEGEN WEN)*/}
           <Box gap="1.5rem" display="flex" flexDirection="row">
             <SimpleButton
               sx={{
@@ -127,9 +111,7 @@ function Details() {
                 fontSize: "14px",
                 fontWeight: "bold",
               }}
-              onClick={async () => {
-                await handleAddGame();
-              }}
+              onClick={handleDownload}
               text="Download Gamestats"
               Icon={DownloadOutlined}
             ></SimpleButton>

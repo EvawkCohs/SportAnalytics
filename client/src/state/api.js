@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_BASE_URL }),
   reducerPath: "adminApi",
-  tagTypes: ["allgamesmodels", "teammodels", "team"],
+  tagTypes: ["allgamesmodels", "teammodels", "team", "game"],
 
   endpoints: (build) => ({
     getallGamesModel: build.query({
@@ -18,6 +18,10 @@ export const api = createApi({
       query: (id) => `general/teammodels/${id}`,
       providesTags: ["team"],
     }),
+    getGameModel: build.query({
+      query: (id) => `gameUploadCheck/gamemodels?id=${id}`,
+      providesTags: ["game"],
+    }),
   }),
 });
 
@@ -25,4 +29,5 @@ export const {
   useGetallGamesModelQuery,
   useGetTeamModelQuery,
   useGetTeamQuery,
+  useGetGameModelQuery,
 } = api;

@@ -10,6 +10,7 @@ import morgan from "morgan";
 import clientRoutes from "./routes/client.js";
 import generalRoutes from "./routes/general.js";
 import gameUploadRoutes from "./routes/gameUpload.js";
+import gameUploadCheckRoutes from "./routes/gameUploadCheck.js";
 
 //MODEL IMPORTS
 import gameModel from "./models/gameModel.js";
@@ -33,6 +34,7 @@ app.use(cors());
 app.use("/client", clientRoutes);
 app.use("/general", generalRoutes);
 app.use("/gameUpload", gameUploadRoutes);
+app.use("/gameUploadCheck", gameUploadCheckRoutes);
 
 //MONGOOSE SETUP
 const PORT = process.env.PORT || 9000;
