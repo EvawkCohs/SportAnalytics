@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import {
   Box,
@@ -26,6 +26,8 @@ function VideoAnalyse() {
   const gameData = gameExampleData;
   const [videoUrl, setVideoUrl] = useState(null);
   const [eventData, setEventData] = useState([]);
+  //referenz zum Videoplayer
+  const videoRef = useRef(null);
 
   //Startzeiten setzen
   const [gameStart, setGameStart] = useState("");
@@ -75,14 +77,13 @@ function VideoAnalyse() {
   };
 
   //Anfangszeiten speichern
-  const handleTimeSave = (event) => {
+  const handleTimeSave = () => {
     const isFirstHalfTimeValid = validateTime(gameStart);
     const isSecondHalfTimeValid = validateTime(secondHalfStart);
 
     if (isFirstHalfTimeValid && isSecondHalfTimeValid) {
       // Zeit speichern
-      console.log("Startzeit 1. HZ:", gameStart);
-      console.log("Startzeit 2. HZ:", secondHalfStart);
+
       setError({ gameStart: false, secondHalfStart: false });
       setErrorMessage("");
     } else {
@@ -94,7 +95,62 @@ function VideoAnalyse() {
       setErrorMessage("Bitte geben Sie die Zeit im Format HH:MM:SS ein.");
     }
   };
-  console.log(error.secondHalfTime);
+
+  function timeToSeconds(timeString) {
+    const [minutes, seconds] = timeString.split(":").map(Number);
+    return minutes * 60 + seconds;
+  }
+
+  //Eventclick handler
+  const handleEventClick = (event) => {
+    const eventTimestamp = event.timestamp;
+    let diffInSeconds = 0;
+    let [hours, minutes, seconds] = [0, 0, 0];
+    let startTimeSeconds = 0;
+
+    //1.HZ
+    if (timeToSeconds(event.time) < timeToSeconds("30:00")) {
+      const gameStartTimestamp = eventData[eventData.length - 1].timestamp;
+      [hours, minutes, seconds] = gameStart.split(":").map(Number);
+      startTimeSeconds = hours * 3600 + minutes * 60 + seconds;
+      // Berechne die Differenz in Sekunden
+      diffInSeconds = (eventTimestamp - gameStartTimestamp) / 1000;
+    }
+    //2.HZ
+    else if (timeToSeconds(event.time) >= timeToSeconds("30:00")) {
+      const secondHalfTimeTimestamp = eventData.find(
+        (event) => event.type === "StartPeriod" && event.time === "30:00"
+      ).timestamp;
+      [hours, minutes, seconds] = secondHalfStart.split(":").map(Number);
+      startTimeSeconds = hours * 3600 + minutes * 60 + seconds;
+      // Berechne die Differenz in Sekunden
+      diffInSeconds = (eventTimestamp - secondHalfTimeTimestamp) / 1000;
+    }
+    //Event genau auf der Grenze
+    else if (timeToSeconds(event.time) === timeToSeconds("30:00")) {
+      //2.HZ beginnt
+      if (event.type === "StartPeriod") {
+        const secondHalfTimeTimestamp = eventData.find(
+          (event) => event.type === "StartPeriod" && event.time === "30:00"
+        ).timestamp;
+        [hours, minutes, seconds] = secondHalfStart.split(":").map(Number);
+        startTimeSeconds = hours * 3600 + minutes * 60 + seconds;
+        // Berechne die Differenz in Sekunden
+        diffInSeconds = (eventTimestamp - secondHalfTimeTimestamp) / 1000;
+      }
+      //1.HZ endet
+      else {
+        const gameStartTimestamp = eventData[eventData.length - 1].timestamp;
+        [hours, minutes, seconds] = gameStart.split(":").map(Number);
+        startTimeSeconds = hours * 3600 + minutes * 60 + seconds;
+        // Berechne die Differenz in Sekunden
+        diffInSeconds = (eventTimestamp - gameStartTimestamp) / 1000;
+      }
+    }
+    if (videoRef.current) {
+      videoRef.current.seekTo(startTimeSeconds + diffInSeconds, "seconds");
+    }
+  };
 
   return (
     <Box m="1.5rem  2.5rem">
@@ -108,7 +164,7 @@ function VideoAnalyse() {
           borderRadius="0.55rem"
         >
           {videoUrl ? (
-            <ReactPlayer url={videoUrl} controls />
+            <ReactPlayer url={videoUrl} controls ref={videoRef} />
           ) : (
             <Box
               display="flex"
@@ -206,6 +262,7 @@ function VideoAnalyse() {
                       },
                       cursor: videoUrl ? "pointer" : "default",
                     }}
+                    onClick={() => handleEventClick(event)}
                   />
 
                   <Divider variant="fullwidth" sx={{ borderBottomWidth: 2 }} />
