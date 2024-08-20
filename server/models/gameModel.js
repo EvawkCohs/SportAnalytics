@@ -3,19 +3,19 @@ const { Schema } = mongoose;
 
 // Player Schema
 const PlayerSchema = new Schema({
-  id: { type: String, required: true },
-  firstname: { type: String, required: true },
-  lastname: { type: String, required: true },
-  position: { type: String, required: true },
-  number: { type: Number, required: true },
-  goals: { type: Number, default: 0 },
-  penaltyGoals: { type: Number, default: 0 },
-  penaltyMissed: { type: Number, default: 0 },
-  penalties: { type: Number, default: 0 },
-  yellowCards: { type: Number, default: 0 },
-  redCards: { type: Number, default: 0 },
-  blueCards: { type: Number, default: 0 }, // Changed to Number for default
-  type: { type: String, required: true },
+  id: String,
+  firstname: String,
+  lastname: String,
+  position: String,
+  number: Number,
+  goals: Number,
+  penaltyGoals: Number,
+  penaltyMissed: Number,
+  penalties: Number,
+  yellowCards: Number,
+  redCards: Number,
+  blueCards: Number, // Changed to Number for default
+  type: String,
 });
 
 const OfficialSchema = new Schema({

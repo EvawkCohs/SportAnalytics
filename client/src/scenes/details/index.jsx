@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 //Components
 import Header from "components/Header";
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
@@ -30,6 +31,7 @@ import { columnsDataGrid } from "./dataGridDefinitions";
 import { handleDownload } from "./handleDownload";
 import handleAddGame from "./usePostGameData";
 import { useGetGameModelQuery } from "state/api";
+import { setGameData } from "state";
 
 //Daten Speicherung
 function Details() {
@@ -61,11 +63,14 @@ function Details() {
     flex: 1,
   }));
 
+  const dispatch = useDispatch();
+
   const handleAnalyseButton = () => {
+    dispatch(setGameData(gameData));
     navigate(`/videoanalyse/${id}`);
   };
 
-  const checkResponse = useGetGameModelQuery(gameExampleData.data.summary.id);
+  const checkResponse = useGetGameModelQuery(id);
 
   useEffect(() => {
     if (checkResponse.isLoading) return;
@@ -73,7 +78,14 @@ function Details() {
     if (hasAddedGame.current) return;
     hasAddedGame.current = true;
     //Check, ob Daten bereits existieren
-    handleAddGame(gameExampleData.data, checkResponse);
+    if (
+      !gameData ||
+      !gameData.data ||
+      !gameData.data.summary ||
+      !gameData.data.events
+    )
+      return;
+    handleAddGame(gameData.data, checkResponse);
   }, [checkResponse.isLoading]);
 
   if (loading) {

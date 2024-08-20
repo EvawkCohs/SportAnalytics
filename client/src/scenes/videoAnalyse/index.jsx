@@ -1,20 +1,56 @@
 import React, { useState, useEffect } from "react";
-import { Box, useTheme, Grid, Typography, Button } from "@mui/material";
+import { useParams } from "react-router-dom";
+import {
+  Box,
+  useTheme,
+  Grid,
+  Typography,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  ListSubheader,
+  Divider,
+} from "@mui/material";
 import Header from "components/Header";
 import ReactPlayer from "react-player";
 import SimpleButton from "components/SimpleButton";
+import { useGetGameModelQuery } from "state/api";
+import { gameExampleData } from "scenes/details/gameExample";
 
 function VideoAnalyse() {
-  const [videoUrl, setVideoUrl] = useState(null);
+  const { id } = useParams();
   const theme = useTheme();
+  // const gameData = useGetGameModelQuery(id);
+  const gameData = gameExampleData;
+  const [videoUrl, setVideoUrl] = useState(null);
+  const [eventData, setEventData] = useState([]);
 
+  //Startzeiten setzen
+  const [gameStart, setGameStart] = useState("");
+  const [secondHalfStart, setSecondHalfStart] = useState("");
+
+  useEffect(() => {
+    if (
+      !gameData ||
+      !gameData.data ||
+      !gameData.data.summary ||
+      !gameData.data.events
+    )
+      return;
+
+    // Setze eventData, wenn die Daten vorhanden sind
+    setEventData(gameData.data.events);
+  }, [gameData]);
+
+  //DateiInputHandle
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       setVideoUrl(URL.createObjectURL(file));
     }
   };
-
+  //Drag-and-Drop Handle
   const handleDrop = (event) => {
     event.preventDefault();
     const file = event.dataTransfer.files[0];
@@ -22,7 +58,7 @@ function VideoAnalyse() {
       setVideoUrl(URL.createObjectURL(file));
     }
   };
-
+  //Drag-Over Handle
   const handleDragOver = (event) => {
     event.preventDefault();
   };
@@ -83,8 +119,52 @@ function VideoAnalyse() {
             </Box>
           )}
         </Box>
-        <Box gridColumn="2/3">
-          {/* Platz für weitere Elemente rechts vom Video-Player */}
+        {/* Event-Box */}
+        <Box
+          gridColumn="2/3"
+          maxHeight="710px"
+          overflow="auto"
+          borderRadius="0.55rem"
+          border={`1px solid ${theme.palette.secondary[200]}`}
+          justifyContent="center"
+        >
+          <List>
+            <ListSubheader
+              sx={{
+                fontWeight: "medium",
+                letterSpacing: 0,
+                fontSize: 20,
+                color: theme.palette.secondary[200],
+                textAlign: "center",
+                backgroundColor: theme.palette.background.default,
+              }}
+            >
+              Events
+            </ListSubheader>
+            <Divider />
+            {eventData && eventData.length > 0 ? (
+              eventData.map((event) => (
+                <ListItemText
+                  primary={`${event.time} | ${event.message}`}
+                  primaryTypographyProps={{
+                    variant: "h6",
+                    letterSpacing: 0,
+                    textAlign: "left",
+                    color: theme.palette.secondary[200],
+                    ml: "0.5rem",
+                  }}
+                  sx={{
+                    "&:hover": {
+                      backgroundColor: theme.palette.background.alt,
+                    },
+                    cursor: videoUrl ? "pointer" : "default",
+                  }}
+                />
+              ))
+            ) : (
+              <ListItemText text="Keine Events vorhanden" />
+            )}
+          </List>
         </Box>
       </Box>
       <Box
