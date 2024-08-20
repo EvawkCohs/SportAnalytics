@@ -6,11 +6,6 @@ import {
   Grid,
   Typography,
   Button,
-  List,
-  ListItem,
-  ListItemText,
-  ListSubheader,
-  Divider,
   TextField,
 } from "@mui/material";
 import Header from "components/Header";
@@ -18,6 +13,8 @@ import ReactPlayer from "react-player";
 import SimpleButton from "components/SimpleButton";
 import { useGetGameModelQuery } from "state/api";
 import { gameExampleData } from "scenes/details/gameExample";
+import { DataGrid } from "@mui/x-data-grid";
+import CustomColumnMenu from "components/DataGridCustomColumnMenu";
 
 function VideoAnalyse() {
   const { id } = useParams();
@@ -26,7 +23,8 @@ function VideoAnalyse() {
   const gameData = gameExampleData;
   const [videoUrl, setVideoUrl] = useState(null);
   const [eventData, setEventData] = useState([]);
-  //referenz zum Videoplayer
+
+  //Referenz zum Videoplayer
   const videoRef = useRef(null);
 
   //Startzeiten setzen
@@ -38,11 +36,13 @@ function VideoAnalyse() {
   });
   const [errorMessage, setErrorMessage] = useState("");
 
+  //Startzeiten validieren
   const validateTime = (time) => {
     const regex = /^([0-1][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/; // HH:MM format
     return regex.test(time);
   };
 
+  //Eventdata setzen bzw. validieren, ob gameData bereits geladen wurde
   useEffect(() => {
     if (
       !gameData ||
@@ -55,7 +55,30 @@ function VideoAnalyse() {
     // Setze eventData, wenn die Daten vorhanden sind
     setEventData(gameData.data.events);
   }, [gameData]);
-
+  //Col + Row Definitions für DataGrid
+  const cols = [
+    {
+      field: "message",
+      headerName: "Events",
+      headerAlign: "center",
+      align: "left",
+      flex: 1,
+      renderCell: (params) => {
+        return `${params.row.time} | ${params.row.message}${
+          params.row.score !== null
+            ? ` | ${String(params.row.score).slice(0, 2)} : ${String(
+                params.row.score
+              ).slice(3, 5)}`
+            : ""
+        }`;
+      },
+    },
+  ];
+  const row = eventData.map((row, index) => ({
+    id: index,
+    ...row,
+    flex: 1,
+  }));
   //DateiInputHandle
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -96,6 +119,7 @@ function VideoAnalyse() {
     }
   };
 
+  //Umwandeln von event.time-timestrings in Sekunden
   function timeToSeconds(timeString) {
     const [minutes, seconds] = timeString.split(":").map(Number);
     return minutes * 60 + seconds;
@@ -107,6 +131,7 @@ function VideoAnalyse() {
       alert("Bitte setzen sie erst die Startzeiten!");
       return;
     }
+
     const eventTimestamp = event.timestamp;
     let diffInSeconds = 0;
     let [hours, minutes, seconds] = [0, 0, 0];
@@ -151,6 +176,7 @@ function VideoAnalyse() {
         diffInSeconds = (eventTimestamp - gameStartTimestamp) / 1000;
       }
     }
+    //Videoplayer an entsprechende Stelle springen lassen
     if (videoRef.current) {
       videoRef.current.seekTo(startTimeSeconds + diffInSeconds, "seconds");
     }
@@ -168,6 +194,7 @@ function VideoAnalyse() {
           borderRadius="0.55rem"
         >
           {videoUrl ? (
+            //Video Player
             <React.Fragment>
               <ReactPlayer
                 url={videoUrl}
@@ -227,67 +254,29 @@ function VideoAnalyse() {
           overflow="auto"
           borderRadius="0.55rem"
           border={`1px solid ${theme.palette.secondary[200]}`}
-          justifyContent="center"
+          sx={{
+            "& .MuiDataGrid-cell": {
+              cursor: videoUrl ? "pointer" : "default",
+              fontSize: 16,
+              color: theme.palette.secondary[100],
+            },
+            "& .MuiDataGrid-columnHeaders": {
+              color: theme.palette.secondary[200],
+              fontSize: 24,
+            },
+          }}
         >
-          <List>
-            <ListSubheader
-              sx={{
-                fontWeight: "medium",
-                letterSpacing: 0,
-                fontSize: 20,
-                color: theme.palette.secondary[200],
-                textAlign: "center",
-                backgroundColor: theme.palette.background.default,
-              }}
-            >
-              Events
-            </ListSubheader>
-            <Divider
-              variant="fullwidth"
-              sx={{
-                bgcolor: theme.palette.secondary[200],
-                opacity: 0.6,
-                borderBottomWidth: 2,
-              }}
-            />
-            {eventData && eventData.length > 0 ? (
-              eventData.map((event, index) => (
-                <React.Fragment key={index}>
-                  <ListItemText
-                    primary={`${event.time} | ${event.message}${
-                      event.score !== null
-                        ? ` | ${String(event.score).slice(0, 2)} : ${String(
-                            event.score
-                          ).slice(3, 5)}`
-                        : ""
-                    }`}
-                    primaryTypographyProps={{
-                      variant: "h4",
-                      letterSpacing: 0,
-                      textAlign: "left",
-                      color: theme.palette.secondary[100],
-                      ml: "0.5rem",
-                    }}
-                    sx={{
-                      "&:hover": {
-                        backgroundColor: theme.palette.background.alt,
-                      },
-                      cursor: videoUrl ? "pointer" : "default",
-                    }}
-                    onClick={() => {
-                      if (videoUrl) {
-                        handleEventClick(event);
-                      }
-                    }}
-                  />
-
-                  <Divider variant="fullwidth" sx={{ borderBottomWidth: 2 }} />
-                </React.Fragment>
-              ))
-            ) : (
-              <ListItemText text="Keine Events vorhanden" />
-            )}
-          </List>
+          <DataGrid
+            columns={cols}
+            rows={row || []}
+            components={{ ColumnMenu: CustomColumnMenu }}
+            hideFooter="true"
+            onCellClick={(params) => {
+              if (videoUrl) {
+                handleEventClick(params.row);
+              }
+            }}
+          />
         </Box>
 
         {/*Button Box für Hinzufügen von Events */}
