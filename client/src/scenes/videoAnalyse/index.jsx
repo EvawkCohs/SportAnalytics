@@ -11,6 +11,7 @@ import {
   ListItemText,
   ListSubheader,
   Divider,
+  TextField,
 } from "@mui/material";
 import Header from "components/Header";
 import ReactPlayer from "react-player";
@@ -29,6 +30,16 @@ function VideoAnalyse() {
   //Startzeiten setzen
   const [gameStart, setGameStart] = useState("");
   const [secondHalfStart, setSecondHalfStart] = useState("");
+  const [error, setError] = useState({
+    firstHalfTime: false,
+    secondHalfTime: false,
+  });
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const validateTime = (time) => {
+    const regex = /^([0-1][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/; // HH:MM format
+    return regex.test(time);
+  };
 
   useEffect(() => {
     if (
@@ -62,6 +73,28 @@ function VideoAnalyse() {
   const handleDragOver = (event) => {
     event.preventDefault();
   };
+
+  //Anfangszeiten speichern
+  const handleTimeSave = (event) => {
+    const isFirstHalfTimeValid = validateTime(gameStart);
+    const isSecondHalfTimeValid = validateTime(secondHalfStart);
+
+    if (isFirstHalfTimeValid && isSecondHalfTimeValid) {
+      // Zeit speichern
+      console.log("Startzeit 1. HZ:", gameStart);
+      console.log("Startzeit 2. HZ:", secondHalfStart);
+      setError({ gameStart: false, secondHalfStart: false });
+      setErrorMessage("");
+    } else {
+      // Fehlerzustand aktivieren
+      setError({
+        firstHalfTime: !isFirstHalfTimeValid,
+        secondHalfTime: !isSecondHalfTimeValid,
+      });
+      setErrorMessage("Bitte geben Sie die Zeit im Format HH:MM:SS ein.");
+    }
+  };
+  console.log(error.secondHalfTime);
 
   return (
     <Box m="1.5rem  2.5rem">
@@ -141,67 +174,88 @@ function VideoAnalyse() {
             >
               Events
             </ListSubheader>
-            <Divider />
+            <Divider
+              variant="fullwidth"
+              sx={{
+                bgcolor: theme.palette.secondary[200],
+                opacity: 0.6,
+                borderBottomWidth: 2,
+              }}
+            />
             {eventData && eventData.length > 0 ? (
-              eventData.map((event) => (
-                <ListItemText
-                  primary={`${event.time} | ${event.message}`}
-                  primaryTypographyProps={{
-                    variant: "h6",
-                    letterSpacing: 0,
-                    textAlign: "left",
-                    color: theme.palette.secondary[200],
-                    ml: "0.5rem",
-                  }}
-                  sx={{
-                    "&:hover": {
-                      backgroundColor: theme.palette.background.alt,
-                    },
-                    cursor: videoUrl ? "pointer" : "default",
-                  }}
-                />
+              eventData.map((event, index) => (
+                <React.Fragment key={index}>
+                  <ListItemText
+                    primary={`${event.time} | ${event.message}${
+                      event.score !== null
+                        ? ` | ${String(event.score).slice(0, 2)} : ${String(
+                            event.score
+                          ).slice(3, 5)}`
+                        : ""
+                    }`}
+                    primaryTypographyProps={{
+                      variant: "h4",
+                      letterSpacing: 0,
+                      textAlign: "left",
+                      color: theme.palette.secondary[100],
+                      ml: "0.5rem",
+                    }}
+                    sx={{
+                      "&:hover": {
+                        backgroundColor: theme.palette.background.alt,
+                      },
+                      cursor: videoUrl ? "pointer" : "default",
+                    }}
+                  />
+
+                  <Divider variant="fullwidth" sx={{ borderBottomWidth: 2 }} />
+                </React.Fragment>
               ))
             ) : (
               <ListItemText text="Keine Events vorhanden" />
             )}
           </List>
         </Box>
-      </Box>
-      <Box
-        marginTop="1rem"
-        display="flex"
-        justifyContent="flex-start"
-        gap="2rem"
-        ml="2rem"
-        gridColumn="1/2"
-      >
-        <SimpleButton
-          sx={{
-            backgroundColor: theme.palette.secondary.light,
-            color: theme.palette.background.alt,
-            fontSize: "14px",
-            fontWeight: "bold",
-          }}
-          text="SimpleButton 1"
-        ></SimpleButton>
-        <SimpleButton
-          sx={{
-            backgroundColor: theme.palette.secondary.light,
-            color: theme.palette.background.alt,
-            fontSize: "14px",
-            fontWeight: "bold",
-          }}
-          text="SimpleButton 2"
-        ></SimpleButton>
-        <SimpleButton
-          sx={{
-            backgroundColor: theme.palette.secondary.light,
-            color: theme.palette.background.alt,
-            fontSize: "14px",
-            fontWeight: "bold",
-          }}
-          text="SimpleButton 3"
-        ></SimpleButton>
+
+        {/*Button Box für Hinzufügen von Events */}
+        <Box
+          marginTop="1rem"
+          display="flex"
+          justifyContent="flex-start"
+          gap="2rem"
+          ml="2rem"
+          gridColumn="1/2"
+        >
+          <SimpleButton text="SimpleButton 1"></SimpleButton>
+          <SimpleButton text="SimpleButton 2"></SimpleButton>
+          <SimpleButton text="SimpleButton 3"></SimpleButton>
+        </Box>
+        {/*Button Box für Hinzufügen Startzeiten */}
+        <Box
+          display="flex"
+          gridColumn="2/3"
+          gap="2rem"
+          marginTop="1rem"
+          justifyContent="flex-start"
+        >
+          <TextField
+            id="start-ersteHZ"
+            label="Startzeit 1. HZ"
+            variant="outlined"
+            onChange={(e) => setGameStart(e.target.value)}
+            error={error.firstHalfTime}
+            helperText={error.firstHalfTime ? errorMessage : ""}
+          />
+          <TextField
+            id="start-zweiteHZ"
+            label="Startzeit 2. HZ"
+            variant="outlined"
+            onChange={(e) => setSecondHalfStart(e.target.value)}
+            error={error.secondHalfTime}
+            helperText={error.secondHalfTime ? errorMessage : ""}
+          />
+          <SimpleButton text="Speichern" onClick={handleTimeSave} />
+        </Box>
       </Box>
     </Box>
   );
