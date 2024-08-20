@@ -103,6 +103,10 @@ function VideoAnalyse() {
 
   //Eventclick handler
   const handleEventClick = (event) => {
+    if (gameStart === "" || secondHalfStart === "") {
+      alert("Bitte setzen sie erst die Startzeiten!");
+      return;
+    }
     const eventTimestamp = event.timestamp;
     let diffInSeconds = 0;
     let [hours, minutes, seconds] = [0, 0, 0];
@@ -164,7 +168,15 @@ function VideoAnalyse() {
           borderRadius="0.55rem"
         >
           {videoUrl ? (
-            <ReactPlayer url={videoUrl} controls ref={videoRef} />
+            <React.Fragment>
+              <ReactPlayer
+                url={videoUrl}
+                controls
+                ref={videoRef}
+                width="100%"
+                height="auto"
+              />
+            </React.Fragment>
           ) : (
             <Box
               display="flex"
@@ -262,7 +274,11 @@ function VideoAnalyse() {
                       },
                       cursor: videoUrl ? "pointer" : "default",
                     }}
-                    onClick={() => handleEventClick(event)}
+                    onClick={() => {
+                      if (videoUrl) {
+                        handleEventClick(event);
+                      }
+                    }}
                   />
 
                   <Divider variant="fullwidth" sx={{ borderBottomWidth: 2 }} />
