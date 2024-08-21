@@ -5,16 +5,19 @@ import {
   useTheme,
   Grid,
   Typography,
-  Button,
+  IconButton,
   TextField,
 } from "@mui/material";
 import Header from "components/Header";
 import ReactPlayer from "react-player";
 import SimpleButton from "components/SimpleButton";
+import LightTooltip from "components/LightTooltip";
 import { useGetGameModelQuery } from "state/api";
 import { gameExampleData } from "scenes/details/gameExample";
 import { DataGrid } from "@mui/x-data-grid";
 import CustomColumnMenu from "components/DataGridCustomColumnMenu";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import ConfirmDeleteDialog from "components/DialogDeletion";
 
 function VideoAnalyse() {
   const { id } = useParams();
@@ -79,6 +82,10 @@ function VideoAnalyse() {
     ...row,
     flex: 1,
   }));
+
+  //Variablen für delete-handler
+  const [rowDeletionIds, setRowDeletionIds] = useState([]);
+
   //DateiInputHandle
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -182,6 +189,28 @@ function VideoAnalyse() {
     }
   };
 
+  //Dialog Handler
+  const [openDialog, setOpenDialog] = useState(false);
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+  //Handler zum Löschen der ausgewählten Events
+  const handleDeleteEvents = () => {
+    for (let i = rowDeletionIds.length - 1; i >= 0; i--) {
+      for (let j = eventData.length - 1; j >= 0; j--) {
+        if (eventData[j].id.toString() === rowDeletionIds[i].toString()) {
+          eventData.splice(j, 1);
+          break;
+        }
+      }
+    }
+    handleCloseDialog();
+  };
+
   return (
     <Box m="1.5rem  2.5rem">
       <Header title="VIDEOANALYSE" subtitle="Schaue und analysiere das Video" />
@@ -270,11 +299,15 @@ function VideoAnalyse() {
             columns={cols}
             rows={row || []}
             components={{ ColumnMenu: CustomColumnMenu }}
-            hideFooter="true"
+            hideFooter
             onCellClick={(params) => {
               if (videoUrl) {
                 handleEventClick(params.row);
               }
+            }}
+            checkboxSelection
+            onRowSelectionModelChange={(index) => {
+              setRowDeletionIds(index);
             }}
           />
         </Box>
@@ -292,12 +325,34 @@ function VideoAnalyse() {
           <SimpleButton text="SimpleButton 2"></SimpleButton>
           <SimpleButton text="SimpleButton 3"></SimpleButton>
         </Box>
+        {/*Button zum Löschen von Events */}
+        <Box
+          display="flex"
+          gridColumn="2/3"
+          gap="2rem"
+          ml="0.55rem"
+          justifyContent="flex-start"
+        >
+          <LightTooltip title="Ausgewählte Events löschen">
+            <IconButton
+              aria-label="delete"
+              color="error"
+              onClick={handleOpenDialog}
+            >
+              <DeleteOutlineOutlinedIcon />
+            </IconButton>
+          </LightTooltip>
+          <ConfirmDeleteDialog
+            open={openDialog}
+            onClose={handleCloseDialog}
+            onConfirm={handleDeleteEvents}
+          />
+        </Box>
         {/*Button Box für Hinzufügen Startzeiten */}
         <Box
           display="flex"
           gridColumn="2/3"
           gap="2rem"
-          marginTop="1rem"
           justifyContent="flex-start"
         >
           <TextField

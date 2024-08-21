@@ -7,10 +7,15 @@ const SimpleButton = ({ text, Icon, onClick }) => {
   return (
     <Button
       sx={{
-        backgroundColor: theme.palette.secondary.light,
+        backgroundColor: theme.palette.secondary[200],
         color: theme.palette.background.alt,
         fontSize: "14px",
         fontWeight: "bold",
+        display: "flex",
+        alignItems: "center",
+        "&:hover": {
+          backgroundColor: theme.palette.grey[600],
+        },
       }}
       onClick={onClick}
     >
