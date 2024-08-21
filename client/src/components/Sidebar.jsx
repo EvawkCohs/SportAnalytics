@@ -17,15 +17,7 @@ import {
   ChevronLeft,
   ChevronRightOutlined,
   HomeOutlined,
-  ReceiptLongOutlined,
-  PublicOutlined,
-  PointOfSaleOutlined,
-  TodayOutlined,
   CalendarMonthOutlined,
-  AdminPanelSettingsOutlined,
-  TrendingUpOutlined,
-  PieChartOutlined,
-  LiveTvOutlined,
 } from "@mui/icons-material";
 import KeyIcon from "@mui/icons-material/Key";
 import { useEffect, useState } from "react";

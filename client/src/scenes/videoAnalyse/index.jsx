@@ -16,10 +16,14 @@ import { useGetGameModelQuery } from "state/api";
 import { gameExampleData } from "scenes/details/gameExample";
 import { DataGrid } from "@mui/x-data-grid";
 import CustomColumnMenu from "components/DataGridCustomColumnMenu";
-import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import ReplayOutlinedIcon from "@mui/icons-material/ReplayOutlined";
-import ConfirmDeleteDialog from "components/DialogDeletion";
-import ConfirmReloadDialog from "components/DialogReload";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import {
+  AddEventDialog,
+  ConfirmDeleteDialog,
+  ConfirmReloadDialog,
+} from "components/Dialogs";
 
 function VideoAnalyse() {
   const { id } = useParams();
@@ -147,27 +151,16 @@ function VideoAnalyse() {
     let startTimeSeconds = 0;
 
     //1.HZ
-    if (timeToSeconds(event.time) < timeToSeconds("30:00")) {
-      const gameStartTimestamp = eventData[eventData.length - 1].timestamp;
-      [hours, minutes, seconds] = gameStart.split(":").map(Number);
-      startTimeSeconds = hours * 3600 + minutes * 60 + seconds;
-      // Berechne die Differenz in Sekunden
-      diffInSeconds = (eventTimestamp - gameStartTimestamp) / 1000;
-    }
-    //2.HZ
-    else if (timeToSeconds(event.time) >= timeToSeconds("30:00")) {
-      const secondHalfTimeTimestamp = eventData.find(
-        (event) => event.type === "StartPeriod" && event.time === "30:00"
-      ).timestamp;
-      [hours, minutes, seconds] = secondHalfStart.split(":").map(Number);
-      startTimeSeconds = hours * 3600 + minutes * 60 + seconds;
-      // Berechne die Differenz in Sekunden
-      diffInSeconds = (eventTimestamp - secondHalfTimeTimestamp) / 1000;
-    }
-    //Event genau auf der Grenze
-    else if (timeToSeconds(event.time) === timeToSeconds("30:00")) {
-      //2.HZ beginnt
-      if (event.type === "StartPeriod") {
+    if (event.time !== "") {
+      if (timeToSeconds(event.time) < timeToSeconds("30:00")) {
+        const gameStartTimestamp = eventData[eventData.length - 1].timestamp;
+        [hours, minutes, seconds] = gameStart.split(":").map(Number);
+        startTimeSeconds = hours * 3600 + minutes * 60 + seconds;
+        // Berechne die Differenz in Sekunden
+        diffInSeconds = (eventTimestamp - gameStartTimestamp) / 1000;
+      }
+      //2.HZ
+      else if (timeToSeconds(event.time) >= timeToSeconds("30:00")) {
         const secondHalfTimeTimestamp = eventData.find(
           (event) => event.type === "StartPeriod" && event.time === "30:00"
         ).timestamp;
@@ -176,18 +169,35 @@ function VideoAnalyse() {
         // Berechne die Differenz in Sekunden
         diffInSeconds = (eventTimestamp - secondHalfTimeTimestamp) / 1000;
       }
-      //1.HZ endet
-      else {
-        const gameStartTimestamp = eventData[eventData.length - 1].timestamp;
-        [hours, minutes, seconds] = gameStart.split(":").map(Number);
-        startTimeSeconds = hours * 3600 + minutes * 60 + seconds;
-        // Berechne die Differenz in Sekunden
-        diffInSeconds = (eventTimestamp - gameStartTimestamp) / 1000;
+      //Event genau auf der Grenze
+      else if (timeToSeconds(event.time) === timeToSeconds("30:00")) {
+        //2.HZ beginnt
+        if (event.type === "StartPeriod") {
+          const secondHalfTimeTimestamp = eventData.find(
+            (event) => event.type === "StartPeriod" && event.time === "30:00"
+          ).timestamp;
+          [hours, minutes, seconds] = secondHalfStart.split(":").map(Number);
+          startTimeSeconds = hours * 3600 + minutes * 60 + seconds;
+          // Berechne die Differenz in Sekunden
+          diffInSeconds = (eventTimestamp - secondHalfTimeTimestamp) / 1000;
+        }
+        //1.HZ endet
+        else {
+          const gameStartTimestamp = eventData[eventData.length - 1].timestamp;
+          [hours, minutes, seconds] = gameStart.split(":").map(Number);
+          startTimeSeconds = hours * 3600 + minutes * 60 + seconds;
+          // Berechne die Differenz in Sekunden
+          diffInSeconds = (eventTimestamp - gameStartTimestamp) / 1000;
+        }
       }
-    }
-    //Videoplayer an entsprechende Stelle springen lassen
-    if (videoRef.current) {
-      videoRef.current.seekTo(startTimeSeconds + diffInSeconds, "seconds");
+      //Videoplayer an entsprechende Stelle springen lassen
+      if (videoRef.current) {
+        videoRef.current.seekTo(startTimeSeconds + diffInSeconds, "seconds");
+      }
+    } else {
+      if (videoRef.current) {
+        videoRef.current.seekTo(event.currentTime);
+      }
     }
   };
 
@@ -226,10 +236,111 @@ function VideoAnalyse() {
     handleCloseDialogDeletion();
   };
 
+  //Handler zum Eventhinzufügen
+  const [openDialogAddEvent, setOpenDialogAddEvent] = useState(false);
+  const [type, setType] = useState("");
+  const [team, setTeam] = useState("");
+  const [jerseyNumber, setJerseyNumber] = useState("");
+  let timestampEvent = 0;
+
+  const handleOpenDialogAddEvent = () => {
+    setOpenDialogAddEvent(true);
+  };
+  const handleCloseDialogAddEvent = () => {
+    setOpenDialogAddEvent(false);
+  };
+  const handleAddEvent = () => {
+    let currentPlayerTime = 0;
+    const gameStartTimestamp = eventData[eventData.length - 1].timestamp;
+    const secondHalftimeTimestamp = eventData.find(
+      (e) => e.type === "StartPeriod" && e.time === "30:00"
+    ).timestamp;
+    //1st Half start in seconds
+    let [hoursFirst, minutesFirst, secondsFirst] = gameStart
+      .split(":")
+      .map(Number);
+    const startTimeFirstHalfSeconds =
+      hoursFirst * 3600 + minutesFirst * 60 + secondsFirst;
+    //2nd Half start in seconds
+    let [hoursSecond, minutesSecond, secondsSecond] = secondHalfStart
+      .split(":")
+      .map(Number);
+    const startTimeSecondHalfSeconds =
+      hoursSecond * 3600 + minutesSecond * 60 + secondsSecond;
+
+    if (videoRef.current) {
+      currentPlayerTime = videoRef.current.getCurrentTime();
+      if (currentPlayerTime < startTimeSecondHalfSeconds) {
+        timestampEvent = parseInt(
+          gameStartTimestamp +
+            (currentPlayerTime * 1000 - startTimeFirstHalfSeconds * 1000)
+        );
+      } else {
+        timestampEvent = parseInt(
+          secondHalftimeTimestamp +
+            (currentPlayerTime * 1000 - startTimeSecondHalfSeconds * 1000)
+        );
+      }
+    }
+
+    const event = {
+      id: eventData.reduce((maxId, e) => Math.max(maxId, e.id), -Infinity) + 1,
+      message: `${type} von Trikotnummer ${jerseyNumber} ${
+        team === "home"
+          ? `(${gameData.data.summary.homeTeam.name})`
+          : `(${gameData.data.summary.awayTeam.name})`
+      } `,
+      timestamp: timestampEvent,
+      type: type,
+      currentTime: currentPlayerTime,
+      team: team,
+      time: "",
+      score: "",
+    };
+
+    console.log(event);
+    console.log(currentPlayerTime);
+    setOpenDialogAddEvent(false);
+    eventData.push(event);
+    eventData.sort((a, b) => b.timestamp - a.timestamp);
+    console.log(eventData);
+  };
+  const handleSelectionChangeType = (e) => {
+    setType(e.target.value);
+  };
+  const handleSelectionChangeTeam = (e) => {
+    setTeam(e.target.value);
+  };
+
   return (
     <Box m="1.5rem  2.5rem">
       <Header title="VIDEOANALYSE" subtitle="Schaue und analysiere das Video" />
       <Box display="grid" gridTemplateColumns="2fr 1fr" gap="1rem" mt="1rem">
+        {/*Button Box für Hinzufügen Startzeiten */}
+        <Box
+          display="flex"
+          gridColumn="2/3"
+          gap="2rem"
+          justifyContent="flex-start"
+        >
+          <TextField
+            id="start-ersteHZ"
+            label="Startzeit 1. HZ"
+            variant="outlined"
+            onChange={(e) => setGameStart(e.target.value)}
+            error={error.firstHalfTime}
+            helperText={error.firstHalfTime ? errorMessage : ""}
+          />
+          <TextField
+            id="start-zweiteHZ"
+            label="Startzeit 2. HZ"
+            variant="outlined"
+            onChange={(e) => setSecondHalfStart(e.target.value)}
+            error={error.secondHalfTime}
+            helperText={error.secondHalfTime ? errorMessage : ""}
+          />
+          <SimpleButton text="Speichern" onClick={handleTimeSave} />
+        </Box>
         <Box
           gridColumn="1/2"
           flexDirection="column"
@@ -361,13 +472,14 @@ function VideoAnalyse() {
               <DeleteOutlineOutlinedIcon />
             </IconButton>
           </LightTooltip>
+
           <ConfirmDeleteDialog
             open={openDialogDeletion}
             onClose={handleCloseDialogDeletion}
             onConfirm={handleDeleteEvents}
             text={"Möchtest du die ausgewählten Events wirklich löschen?"}
           />
-
+          {/*Button zum Neuladen von Eventdaten */}
           <LightTooltip title="Neuladen der Eventdaten">
             <IconButton
               aria-label="reload"
@@ -383,31 +495,25 @@ function VideoAnalyse() {
             onConfirm={handleReloadEventData}
             text={"Möchtest du die ursprünglichen Eventdaten neu laden?"}
           />
-        </Box>
-        {/*Button Box für Hinzufügen Startzeiten */}
-        <Box
-          display="flex"
-          gridColumn="2/3"
-          gap="2rem"
-          justifyContent="flex-start"
-        >
-          <TextField
-            id="start-ersteHZ"
-            label="Startzeit 1. HZ"
-            variant="outlined"
-            onChange={(e) => setGameStart(e.target.value)}
-            error={error.firstHalfTime}
-            helperText={error.firstHalfTime ? errorMessage : ""}
+          {/*Button zum Hinzufügen von Eventdaten */}
+          <LightTooltip title="Neues Event hinzufügen">
+            <IconButton
+              aria-label="add"
+              color="success"
+              onClick={handleOpenDialogAddEvent}
+            >
+              <AddOutlinedIcon />
+            </IconButton>
+          </LightTooltip>
+          <AddEventDialog
+            open={openDialogAddEvent}
+            onClose={handleCloseDialogAddEvent}
+            onConfirm={handleAddEvent}
+            onChangeType={handleSelectionChangeType}
+            onChangeTeam={handleSelectionChangeTeam}
+            onChangeTextField={(e) => setJerseyNumber(e.target.value)}
+            value={type}
           />
-          <TextField
-            id="start-zweiteHZ"
-            label="Startzeit 2. HZ"
-            variant="outlined"
-            onChange={(e) => setSecondHalfStart(e.target.value)}
-            error={error.secondHalfTime}
-            helperText={error.secondHalfTime ? errorMessage : ""}
-          />
-          <SimpleButton text="Speichern" onClick={handleTimeSave} />
         </Box>
       </Box>
     </Box>
