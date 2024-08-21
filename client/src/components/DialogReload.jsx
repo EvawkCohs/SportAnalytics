@@ -7,18 +7,18 @@ import {
   Button,
 } from "@mui/material";
 
-const ConfirmDeleteDialog = ({ open, onClose, onConfirm, text }) => {
+const ConfirmReloadDialog = ({ open, onClose, onConfirm, text }) => {
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Bestätigung erforderlich</DialogTitle>
       <DialogContent>{text}</DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Abbrechen</Button>
-        <Button onClick={onConfirm} color="error">
-          Löschen
+        <Button onClick={onConfirm} color="success">
+          Laden
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
-export default ConfirmDeleteDialog;
+export default ConfirmReloadDialog;

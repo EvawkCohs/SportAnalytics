@@ -17,7 +17,9 @@ import { gameExampleData } from "scenes/details/gameExample";
 import { DataGrid } from "@mui/x-data-grid";
 import CustomColumnMenu from "components/DataGridCustomColumnMenu";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import ReplayOutlinedIcon from "@mui/icons-material/ReplayOutlined";
 import ConfirmDeleteDialog from "components/DialogDeletion";
+import ConfirmReloadDialog from "components/DialogReload";
 
 function VideoAnalyse() {
   const { id } = useParams();
@@ -56,7 +58,7 @@ function VideoAnalyse() {
       return;
 
     // Setze eventData, wenn die Daten vorhanden sind
-    setEventData(gameData.data.events);
+    setEventData(gameData.data.events.slice());
   }, [gameData]);
   //Col + Row Definitions für DataGrid
   const cols = [
@@ -189,26 +191,39 @@ function VideoAnalyse() {
     }
   };
 
-  //Dialog Handler
-  const [openDialog, setOpenDialog] = useState(false);
-  const handleOpenDialog = () => {
-    setOpenDialog(true);
+  //Dialog Handler für Löschen der Daten
+  const [openDialogDeletion, setOpenDialogDeletion] = useState(false);
+
+  const handleOpenDialogDeletion = () => {
+    setOpenDialogDeletion(true);
   };
 
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
+  const handleCloseDialogDeletion = () => {
+    setOpenDialogDeletion(false);
+  };
+
+  //Dialog Handler für Neuladen der Daten
+  const [openDialogReloadData, setOpenDialogReloadData] = useState(false);
+
+  const handleOpenDialogReloadData = () => {
+    setOpenDialogReloadData(true);
+  };
+  const handleCloseDialogReloadData = () => {
+    setOpenDialogReloadData(false);
+  };
+
+  //Handler zum Neuladen der Daten
+  const handleReloadEventData = () => {
+    setEventData(gameData.data.events);
+    setOpenDialogReloadData(false);
   };
   //Handler zum Löschen der ausgewählten Events
   const handleDeleteEvents = () => {
-    for (let i = rowDeletionIds.length - 1; i >= 0; i--) {
-      for (let j = eventData.length - 1; j >= 0; j--) {
-        if (eventData[j].id.toString() === rowDeletionIds[i].toString()) {
-          eventData.splice(j, 1);
-          break;
-        }
-      }
-    }
-    handleCloseDialog();
+    const updatedEventData = eventData.filter(
+      (event) => !rowDeletionIds.includes(event.id)
+    );
+    setEventData(updatedEventData);
+    handleCloseDialogDeletion();
   };
 
   return (
@@ -329,7 +344,7 @@ function VideoAnalyse() {
         <Box
           display="flex"
           gridColumn="2/3"
-          gap="2rem"
+          gap="0.5rem"
           ml="0.55rem"
           justifyContent="flex-start"
         >
@@ -337,15 +352,36 @@ function VideoAnalyse() {
             <IconButton
               aria-label="delete"
               color="error"
-              onClick={handleOpenDialog}
+              onClick={() => {
+                if (rowDeletionIds.length > 0) {
+                  handleOpenDialogDeletion();
+                }
+              }}
             >
               <DeleteOutlineOutlinedIcon />
             </IconButton>
           </LightTooltip>
           <ConfirmDeleteDialog
-            open={openDialog}
-            onClose={handleCloseDialog}
+            open={openDialogDeletion}
+            onClose={handleCloseDialogDeletion}
             onConfirm={handleDeleteEvents}
+            text={"Möchtest du die ausgewählten Events wirklich löschen?"}
+          />
+
+          <LightTooltip title="Neuladen der Eventdaten">
+            <IconButton
+              aria-label="reload"
+              color="secondary"
+              onClick={handleOpenDialogReloadData}
+            >
+              <ReplayOutlinedIcon />
+            </IconButton>
+          </LightTooltip>
+          <ConfirmReloadDialog
+            open={openDialogReloadData}
+            onClose={handleCloseDialogReloadData}
+            onConfirm={handleReloadEventData}
+            text={"Möchtest du die ursprünglichen Eventdaten neu laden?"}
           />
         </Box>
         {/*Button Box für Hinzufügen Startzeiten */}
