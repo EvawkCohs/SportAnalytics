@@ -48,21 +48,32 @@ function Details() {
   const [hasAddedGame, setHasAddedGame] = useState(false);
 
   // Daten formattieren für Charts
-  const teamGoalDataBar = FormatGameDataBar(gameExampleData);
-  const teamGoalDataLine = FormatGameDataLine(gameExampleData);
-  const suspensionData = FormatSuspensionData(gameExampleData);
-  const tableData = FormatTableData(gameExampleData);
+  const [teamGoalDataBar, setTeamGoalDataBar] = useState();
+  const [teamGoalDataLine, setTeamGoalDataLine] = useState();
+  const [suspensionData, setSuspensionData] = useState([]);
+  const [tableData, setTableData] = useState([]);
+  const [mostValuable, setMostValuable] = useState();
+  const [row, setRow] = useState();
 
-  //MVP Statistik (Top3 Goalscorer)
-  const mostValuable = tableData.sort((a, b) => b.goals - a.goals).slice(0, 3);
+  useEffect(() => {
+    if (loading || !gameData) return;
+    setTeamGoalDataBar(FormatGameDataBar(gameData));
+    setTeamGoalDataLine(FormatGameDataLine(gameData));
+    setSuspensionData(FormatSuspensionData(gameData));
+    setTableData(FormatTableData(gameData));
+    //MVP Statistik (Top3 Goalscorer)
+    setMostValuable(tableData.sort((a, b) => b.goals - a.goals).slice(0, 3));
+    setRow(
+      tableData.map((row, index) => ({
+        id: index,
+        ...row,
+        flex: 1,
+      }))
+    );
+  });
 
   //Tabellen Spalten und Reihen
   const cols = columnsDataGrid;
-  const row = tableData.map((row, index) => ({
-    id: index,
-    ...row,
-    flex: 1,
-  }));
 
   const handleAnalyseButton = () => {
     navigate(`/videoanalyse/${id}`);
@@ -143,20 +154,42 @@ function Details() {
           }}
         >
           {/* ROW 1*/}
-          <StatBoxMVP
-            nameMVP={`${mostValuable[0].firstname} ${mostValuable[0].lastname}`}
-            goalsMVP={mostValuable[0].goals}
-            penaltyMVP={mostValuable[0].penalties}
-            teamMVP={mostValuable[0].acronym}
-            name2nd={`${mostValuable[1].firstname} ${mostValuable[1].lastname}`}
-            goals2nd={mostValuable[1].goals}
-            penalty2nd={mostValuable[1].penalties}
-            team2nd={mostValuable[1].acronym}
-            name3rd={`${mostValuable[2].firstname} ${mostValuable[2].lastname}`}
-            goals3rd={mostValuable[2].goals}
-            penalty3rd={mostValuable[2].penalties}
-            team3rd={mostValuable[2].acronym}
-          />
+          {tableData.length > 0 ? (
+            <StatBoxMVP
+              nameMVP={`${mostValuable[0].firstname} ${mostValuable[0].lastname}`}
+              goalsMVP={mostValuable[0].goals}
+              penaltyMVP={mostValuable[0].penalties}
+              teamMVP={mostValuable[0].acronym}
+              name2nd={`${mostValuable[1].firstname} ${mostValuable[1].lastname}`}
+              goals2nd={mostValuable[1].goals}
+              penalty2nd={mostValuable[1].penalties}
+              team2nd={mostValuable[1].acronym}
+              name3rd={`${mostValuable[2].firstname} ${mostValuable[2].lastname}`}
+              goals3rd={mostValuable[2].goals}
+              penalty3rd={mostValuable[2].penalties}
+              team3rd={mostValuable[2].acronym}
+            />
+          ) : (
+            <Box
+              gridColumn="1/3"
+              gridRow="span 1"
+              display="flex"
+              flexDirection="column"
+              justifyContent="space-between"
+              p="1.25rem 1rem"
+              flex="1 1 100%"
+              backgroundColor={theme.palette.background.alt}
+              borderRadius="0.55rem"
+            >
+              <Typography
+                variant="h2"
+                sx={{ color: theme.palette.secondary[200] }}
+                textAlign="center"
+              >
+                Wertvollste Spieler
+              </Typography>
+            </Box>
+          )}
           <Box
             gridColumn="3/7"
             gridRow="span 1"
@@ -184,8 +217,8 @@ function Details() {
             />
           </Box>
           <StatBoxGameAttendance
-            attendance={gameExampleData.data.summary.attendance}
-            fieldName={gameExampleData.data.summary.field.name}
+            attendance={gameData.data.summary.attendance}
+            fieldName={gameData.data.summary.field.name}
           />
           {/* ROW 2*/}
           {/*Box 1st Column */}
@@ -198,6 +231,7 @@ function Details() {
 
           {/* ROW 3*/}
           {/*Box 1st Column */}
+
           <PieChart data={suspensionData} />
           {/*Box 2nd Column */}
           <Box
@@ -235,6 +269,16 @@ function Details() {
               "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
                 color: `${theme.palette.secondary[400]} !important`,
               },
+              "& .MuiDataGrid-overlay": {
+                // Styling for the 'No Rows' overlay
+                backgroundColor: theme.palette.background.alt,
+                color: theme.palette.secondary[200], // Change the text color
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "1.25rem",
+                fontWeight: "bold",
+              },
             }}
           >
             <Typography
@@ -250,6 +294,9 @@ function Details() {
               rows={row || []}
               columns={cols}
               components={{ ColumnMenu: CustomColumnMenu }}
+              localeText={{
+                noRowsLabel: "Noch keine Daten verfügbar",
+              }}
             />
           </Box>
         </Box>
