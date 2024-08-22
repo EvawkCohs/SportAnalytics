@@ -34,3 +34,29 @@ export const getGameModel = async (req, res) => {
     res.status(500).json({ message: "Error checking the game", error });
   }
 };
+
+export const getGamesWithDetails = async (req, res) => {
+  const gameIds = req.query.ids ? req.query.ids.split(",") : [];
+  const results = [];
+
+  try {
+    for (const gameId of gameIds) {
+      // Spiel in der Datenbank suchen
+      let game = await GameModel.findOne({ "summary.id": gameId });
+
+      // Wenn das Spiel nicht gefunden wird, rufe useFetchGameDetails auf
+      if (!game) {
+        // Hier kannst du die Methode aufrufen, die Details vom externen Service abruft, falls notwendig
+        // const gameDetails = await fetchGameDetailsFromExternalService(gameId);
+        results.push({ id: gameId, exists: false });
+      } else {
+        results.push(game);
+      }
+    }
+
+    // Rückgabe des Ergebnisses
+    res.status(200).json(results);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching game details", error });
+  }
+};

@@ -2,8 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   mode: "dark",
-  teamId: "sportradar.dhbdata.489-1648",
-  gameData: {},
+  teamId: "sportradar.dhbdata.411-1648",
+  teamGamesData: {},
+  addedGames: [],
 };
 export const globalSlice = createSlice({
   name: "global",
@@ -15,12 +16,16 @@ export const globalSlice = createSlice({
     setId: (state, action) => {
       state.teamId = action.payload;
     },
-    setGameData: (state, action) => {
-      state.gameData = action.payload;
+    setTeamGamesData: (state, action) => {
+      state.teamGamesData = action.payload;
+    },
+    addGame: (state, action) => {
+      state.addedGames.push(action.payload);
     },
   },
 });
 
-export const { setMode, setId, setGameData } = globalSlice.actions;
+export const { setMode, setId, setTeamGamesData, addGame } =
+  globalSlice.actions;
 
 export default globalSlice.reducer;

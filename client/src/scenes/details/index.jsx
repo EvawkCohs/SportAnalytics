@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { addGame } from "state";
 //Components
 import Header from "components/Header";
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
@@ -31,7 +32,7 @@ import { columnsDataGrid } from "./dataGridDefinitions";
 import { handleDownload } from "./handleDownload";
 import handleAddGame from "./usePostGameData";
 import { useGetGameModelQuery } from "state/api";
-import { setGameData } from "state";
+import { enableMapSet } from "immer";
 
 //Daten Speicherung
 function Details() {
@@ -42,9 +43,9 @@ function Details() {
   const { id } = useParams();
   const { gameData, loading, error } = useFetchGameDetails(id);
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
-
+  const dispatch = useDispatch();
   //UseRef für GameUpload - verhindert Mehrfacheinträge
-  const hasAddedGame = useRef(false);
+  const [hasAddedGame, setHasAddedGame] = useState(false);
 
   // Daten formattieren für Charts
   const teamGoalDataBar = FormatGameDataBar(gameExampleData);
@@ -63,21 +64,14 @@ function Details() {
     flex: 1,
   }));
 
-  const dispatch = useDispatch();
-
   const handleAnalyseButton = () => {
-    dispatch(setGameData(gameData));
     navigate(`/videoanalyse/${id}`);
   };
 
   const checkResponse = useGetGameModelQuery(id);
-
+  const addedGames = useSelector((state) => state.global.addedGames);
   useEffect(() => {
-    if (checkResponse.isLoading) return;
-    //useRef um mehrmalige Ausführung zu verhindern
-    if (hasAddedGame.current) return;
-    hasAddedGame.current = true;
-    //Check, ob Daten bereits existieren
+    if (checkResponse.isLoading && checkResponse.exists) return;
     if (
       !gameData ||
       !gameData.data ||
@@ -85,8 +79,12 @@ function Details() {
       !gameData.data.events
     )
       return;
-    handleAddGame(gameData.data, checkResponse);
-  }, [checkResponse.isLoading]);
+
+    if (!addedGames.includes(id)) {
+      dispatch(addGame(id));
+      handleAddGame(gameData.data, checkResponse);
+    }
+  }, [checkResponse, gameData, id]);
 
   if (loading) {
     return <div>Loading....</div>; // Später noch Ladekreis einbauen oder etwas vergleichbares
@@ -159,22 +157,32 @@ function Details() {
             penalty3rd={mostValuable[2].penalties}
             team3rd={mostValuable[2].acronym}
           />
-
-          <StatBoxGameInfo
-            title={`${gameData.data.summary.phase.name}`}
-            round={`${gameData.data.summary.round.name} - ${formatTimestamp(
-              gameData.data.summary.startsAt
-            )}`}
-            finalScore={`${gameData.data.summary.homeGoals ?? "0"} : ${
-              gameData.data.summary.awayGoals ?? "0"
-            }`}
-            halftimeScore={`(${gameData.data.summary.homeGoalsHalf ?? "0"} : ${
-              gameData.data.summary.awayGoalsHalf ?? "0"
-            })`}
-            homeTeam={gameData.data.summary.homeTeam.name}
-            awayTeam={gameData.data.summary.awayTeam.name}
-          />
-
+          <Box
+            gridColumn="3/7"
+            gridRow="span 1"
+            display="flex"
+            flexDirection="column"
+            justifyContent="space-between"
+            p="1.25rem 1rem"
+            flex="1 1 100%"
+            backgroundColor={theme.palette.background.alt}
+            borderRadius="0.55rem"
+          >
+            <StatBoxGameInfo
+              title={`${gameData.data.summary.phase.name}`}
+              round={`${gameData.data.summary.round.name} - ${formatTimestamp(
+                gameData.data.summary.startsAt
+              )}`}
+              finalScore={`${gameData.data.summary.homeGoals ?? "0"} : ${
+                gameData.data.summary.awayGoals ?? "0"
+              }`}
+              halftimeScore={`(${
+                gameData.data.summary.homeGoalsHalf ?? "0"
+              } : ${gameData.data.summary.awayGoalsHalf ?? "0"})`}
+              homeTeam={gameData.data.summary.homeTeam.name}
+              awayTeam={gameData.data.summary.awayTeam.name}
+            />
+          </Box>
           <StatBoxGameAttendance
             attendance={gameExampleData.data.summary.attendance}
             fieldName={gameExampleData.data.summary.field.name}

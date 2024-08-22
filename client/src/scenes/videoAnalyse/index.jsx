@@ -73,11 +73,13 @@ function VideoAnalyse() {
       align: "left",
       flex: 1,
       renderCell: (params) => {
-        return `${params.row.time} | ${params.row.message}${
-          params.row.score !== null
-            ? ` | ${String(params.row.score).slice(0, 2)} : ${String(
-                params.row.score
-              ).slice(3, 5)}`
+        return `${params.row.time !== "" ? `${params.row.time} | ` : ""}${
+          params.row.message
+        }${
+          params.row.score !== "" && params.row.score !== null
+            ? ` | ${String(params.row.score).split("-")[0]} : ${
+                String(params.row.score).split("-")[1]
+              }`
             : ""
         }`;
       },
@@ -513,6 +515,12 @@ function VideoAnalyse() {
             onChangeTeam={handleSelectionChangeTeam}
             onChangeTextField={(e) => setJerseyNumber(e.target.value)}
             value={type}
+            error={!/^\d{1,2}$/.test(jerseyNumber) && jerseyNumber !== ""}
+            helperText={
+              !/^\d{1,2}$/.test(jerseyNumber) && jerseyNumber !== ""
+                ? "Bitte geben Sie eine ein- oder zweistellige Nummer ein"
+                : ""
+            }
           />
         </Box>
       </Box>

@@ -52,6 +52,8 @@ export const AddEventDialog = ({
   onChangeTextField,
   type,
   team,
+  error,
+  helperText,
 }) => {
   return (
     <Dialog open={open} onClose={onClose}>
@@ -80,6 +82,16 @@ export const AddEventDialog = ({
             label="Trikotnummer"
             variant="outlined"
             onChange={onChangeTextField}
+            error={error}
+            helperText={helperText}
+            sx={{
+              minHeight: "80px",
+              minWidth: "150px",
+              "& .MuiFormHelperText-root": {
+                height: "20px",
+                width: "150px",
+              },
+            }}
           />
           <FormControl sx={{ minWidth: 100 }}>
             <Select

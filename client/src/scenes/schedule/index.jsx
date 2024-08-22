@@ -16,7 +16,7 @@ import useFetchGameIDs from "./useFetchGameID";
 import { useNavigate } from "react-router-dom";
 import { useGetTeamModelQuery } from "state/api";
 import { useDispatch } from "react-redux";
-import { setId } from "state";
+import { setId, setTeamGamesData } from "state";
 import Select from "@mui/material/Select";
 
 function Schedule() {
@@ -88,6 +88,8 @@ function Schedule() {
   if (error) {
     return <div>Error: {error}</div>; // Fehlermeldung Rendern (später anpassen)
   }
+  dispatch(setTeamGamesData(schedule));
+
   const cols = [
     {
       field: "team1",

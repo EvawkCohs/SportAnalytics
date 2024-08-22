@@ -12,17 +12,7 @@ const StatBoxGameInfo = ({
 }) => {
   const theme = useTheme();
   return (
-    <Box
-      gridColumn="3/7"
-      gridRow="span 1"
-      display="flex"
-      flexDirection="column"
-      justifyContent="space-between"
-      p="1.25rem 1rem"
-      flex="1 1 100%"
-      backgroundColor={theme.palette.background.alt}
-      borderRadius="0.55rem"
-    >
+    <Box>
       <Typography
         variant="h2"
         sx={{ color: theme.palette.secondary[200] }}
