@@ -5,10 +5,10 @@ import Header from "components/Header";
 import { useGetGamesWithDetailsQuery, useGetTeamModelQuery } from "state/api";
 import useFetchGameIDs from "scenes/schedule/useFetchGameID";
 import useFetchSchedule from "scenes/schedule/useFetchSchedule";
-import useFetchGameDetails from "scenes/details/useFetchGameDetails";
 import StatBoxGameInfo from "components/StatBoxGameInfo";
 import formatTimestamp from "conversionScripts/formatTimestamp";
-import useGameDetails from "./useGameDetails";
+import useGameDetails from "./useGetGameDetails";
+import { NextFiveGames, LastFiveGames } from "./collectGamesAndDetails";
 
 const Dashboard = () => {
   const teamId = useSelector((state) => state.global.teamId);
@@ -18,68 +18,26 @@ const Dashboard = () => {
   const gameIDs = useFetchGameIDs(teamId);
   const { schedule, loading, error } = useFetchSchedule(teamId);
 
-  //Daten mit GameIDs versehen
   const dataWithIDs = schedule.map((item, index) => ({
     ...item,
     gameID: gameIDs[index] || "N/A",
   }));
 
-  //Daten filtern
   const currentDate = new Date();
   const convertToDate = (dateString) => {
     const [day, month, year] = dateString.split("-").map(Number);
     return new Date(year, month - 1, day);
   };
-
   //Nächsten 5 Spiele
-  const nextFiveGames = dataWithIDs
-    .filter((game) => game.Datum && convertToDate(game.Datum) > currentDate)
-    .sort((a, b) => convertToDate(a.Datum) - convertToDate(b.Datum))
-    .slice(0, 5)
-    .map((game) => game.gameID);
+  const updatedNextFiveGames = NextFiveGames(dataWithIDs);
+  // letzten 5 Spiele
 
-  const [validGameIdsNextFive, setValidGameIdsNextFive] = useState([]);
-  useEffect(() => {
-    const filteredIds = nextFiveGames.filter((id) => id !== "N/A");
-
-    // Nur aktualisieren, wenn sich die gültigen IDs ändern
-    if (JSON.stringify(validGameIdsNextFive) !== JSON.stringify(filteredIds)) {
-      setValidGameIdsNextFive(filteredIds);
-    }
-  }, [nextFiveGames, validGameIdsNextFive]);
-
-  const { data: dataNextFiveGames } =
-    useGetGamesWithDetailsQuery(validGameIdsNextFive);
-  const updatedNextFiveGames = useGameDetails(
-    useGetGamesWithDetailsQuery(nextFiveGames).data
-  );
-  console.log(
-    Array.isArray(updatedNextFiveGames) && updatedNextFiveGames.length > 0
-      ? updatedNextFiveGames[0].summary.round.name
-      : ""
-  );
-  //Letzten 5 Spiele
-  const lastFiveGames = dataWithIDs
-    .filter((game) => game.Datum && convertToDate(game.Datum) < currentDate)
-    .sort((a, b) => convertToDate(a.Datum) - convertToDate(b.Datum))
-    .slice(-5)
-    .map((game) => game.gameID);
-  const [validGameIdsLastFive, setValidGameIdsLastFive] = useState([]);
-  useEffect(() => {
-    const filteredIds = lastFiveGames.filter((id) => id !== "N/A");
-
-    // Nur aktualisieren, wenn sich die gültigen IDs ändern
-    if (JSON.stringify(validGameIdsLastFive) !== JSON.stringify(filteredIds)) {
-      setValidGameIdsLastFive(filteredIds);
-    }
-  }, [lastFiveGames, validGameIdsLastFive]);
-  const { data: dataLastFiveGames } =
-    useGetGamesWithDetailsQuery(validGameIdsLastFive);
+  const dataLastFiveGames = LastFiveGames(dataWithIDs);
 
   if (
     isLoading ||
-    dataNextFiveGames === undefined ||
-    dataNextFiveGames.length < 5 ||
+    updatedNextFiveGames === undefined ||
+    updatedNextFiveGames < 5 ||
     dataLastFiveGames === undefined ||
     loading
   ) {
@@ -117,8 +75,7 @@ const Dashboard = () => {
           borderRadius="0.55rem"
           m="2rem 1.5rem "
         >
-          {Array.isArray(updatedNextFiveGames) &&
-          updatedNextFiveGames.length > 0 ? (
+          {updatedNextFiveGames.length > 0 ? (
             <StatBoxGameInfo
               title={`Nächstes Spiel`}
               round={`${

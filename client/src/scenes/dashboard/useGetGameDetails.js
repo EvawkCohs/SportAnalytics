@@ -26,7 +26,7 @@ const useGameDetails = (games) => {
           return details.data;
         })
       );
-      console.log(results);
+
       setUpdatedGames(results);
     };
     fetchMissingGames();
