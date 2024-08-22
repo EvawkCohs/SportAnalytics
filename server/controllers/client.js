@@ -46,8 +46,6 @@ export const getGamesWithDetails = async (req, res) => {
 
       // Wenn das Spiel nicht gefunden wird, rufe useFetchGameDetails auf
       if (!game) {
-        // Hier kannst du die Methode aufrufen, die Details vom externen Service abruft, falls notwendig
-        // const gameDetails = await fetchGameDetailsFromExternalService(gameId);
         results.push({ id: gameId, exists: false });
       } else {
         results.push(game);

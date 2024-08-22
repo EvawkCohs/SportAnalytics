@@ -43,7 +43,7 @@ const PieChart = ({ data }) => {
         padAngle={0.7}
         cornerRadius={3}
         activeOuterRadiusOffset={8}
-        colors={[theme.palette.secondary[500], theme.palette.secondary[400]]}
+        colors={[theme.palette.secondary[600], theme.palette.secondary[200]]}
         borderWidth={1}
         borderColor={"black"}
         enableArcLinkLabels={false}
@@ -56,11 +56,11 @@ const PieChart = ({ data }) => {
         legends={[
           {
             anchor: "bottom",
-            direction: "row",
+            direction: "column",
             justify: false,
             translateX: 0,
-            translateY: 56,
-            itemsSpacing: 0,
+            translateY: 20,
+            itemsSpacing: 10,
             itemWidth: 100,
             itemHeight: 18,
             itemTextColor: theme.palette.secondary[200],

@@ -8,6 +8,8 @@ import useFetchSchedule from "scenes/schedule/useFetchSchedule";
 import useFetchGameDetails from "scenes/details/useFetchGameDetails";
 import StatBoxGameInfo from "components/StatBoxGameInfo";
 import formatTimestamp from "conversionScripts/formatTimestamp";
+import useGameDetails from "./useGameDetails";
+
 const Dashboard = () => {
   const teamId = useSelector((state) => state.global.teamId);
   const theme = useTheme();
@@ -48,12 +50,19 @@ const Dashboard = () => {
 
   const { data: dataNextFiveGames } =
     useGetGamesWithDetailsQuery(validGameIdsNextFive);
-
+  const updatedNextFiveGames = useGameDetails(
+    useGetGamesWithDetailsQuery(nextFiveGames).data
+  );
+  console.log(
+    Array.isArray(updatedNextFiveGames) && updatedNextFiveGames.length > 0
+      ? updatedNextFiveGames[0].summary.round.name
+      : ""
+  );
   //Letzten 5 Spiele
   const lastFiveGames = dataWithIDs
     .filter((game) => game.Datum && convertToDate(game.Datum) < currentDate)
     .sort((a, b) => convertToDate(a.Datum) - convertToDate(b.Datum))
-    .slice(0, 5)
+    .slice(-5)
     .map((game) => game.gameID);
   const [validGameIdsLastFive, setValidGameIdsLastFive] = useState([]);
   useEffect(() => {
@@ -66,14 +75,18 @@ const Dashboard = () => {
   }, [lastFiveGames, validGameIdsLastFive]);
   const { data: dataLastFiveGames } =
     useGetGamesWithDetailsQuery(validGameIdsLastFive);
-  console.log(dataLastFiveGames);
+
   if (
     isLoading ||
     dataNextFiveGames === undefined ||
     dataNextFiveGames.length < 5 ||
-    dataLastFiveGames === undefined
+    dataLastFiveGames === undefined ||
+    loading
   ) {
     return <div>Loading....</div>; // Später noch Ladekreis einbauen oder etwas vergleichbares
+  }
+  if (error) {
+    return <div>Fehler beim Laden der Daten</div>;
   }
   return (
     <Box m="1.5rem 2.5rem">
@@ -104,20 +117,41 @@ const Dashboard = () => {
           borderRadius="0.55rem"
           m="2rem 1.5rem "
         >
-          <StatBoxGameInfo
-            title={`Nächstes Spiel`}
-            round={`${
-              dataNextFiveGames[0].summary.round.name
-            } - ${formatTimestamp(dataNextFiveGames[0].summary.startsAt)}`}
-            finalScore={`${dataNextFiveGames[0].summary.homeGoals ?? "0"} : ${
-              dataNextFiveGames[0].summary.awayGoals ?? "0"
-            }`}
-            halftimeScore={`(${
-              dataNextFiveGames[0].summary.homeGoalsHalf ?? "0"
-            } : ${dataNextFiveGames[0].summary.awayGoalsHalf ?? "0"})`}
-            homeTeam={dataNextFiveGames[0].summary.homeTeam.name}
-            awayTeam={dataNextFiveGames[0].summary.awayTeam.name}
-          />
+          {Array.isArray(updatedNextFiveGames) &&
+          updatedNextFiveGames.length > 0 ? (
+            <StatBoxGameInfo
+              title={`Nächstes Spiel`}
+              round={`${
+                updatedNextFiveGames[0].summary.round.name
+              } - ${formatTimestamp(updatedNextFiveGames[0].summary.startsAt)}`}
+              finalScore={`${
+                updatedNextFiveGames[0].summary.homeGoals ?? "0"
+              } : ${updatedNextFiveGames[0].summary.awayGoals ?? "0"}`}
+              halftimeScore={`(${
+                updatedNextFiveGames[0].summary.homeGoalsHalf ?? "0"
+              } : ${updatedNextFiveGames[0].summary.awayGoalsHalf ?? "0"})`}
+              homeTeam={updatedNextFiveGames[0].summary.homeTeam.name}
+              awayTeam={updatedNextFiveGames[0].summary.awayTeam.name}
+            />
+          ) : (
+            <Box>
+              <Typography
+                variant="h2"
+                sx={{ color: theme.palette.secondary[200] }}
+                textAlign="center"
+              >
+                Nächstes Spiel
+              </Typography>
+              <Typography
+                variant="h2"
+                sx={{ color: theme.palette.secondary[100] }}
+                textAlign="center"
+                mt="50px"
+              >
+                laden...
+              </Typography>
+            </Box>
+          )}
         </Box>
         {/*Letztes Spiel */}
         <Box
@@ -131,7 +165,7 @@ const Dashboard = () => {
           borderRadius="0.55rem"
           m="2rem 1.5rem "
         >
-          {dataLastFiveGames.lenght > 0 ? (
+          {dataLastFiveGames.length > 0 ? (
             <StatBoxGameInfo
               title={`Letztes Spiel`}
               round={`${
@@ -170,5 +204,4 @@ const Dashboard = () => {
     </Box>
   );
 };
-
 export default Dashboard;
