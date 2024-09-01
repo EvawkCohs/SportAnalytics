@@ -32,7 +32,6 @@ import { columnsDataGrid } from "./dataGridDefinitions";
 import { handleDownload } from "./handleDownload";
 import handleAddGame from "./usePostGameData";
 import { useGetGameModelQuery } from "state/api";
-import { enableMapSet } from "immer";
 
 //Daten Speicherung
 function Details() {
@@ -44,8 +43,6 @@ function Details() {
   const { gameData, loading, error } = useFetchGameDetails(id);
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
   const dispatch = useDispatch();
-  //UseRef für GameUpload - verhindert Mehrfacheinträge
-  const [hasAddedGame, setHasAddedGame] = useState(false);
 
   // Daten formattieren für Charts
   const [teamGoalDataBar, setTeamGoalDataBar] = useState();
@@ -97,7 +94,12 @@ function Details() {
     }
   }, [checkResponse, gameData, id]);
 
-  if (loading) {
+  if (
+    loading ||
+    tableData.length === undefined ||
+    mostValuable === undefined ||
+    mostValuable.length < 3
+  ) {
     return <div>Loading....</div>; // Später noch Ladekreis einbauen oder etwas vergleichbares
   }
 

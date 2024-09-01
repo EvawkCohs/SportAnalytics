@@ -38,14 +38,13 @@ const PieChart = ({ data }) => {
             },
           },
         }}
-        margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+        margin={{ top: 5, right: 80, bottom: 80, left: 80 }}
         innerRadius={0.5}
         padAngle={0.7}
         cornerRadius={3}
         activeOuterRadiusOffset={8}
         colors={[theme.palette.secondary[600], theme.palette.secondary[200]]}
-        borderWidth={1}
-        borderColor={"black"}
+        borderWidth={0}
         enableArcLinkLabels={false}
         arcLinkLabelsSkipAngle={10}
         arcLinkLabelsTextColor="#333333"
@@ -53,14 +52,15 @@ const PieChart = ({ data }) => {
         arcLinkLabelsColor={{ from: "color" }}
         arcLabelsSkipAngle={10}
         arcLabelsTextColor="black"
+        arcLabel={false}
         legends={[
           {
             anchor: "bottom",
-            direction: "column",
+            direction: "row",
             justify: false,
             translateX: 0,
             translateY: 20,
-            itemsSpacing: 10,
+            itemsSpacing: 20,
             itemWidth: 100,
             itemHeight: 18,
             itemTextColor: theme.palette.secondary[200],
@@ -68,6 +68,7 @@ const PieChart = ({ data }) => {
             itemOpacity: 1,
             symbolSize: 18,
             symbolShape: "circle",
+
             effects: [
               {
                 on: "hover",

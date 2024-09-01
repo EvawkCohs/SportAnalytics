@@ -8,7 +8,11 @@ import useFetchSchedule from "scenes/schedule/useFetchSchedule";
 import StatBoxGameInfo from "components/StatBoxGameInfo";
 import formatTimestamp from "conversionScripts/formatTimestamp";
 import useGameDetails from "./useGetGameDetails";
-import { NextFiveGames, LastFiveGames } from "./collectGamesAndDetails";
+import {
+  NextFiveGames,
+  LastFiveGames,
+  GetDetailedGameData,
+} from "./collectGamesAndDetails";
 
 const Dashboard = () => {
   const teamId = useSelector((state) => state.global.teamId);
@@ -29,16 +33,19 @@ const Dashboard = () => {
     return new Date(year, month - 1, day);
   };
   //Nächsten 5 Spiele
+  const allGamesDetails = GetDetailedGameData(dataWithIDs);
   const updatedNextFiveGames = NextFiveGames(dataWithIDs);
-  // letzten 5 Spiele
 
+  // letzten 5 Spiele
   const dataLastFiveGames = LastFiveGames(dataWithIDs);
+  console.log(dataLastFiveGames);
 
   if (
     isLoading ||
     updatedNextFiveGames === undefined ||
     updatedNextFiveGames < 5 ||
     dataLastFiveGames === undefined ||
+    dataLastFiveGames < 1 ||
     loading
   ) {
     return <div>Loading....</div>; // Später noch Ladekreis einbauen oder etwas vergleichbares
