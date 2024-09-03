@@ -2,7 +2,7 @@ import React from "react";
 import { ResponsivePie } from "@nivo/pie";
 import { useTheme, Box, Typography } from "@mui/material";
 
-const PieChart = ({ data }) => {
+const PieChart = ({ data, title }) => {
   const theme = useTheme();
   const total = data.reduce((sum, item) => sum + item.value, 0);
   return (
@@ -22,7 +22,7 @@ const PieChart = ({ data }) => {
         sx={{ color: theme.palette.secondary[200] }}
         textAlign="center"
       >
-        Zeitstrafen
+        {title}
       </Typography>
       <ResponsivePie
         data={data}
@@ -55,16 +55,17 @@ const PieChart = ({ data }) => {
         arcLabel={false}
         legends={[
           {
+            display: "flex",
             anchor: "bottom",
             direction: "row",
             justify: false,
             translateX: 0,
             translateY: 20,
-            itemsSpacing: 20,
+            itemsSpacing: 100,
             itemWidth: 100,
             itemHeight: 18,
             itemTextColor: theme.palette.secondary[200],
-            itemDirection: "left-to-right",
+            itemDirection: "top-to-bottom",
             itemOpacity: 1,
             symbolSize: 18,
             symbolShape: "circle",

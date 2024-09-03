@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   mode: "dark",
   teamId: "sportradar.dhbdata.411-1648",
-  teamGamesData: {},
+  teamGamesData: [],
   addedGames: [],
 };
 export const globalSlice = createSlice({

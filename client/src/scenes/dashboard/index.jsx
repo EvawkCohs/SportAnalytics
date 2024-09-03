@@ -12,6 +12,8 @@ import {
   NextFiveGames,
   LastFiveGames,
   GetDetailedGameData,
+  GetTotalGoals,
+  GetAverageGoals,
 } from "./collectGamesAndDetails";
 
 const Dashboard = () => {
@@ -27,18 +29,23 @@ const Dashboard = () => {
     gameID: gameIDs[index] || "N/A",
   }));
 
-  const currentDate = new Date();
-  const convertToDate = (dateString) => {
-    const [day, month, year] = dateString.split("-").map(Number);
-    return new Date(year, month - 1, day);
-  };
   //Nächsten 5 Spiele
   const allGamesDetails = GetDetailedGameData(dataWithIDs);
   const updatedNextFiveGames = NextFiveGames(dataWithIDs);
-
   // letzten 5 Spiele
   const dataLastFiveGames = LastFiveGames(dataWithIDs);
-  console.log(dataLastFiveGames);
+  //Tore
+  const [totalGoals, setTotalGoals] = useState(0);
+  const [averageGoals, setAverageGoals] = useState(0);
+  useEffect(() => {
+    if (allGamesDetails === undefined) return;
+    //Tore
+    setTotalGoals(GetTotalGoals(allGamesDetails, teamId));
+    //Torschnitt
+    setAverageGoals(GetAverageGoals(allGamesDetails, totalGoals));
+  }, [allGamesDetails, totalGoals]);
+
+  console.log(averageGoals);
 
   if (
     isLoading ||
@@ -72,7 +79,7 @@ const Dashboard = () => {
         />
         {/*Nächstes Spiel */}
         <Box
-          gridColumn="1/3"
+          gridColumn="1/5"
           display="flex"
           flexDirection="column"
           justifyContent="space-between"
@@ -119,7 +126,7 @@ const Dashboard = () => {
         </Box>
         {/*Letztes Spiel */}
         <Box
-          gridColumn="3/5"
+          gridColumn="5/8"
           display="flex"
           flexDirection="column"
           justifyContent="space-between"

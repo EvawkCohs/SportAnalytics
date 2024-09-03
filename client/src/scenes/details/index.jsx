@@ -25,6 +25,7 @@ import { gameExampleData } from "./gameExample";
 import {
   FormatGameDataBar,
   FormatGameDataLine,
+  FormatRedCardData,
   FormatSuspensionData,
   FormatTableData,
 } from "./formatGameData";
@@ -40,7 +41,8 @@ function Details() {
 
   //Daten der Spiele annehmen
   const { id } = useParams();
-  const { gameData, loading, error } = useFetchGameDetails(id);
+  const gameData = useGetGameModelQuery(id);
+  const fetchedGameData = useFetchGameDetails(id).gameData;
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
   const dispatch = useDispatch();
 
@@ -48,38 +50,12 @@ function Details() {
   const [teamGoalDataBar, setTeamGoalDataBar] = useState();
   const [teamGoalDataLine, setTeamGoalDataLine] = useState();
   const [suspensionData, setSuspensionData] = useState([]);
+  const [redCardData, setRedCardData] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [mostValuable, setMostValuable] = useState();
   const [row, setRow] = useState();
 
   useEffect(() => {
-    if (loading || !gameData) return;
-    setTeamGoalDataBar(FormatGameDataBar(gameData));
-    setTeamGoalDataLine(FormatGameDataLine(gameData));
-    setSuspensionData(FormatSuspensionData(gameData));
-    setTableData(FormatTableData(gameData));
-    //MVP Statistik (Top3 Goalscorer)
-    setMostValuable(tableData.sort((a, b) => b.goals - a.goals).slice(0, 3));
-    setRow(
-      tableData.map((row, index) => ({
-        id: index,
-        ...row,
-        flex: 1,
-      }))
-    );
-  });
-
-  //Tabellen Spalten und Reihen
-  const cols = columnsDataGrid;
-
-  const handleAnalyseButton = () => {
-    navigate(`/videoanalyse/${id}`);
-  };
-
-  const checkResponse = useGetGameModelQuery(id);
-  const addedGames = useSelector((state) => state.global.addedGames);
-  useEffect(() => {
-    if (checkResponse.isLoading && checkResponse.exists) return;
     if (
       !gameData ||
       !gameData.data ||
@@ -88,14 +64,49 @@ function Details() {
     )
       return;
 
+    setTeamGoalDataBar(FormatGameDataBar(gameData));
+    setTeamGoalDataLine(FormatGameDataLine(gameData));
+    setSuspensionData(FormatSuspensionData(gameData));
+    const formattedTableData = FormatTableData(gameData);
+    setTableData(formattedTableData);
+    setRedCardData(FormatRedCardData(gameData));
+    //MVP Statistik (Top3 Goalscorer)
+    const sortedTableData = formattedTableData.sort(
+      (a, b) => b.goals - a.goals
+    );
+    setMostValuable(sortedTableData.slice(0, 3));
+    setRow(
+      sortedTableData.map((row, index) => ({
+        id: index,
+        ...row,
+        flex: 1,
+      }))
+    );
+  }, [gameData]);
+  //Tabellen Spalten und Reihen
+  const cols = columnsDataGrid;
+  const handleAnalyseButton = () => {
+    navigate(`/videoanalyse/${id}`);
+  };
+
+  const addedGames = useSelector((state) => state.global.addedGames);
+  useEffect(() => {
+    if (!gameData || !gameData.data || gameData.data.summary) return;
+    if (gameData.isLoading) return;
+    if (
+      !fetchedGameData ||
+      !fetchedGameData.data ||
+      !fetchedGameData.data.summary ||
+      !fetchedGameData.data.events
+    )
+      return;
     if (!addedGames.includes(id)) {
       dispatch(addGame(id));
-      handleAddGame(gameData.data, checkResponse);
+      handleAddGame(fetchedGameData.data, gameData);
     }
-  }, [checkResponse, gameData, id]);
+  }, [gameData, fetchedGameData, id, addedGames, dispatch]);
 
   if (
-    loading ||
     tableData.length === undefined ||
     mostValuable === undefined ||
     mostValuable.length < 3
@@ -103,9 +114,9 @@ function Details() {
     return <div>Loading....</div>; // Später noch Ladekreis einbauen oder etwas vergleichbares
   }
 
-  if (error) {
-    return <div>Error: {error}</div>; // Fehlermeldung Rendern (später anpassen)
-  }
+  // if (error) {
+  //   return <div>Error: {error}</div>; // Fehlermeldung Rendern (später anpassen)
+  // }
 
   return (
     <div id="content">
@@ -160,15 +171,15 @@ function Details() {
             <StatBoxMVP
               nameMVP={`${mostValuable[0].firstname} ${mostValuable[0].lastname}`}
               goalsMVP={mostValuable[0].goals}
-              penaltyMVP={mostValuable[0].penalties}
+              penaltyMVP={mostValuable[0].penaltyGoals}
               teamMVP={mostValuable[0].acronym}
               name2nd={`${mostValuable[1].firstname} ${mostValuable[1].lastname}`}
               goals2nd={mostValuable[1].goals}
-              penalty2nd={mostValuable[1].penalties}
+              penalty2nd={mostValuable[1].penaltyGoals}
               team2nd={mostValuable[1].acronym}
               name3rd={`${mostValuable[2].firstname} ${mostValuable[2].lastname}`}
               goals3rd={mostValuable[2].goals}
-              penalty3rd={mostValuable[2].penalties}
+              penalty3rd={mostValuable[2].penaltyGoals}
               team3rd={mostValuable[2].acronym}
             />
           ) : (
@@ -234,8 +245,9 @@ function Details() {
           {/* ROW 3*/}
           {/*Box 1st Column */}
 
-          <PieChart data={suspensionData} />
+          <PieChart data={suspensionData} title={"Zeitstrafen"} />
           {/*Box 2nd Column */}
+          <PieChart data={redCardData} title={"Rote Karten"} />
           <Box
             gridColumn="span 8"
             gridRow="7 / 12"

@@ -23,10 +23,11 @@ export const getTeamModel = async (req, res) => {
 
 export const getGameModel = async (req, res) => {
   const gameId = req.query.id;
+
   try {
     const game = await GameModel.findOne({ "summary.id": gameId });
     if (game) {
-      res.json({ exists: true });
+      res.json(game);
     } else {
       res.json({ exists: false });
     }
@@ -44,7 +45,6 @@ export const getGamesWithDetails = async (req, res) => {
       // Spiel in der Datenbank suchen
       let game = await GameModel.findOne({ "summary.id": gameId });
 
-      // Wenn das Spiel nicht gefunden wird, rufe useFetchGameDetails auf
       if (!game) {
         results.push({ id: gameId, exists: false });
       } else {

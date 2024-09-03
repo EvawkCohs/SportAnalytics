@@ -81,3 +81,24 @@ export const GetDetailedGameData = (dataWithIDs) => {
   );
   return updatedAllGames;
 };
+
+export const GetTotalGoals = (allGamesDetails, teamId) => {
+  let totalGoals = 0;
+  allGamesDetails.forEach((game) => {
+    if (game.summary.homeTeam.id === teamId) {
+      totalGoals += game.summary.homeGoals;
+    } else {
+      totalGoals += game.summary.awayGoals;
+    }
+  });
+  return totalGoals;
+};
+
+export const GetAverageGoals = (allGamesDetails, totalGoals) => {
+  const gamesPlayed = allGamesDetails.filter(
+    (game) => game.summary.homeGoals !== 0
+  );
+
+  const averageGoals = totalGoals / gamesPlayed.length;
+  return averageGoals;
+};

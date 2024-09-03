@@ -141,19 +141,46 @@ export const FormatSuspensionData = ({ data }) => {
   return suspensionData;
 };
 
+export const FormatRedCardData = ({ data }) => {
+  const redCardData = [
+    {
+      id: data.summary.homeTeam.name,
+      label: data.summary.homeTeam.name,
+      value: 0,
+      color: "hsl(219, 70%, 50%)",
+    },
+    {
+      id: data.summary.awayTeam.name,
+      label: data.summary.awayTeam.name,
+      value: 0,
+      color: "hsl(282, 70%, 50%)",
+    },
+  ];
+
+  for (const element of data.events) {
+    if (element.type === "Disqualification" && element.team === "Home") {
+      redCardData[0].value += 1;
+    } else if (element.type === "Disqualification" && element.team === "Away") {
+      redCardData[1].value += 1;
+    }
+  }
+  return redCardData;
+};
+
 export const FormatTableData = ({ data }) => {
   const tableDataHome = data.lineup.home;
   const tableDataAway = data.lineup.away;
-  tableDataHome.forEach((obj) => {
-    Object.assign(obj, { team: data.summary.homeTeam.name });
-    Object.assign(obj, { acronym: data.summary.homeTeam.acronym });
-  });
-  tableDataAway.forEach((obj) => {
-    Object.assign(obj, { team: data.summary.awayTeam.name });
-    Object.assign(obj, {
-      acronym: data.summary.awayTeam.acronym,
-    });
-  });
-  const tableData = tableDataHome.concat(tableDataAway);
+  const updatedTableDataHome = tableDataHome.map((obj) => ({
+    ...obj,
+    team: data.summary.homeTeam.name,
+    acronym: data.summary.homeTeam.acronym,
+  }));
+  const updatedTableDataAway = tableDataAway.map((obj) => ({
+    ...obj,
+    team: data.summary.awayTeam.name,
+    acronym: data.summary.awayTeam.acronym,
+  }));
+
+  const tableData = updatedTableDataHome.concat(updatedTableDataAway);
   return tableData;
 };

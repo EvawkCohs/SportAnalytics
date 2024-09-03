@@ -19,20 +19,21 @@ import CustomColumnMenu from "components/DataGridCustomColumnMenu";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import ReplayOutlinedIcon from "@mui/icons-material/ReplayOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import {
   AddEventDialog,
   ConfirmDeleteDialog,
   ConfirmReloadDialog,
 } from "components/Dialogs";
+import { useSelector } from "react-redux";
 
 function VideoAnalyse() {
   const { id } = useParams();
   const theme = useTheme();
-  // const gameData = useGetGameModelQuery(id);
-  const gameData = gameExampleData;
+  const gameData = useGetGameModelQuery(id);
   const [videoUrl, setVideoUrl] = useState(null);
   const [eventData, setEventData] = useState([]);
-
+  console.log(gameData);
   //Referenz zum Videoplayer
   const videoRef = useRef(null);
 
@@ -300,12 +301,9 @@ function VideoAnalyse() {
       score: "",
     };
 
-    console.log(event);
-    console.log(currentPlayerTime);
     setOpenDialogAddEvent(false);
     eventData.push(event);
     eventData.sort((a, b) => b.timestamp - a.timestamp);
-    console.log(eventData);
   };
   const handleSelectionChangeType = (e) => {
     setType(e.target.value);
@@ -313,6 +311,7 @@ function VideoAnalyse() {
   const handleSelectionChangeTeam = (e) => {
     setTeam(e.target.value);
   };
+  const handleSaveEvents = () => {};
 
   return (
     <Box m="1.5rem  2.5rem">
@@ -445,7 +444,7 @@ function VideoAnalyse() {
           marginTop="1rem"
           display="flex"
           justifyContent="flex-start"
-          gap="2rem"
+          gap="1rem"
           ml="2rem"
           gridColumn="1/2"
         >
@@ -457,7 +456,6 @@ function VideoAnalyse() {
         <Box
           display="flex"
           gridColumn="2/3"
-          gap="0.5rem"
           ml="0.55rem"
           justifyContent="flex-start"
         >
@@ -505,6 +503,16 @@ function VideoAnalyse() {
               onClick={handleOpenDialogAddEvent}
             >
               <AddOutlinedIcon />
+            </IconButton>
+          </LightTooltip>
+          {/*Button zum Speichern von Eventdaten */}
+          <LightTooltip title="Eventdaten speichern">
+            <IconButton
+              aria-label="save"
+              onClick={handleSaveEvents}
+              color="secondary"
+            >
+              <SaveOutlinedIcon />
             </IconButton>
           </LightTooltip>
           <AddEventDialog
