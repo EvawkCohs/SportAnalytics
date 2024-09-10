@@ -4,7 +4,7 @@ const initialState = {
   mode: "dark",
   teamId: "sportradar.dhbdata.411-1648",
   teamGamesData: [],
-  addedGames: [],
+  isLoaded: false,
 };
 export const globalSlice = createSlice({
   name: "global",
@@ -19,13 +19,13 @@ export const globalSlice = createSlice({
     setTeamGamesData: (state, action) => {
       state.teamGamesData = action.payload;
     },
-    addGame: (state, action) => {
-      state.addedGames.push(action.payload);
+    setIsLoaded: (state) => {
+      state.isLoaded = state.isLoaded === false ? true : false;
     },
   },
 });
 
-export const { setMode, setId, setTeamGamesData, addGame } =
+export const { setMode, setId, setTeamGamesData, setIsLoaded } =
   globalSlice.actions;
 
 export default globalSlice.reducer;
