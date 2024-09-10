@@ -1,6 +1,6 @@
 const handleAddGame = async (games) => {
   try {
-    const response = await fetch("http://localhost:5002/gameUpload/add-games", {
+    const response = await fetch("http://localhost:5001/gameUpload/add-games", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -10,7 +10,6 @@ const handleAddGame = async (games) => {
 
     if (response.ok) {
       const data = await response.json();
-      alert("Games added successfully!");
     } else {
       console.error("Fehler beim Hochladen der Spiele:", response.statusText);
     }

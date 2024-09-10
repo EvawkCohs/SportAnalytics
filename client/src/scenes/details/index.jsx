@@ -19,9 +19,8 @@ import SimpleButton from "components/SimpleButton";
 //Scripts
 import { useParams } from "react-router-dom";
 import formatTimestamp from "conversionScripts/formatTimestamp.js";
-import useFetchGameDetails from "./useFetchGameDetails";
 //Data & Format
-import { gameExampleData } from "./gameExample";
+
 import {
   FormatGameDataBar,
   FormatGameDataLine,
@@ -31,7 +30,6 @@ import {
 } from "./formatGameData";
 import { columnsDataGrid } from "./dataGridDefinitions";
 import { handleDownload } from "./handleDownload";
-import handleAddGame from "./usePostGameData";
 import { useGetGameModelQuery } from "state/api";
 
 //Daten Speicherung
@@ -42,9 +40,7 @@ function Details() {
   //Daten der Spiele annehmen
   const { id } = useParams();
   const gameData = useGetGameModelQuery(id);
-  const fetchedGameData = useFetchGameDetails(id).gameData;
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
-  const dispatch = useDispatch();
 
   // Daten formattieren für Charts
   const [teamGoalDataBar, setTeamGoalDataBar] = useState();
@@ -88,23 +84,6 @@ function Details() {
   const handleAnalyseButton = () => {
     navigate(`/videoanalyse/${id}`);
   };
-
-  const addedGames = useSelector((state) => state.global.addedGames);
-  useEffect(() => {
-    if (!gameData || !gameData.data || gameData.data.summary) return;
-    if (gameData.isLoading) return;
-    if (
-      !fetchedGameData ||
-      !fetchedGameData.data ||
-      !fetchedGameData.data.summary ||
-      !fetchedGameData.data.events
-    )
-      return;
-    if (!addedGames.includes(id)) {
-      dispatch(addGame(id));
-      handleAddGame(fetchedGameData.data, gameData);
-    }
-  }, [gameData, fetchedGameData, id, addedGames, dispatch]);
 
   if (
     tableData.length === undefined ||

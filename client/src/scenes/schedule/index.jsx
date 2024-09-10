@@ -14,13 +14,18 @@ import CustomColumnMenu from "components/DataGridCustomColumnMenu";
 import useFetchSchedule from "./useFetchSchedule";
 import useFetchGameIDs from "./useFetchGameID";
 import { useNavigate } from "react-router-dom";
-import { useFindExistingGamesQuery, useGetTeamModelQuery } from "state/api";
+import {
+  useFindExistingGamesQuery,
+  useGetGamesWithDetailsQuery,
+  useGetTeamModelQuery,
+} from "state/api";
 import { useDispatch } from "react-redux";
 import { setId, setTeamGamesData } from "state";
 import Select from "@mui/material/Select";
 import useProcessAllGames from "./processAllGames";
 import { GetDetailedGameData } from "scenes/dashboard/collectGamesAndDetails";
 import handleAddGame from "scenes/details/usePostGameData";
+import useFetchAllGamesDetails from "./useFetchAllGamesDetails";
 function Schedule() {
   //Teamdaten aus MongoDB auslesen
   const { data: teamData, isLoading } = useGetTeamModelQuery();
@@ -82,9 +87,13 @@ function Schedule() {
     ...item,
     gameID: gameIDs[index] || "N/A",
   }));
-  const allGamesDetails = GetDetailedGameData(dataWithIDs);
-  handleAddGame(allGamesDetails);
-  console.log(allGamesDetails);
+  const allGamesDetails = useFetchAllGamesDetails(gameIDs);
+  useEffect(() => {
+    if (!allGamesDetails || allGamesDetails.length < 30) return;
+    handleAddGame(allGamesDetails);
+  });
+
+  //console.log(allGamesDetails);
   if (loading || isLoading) {
     return <div>Loading....</div>; // Später noch Ladekreis einbauen oder etwas vergleichbares
   }
