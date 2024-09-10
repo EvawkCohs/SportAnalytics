@@ -1,4 +1,5 @@
 export const FormatGameDataBar = ({ data }) => {
+  console.log(data);
   const eventsData = data.events;
 
   // Events nach Toren filtern und in 10 Min Sequenzen teilen

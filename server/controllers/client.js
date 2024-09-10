@@ -58,3 +58,16 @@ export const getGamesWithDetails = async (req, res) => {
     res.status(500).json({ message: "Error fetching game details", error });
   }
 };
+
+//alle existierenden Games in Datenbank finden
+export const findExistingGames = async (gameIds) => {
+  try {
+    const existingGames = await GameModel.find({
+      "summary.id": { $in: gameIds },
+    });
+    return existingGames;
+  } catch (error) {
+    console.error("Fehler beim Überprüfen der Spiele: ", error);
+    throw new Error("Fehler beim Überprüfen der Spiele");
+  }
+};

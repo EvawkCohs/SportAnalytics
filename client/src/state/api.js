@@ -36,6 +36,12 @@ export const api = createApi({
       },
       providesTags: ["gamesWithDetails"],
     }),
+    findExistingGames: build.query({
+      query: (ids) => {
+        return `client/gamemodels?ids=${ids}`;
+      },
+      providesTags: ["existinggames"],
+    }),
   }),
 });
 
@@ -45,4 +51,5 @@ export const {
   useGetTeamQuery,
   useGetGameModelQuery,
   useGetGamesWithDetailsQuery,
+  useFindExistingGamesQuery,
 } = api;
