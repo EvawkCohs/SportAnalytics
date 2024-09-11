@@ -207,10 +207,6 @@ function VideoAnalyse() {
   //Dialog Handler für Löschen der Daten
   const [openDialogDeletion, setOpenDialogDeletion] = useState(false);
 
-  const handleOpenDialogDeletion = () => {
-    setOpenDialogDeletion(true);
-  };
-
   const handleCloseDialogDeletion = () => {
     setOpenDialogDeletion(false);
   };
@@ -465,7 +461,7 @@ function VideoAnalyse() {
               color="error"
               onClick={() => {
                 if (rowDeletionIds.length > 0) {
-                  handleOpenDialogDeletion();
+                  setOpenDialogDeletion(true);
                 }
               }}
             >

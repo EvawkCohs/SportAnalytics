@@ -11,7 +11,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import CustomColumnMenu from "components/DataGridCustomColumnMenu";
 import StatBoxGameInfo from "components/StatBoxGameInfo";
 import StatBoxMVP from "components/StatBoxMVP";
-import StatBoxGameAttendance from "components/StatBoxGameAttendance";
+import SimpleStatBox from "components/SimpleStatBox";
 import TeamGoalChart from "components/TeamGoalChart";
 import LineChart from "components/LineChart";
 import PieChart from "components/PieChart";
@@ -25,7 +25,7 @@ import {
   FormatGameDataBar,
   FormatGameDataLine,
   FormatRedCardData,
-  FormatSuspensionData,
+  FormatSpecificEventData,
   FormatTableData,
 } from "./formatGameData";
 import { columnsDataGrid } from "./dataGridDefinitions";
@@ -47,6 +47,8 @@ function Details() {
   const [teamGoalDataLine, setTeamGoalDataLine] = useState();
   const [suspensionData, setSuspensionData] = useState([]);
   const [redCardData, setRedCardData] = useState([]);
+  const [sevenMeterData, setSevenMeterData] = useState([]);
+  const [technicalFoulsData, setTechnicalFoulsData] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [mostValuable, setMostValuable] = useState();
   const [row, setRow] = useState();
@@ -62,10 +64,14 @@ function Details() {
 
     setTeamGoalDataBar(FormatGameDataBar(gameData));
     setTeamGoalDataLine(FormatGameDataLine(gameData));
-    setSuspensionData(FormatSuspensionData(gameData));
+    setSuspensionData(FormatSpecificEventData(gameData, "TwoMinutePenalty"));
     const formattedTableData = FormatTableData(gameData);
     setTableData(formattedTableData);
-    setRedCardData(FormatRedCardData(gameData));
+    setRedCardData(FormatSpecificEventData(gameData, "Disqualification"));
+    setSevenMeterData(FormatSpecificEventData(gameData, "SevenMeterGoal"));
+    setTechnicalFoulsData(
+      FormatSpecificEventData(gameData, "Technischer Fehler")
+    );
     //MVP Statistik (Top3 Goalscorer)
     const sortedTableData = formattedTableData.sort(
       (a, b) => b.goals - a.goals
@@ -208,9 +214,10 @@ function Details() {
               awayTeam={gameData.data.summary.awayTeam.name}
             />
           </Box>
-          <StatBoxGameAttendance
-            attendance={gameData.data.summary.attendance}
-            fieldName={gameData.data.summary.field.name}
+          <SimpleStatBox
+            value={gameData.data.summary.attendance}
+            secondaryValue={gameData.data.summary.field.name}
+            title="Zuschauer"
           />
           {/* ROW 2*/}
           {/*Box 1st Column */}
@@ -227,6 +234,10 @@ function Details() {
           <PieChart data={suspensionData} title={"Zeitstrafen"} />
           {/*Box 2nd Column */}
           <PieChart data={redCardData} title={"Rote Karten"} />
+          {/*Box 3rd Column */}
+          <PieChart data={technicalFoulsData} title={"Technische Fehler"} />
+          {/*Box 4th Column */}
+          <PieChart data={sevenMeterData} title={"Siebenmetertore"} />
           <Box
             gridColumn="span 8"
             gridRow="7 / 12"

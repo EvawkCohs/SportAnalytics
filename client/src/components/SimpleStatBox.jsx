@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 
-const StatBoxGameAttendance = ({ attendance, fieldName }) => {
+const SimpleStatBox = ({ value, secondaryValue, title, icon }) => {
   const theme = useTheme();
 
   return (
@@ -21,24 +21,24 @@ const StatBoxGameAttendance = ({ attendance, fieldName }) => {
         sx={{ color: theme.palette.secondary[200] }}
         textAlign="center"
       >
-        Zuschauer
+        {title}
       </Typography>
       <Typography
         variant="h2"
         sx={{ color: theme.palette.secondary[100] }}
         textAlign="center"
       >
-        {attendance}
+        {value}
       </Typography>
       <Typography
         variant="h4"
         sx={{ color: theme.palette.secondary[100] }}
         textAlign="center"
       >
-        {fieldName}
+        {secondaryValue}
       </Typography>
     </Box>
   );
 };
 
-export default StatBoxGameAttendance;
+export default SimpleStatBox;

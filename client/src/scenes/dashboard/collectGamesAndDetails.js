@@ -1,5 +1,6 @@
 import useGameDetails from "./useGetGameDetails";
 import { useState, useEffect } from "react";
+
 import { useGetGamesWithDetailsQuery } from "state/api";
 
 export const NextFiveGames = (dataWithIDs) => {
@@ -96,9 +97,37 @@ export const GetTotalGoals = (allGamesDetails, teamId) => {
 
 export const GetAverageGoals = (allGamesDetails, totalGoals) => {
   const gamesPlayed = allGamesDetails.filter(
-    (game) => game.summary.homeGoals !== 0
+    (game) => game.summary.homeGoals > 0
   );
 
   const averageGoals = totalGoals / gamesPlayed.length;
   return averageGoals;
+};
+
+export const GetAverageGoalsLastFive = (dataLastFiveGames, teamId) => {
+  const gamesPlayed = dataLastFiveGames.length;
+  let totalGoals = 0;
+  dataLastFiveGames.forEach((game) => {
+    if (game.summary.homeTeam.id === teamId) {
+      totalGoals += game.summary.homeGoals;
+    } else {
+      totalGoals += game.summary.awayGoals;
+    }
+  });
+  const averageGoalsLastFive = totalGoals / gamesPlayed;
+  return averageGoalsLastFive;
+};
+
+export const GetAverageAttendance = (allGamesDetails, teamId) => {
+  const playedGames = allGamesDetails.filter(
+    (game) =>
+      game.summary.state === "Post" &&
+      game.summary.attendance > 0 &&
+      game.summary.homeTeam.id === teamId
+  );
+  let totalAttendance = 0;
+  playedGames.map((game) => {
+    totalAttendance += game.summary.attendance;
+  });
+  return totalAttendance / playedGames.length;
 };

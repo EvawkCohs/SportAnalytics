@@ -1,5 +1,4 @@
 export const FormatGameDataBar = ({ data }) => {
-  console.log(data);
   const eventsData = data.events;
 
   // Events nach Toren filtern und in 10 Min Sequenzen teilen
@@ -116,7 +115,7 @@ export const FormatGameDataLine = ({ data }) => {
   return teamGoalDataLine;
 };
 
-export const FormatSuspensionData = ({ data }) => {
+export const FormatSpecificEventData = ({ data }, type) => {
   const suspensionData = [
     {
       id: data.summary.homeTeam.name,
@@ -133,39 +132,13 @@ export const FormatSuspensionData = ({ data }) => {
   ];
 
   for (const element of data.events) {
-    if (element.type === "TwoMinutePenalty" && element.team === "Home") {
+    if (element.type === type && element.team === "Home") {
       suspensionData[0].value += 1;
-    } else if (element.type === "TwoMinutePenalty" && element.team === "Away") {
+    } else if (element.type === type && element.team === "Away") {
       suspensionData[1].value += 1;
     }
   }
   return suspensionData;
-};
-
-export const FormatRedCardData = ({ data }) => {
-  const redCardData = [
-    {
-      id: data.summary.homeTeam.name,
-      label: data.summary.homeTeam.name,
-      value: 0,
-      color: "hsl(219, 70%, 50%)",
-    },
-    {
-      id: data.summary.awayTeam.name,
-      label: data.summary.awayTeam.name,
-      value: 0,
-      color: "hsl(282, 70%, 50%)",
-    },
-  ];
-
-  for (const element of data.events) {
-    if (element.type === "Disqualification" && element.team === "Home") {
-      redCardData[0].value += 1;
-    } else if (element.type === "Disqualification" && element.team === "Away") {
-      redCardData[1].value += 1;
-    }
-  }
-  return redCardData;
 };
 
 export const FormatTableData = ({ data }) => {
