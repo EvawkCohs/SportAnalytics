@@ -14,16 +14,10 @@ import CustomColumnMenu from "components/DataGridCustomColumnMenu";
 import useFetchSchedule from "./useFetchSchedule";
 import useFetchGameIDs from "./useFetchGameID";
 import { useNavigate } from "react-router-dom";
-import {
-  useFindExistingGamesQuery,
-  useGetGamesWithDetailsQuery,
-  useGetTeamModelQuery,
-} from "state/api";
+import { useGetTeamModelQuery } from "state/api";
 import { useDispatch } from "react-redux";
-import { setId, setIsLoaded, setTeamGamesData } from "state";
+import { setId, setIsLoaded } from "state";
 import Select from "@mui/material/Select";
-import useProcessAllGames from "./processAllGames";
-import { GetDetailedGameData } from "scenes/dashboard/collectGamesAndDetails";
 import handleAddGame from "scenes/details/usePostGameData";
 import useFetchAllGamesDetails from "./useFetchAllGamesDetails";
 function Schedule() {
@@ -35,18 +29,16 @@ function Schedule() {
   const dispatch = useDispatch();
   const teamId = useSelector((state) => state.global.teamId);
   const isLoaded = useSelector((state) => state.global.isLoaded);
-  const [urlEnding, setUrlEnding] = useState("");
   const theme = useTheme();
   const navigate = useNavigate();
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
-  //useRef, sodass Daten nur beim ersten aufruf der Seite in die DB geladen werden
-
   //Change Handle für Dropdown-Auswahl
   const handleTeamChange = (event) => {
     setTeam(event.target.value);
 
     const selectedTeam = event.target.value;
     dispatch(setId(selectedTeam));
+    dispatch(setIsLoaded());
   };
 
   const handleGroupChange = (event) => {
@@ -74,16 +66,6 @@ function Schedule() {
   //Zugehörigen gameIDs fetchen
   const gameIDs = useFetchGameIDs(teamId);
 
-  //UrlEnding aus Daten herausfinden
-  useEffect(() => {
-    if (!isLoading && teamData) {
-      const selectedTeam = teamData.find((team) => team.id === teamId);
-      if (selectedTeam) {
-        setUrlEnding(selectedTeam.urlEnding || "");
-      }
-    }
-  }, [isLoading, teamData, teamId]);
-
   //Daten mit GameIDs versehen
   const dataWithIDs = schedule.map((item, index) => ({
     ...item,
@@ -95,7 +77,7 @@ function Schedule() {
 
     handleAddGame(allGamesDetails);
     dispatch(setIsLoaded());
-  }, [allGamesDetails]);
+  }, [allGamesDetails, isLoaded, dispatch]);
 
   if (loading || isLoading) {
     return <div>Loading....</div>; // Später noch Ladekreis einbauen oder etwas vergleichbares

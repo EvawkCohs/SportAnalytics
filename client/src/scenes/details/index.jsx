@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { addGame } from "state";
 //Components
 import Header from "components/Header";
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
@@ -24,7 +22,6 @@ import formatTimestamp from "conversionScripts/formatTimestamp.js";
 import {
   FormatGameDataBar,
   FormatGameDataLine,
-  FormatRedCardData,
   FormatSpecificEventData,
   FormatTableData,
 } from "./formatGameData";
@@ -91,11 +88,7 @@ function Details() {
     navigate(`/videoanalyse/${id}`);
   };
 
-  if (
-    tableData.length === undefined ||
-    mostValuable === undefined ||
-    mostValuable.length < 3
-  ) {
+  if (tableData.length === undefined || gameData.isLoading) {
     return <div>Loading....</div>; // Später noch Ladekreis einbauen oder etwas vergleichbares
   }
 

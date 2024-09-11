@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 import SportsHandballIcon from "@mui/icons-material/SportsHandball";
+import { useGetTeamModelQuery } from "state/api";
 
 const StatBoxGameInfo = ({
   title,
@@ -11,6 +12,23 @@ const StatBoxGameInfo = ({
   round,
 }) => {
   const theme = useTheme();
+  const { data: teamData, isLoading } = useGetTeamModelQuery();
+  const [homeTeamLogo, setHomeTeamLogo] = useState("");
+  const [awayTeamLogo, setAwayTeamLogo] = useState("");
+  useEffect(() => {
+    if (
+      isLoading ||
+      teamData === undefined ||
+      teamData.length < 1 ||
+      homeTeam === undefined ||
+      awayTeam === undefined
+    )
+      return;
+    console.log(awayTeam);
+    setHomeTeamLogo(teamData.find((team) => team.name === homeTeam).logo);
+    setAwayTeamLogo(teamData.find((team) => team.name === awayTeam).logo);
+  });
+
   return (
     <Box>
       <Typography
@@ -70,13 +88,8 @@ const StatBoxGameInfo = ({
 
         {/*Später Vereinslog */}
 
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          mt="20px"
-        >
-          <SportsHandballIcon />
+        <Box display="flex" justifyContent="center" alignItems="center">
+          <img src={homeTeamLogo} height="50px" />
         </Box>
         <Typography
           variant="h4"
@@ -87,13 +100,8 @@ const StatBoxGameInfo = ({
           {halftimeScore}
         </Typography>
         {/*Später Vereinslog */}
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          mt="20px"
-        >
-          <SportsHandballIcon />
+        <Box display="flex" justifyContent="center" alignItems="center">
+          <img src={awayTeamLogo} height="50px" />
         </Box>
       </Box>
     </Box>

@@ -6,6 +6,7 @@ const TeamModelSchema = new mongoose.Schema(
     name: String,
     urlEnding: String,
     group: String,
+    logo: String,
   },
   { timestamps: false }
 );
