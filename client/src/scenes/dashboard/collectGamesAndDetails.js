@@ -131,3 +131,119 @@ export const GetAverageAttendance = (allGamesDetails, teamId) => {
   });
   return totalAttendance / playedGames.length;
 };
+
+export const GetBestPeriodLastFive = (dataLastFiveGames, teamId) => {
+  const gamesPlayed = dataLastFiveGames.length;
+  const periodData = [
+    {
+      "0. - 10. Min": 0,
+      "11. - 20. Min": 0,
+      "21. - 30. Min": 0,
+      "31. - 40. Min": 0,
+      "41. - 50. Min": 0,
+      "51. - 60. Min": 0,
+    },
+  ];
+
+  dataLastFiveGames.map((game) => {
+    for (const element of game.events) {
+      if (element.type === "Goal" || element.type === "SevenMeterGoal") {
+        if (game.summary.homeTeam.id === teamId) {
+          const timeParts = element.time.split(":");
+          const minutes = parseInt(timeParts[0], 10);
+          const seconds = parseInt(timeParts[1], 10);
+
+          if (minutes >= 0 && minutes < 10) {
+            if (element.team === "Home") {
+              periodData[0]["0. - 10. Min"] += 1;
+            }
+          } else if (minutes >= 10 && minutes < 20) {
+            if (element.team === "Home") {
+              periodData[0]["11. - 20. Min"] += 1;
+            }
+          } else if (
+            minutes >= 20 &&
+            (minutes < 30 || (minutes === 30 && seconds === 0))
+          ) {
+            if (element.team === "Home") {
+              periodData[0]["21. - 30. Min"] += 1;
+            }
+          } else if (
+            minutes >= 30 &&
+            (minutes < 40 || (minutes === 40 && seconds === 0))
+          ) {
+            if (element.team === "Home") {
+              periodData[0]["31. - 40. Min"] += 1;
+            }
+          } else if (
+            minutes >= 40 &&
+            (minutes < 50 || (minutes === 50 && seconds === 0))
+          ) {
+            if (element.team === "Home") {
+              periodData[0]["41. - 50. Min"] += 1;
+            }
+          } else if (
+            minutes >= 50 &&
+            (minutes < 60 || (minutes === 60 && seconds === 0))
+          ) {
+            if (element.team === "Home") {
+              periodData[0]["51. - 60. Min"] += 1;
+            }
+          }
+        } else if (game.summary.awayTeam.id === teamId) {
+          const timeParts = element.time.split(":");
+          const minutes = parseInt(timeParts[0], 10);
+          const seconds = parseInt(timeParts[1], 10);
+
+          if (minutes >= 0 && minutes < 10) {
+            if (element.team === "Away") {
+              periodData[0]["0. - 10. Min"] += 1;
+            }
+          } else if (minutes >= 10 && minutes < 20) {
+            if (element.team === "Away") {
+              periodData[0]["11. - 20. Min"] += 1;
+            }
+          } else if (
+            minutes >= 20 &&
+            (minutes < 30 || (minutes === 30 && seconds === 0))
+          ) {
+            if (element.team === "Away") {
+              periodData[0]["21. - 30. Min"] += 1;
+            }
+          } else if (
+            minutes >= 30 &&
+            (minutes < 40 || (minutes === 40 && seconds === 0))
+          ) {
+            if (element.team === "Away") {
+              periodData[0]["31. - 40. Min"] += 1;
+            }
+          } else if (
+            minutes >= 40 &&
+            (minutes < 50 || (minutes === 50 && seconds === 0))
+          ) {
+            if (element.team === "Away") {
+              periodData[0]["41. - 50. Min"] += 1;
+            }
+          } else if (
+            minutes >= 50 &&
+            (minutes < 60 || (minutes === 60 && seconds === 0))
+          ) {
+            if (element.team === "Away") {
+              periodData[0]["51. - 60. Min"] += 1;
+            }
+          }
+        }
+      }
+    }
+  });
+  //Teile die Gesamtanzahl der Tore durch die gespielten Spiele
+  periodData.forEach((obj) => {
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        obj[key] = obj[key] / gamesPlayed;
+      }
+    }
+  });
+
+  return periodData;
+};

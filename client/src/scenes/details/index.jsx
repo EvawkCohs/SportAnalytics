@@ -82,6 +82,7 @@ function Details() {
       }))
     );
   }, [gameData]);
+
   //Tabellen Spalten und Reihen
   const cols = columnsDataGrid;
   const handleAnalyseButton = () => {

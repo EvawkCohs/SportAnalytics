@@ -25,14 +25,14 @@ const SimpleStatBox = ({ value, secondaryValue, title, icon }) => {
       </Typography>
       <Typography
         variant="h2"
-        sx={{ color: theme.palette.secondary[100] }}
+        sx={{ color: theme.palette.secondary[200] }}
         textAlign="center"
       >
         {value}
       </Typography>
       <Typography
         variant="h4"
-        sx={{ color: theme.palette.secondary[100] }}
+        sx={{ color: theme.palette.secondary[200] }}
         textAlign="center"
       >
         {secondaryValue}

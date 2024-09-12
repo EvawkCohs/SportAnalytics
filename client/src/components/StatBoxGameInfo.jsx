@@ -24,7 +24,6 @@ const StatBoxGameInfo = ({
       awayTeam === undefined
     )
       return;
-    console.log(awayTeam);
     setHomeTeamLogo(teamData.find((team) => team.name === homeTeam).logo);
     setAwayTeamLogo(teamData.find((team) => team.name === awayTeam).logo);
   });

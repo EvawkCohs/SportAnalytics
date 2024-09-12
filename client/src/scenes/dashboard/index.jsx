@@ -16,6 +16,7 @@ import {
   GetAverageGoals,
   GetAverageGoalsLastFive,
   GetAverageAttendance,
+  GetBestPeriodLastFive,
 } from "./collectGamesAndDetails";
 import SimpleStatBox from "components/SimpleStatBox";
 import FlexBetween from "components/FlexBetween";
@@ -46,6 +47,10 @@ const Dashboard = () => {
   const [averageGoalsLastFive, setAverageGoalsLastFive] = useState(0);
   //Zuschauer
   const [averageAttendance, setAverageAttendance] = useState(0);
+  //periode
+  const [periodData, setPeriodData] = useState([]);
+  const [bestPeriod, setBestPeriod] = useState([]);
+  const [worstPeriod, setWorstPeriod] = useState([]);
   useEffect(() => {
     if (allGamesDetails === undefined) return;
     //Tore
@@ -55,7 +60,33 @@ const Dashboard = () => {
     setAverageGoalsLastFive(GetAverageGoalsLastFive(dataLastFiveGames, teamId));
     //zuschauerschnitt
     setAverageAttendance(GetAverageAttendance(allGamesDetails, teamId));
+    setPeriodData(GetBestPeriodLastFive(dataLastFiveGames, teamId));
   }, [allGamesDetails, totalGoals]);
+  //beste und schlechteste Periode
+  useEffect(() => {
+    if (
+      !periodData ||
+      periodData === undefined ||
+      periodData.length < 1 ||
+      Number.isNaN(Object.values(periodData[0])[1])
+    )
+      return;
+
+    const [bestPeriodKey, bestPeriodValue] = Object.entries(
+      periodData[0]
+    ).reduce(
+      (max, [key, value]) => (value > max[1] ? [key, value] : max),
+      ["", -Infinity]
+    );
+    const [worstPeriodKey, worstPeriodValue] = Object.entries(
+      periodData[0]
+    ).reduce(
+      (min, [key, value]) => (value < min[1] ? [key, value] : min),
+      ["", Infinity]
+    );
+    setBestPeriod([bestPeriodKey, bestPeriodValue]);
+    setWorstPeriod([worstPeriodKey, worstPeriodValue]);
+  }, [periodData]);
 
   if (
     isLoading ||
@@ -223,11 +254,11 @@ const Dashboard = () => {
           </Typography>
           <Typography
             variant="h2"
-            sx={{ color: theme.palette.secondary[100] }}
+            sx={{ color: theme.palette.secondary[200] }}
             textAlign="center"
             mb="1.25rem"
           >
-            {averageGoalsLastFive}
+            Ø {averageGoalsLastFive}
           </Typography>
           {averageGoalsLastFive >= averageGoals ? (
             <Box
@@ -269,15 +300,68 @@ const Dashboard = () => {
           )}
           <Typography
             variant="h4"
-            sx={{ color: theme.palette.secondary[100] }}
+            sx={{ color: theme.palette.secondary[200] }}
             textAlign="center"
             mt="1.25rem"
           >
             in den letzten 5 Spielen
           </Typography>
         </Box>
+        {/*Bester/Schlechtester Abschnitt */}
+        <Box
+          gridColumn="7/9"
+          display="flex"
+          m="0.5rem "
+          gridRow="2"
+          flexDirection="column"
+          justifyContent="space-between"
+          backgroundColor={theme.palette.background.alt}
+          borderRadius="0.55rem"
+          p="1.25rem 1rem"
+        >
+          <Typography
+            variant="h2"
+            sx={{ color: theme.palette.secondary[200] }}
+            textAlign="center"
+          >
+            Bester / Schlechtester Abschnitt letzte 5 Spiele
+          </Typography>
+          <Box display="flex" flexDirection="row" justifyContent="space-evenly">
+            <Typography variant="h2" sx={{ color: "green" }} textAlign="center">
+              Ø {bestPeriod[1]} Tore
+            </Typography>
+            <Typography
+              variant="h2"
+              sx={{ color: theme.palette.red[100] }}
+              textAlign="center"
+            >
+              Ø {worstPeriod[1]} Tore
+            </Typography>
+          </Box>
+          <Box
+            display="flex"
+            flexDirection="row"
+            justifyContent="space-evenly"
+            mt="2rem"
+          >
+            <Typography
+              variant="h4"
+              sx={{ color: theme.palette.secondary[200] }}
+              textAlign="center"
+            >
+              Zwischen {bestPeriod[0]}
+            </Typography>
+            <Typography
+              variant="h4"
+              sx={{ color: theme.palette.secondary[200] }}
+              textAlign="center"
+            >
+              Zwischen {worstPeriod[0]}
+            </Typography>
+          </Box>
+        </Box>
         {/*Zuschauerschnitt */}
-        <Box gridColumn="7/9" display="flex" m="0.5rem  " gridRow="2">
+        <Box gridColumn="1/3" display="flex" m="0.5rem  " gridRow="3">
           <SimpleStatBox
             title={"Zuschauerschnitt"}
             value={averageAttendance}
