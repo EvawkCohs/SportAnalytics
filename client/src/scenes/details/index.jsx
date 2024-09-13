@@ -11,7 +11,7 @@ import StatBoxGameInfo from "components/StatBoxGameInfo";
 import StatBoxMVP from "components/StatBoxMVP";
 import SimpleStatBox from "components/SimpleStatBox";
 import TeamGoalChart from "components/TeamGoalChart";
-import LineChart from "components/LineChart";
+import LineChart from "components/LineChartGameDetails";
 import PieChart from "components/PieChart";
 import SimpleButton from "components/SimpleButton";
 //Scripts

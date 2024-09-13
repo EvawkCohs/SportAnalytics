@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
 import Header from "components/Header";
-import { useGetGamesWithDetailsQuery, useGetTeamModelQuery } from "state/api";
+import { useGetTeamModelQuery } from "state/api";
 import useFetchGameIDs from "scenes/schedule/useFetchGameID";
 import useFetchSchedule from "scenes/schedule/useFetchSchedule";
 import StatBoxGameInfo from "components/StatBoxGameInfo";
 import formatTimestamp from "conversionScripts/formatTimestamp";
-import useGameDetails from "./useGetGameDetails";
+import { useNavigate } from "react-router-dom";
+import CustomColumnMenu from "components/DataGridCustomColumnMenu";
 import {
   NextFiveGames,
   LastFiveGames,
@@ -17,15 +19,18 @@ import {
   GetAverageGoalsLastFive,
   GetAverageAttendance,
   GetBestPeriodLastFive,
+  GetOverallLineupData,
 } from "./collectGamesAndDetails";
 import SimpleStatBox from "components/SimpleStatBox";
 import FlexBetween from "components/FlexBetween";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
+import { columnsDataGrid } from "scenes/dashboard/dataGridDefinitions";
 
 const Dashboard = () => {
   const teamId = useSelector((state) => state.global.teamId);
   const theme = useTheme();
+  const Navigate = useNavigate();
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
   const { data: teamData, isLoading } = useGetTeamModelQuery();
   const gameIDs = useFetchGameIDs(teamId);
@@ -51,16 +56,41 @@ const Dashboard = () => {
   const [periodData, setPeriodData] = useState([]);
   const [bestPeriod, setBestPeriod] = useState([]);
   const [worstPeriod, setWorstPeriod] = useState([]);
+  //SpielerStatistik Gesamt
+  const [overallLineup, setOverallLineup] = useState([]);
+  //Tabellen Spalten und Reihen
+  const [row, setRow] = useState();
+  const cols = columnsDataGrid;
+
+  //OnClick zu Spielerdetails
+  const handleCellClick = (param) => {
+    Navigate(`/playerDetails/${param.row.id}`, {
+      state: { player: param.row, allGamesDetails: allGamesDetails },
+    });
+  };
   useEffect(() => {
     if (allGamesDetails === undefined) return;
     //Tore
     setTotalGoals(GetTotalGoals(allGamesDetails, teamId));
     //Torschnitt
-    setAverageGoals(GetAverageGoals(allGamesDetails, totalGoals));
-    setAverageGoalsLastFive(GetAverageGoalsLastFive(dataLastFiveGames, teamId));
+    setAverageGoals(GetAverageGoals(allGamesDetails, totalGoals).toFixed(2));
+    setAverageGoalsLastFive(
+      GetAverageGoalsLastFive(dataLastFiveGames, teamId).toFixed(2)
+    );
     //zuschauerschnitt
-    setAverageAttendance(GetAverageAttendance(allGamesDetails, teamId));
+    setAverageAttendance(
+      GetAverageAttendance(allGamesDetails, teamId).toFixed(0)
+    );
+    //Period Data
     setPeriodData(GetBestPeriodLastFive(dataLastFiveGames, teamId));
+    setOverallLineup(GetOverallLineupData(allGamesDetails, teamId));
+    setRow(
+      overallLineup.map((row, index) => ({
+        id: index,
+        ...row,
+        flex: 1,
+      }))
+    );
   }, [allGamesDetails, totalGoals]);
   //beste und schlechteste Periode
   useEffect(() => {
@@ -84,8 +114,8 @@ const Dashboard = () => {
       (min, [key, value]) => (value < min[1] ? [key, value] : min),
       ["", Infinity]
     );
-    setBestPeriod([bestPeriodKey, bestPeriodValue]);
-    setWorstPeriod([worstPeriodKey, worstPeriodValue]);
+    setBestPeriod([bestPeriodKey, bestPeriodValue.toFixed(2)]);
+    setWorstPeriod([worstPeriodKey, worstPeriodValue.toFixed(2)]);
   }, [periodData]);
 
   if (
@@ -94,7 +124,8 @@ const Dashboard = () => {
     updatedNextFiveGames < 5 ||
     dataLastFiveGames === undefined ||
     dataLastFiveGames < 1 ||
-    loading
+    loading ||
+    allGamesDetails === undefined
   ) {
     return <div>Loading....</div>; // Später noch Ladekreis einbauen oder etwas vergleichbares
   }
@@ -294,7 +325,8 @@ const Dashboard = () => {
                 sx={{ color: theme.palette.red[100] }}
                 textAlign="center"
               >
-                - {(1 - averageGoalsLastFive / averageGoals) * 100} %
+                - {((1 - averageGoalsLastFive / averageGoals) * 100).toFixed(2)}
+                %
               </Typography>
             </Box>
           )}
@@ -366,6 +398,72 @@ const Dashboard = () => {
             title={"Zuschauerschnitt"}
             value={averageAttendance}
             secondaryValue={"bei Heimspielen diese Saison"}
+          />
+        </Box>
+        <Box
+          gridColumn="span 8"
+          gridRow="4/7"
+          display="flex"
+          flexDirection="column"
+          justifyContent="space-between"
+          p="1.25rem 1rem"
+          flex="1 1 100%"
+          backgroundColor={theme.palette.background.alt}
+          borderRadius="0.55rem"
+          m="0.5rem"
+          sx={{
+            "& .MuiDataGrid-root": {
+              borderBottom: "none",
+            },
+            "& .MuiDataGrid-cell": {
+              borderBottom: "none",
+              backgroundColor: theme.palette.background.alt,
+              cursor: "pointer",
+            },
+            "& .MuiDataGrid-columnHeaders": {
+              backgroundColor: theme.palette.background.alt,
+              color: theme.palette.secondary[100],
+              borderBottom: "none",
+            },
+            "& .MuiDataGrid-virtualScroller": {
+              backgroundColor: theme.palette.primary.light,
+            },
+            "& .MuiDataGrid-footerContainer": {
+              backgroundColor: theme.palette.background.alt,
+              color: theme.palette.secondary[400],
+              borderTop: "none",
+            },
+            "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+              color: `${theme.palette.secondary[400]} !important`,
+            },
+            "& .MuiDataGrid-overlay": {
+              // Styling for the 'No Rows' overlay
+              backgroundColor: theme.palette.background.alt,
+              color: theme.palette.secondary[200], // Change the text color
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "1.25rem",
+              fontWeight: "bold",
+            },
+          }}
+        >
+          <Typography
+            variant="h3"
+            sx={{ color: theme.palette.secondary[200] }}
+            textAlign="center"
+            mb="20px"
+          >
+            Einzelstatistiken
+          </Typography>
+          <DataGrid
+            rows={row || []}
+            columns={cols}
+            components={{ ColumnMenu: CustomColumnMenu }}
+            localeText={{
+              noRowsLabel: "Noch keine Daten verfügbar",
+            }}
+            onCellClick={handleCellClick}
           />
         </Box>
       </Box>
