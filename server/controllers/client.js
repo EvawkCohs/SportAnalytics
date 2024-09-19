@@ -1,6 +1,6 @@
-import allGamesModel from "./models/allgamesmodel.js";
-import TeamModel from "./models/TeamModel.js";
-import GameModel from "./models/gameModel.js";
+import allGamesModel from "../models/allgamesmodel.js";
+import TeamModel from "../models/TeamModel.js";
+import GameModel from "../models/gameModel.js";
 
 export const getallGamesModel = async (req, res) => {
   try {
