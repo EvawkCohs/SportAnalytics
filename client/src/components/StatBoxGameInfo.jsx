@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, useTheme } from "@mui/material";
-import SportsHandballIcon from "@mui/icons-material/SportsHandball";
+import SportsScoreOutlinedIcon from "@mui/icons-material/SportsScoreOutlined";
+import SportsOutlinedIcon from "@mui/icons-material/SportsOutlined";
 import { useGetTeamModelQuery } from "state/api";
 
 const StatBoxGameInfo = ({
@@ -10,6 +11,7 @@ const StatBoxGameInfo = ({
   awayTeam,
   halftimeScore,
   round,
+  state,
 }) => {
   const theme = useTheme();
   const { data: teamData, isLoading } = useGetTeamModelQuery();
@@ -24,19 +26,51 @@ const StatBoxGameInfo = ({
       awayTeam === undefined
     )
       return;
+
     setHomeTeamLogo(teamData.find((team) => team.name === homeTeam).logo);
     setAwayTeamLogo(teamData.find((team) => team.name === awayTeam).logo);
   });
 
   return (
     <Box>
-      <Typography
-        variant="h2"
-        sx={{ color: theme.palette.secondary[200] }}
-        textAlign="center"
-      >
-        {title}
-      </Typography>
+      {state !== undefined ? (
+        <Box
+          display="grid"
+          gridTemplateColumns="repeat(6, 1fr)"
+          alignItems="center"
+        >
+          <Box gridColumn="1">
+            {state === "pre" ? (
+              <SportsOutlinedIcon
+                fontSize="large"
+                sx={{ color: theme.palette.secondary[200] }}
+              />
+            ) : (
+              <SportsScoreOutlinedIcon
+                fontSize="large"
+                sx={{ color: theme.palette.secondary[200] }}
+              />
+            )}
+          </Box>
+          <Typography
+            variant="h2"
+            sx={{ color: theme.palette.secondary[200] }}
+            textAlign="center"
+            gridColumn="3/5"
+          >
+            {title}
+          </Typography>
+        </Box>
+      ) : (
+        <Typography
+          variant="h2"
+          sx={{ color: theme.palette.secondary[200] }}
+          textAlign="center"
+          gridColumn="3/5"
+        >
+          {title}
+        </Typography>
+      )}
       <Typography
         variant="h4"
         sx={{ color: theme.palette.secondary[100] }}

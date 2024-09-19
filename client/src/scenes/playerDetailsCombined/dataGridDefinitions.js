@@ -1,29 +1,15 @@
 export const columnsDataGrid = [
   {
-    field: "firstname",
-    headerName: "Vorname",
-    flex: 1,
-  },
-  {
-    field: "lastname",
-    headerName: "Nachname",
-    flex: 1,
-  },
-  {
-    field: "position",
-    headerName: "Position",
-    flex: 1,
-  },
-  {
-    field: "number",
-    headerName: "Trikotnummer",
-    flex: 1,
+    field: "opponent",
+    headerName: "Gegner",
+    flex: 2,
   },
   {
     field: "goals",
     headerName: "Tore",
     flex: 1,
   },
+
   {
     field: "penaltyGoals",
     headerName: "7m Tore",
@@ -44,10 +30,14 @@ export const columnsDataGrid = [
     headerName: "Rote Karte",
     flex: 1,
   },
-
   {
-    field: "team",
-    headerName: "Mannschaft",
+    field: "technical Faults",
+    headerName: "Technische Fehler",
+    flex: 1,
+  },
+  {
+    field: "assists",
+    headerName: "Assists",
     flex: 1,
   },
 ];

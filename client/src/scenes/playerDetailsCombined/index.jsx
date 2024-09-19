@@ -1,8 +1,10 @@
 import FlexBetween from "components/FlexBetween";
 import Header from "components/Header";
 import { useSelector } from "react-redux";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { DataGrid } from "@mui/x-data-grid";
 import { useLocation } from "react-router-dom";
+import CustomColumnMenu from "components/DataGridCustomColumnMenu";
 import { Box, useMediaQuery, Typography } from "@mui/material";
 import {
   GetPlayerGoalsDataLine,
@@ -11,8 +13,9 @@ import {
 import LineChart from "components/LineChartPlayerDetails";
 import { useTheme } from "@emotion/react";
 import SimpleStatBox from "components/SimpleStatBox";
+import { columnsDataGrid } from "./dataGridDefinitions";
 
-const PlayerDetails = () => {
+const PlayerDetailsCombined = () => {
   const location = useLocation();
   const theme = useTheme();
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
@@ -26,7 +29,27 @@ const PlayerDetails = () => {
     teamId
   );
   const playerGoalDataLine = GetPlayerGoalsDataLine(playerStatisticsPerGame);
-  console.log(overallPlayerStatistics);
+  const totalGoals = overallPlayerStatistics.goals;
+  const averageGoals =
+    overallPlayerStatistics.goals / playerGoalDataLine[0].data.length;
+  const penaltyPercentage =
+    (overallPlayerStatistics.penaltyGoals /
+      (overallPlayerStatistics.penaltyGoals +
+        overallPlayerStatistics.penaltyMissed)) *
+    100;
+  const [row, setRow] = useState();
+  const cols = columnsDataGrid;
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    setRow(
+      playerStatisticsPerGame.map((row) => ({
+        ...row,
+        id: row._id,
+        flex: 1,
+      }))
+    );
+  }, [location]);
+
   if (playerGoalDataLine === undefined) {
     return <div>Loading....</div>;
   }
@@ -64,17 +87,16 @@ const PlayerDetails = () => {
         </Box>
         {/* Gesamt Tore ROW 2 */}
         <Box gridColumn="7/9" gridRow="span 1" display="flex">
-          <SimpleStatBox
-            title={"Tore gesamt"}
-            value={overallPlayerStatistics.goals}
-          />
+          <SimpleStatBox title={"Tore gesamt"} value={totalGoals} />
         </Box>
         {/* Durchschnitt Tore ROW 3 */}
         <Box gridColumn="7/9" gridRow="span 1" display="flex">
           <SimpleStatBox
             title={"Tore Ø"}
             value={
-              overallPlayerStatistics.goals / playerGoalDataLine[0].data.length
+              averageGoals % 1 === 0
+                ? averageGoals.toString()
+                : averageGoals.toFixed(2).replace(/\.?0+$/, "")
             }
           />
         </Box>
@@ -120,13 +142,17 @@ const PlayerDetails = () => {
               sx={{ color: theme.palette.secondary[200] }}
               textAlign="center"
             >
-              {(overallPlayerStatistics.penaltyGoals /
-                (overallPlayerStatistics.penaltyGoals +
-                  overallPlayerStatistics.penaltyMissed)) *
-                100}{" "}
+              {penaltyPercentage % 1 === 0
+                ? penaltyPercentage.toString()
+                : penaltyPercentage.toFixed(2).replace(/\.?0+$/, "")}
               %
             </Typography>
           </Box>
+        </Box>
+        {/* Technische Fehler ROW 5 */}
+        <Box gridColumn="7/9" gridRow="span 1" display="flex">
+          <SimpleStatBox title={"Technische Fehler"} value={0} />{" "}
+          {/*Coder für Technische Fehler einfügen */}
         </Box>
         {/* Gelbekarten ROW 5 COL 1/2 */}
         <Box gridColumn="1/3" gridRow="5" display="flex">
@@ -149,8 +175,72 @@ const PlayerDetails = () => {
             value={overallPlayerStatistics.redCards}
           />
         </Box>
+        <Box
+          gridColumn="span 8"
+          gridRow="7 / 12"
+          display="flex"
+          flexDirection="column"
+          justifyContent="space-between"
+          p="1.25rem 1rem"
+          flex="1 1 100%"
+          backgroundColor={theme.palette.background.alt}
+          borderRadius="0.55rem"
+          sx={{
+            "& .MuiDataGrid-root": {
+              borderBottom: "none",
+            },
+            "& .MuiDataGrid-cell": {
+              borderBottom: "none",
+              backgroundColor: theme.palette.background.alt,
+              cursor: "pointer",
+            },
+            "& .MuiDataGrid-columnHeaders": {
+              backgroundColor: theme.palette.background.alt,
+              color: theme.palette.secondary[100],
+              borderBottom: "none",
+            },
+            "& .MuiDataGrid-virtualScroller": {
+              backgroundColor: theme.palette.background.alt,
+            },
+            "& .MuiDataGrid-footerContainer": {
+              backgroundColor: theme.palette.background.alt,
+              color: theme.palette.secondary[400],
+              borderTop: "none",
+            },
+            "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+              color: `${theme.palette.secondary[400]} !important`,
+            },
+            "& .MuiDataGrid-overlay": {
+              // Styling for the 'No Rows' overlay
+              backgroundColor: theme.palette.background.alt,
+              color: theme.palette.secondary[200], // Change the text color
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "1.25rem",
+              fontWeight: "bold",
+            },
+          }}
+        >
+          <Typography
+            variant="h3"
+            sx={{ color: theme.palette.secondary[100] }}
+            textAlign="center"
+            mb="20px"
+          >
+            Statistiken pro Spiel
+          </Typography>
+          <DataGrid
+            rows={row || []}
+            columns={cols}
+            components={{ ColumnMenu: CustomColumnMenu }}
+            localeText={{
+              noRowsLabel: "Noch keine Daten verfügbar",
+            }}
+          />
+        </Box>
       </Box>
     </Box>
   );
 };
-export default PlayerDetails;
+export default PlayerDetailsCombined;

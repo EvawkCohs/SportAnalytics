@@ -50,7 +50,7 @@ export const dataTeams = [
   },
   {
     id: "sportradar.dhbdata.516-1648",
-    name: "HG Saarlouis",
+    name: "HG Saarlouis 3. Liga Männer",
     urlEnding: "216i8",
     group: "SW",
     logo: "https://www.handball.net/files/clubs/logos/1736f032-4268-41e9-b7d6-e9fbee615b3c.png?d=100x",

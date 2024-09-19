@@ -75,7 +75,7 @@ const LineChart = ({ data }) => {
           tickPadding: 5,
           tickRotation: 0,
           legend: "Gegner",
-          legendOffset: 25,
+          legendOffset: 45,
           legendPosition: "middle",
         }}
         axisLeft={{

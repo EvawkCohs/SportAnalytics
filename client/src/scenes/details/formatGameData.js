@@ -140,6 +140,37 @@ export const FormatSpecificEventData = ({ data }, type) => {
   }
   return suspensionData;
 };
+export const FormatSpecificEventDataCustomEvents = (
+  data,
+  type,
+  homeTeam,
+  awayTeam
+) => {
+  console.log(data);
+  const suspensionData = [
+    {
+      id: homeTeam,
+      label: homeTeam,
+      value: 0,
+      color: "hsl(219, 70%, 50%)",
+    },
+    {
+      id: awayTeam,
+      label: awayTeam,
+      value: 0,
+      color: "hsl(282, 70%, 50%)",
+    },
+  ];
+  for (const element of data) {
+    if (element.type === type && element.team === "Home") {
+      suspensionData[0].value += 1;
+    } else if (element.type === type && element.team === "Away") {
+      suspensionData[1].value += 1;
+    }
+  }
+
+  return suspensionData;
+};
 
 export const FormatTableData = ({ data }) => {
   const tableDataHome = data.lineup.home;

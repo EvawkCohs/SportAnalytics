@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 //Components
 import Header from "components/Header";
@@ -24,6 +24,7 @@ import {
   FormatGameDataLine,
   FormatSpecificEventData,
   FormatTableData,
+  FormatSpecificEventDataCustomEvents,
 } from "./formatGameData";
 import { columnsDataGrid } from "./dataGridDefinitions";
 import { handleDownload } from "./handleDownload";
@@ -38,6 +39,7 @@ function Details() {
   const { id } = useParams();
   const gameData = useGetGameModelQuery(id);
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
+  const [eventData, setEventData] = useState([]);
 
   // Daten formattieren für Charts
   const [teamGoalDataBar, setTeamGoalDataBar] = useState();
@@ -49,7 +51,7 @@ function Details() {
   const [tableData, setTableData] = useState([]);
   const [mostValuable, setMostValuable] = useState();
   const [row, setRow] = useState();
-
+  const hasFetchedData = useRef(false); // Ref für die Datenabfrage
   useEffect(() => {
     if (
       !gameData ||
@@ -61,14 +63,13 @@ function Details() {
 
     setTeamGoalDataBar(FormatGameDataBar(gameData));
     setTeamGoalDataLine(FormatGameDataLine(gameData));
+
     setSuspensionData(FormatSpecificEventData(gameData, "TwoMinutePenalty"));
     const formattedTableData = FormatTableData(gameData);
     setTableData(formattedTableData);
     setRedCardData(FormatSpecificEventData(gameData, "Disqualification"));
     setSevenMeterData(FormatSpecificEventData(gameData, "SevenMeterGoal"));
-    setTechnicalFoulsData(
-      FormatSpecificEventData(gameData, "Technischer Fehler")
-    );
+
     //MVP Statistik (Top3 Goalscorer)
     const sortedTableData = formattedTableData.sort(
       (a, b) => b.goals - a.goals
@@ -82,7 +83,43 @@ function Details() {
       }))
     );
   }, [gameData]);
+  useEffect(() => {
+    if (
+      !gameData ||
+      !gameData.data ||
+      !gameData.data.summary ||
+      !gameData.data.events
+    ) {
+      return;
+    }
 
+    const key = `eventData.${gameData.data.summary.id}`;
+
+    // Versuche, die Daten aus localStorage abzurufen
+    const storedData = localStorage.getItem(key);
+
+    if (storedData) {
+      // Wenn Daten vorhanden sind, parse sie und setze sie in den State
+      const parsedData = JSON.parse(storedData).events;
+      setEventData(parsedData);
+    }
+  }, [gameData]); // Abhängigkeiten auf `gameData` beschränken
+
+  useEffect(() => {
+    if (!eventData || eventData.length === 0) return;
+
+    if (!hasFetchedData.current) {
+      setTechnicalFoulsData(
+        FormatSpecificEventDataCustomEvents(
+          eventData,
+          "technicalFault",
+          gameData.data.summary.homeTeam.name,
+          gameData.data.summary.awayTeam.name
+        )
+      );
+      hasFetchedData.current = true; // Markiere, dass die Daten abgerufen wurden
+    }
+  }, [eventData, gameData]); // Überprüfen von `eventData` und `gameData`
   //Tabellen Spalten und Reihen
   const cols = columnsDataGrid;
   const handleAnalyseButton = () => {
@@ -285,7 +322,6 @@ function Details() {
               textAlign="center"
               mb="20px"
             >
-              {" "}
               Einzelstatistiken
             </Typography>
             <DataGrid

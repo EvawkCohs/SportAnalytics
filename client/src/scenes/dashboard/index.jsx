@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, gridClasses } from "@mui/x-data-grid";
 import Header from "components/Header";
 import { useGetTeamModelQuery } from "state/api";
 import useFetchGameIDs from "scenes/schedule/useFetchGameID";
@@ -10,6 +10,7 @@ import StatBoxGameInfo from "components/StatBoxGameInfo";
 import formatTimestamp from "conversionScripts/formatTimestamp";
 import { useNavigate } from "react-router-dom";
 import CustomColumnMenu from "components/DataGridCustomColumnMenu";
+import SportsIcon from "@mui/icons-material/Sports";
 import {
   NextFiveGames,
   LastFiveGames,
@@ -35,14 +36,10 @@ const Dashboard = () => {
   const { data: teamData, isLoading } = useGetTeamModelQuery();
   const gameIDs = useFetchGameIDs(teamId);
   const { schedule, loading, error } = useFetchSchedule(teamId);
-
-  const dataWithIDs = schedule.map((item, index) => ({
-    ...item,
-    gameID: gameIDs[index] || "N/A",
-  }));
+  const [dataWithIDs, setDataWithIDs] = useState([]);
 
   //Nächsten 5 Spiele
-  const allGamesDetails = GetDetailedGameData(dataWithIDs);
+
   const updatedNextFiveGames = NextFiveGames(dataWithIDs);
   // letzten 5 Spiele
   const dataLastFiveGames = LastFiveGames(dataWithIDs);
@@ -62,14 +59,29 @@ const Dashboard = () => {
   const [row, setRow] = useState();
   const cols = columnsDataGrid;
 
+  //OnClick zu GameDetails(letztes Spiel)
+  const handleCellClickLastGame = () => {
+    Navigate(`/details/${dataLastFiveGames[0].summary.id}`);
+  };
+
   //OnClick zu Spielerdetails
-  const handleCellClick = (param) => {
-    Navigate(`/playerDetails/${param.row.id}`, {
+  const handleCellClickPlayerDetails = (param) => {
+    Navigate(`/dashboard/playerDetails/${param.row.id}`, {
       state: { player: param.row, allGamesDetails: allGamesDetails },
     });
   };
   useEffect(() => {
-    if (allGamesDetails === undefined) return;
+    if (isLoading || !schedule) return;
+    setDataWithIDs(
+      schedule.map((item, index) => ({
+        ...item,
+        gameID: gameIDs[index] || "N/A",
+      }))
+    );
+  }, [schedule]);
+  const allGamesDetails = GetDetailedGameData(dataWithIDs);
+  useEffect(() => {
+    if (allGamesDetails === undefined || allGamesDetails.length < 5) return;
     //Tore
     setTotalGoals(GetTotalGoals(allGamesDetails, teamId));
     //Torschnitt
@@ -92,6 +104,7 @@ const Dashboard = () => {
       }))
     );
   }, [allGamesDetails, totalGoals]);
+
   //beste und schlechteste Periode
   useEffect(() => {
     if (
@@ -120,12 +133,13 @@ const Dashboard = () => {
 
   if (
     isLoading ||
-    updatedNextFiveGames === undefined ||
-    updatedNextFiveGames < 5 ||
-    dataLastFiveGames === undefined ||
-    dataLastFiveGames < 1 ||
+    !updatedNextFiveGames ||
+    updatedNextFiveGames.length < 5 ||
+    !dataLastFiveGames ||
+    dataLastFiveGames.length < 1 ||
     loading ||
-    allGamesDetails === undefined
+    allGamesDetails === undefined ||
+    allGamesDetails.length !== 30
   ) {
     return <div>Loading....</div>; // Später noch Ladekreis einbauen oder etwas vergleichbares
   }
@@ -178,6 +192,7 @@ const Dashboard = () => {
               } : ${updatedNextFiveGames[0].summary.awayGoalsHalf ?? "0"})`}
               homeTeam={updatedNextFiveGames[0].summary.homeTeam.name}
               awayTeam={updatedNextFiveGames[0].summary.awayTeam.name}
+              state="pre"
             />
           ) : (
             <Box>
@@ -210,6 +225,15 @@ const Dashboard = () => {
           backgroundColor={theme.palette.background.alt}
           borderRadius="0.55rem"
           m="2rem .5rem "
+          onClick={handleCellClickLastGame}
+          sx={{
+            transition: `transform 0.3s ease`,
+            ":hover": {
+              backgroundColor: theme.palette.grey[600],
+              transform: `translateY(-1rem)`,
+              cursor: "pointer",
+            },
+          }}
         >
           {dataLastFiveGames.length > 0 ? (
             <StatBoxGameInfo
@@ -225,6 +249,7 @@ const Dashboard = () => {
               } : ${dataLastFiveGames[0].summary.awayGoalsHalf ?? "0"})`}
               homeTeam={dataLastFiveGames[0].summary.homeTeam.name}
               awayTeam={dataLastFiveGames[0].summary.awayTeam.name}
+              state="post"
             />
           ) : (
             <Box>
@@ -259,7 +284,7 @@ const Dashboard = () => {
         <Box gridColumn="3/5" display="flex" m="0.5rem " gridRow="2">
           <SimpleStatBox
             title={"Durschnittliche Tore"}
-            value={averageGoals}
+            value={`Ø ${averageGoals}`}
             secondaryValue={"in dieser Saison"}
           />
         </Box>
@@ -463,7 +488,7 @@ const Dashboard = () => {
             localeText={{
               noRowsLabel: "Noch keine Daten verfügbar",
             }}
-            onCellClick={handleCellClick}
+            onCellClick={handleCellClickPlayerDetails}
           />
         </Box>
       </Box>

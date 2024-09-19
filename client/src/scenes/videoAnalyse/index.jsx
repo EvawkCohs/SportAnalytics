@@ -24,6 +24,7 @@ import {
   AddEventDialog,
   ConfirmDeleteDialog,
   ConfirmReloadDialog,
+  ConfirmSaveDialog,
 } from "components/Dialogs";
 import { useSelector } from "react-redux";
 
@@ -31,9 +32,9 @@ function VideoAnalyse() {
   const { id } = useParams();
   const theme = useTheme();
   const gameData = useGetGameModelQuery(id);
+
   const [videoUrl, setVideoUrl] = useState(null);
   const [eventData, setEventData] = useState([]);
-  console.log(gameData);
   //Referenz zum Videoplayer
   const videoRef = useRef(null);
 
@@ -63,7 +64,22 @@ function VideoAnalyse() {
       return;
 
     // Setze eventData, wenn die Daten vorhanden sind
-    setEventData(gameData.data.events.slice());
+    const key = `eventData.${gameData.data.summary.id}`;
+
+    // Versuche, die Daten aus localStorage abzurufen
+    const storedData = localStorage.getItem(key);
+    if (storedData) {
+      // Wenn Daten vorhanden sind, parse sie und setze sie in den State
+      setEventData(JSON.parse(storedData).events);
+    } else {
+      // Wenn keine Daten vorhanden sind, setze Fallback-Daten in den State
+      const initialData = gameData.data;
+      setEventData(initialData.events);
+
+      // Speichere die Fallback-Daten im localStorage für zukünftige Verwendungen
+
+      localStorage.setItem(key, JSON.stringify(initialData));
+    }
   }, [gameData]);
   //Col + Row Definitions für DataGrid
   const cols = [
@@ -238,7 +254,7 @@ function VideoAnalyse() {
   //Handler zum Eventhinzufügen
   const [openDialogAddEvent, setOpenDialogAddEvent] = useState(false);
   const [type, setType] = useState("");
-  const [team, setTeam] = useState("");
+  const [team, setTeam] = useState("Home");
   const [jerseyNumber, setJerseyNumber] = useState("");
   let timestampEvent = 0;
 
@@ -285,7 +301,7 @@ function VideoAnalyse() {
     const event = {
       id: eventData.reduce((maxId, e) => Math.max(maxId, e.id), -Infinity) + 1,
       message: `${type} von Trikotnummer ${jerseyNumber} ${
-        team === "home"
+        team === "Home"
           ? `(${gameData.data.summary.homeTeam.name})`
           : `(${gameData.data.summary.awayTeam.name})`
       } `,
@@ -293,6 +309,10 @@ function VideoAnalyse() {
       type: type,
       currentTime: currentPlayerTime,
       team: team,
+      playerId:
+        gameData.data.lineup[team.toLowerCase()].find(
+          (player) => player.number.toString() === jerseyNumber
+        )?.id || null,
       time: "",
       score: "",
     };
@@ -307,7 +327,24 @@ function VideoAnalyse() {
   const handleSelectionChangeTeam = (e) => {
     setTeam(e.target.value);
   };
-  const handleSaveEvents = () => {};
+  const [openDialogSave, setOpenDialogSave] = useState(false);
+  const handleOpenDialogSave = () => {
+    setOpenDialogSave(true);
+  };
+  const handleCloseDialogSave = () => {
+    setOpenDialogSave(false);
+  };
+  const handleSaveEvents = () => {
+    handleOpenDialogSave();
+    const updatedGameData = {
+      ...gameData.data, // Erstelle eine flache Kopie des gameData.data Objekts
+      events: eventData, // Überschreibe die events Eigenschaft
+    };
+    localStorage.setItem(
+      `eventData.${gameData.data.summary.id}`,
+      JSON.stringify(updatedGameData)
+    );
+  };
 
   return (
     <Box m="1.5rem  2.5rem">
@@ -435,19 +472,6 @@ function VideoAnalyse() {
           />
         </Box>
 
-        {/*Button Box für Hinzufügen von Events */}
-        <Box
-          marginTop="1rem"
-          display="flex"
-          justifyContent="flex-start"
-          gap="1rem"
-          ml="2rem"
-          gridColumn="1/2"
-        >
-          <SimpleButton text="SimpleButton 1"></SimpleButton>
-          <SimpleButton text="SimpleButton 2"></SimpleButton>
-          <SimpleButton text="SimpleButton 3"></SimpleButton>
-        </Box>
         {/*Button zum Löschen von Events */}
         <Box
           display="flex"
@@ -468,7 +492,6 @@ function VideoAnalyse() {
               <DeleteOutlineOutlinedIcon />
             </IconButton>
           </LightTooltip>
-
           <ConfirmDeleteDialog
             open={openDialogDeletion}
             onClose={handleCloseDialogDeletion}
@@ -511,6 +534,11 @@ function VideoAnalyse() {
               <SaveOutlinedIcon />
             </IconButton>
           </LightTooltip>
+          <ConfirmSaveDialog
+            open={openDialogSave}
+            onClose={handleCloseDialogSave}
+            text="Daten wurden erfolgreich lokal gespeichert!"
+          />
           <AddEventDialog
             open={openDialogAddEvent}
             onClose={handleCloseDialogAddEvent}

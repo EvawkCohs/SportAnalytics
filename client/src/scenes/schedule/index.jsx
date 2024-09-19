@@ -28,7 +28,6 @@ function Schedule() {
   //Id aus GlboalState einlesen
   const dispatch = useDispatch();
   const teamId = useSelector((state) => state.global.teamId);
-  const isLoaded = useSelector((state) => state.global.isLoaded);
   const theme = useTheme();
   const navigate = useNavigate();
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
@@ -73,11 +72,10 @@ function Schedule() {
   }));
   const allGamesDetails = useFetchAllGamesDetails(gameIDs);
   useEffect(() => {
-    if (!allGamesDetails || allGamesDetails.length < 30 || isLoaded) return;
+    if (!allGamesDetails || allGamesDetails.length < 30) return;
 
     handleAddGame(allGamesDetails);
-    dispatch(setIsLoaded());
-  }, [allGamesDetails, isLoaded, dispatch]);
+  }, [allGamesDetails, dispatch]);
 
   if (loading || isLoading) {
     return <div>Loading....</div>; // Später noch Ladekreis einbauen oder etwas vergleichbares
@@ -231,7 +229,11 @@ function Schedule() {
             borderBottom: "none",
             backgroundColor: theme.palette.grey[800],
             cursor: "pointer",
+            ":hover": {
+              backgroundColor: theme.palette.grey[700],
+            },
           },
+
           "& .MuiDataGrid-columnHeaders": {
             backgroundColor: theme.palette.background.alt,
             color: theme.palette.secondary[100],
@@ -255,6 +257,11 @@ function Schedule() {
           columns={cols}
           components={{ ColumnMenu: CustomColumnMenu }}
           onCellClick={handleCellClick}
+          sx={{
+            "& .MuiDataGrid-row:hover": {
+              backgroundColor: theme.palette.secondary[400],
+            },
+          }}
         />
       </Box>
     </Box>

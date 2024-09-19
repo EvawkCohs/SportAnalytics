@@ -34,9 +34,24 @@ export const ConfirmReloadDialog = ({ open, onClose, onConfirm, text }) => {
       <DialogTitle>Bestätigung erforderlich</DialogTitle>
       <DialogContent>{text}</DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Abbrechen</Button>
+        <Button onClick={onClose} color="warning">
+          Abbrechen
+        </Button>
         <Button onClick={onConfirm} color="success">
           Laden
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
+export const ConfirmSaveDialog = ({ open, onClose, text }) => {
+  return (
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>Speichern der Eventdaten</DialogTitle>
+      <DialogContent>{text}</DialogContent>
+      <DialogActions>
+        <Button onClick={onClose} color="warning">
+          Schließen
         </Button>
       </DialogActions>
     </Dialog>
@@ -68,13 +83,11 @@ export const AddEventDialog = ({
               label="Art"
               onChange={onChangeType}
               autoWidth
-              defaultValue="Technischer Fehler"
+              defaultValue=""
             >
-              <MenuItem value={"Technischer Fehler"}>
-                Technischer Fehler
-              </MenuItem>
-              <MenuItem value={"Assist"}>Assist</MenuItem>
-              <MenuItem value={"Fehlwurf"}>Fehlwurf</MenuItem>
+              <MenuItem value={"technicalFault"}>Technischer Fehler</MenuItem>
+              <MenuItem value={"assist"}>Assist</MenuItem>
+              <MenuItem value={"missedShot"}>Fehlwurf</MenuItem>
             </Select>
           </FormControl>
           <TextField
@@ -109,8 +122,16 @@ export const AddEventDialog = ({
           </FormControl>
         </Box>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose}>Abbrechen</Button>
+      <DialogActions
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          padding: "0, 2rem",
+        }}
+      >
+        <Button onClick={onClose} color="warning">
+          Abbrechen
+        </Button>
         <Button onClick={onConfirm} color="success">
           Hinzufügen
         </Button>
