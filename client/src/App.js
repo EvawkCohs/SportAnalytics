@@ -11,6 +11,7 @@ import Details from "scenes/details";
 import VideoAnalyse from "scenes/videoAnalyse";
 import PlayerDetailsCombined from "scenes/playerDetailsCombined";
 import "./index.css";
+import Team from "scenes/team";
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
@@ -32,6 +33,7 @@ function App() {
                 path="/dashboard/playerDetails/:id/"
                 element={<PlayerDetailsCombined />}
               />
+              <Route path="/team" element={<Team />} />
             </Route>
           </Routes>
         </ThemeProvider>

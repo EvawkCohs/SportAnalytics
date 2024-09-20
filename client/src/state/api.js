@@ -9,6 +9,7 @@ export const api = createApi({
     "team",
     "game",
     "gamesWithDetails",
+    "participation",
   ],
 
   endpoints: (build) => ({
@@ -32,15 +33,15 @@ export const api = createApi({
       query: (ids) => {
         // IDs in eine durch Kommas getrennte Liste umwandeln
         const idsParam = ids.join(",");
-        return `client/gamemodels?ids=${idsParam}`;
+        return `client/gamemodels/details?ids=${idsParam}`;
       },
       providesTags: ["gamesWithDetails"],
     }),
-    findExistingGames: build.query({
-      query: (ids) => {
-        return `client/gamemodels?ids=${ids}`;
-      },
-      providesTags: ["existinggames"],
+
+    getGamesWithParticipation: build.query({
+      query: (teamId) => `client/gamemodels/participation?id=${teamId}`,
+
+      providesTags: ["participation"],
     }),
   }),
 });
@@ -52,4 +53,5 @@ export const {
   useGetGameModelQuery,
   useGetGamesWithDetailsQuery,
   useFindExistingGamesQuery,
+  useGetGamesWithParticipationQuery,
 } = api;

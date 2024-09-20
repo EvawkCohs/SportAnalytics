@@ -48,15 +48,23 @@ export const getGamesWithDetails = async (req, res) => {
   }
 };
 
-//alle existierenden Games in Datenbank finden
-export const findExistingGames = async (gameIds) => {
+export const getGamesWithParticipation = async (req, res) => {
+  const teamId = req.query.id;
   try {
-    const existingGames = await GameModel.find({
-      "summary.id": { $in: gameIds },
+    const gamesWithParticipation = await GameModel.find({
+      $or: [
+        { "summary.homeTeam.id": teamId },
+        { "summary.awayTeam.id": teamId },
+      ],
     });
-    return existingGames;
+    const uniqueGames = Array.from(
+      new Map(
+        gamesWithParticipation.map((game) => [game.summary.id, game])
+      ).values()
+    );
+    res.status(200).json(uniqueGames);
   } catch (error) {
-    console.error("Fehler beim Überprüfen der Spiele: ", error);
-    throw new Error("Fehler beim Überprüfen der Spiele");
+    console.error("Spiele konnten nicht gefunden werden: ", error);
+    throw new Error("Spiele konnten nicht gefunden werden!");
   }
 };

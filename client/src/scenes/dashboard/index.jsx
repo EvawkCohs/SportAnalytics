@@ -3,20 +3,16 @@ import { useSelector } from "react-redux";
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { DataGrid, gridClasses } from "@mui/x-data-grid";
 import Header from "components/Header";
-import { useGetTeamModelQuery } from "state/api";
-import useFetchGameIDs from "scenes/schedule/useFetchGameID";
-import useFetchSchedule from "scenes/schedule/useFetchSchedule";
+import {
+  useGetTeamModelQuery,
+  useGetGamesWithParticipationQuery,
+} from "state/api";
 import StatBoxGameInfo from "components/StatBoxGameInfo";
 import formatTimestamp from "conversionScripts/formatTimestamp";
 import { useNavigate } from "react-router-dom";
 import CustomColumnMenu from "components/DataGridCustomColumnMenu";
-import SportsIcon from "@mui/icons-material/Sports";
 import {
-  NextFiveGames,
-  LastFiveGames,
-  GetDetailedGameData,
   GetTotalGoals,
-  GetAverageGoals,
   GetAverageGoalsLastFive,
   GetAverageAttendance,
   GetBestPeriodLastFive,
@@ -33,16 +29,24 @@ const Dashboard = () => {
   const theme = useTheme();
   const Navigate = useNavigate();
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
-  const { data: teamData, isLoading } = useGetTeamModelQuery();
-  const gameIDs = useFetchGameIDs(teamId);
-  const { schedule, loading, error } = useFetchSchedule(teamId);
-  const [dataWithIDs, setDataWithIDs] = useState([]);
+  const { data: teamData, isLoadingTeam } = useGetTeamModelQuery();
+  const {
+    data: games,
+    errorGames,
+    isLoadingGames,
+  } = useGetGamesWithParticipationQuery(teamId);
 
   //Nächsten 5 Spiele
 
-  const updatedNextFiveGames = NextFiveGames(dataWithIDs);
+  const updatedNextFiveGames = games
+    ?.filter((game) => new Date(game.summary.startsAt).getTime() > Date.now())
+    .sort((a, b) => new Date(a.summary.startsAt) - new Date(b.summary.startsAt))
+    .slice(0, 5);
   // letzten 5 Spiele
-  const dataLastFiveGames = LastFiveGames(dataWithIDs);
+  const dataLastFiveGames = games
+    ?.filter((game) => new Date(game.summary.startsAt).getTime() < Date.now())
+    .sort((a, b) => new Date(b.summary.startsAt) - new Date(a.summary.startsAt))
+    .slice(0, 5);
   //Tore
   const [totalGoals, setTotalGoals] = useState(0);
   const [averageGoals, setAverageGoals] = useState(0);
@@ -67,35 +71,33 @@ const Dashboard = () => {
   //OnClick zu Spielerdetails
   const handleCellClickPlayerDetails = (param) => {
     Navigate(`/dashboard/playerDetails/${param.row.id}`, {
-      state: { player: param.row, allGamesDetails: allGamesDetails },
+      state: { player: param.row, allGamesDetails: games },
     });
   };
+
   useEffect(() => {
-    if (isLoading || !schedule) return;
-    setDataWithIDs(
-      schedule.map((item, index) => ({
-        ...item,
-        gameID: gameIDs[index] || "N/A",
-      }))
-    );
-  }, [schedule]);
-  const allGamesDetails = GetDetailedGameData(dataWithIDs);
-  useEffect(() => {
-    if (allGamesDetails === undefined || allGamesDetails.length < 5) return;
+    if (isLoadingGames || !games || games.length !== 30) return;
+
     //Tore
-    setTotalGoals(GetTotalGoals(allGamesDetails, teamId));
+    setTotalGoals(GetTotalGoals(games, teamId));
+
     //Torschnitt
-    setAverageGoals(GetAverageGoals(allGamesDetails, totalGoals).toFixed(2));
+    setAverageGoals(
+      (
+        totalGoals / games.filter((game) => game.summary.homeGoals > 0).length
+      ).toFixed(2)
+    );
+    //Torschnitt letzte 5
+
     setAverageGoalsLastFive(
       GetAverageGoalsLastFive(dataLastFiveGames, teamId).toFixed(2)
     );
-    //zuschauerschnitt
-    setAverageAttendance(
-      GetAverageAttendance(allGamesDetails, teamId).toFixed(0)
-    );
+    //Zuschauerschnitt
+
+    setAverageAttendance(GetAverageAttendance(games, teamId).toFixed(0));
     //Period Data
     setPeriodData(GetBestPeriodLastFive(dataLastFiveGames, teamId));
-    setOverallLineup(GetOverallLineupData(allGamesDetails, teamId));
+    setOverallLineup(GetOverallLineupData(games, teamId));
     setRow(
       overallLineup.map((row, index) => ({
         id: index,
@@ -103,7 +105,7 @@ const Dashboard = () => {
         flex: 1,
       }))
     );
-  }, [allGamesDetails, totalGoals]);
+  }, [games, totalGoals]);
 
   //beste und schlechteste Periode
   useEffect(() => {
@@ -132,18 +134,16 @@ const Dashboard = () => {
   }, [periodData]);
 
   if (
-    isLoading ||
+    isLoadingTeam ||
     !updatedNextFiveGames ||
     updatedNextFiveGames.length < 5 ||
     !dataLastFiveGames ||
     dataLastFiveGames.length < 1 ||
-    loading ||
-    allGamesDetails === undefined ||
-    allGamesDetails.length !== 30
+    isLoadingGames
   ) {
     return <div>Loading....</div>; // Später noch Ladekreis einbauen oder etwas vergleichbares
   }
-  if (error) {
+  if (errorGames) {
     return <div>Fehler beim Laden der Daten</div>;
   }
   return (

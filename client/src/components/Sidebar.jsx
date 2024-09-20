@@ -23,6 +23,7 @@ import KeyIcon from "@mui/icons-material/Key";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FlexBetween from "./FlexBetween.jsx";
+import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
 
 const navItems = [
   {
@@ -37,6 +38,7 @@ const navItems = [
     text: "Schedule",
     icon: <CalendarMonthOutlined />,
   },
+  { text: "Team", icon: <Groups2OutlinedIcon /> },
 ];
 
 const Sidebar = ({
