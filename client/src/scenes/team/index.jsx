@@ -1,5 +1,6 @@
 import { useTheme } from "@emotion/react";
-import React from "react";
+import React, { useState } from "react";
+import { alpha } from "@mui/material/styles";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
@@ -14,10 +15,14 @@ import {
   CardActions,
   CardContent,
   Typography,
-  Button,
+  Switch,
+  FormControlLabel,
+  Stack,
 } from "@mui/material";
-
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+import "./team.css";
 const Player = ({
+  player,
   id,
   firstname,
   lastname,
@@ -26,22 +31,32 @@ const Player = ({
   gamesPlayed,
   goals,
   mostGoals,
+  games,
 }) => {
   const theme = useTheme();
-
+  const Navigate = useNavigate();
+  const handleClick = () => {
+    Navigate(`/dashboard/playerDetails/${id}`, {
+      state: { player: player, allGamesDetails: games },
+    });
+  };
   return (
     <Card
+      onClick={handleClick}
       sx={{
         backgroundImage: "none",
         backgroundColor: theme.palette.background.alt,
         borderRadius: "0.55rem",
         width: "350px",
         height: "250px",
-        transition: `transform 0.6s ease`,
+        transition: `transform 0.4s ease-out, border-color 0.4s ease-out, box-shadow 0.4s ease-out`,
+        border: `2px solid transparent`,
         ":hover": {
           cursor: "pointer",
-          backgroundColor: theme.palette.grey[600],
+          backgroundColor: theme.palette.background.alt,
           transform: `scale(1.1)`,
+          border: `2px solid ${theme.palette.secondary[400]}`,
+          boxShadow: `0 0 8px ${theme.palette.secondary[500]}`,
         },
       }}
     >
@@ -59,39 +74,46 @@ const Player = ({
             flexDirection="row"
             gap="50px"
             alignItems="center"
-            mb="20px"
+            mb="12px"
+            sx={{
+              borderBottom: `2px solid ${theme.palette.grey[500]}`,
+            }}
           >
             <Box
               display="flex"
               justifyContent="flex-start"
               flexDirection="column"
+              alignItems="baseline"
             >
               <Typography
-                sx={{ fontSize: "20px", color: theme.palette.secondary[200] }}
+                sx={{
+                  fontSize: "32px",
+                  color: theme.palette.secondary[200],
+                }}
               >
                 {lastname}
               </Typography>
               <Typography
-                sx={{ fontSize: "16px", color: theme.palette.secondary[200] }}
+                sx={{ fontSize: "20px", color: theme.palette.secondary[200] }}
               >
                 {firstname}
               </Typography>
             </Box>
             <Typography
-              sx={{ fontSize: "40px", color: theme.palette.secondary[200] }}
+              sx={{ fontSize: "50px", color: theme.palette.secondary[200] }}
             >{`# ${number}`}</Typography>
           </Box>
           <Typography
-            sx={{ fontSize: "12px", color: theme.palette.secondary[200] }}
+            sx={{ fontSize: "14px", color: theme.palette.secondary[100] }}
           >{`Position: ${position}`}</Typography>
           <Typography
-            sx={{ fontSize: "12px", color: theme.palette.secondary[200] }}
+            sx={{ fontSize: "14px", color: theme.palette.secondary[100] }}
           >{`Spiele: ${gamesPlayed}`}</Typography>
           <Typography
-            sx={{ fontSize: "12px", color: theme.palette.secondary[200] }}
+            sx={{ fontSize: "14px", color: theme.palette.secondary[100] }}
           >{`Tore: ${goals}`}</Typography>
           <Typography
-            sx={{ fontSize: "12px", color: theme.palette.secondary[200] }}
+            sx={{ fontSize: "14px", color: theme.palette.secondary[100] }}
           >{`Tore pro Spiel: Ø ${
             Number.isInteger(goals / gamesPlayed)
               ? goals / gamesPlayed
@@ -99,7 +121,7 @@ const Player = ({
           }`}</Typography>
           {mostGoals.slice(0, 1) !== "0" ? (
             <Typography
-              sx={{ fontSize: "12px", color: theme.palette.secondary[200] }}
+              sx={{ fontSize: "14px", color: theme.palette.secondary[100] }}
             >{`Meiste Tore: ${mostGoals}`}</Typography>
           ) : (
             <Box />
@@ -113,7 +135,10 @@ const Player = ({
 const Team = () => {
   const teamID = useSelector((state) => state.global.teamId);
   const theme = useTheme();
-  const Navigate = useNavigate();
+  const [isSwitchChecked, setIsSwitchChecked] = useState(false);
+  const handleSwitchChange = (event) => {
+    setIsSwitchChecked(event.target.checked);
+  };
   const { data: teamData, isLoadingTeam } = useGetTeamModelQuery();
 
   const {
@@ -150,12 +175,16 @@ const Team = () => {
     ?.filter((game) => new Date(game.summary.startsAt).getTime() < Date.now())
     .sort((a, b) => new Date(b.summary.startsAt) - new Date(a.summary.startsAt))
     .slice(0, 5);
+
+  let mostGoals = 0;
+
   //OVERALL LINEUP
   const overallLineup = GetOverallLineupData(games || [], teamID).sort(
-    (a, b) => a.number - b.number
+    (a, b) => {
+      return isSwitchChecked ? b.goals - a.goals : a.number - b.number;
+    }
   );
-  console.log(overallLineup);
-  let mostGoals = 0;
+
   if (isLoading || isLoadingTeam) {
     return <div>Loading....</div>;
   }
@@ -165,6 +194,43 @@ const Team = () => {
         title="KADER"
         subtitle={teamData.find((team) => team.id === teamID).name}
       />
+      <Box display="flex" alignItems="center" flexDirection="column">
+        <Typography sx={{ variant: "h5", color: theme.palette.secondary[200] }}>
+          Sortieren des Kaders:{" "}
+        </Typography>
+        <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+          <Typography
+            sx={{ variant: "h5", color: theme.palette.secondary[200] }}
+          >
+            Nach Toren
+          </Typography>
+          <Switch
+            defaultChecked={false}
+            checked={isSwitchChecked}
+            onChange={handleSwitchChange}
+            sx={{
+              "& .MuiSwitch-switchBase.Mui-checked": {
+                color: theme.palette.secondary[500],
+
+                "&:hover": {
+                  backgroundColor: alpha(theme.palette.secondary[500], 0.1),
+                },
+              },
+              "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+                backgroundColor: theme.palette.secondary[500],
+              },
+              "&.Mui-disabled .MuiSwitch-thumb": {
+                color: theme.palette.secondary[700],
+              },
+            }}
+          />
+          <Typography
+            sx={{ variant: "h5", color: theme.palette.secondary[200] }}
+          >
+            Nach Nummern
+          </Typography>
+        </Stack>
+      </Box>
       {overallLineup || !isLoading ? (
         <Box
           mt="20px"
@@ -198,6 +264,10 @@ const Team = () => {
                 }, {})),
               (
                 <Player
+                  player={overallLineup
+                    .flat()
+                    .find((player) => player.id === id)}
+                  id={id}
                   firstname={firstname}
                   lastname={lastname}
                   number={number}
@@ -205,6 +275,7 @@ const Team = () => {
                   gamesPlayed={gamesPlayed}
                   goals={goals}
                   mostGoals={`${mostGoals[id].goals} gegen ${mostGoals[id].opponent}`}
+                  games={games}
                 />
               )
             )

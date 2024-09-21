@@ -28,7 +28,11 @@ const PlayerDetailsCombined = () => {
     playerId,
     teamId
   );
-  const playerGoalDataLine = GetPlayerGoalsDataLine(playerStatisticsPerGame);
+
+  const playerGoalDataLine = GetPlayerGoalsDataLine(
+    playerStatisticsPerGame.reverse()
+  );
+
   const totalGoals = overallPlayerStatistics.goals;
   const averageGoals =
     overallPlayerStatistics.goals / playerGoalDataLine[0].data.length;
