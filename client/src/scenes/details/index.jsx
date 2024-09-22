@@ -79,7 +79,6 @@ function Details() {
       sortedTableData.map((row, index) => ({
         id: index,
         ...row,
-        flex: 1,
       }))
     );
   }, [gameData]);
@@ -124,6 +123,37 @@ function Details() {
   const cols = columnsDataGrid;
   const handleAnalyseButton = () => {
     navigate(`/videoanalyse/${id}`);
+  };
+
+  const handleCellClick = (param) => {
+    let home = true;
+    param.row.team === gameData.data.summary.homeTeam.name
+      ? (home = true)
+      : (home = false);
+
+    const name = `${param.row.firstname} ${param.row.lastname}`;
+
+    navigate(`/details/${id}/${param.row.firstname}_${param.row.lastname}`, {
+      state: {
+        player: param.row,
+        opponent:
+          gameData.data.summary.homeTeam.name === param.row.team
+            ? gameData.data.summary.awayTeam.name
+            : gameData.data.summary.homeTeam.name,
+        mvp:
+          mostValuable[0].number === param.row.number &&
+          mostValuable[0].team === param.row.team
+            ? true
+            : false,
+        events: home
+          ? eventData
+              .filter((event) => event.team === "Home")
+              .filter((event) => event.message.includes(name))
+          : eventData
+              .filter((event) => event.team === "Away")
+              .filter((event) => event.message.includes(name)),
+      },
+    });
   };
 
   if (tableData.length === undefined || gameData.isLoading) {
@@ -245,11 +275,13 @@ function Details() {
               awayTeam={gameData.data.summary.awayTeam.name}
             />
           </Box>
-          <SimpleStatBox
-            value={gameData.data.summary.attendance}
-            secondaryValue={gameData.data.summary.field.name}
-            title="Zuschauer"
-          />
+          <Box gridColumn="7/9">
+            <SimpleStatBox
+              value={gameData.data.summary.attendance}
+              secondaryValue={gameData.data.summary.field.name}
+              title="Zuschauer"
+            />
+          </Box>
           {/* ROW 2*/}
           {/*Box 1st Column */}
 
@@ -331,6 +363,7 @@ function Details() {
               localeText={{
                 noRowsLabel: "Noch keine Daten verfügbar",
               }}
+              onCellClick={handleCellClick}
             />
           </Box>
         </Box>

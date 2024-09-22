@@ -1,5 +1,5 @@
 .fade-in {
-  animation: fadein 500ms ease-in forwards; /* Animation anwenden */
+  animation: fadein 300ms ease-in forwards; /* Animation anwenden */
 }
 
 @-webkit-keyframes fadein {

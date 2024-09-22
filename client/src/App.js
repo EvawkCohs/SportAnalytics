@@ -10,6 +10,7 @@ import Schedule from "scenes/schedule";
 import Details from "scenes/details";
 import VideoAnalyse from "scenes/videoAnalyse";
 import PlayerDetailsCombined from "scenes/playerDetailsCombined";
+import PlayerDetailsGame from "scenes/playerDetailsGame";
 import "./index.css";
 import Team from "scenes/team";
 
@@ -34,6 +35,10 @@ function App() {
                 element={<PlayerDetailsCombined />}
               />
               <Route path="/team" element={<Team />} />
+              <Route
+                path="/details/:gameId/:player"
+                element={<PlayerDetailsGame />}
+              />
             </Route>
           </Routes>
         </ThemeProvider>

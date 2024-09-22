@@ -1,5 +1,5 @@
 import { useTheme } from "@emotion/react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { alpha } from "@mui/material/styles";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -12,15 +12,13 @@ import Header from "components/Header";
 import {
   Box,
   Card,
-  CardActions,
   CardContent,
   Typography,
   Switch,
-  FormControlLabel,
   Stack,
 } from "@mui/material";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
-import "./team.css";
+import "./styles.css";
+
 const Player = ({
   player,
   id,
@@ -42,6 +40,7 @@ const Player = ({
   };
   return (
     <Card
+      className="fade-in"
       onClick={handleClick}
       sx={{
         backgroundImage: "none",
@@ -138,6 +137,7 @@ const Team = () => {
   const [isSwitchChecked, setIsSwitchChecked] = useState(false);
   const handleSwitchChange = (event) => {
     setIsSwitchChecked(event.target.checked);
+    setVisiblePlayers([]);
   };
   const { data: teamData, isLoadingTeam } = useGetTeamModelQuery();
 
@@ -181,10 +181,23 @@ const Team = () => {
   //OVERALL LINEUP
   const overallLineup = GetOverallLineupData(games || [], teamID).sort(
     (a, b) => {
-      return isSwitchChecked ? b.goals - a.goals : a.number - b.number;
+      return isSwitchChecked ? a.number - b.number : b.goals - a.goals;
     }
   );
-
+  const [visiblePlayers, setVisiblePlayers] = useState([]);
+  useEffect(() => {
+    // Spieler beim ersten Rendern hinzufügen
+    setVisiblePlayers(overallLineup);
+  }, [overallLineup]);
+  useEffect(() => {
+    // Wenn der Sortierstatus geändert wird, Animation auslösen
+    const fadeInElements = document.querySelectorAll(".fade-in");
+    fadeInElements.forEach((element) => {
+      element.classList.remove("fade-in"); // Animation zurücksetzen
+      void element.offsetWidth; // Trigger für die Animation
+      element.classList.add("fade-in"); // Animation wieder hinzufügen
+    });
+  }, [isSwitchChecked]);
   if (isLoading || isLoadingTeam) {
     return <div>Loading....</div>;
   }
@@ -235,12 +248,13 @@ const Team = () => {
         <Box
           mt="20px"
           display="flex"
+          flexDirection="row"
           justifyContent="flex-start"
-          alignItems="center"
+          alignItems="flex-start"
           flexWrap="wrap"
           gap="20px"
         >
-          {overallLineup.map(
+          {visiblePlayers.map(
             ({
               firstname,
               lastname,
@@ -259,24 +273,25 @@ const Team = () => {
                   ) {
                     acc[currentPlayer.id] = currentPlayer;
                   }
-
                   return acc;
                 }, {})),
               (
-                <Player
-                  player={overallLineup
-                    .flat()
-                    .find((player) => player.id === id)}
-                  id={id}
-                  firstname={firstname}
-                  lastname={lastname}
-                  number={number}
-                  position={position}
-                  gamesPlayed={gamesPlayed}
-                  goals={goals}
-                  mostGoals={`${mostGoals[id].goals} gegen ${mostGoals[id].opponent}`}
-                  games={games}
-                />
+                <div key={id} className="fade-in">
+                  <Player
+                    player={overallLineup
+                      .flat()
+                      .find((player) => player.id === id)}
+                    id={id}
+                    firstname={firstname}
+                    lastname={lastname}
+                    number={number}
+                    position={position}
+                    gamesPlayed={gamesPlayed}
+                    goals={goals}
+                    mostGoals={`${mostGoals[id].goals} gegen ${mostGoals[id].opponent}`}
+                    games={games}
+                  />
+                </div>
               )
             )
           )}

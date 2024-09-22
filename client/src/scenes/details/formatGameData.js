@@ -146,7 +146,6 @@ export const FormatSpecificEventDataCustomEvents = (
   homeTeam,
   awayTeam
 ) => {
-  console.log(data);
   const suspensionData = [
     {
       id: homeTeam,

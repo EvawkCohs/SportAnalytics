@@ -6,8 +6,6 @@ const SimpleStatBox = ({ value, secondaryValue, title, icon }) => {
 
   return (
     <Box
-      gridColumn="7/10"
-      gridRow="span 1"
       display="flex"
       flexDirection="column"
       justifyContent="space-between"
@@ -15,6 +13,7 @@ const SimpleStatBox = ({ value, secondaryValue, title, icon }) => {
       flex="1 1 100%"
       backgroundColor={theme.palette.background.alt}
       borderRadius="0.55rem"
+      minHeight="140px"
     >
       <Typography
         variant="h2"

@@ -137,11 +137,6 @@ function Schedule() {
       headerName: "Ort",
       flex: 1,
     },
-    {
-      field: "gameID",
-      headerName: "GameID",
-      flex: 1,
-    },
   ];
 
   const row = dataWithIDs.map((row, index) => ({

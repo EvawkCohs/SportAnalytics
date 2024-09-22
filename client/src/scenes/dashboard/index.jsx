@@ -83,15 +83,11 @@ const Dashboard = () => {
 
     //Torschnitt
     setAverageGoals(
-      (
-        totalGoals / games.filter((game) => game.summary.homeGoals > 0).length
-      ).toFixed(2)
+      totalGoals / games.filter((game) => game.summary.homeGoals > 0).length
     );
     //Torschnitt letzte 5
 
-    setAverageGoalsLastFive(
-      GetAverageGoalsLastFive(dataLastFiveGames, teamId).toFixed(2)
-    );
+    setAverageGoalsLastFive(GetAverageGoalsLastFive(dataLastFiveGames, teamId));
     //Zuschauerschnitt
 
     setAverageAttendance(GetAverageAttendance(games, teamId).toFixed(0));
@@ -229,9 +225,10 @@ const Dashboard = () => {
           sx={{
             transition: `transform 0.3s ease`,
             ":hover": {
-              backgroundColor: theme.palette.grey[600],
               transform: `translateY(-1rem)`,
               cursor: "pointer",
+              border: `2px solid ${theme.palette.secondary[400]}`,
+              boxShadow: `0 0 8px ${theme.palette.secondary[500]}`,
             },
           }}
         >
@@ -284,7 +281,11 @@ const Dashboard = () => {
         <Box gridColumn="3/5" display="flex" m="0.5rem " gridRow="2">
           <SimpleStatBox
             title={"Durschnittliche Tore"}
-            value={`Ø ${averageGoals}`}
+            value={`Ø ${
+              Number.isInteger(averageGoals)
+                ? averageGoals
+                : averageGoals.toFixed(2)
+            }`}
             secondaryValue={"in dieser Saison"}
           />
         </Box>
@@ -314,7 +315,10 @@ const Dashboard = () => {
             textAlign="center"
             mb="1.25rem"
           >
-            Ø {averageGoalsLastFive}
+            Ø{" "}
+            {Number.isInteger(averageGoalsLastFive)
+              ? averageGoalsLastFive
+              : averageGoalsLastFive.toFixed(2)}
           </Typography>
           {averageGoalsLastFive >= averageGoals ? (
             <Box
@@ -330,7 +334,15 @@ const Dashboard = () => {
                 sx={{ color: "green" }}
                 textAlign="center"
               >
-                + {(averageGoalsLastFive / averageGoals - 1) * 100} %
+                +{" "}
+                {Number.isInteger(
+                  (averageGoalsLastFive / averageGoals - 1) * 100
+                )
+                  ? (averageGoalsLastFive / averageGoals - 1) * 100
+                  : ((averageGoalsLastFive / averageGoals - 1) * 100).toFixed(
+                      2
+                    )}{" "}
+                %
               </Typography>
             </Box>
           ) : (
@@ -350,7 +362,14 @@ const Dashboard = () => {
                 sx={{ color: theme.palette.red[100] }}
                 textAlign="center"
               >
-                - {((1 - averageGoalsLastFive / averageGoals) * 100).toFixed(2)}
+                -{" "}
+                {Number.isInteger(
+                  (1 - averageGoalsLastFive / averageGoals) * 100
+                )
+                  ? (1 - averageGoalsLastFive / averageGoals) * 100
+                  : ((1 - averageGoalsLastFive / averageGoals) * 100).toFixed(
+                      2
+                    )}
                 %
               </Typography>
             </Box>
