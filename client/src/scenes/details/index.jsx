@@ -132,6 +132,7 @@ function Details() {
       : (home = false);
 
     const name = `${param.row.firstname} ${param.row.lastname}`;
+    const events = eventData.length !== 0 ? eventData : gameData.data.events;
 
     navigate(`/details/${id}/${param.row.firstname}_${param.row.lastname}`, {
       state: {
@@ -146,10 +147,10 @@ function Details() {
             ? true
             : false,
         events: home
-          ? eventData
+          ? events
               .filter((event) => event.team === "Home")
               .filter((event) => event.message.includes(name))
-          : eventData
+          : events
               .filter((event) => event.team === "Away")
               .filter((event) => event.message.includes(name)),
       },
@@ -239,6 +240,7 @@ function Details() {
               flex="1 1 100%"
               backgroundColor={theme.palette.background.alt}
               borderRadius="0.55rem"
+              className="data-display"
             >
               <Typography
                 variant="h2"
@@ -259,6 +261,7 @@ function Details() {
             flex="1 1 100%"
             backgroundColor={theme.palette.background.alt}
             borderRadius="0.55rem"
+            className="data-display"
           >
             <StatBoxGameInfo
               title={`${gameData.data.summary.phase.name}`}
@@ -275,13 +278,14 @@ function Details() {
               awayTeam={gameData.data.summary.awayTeam.name}
             />
           </Box>
-          <Box gridColumn="7/9">
+          <Box gridColumn="7/9" gridRow="span 1">
             <SimpleStatBox
               value={gameData.data.summary.attendance}
               secondaryValue={gameData.data.summary.field.name}
               title="Zuschauer"
             />
           </Box>
+
           {/* ROW 2*/}
           {/*Box 1st Column */}
 
@@ -311,30 +315,35 @@ function Details() {
             flex="1 1 100%"
             backgroundColor={theme.palette.background.alt}
             borderRadius="0.55rem"
+            className="data-display"
             sx={{
               "& .MuiDataGrid-root": {
                 borderBottom: "none",
               },
               "& .MuiDataGrid-cell": {
-                borderBottom: "none",
-                backgroundColor: theme.palette.background.alt,
-                cursor: "pointer",
+                color: theme.palette.secondary[200],
+                fontSize: 14,
               },
+
               "& .MuiDataGrid-columnHeaders": {
-                backgroundColor: theme.palette.background.alt,
-                color: theme.palette.secondary[100],
+                color: theme.palette.secondary[200],
                 borderBottom: "none",
+                fontSize: 20,
               },
-              "& .MuiDataGrid-virtualScroller": {
-                backgroundColor: theme.palette.primary.light,
-              },
+
               "& .MuiDataGrid-footerContainer": {
-                backgroundColor: theme.palette.background.alt,
+                backgroundColor: theme.palette.grey[850],
                 color: theme.palette.secondary[400],
                 borderTop: "none",
               },
               "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
                 color: `${theme.palette.secondary[400]} !important`,
+              },
+              "& .MuiDataGrid-row": {
+                "&:hover": {
+                  backgroundColor: theme.palette.grey[700],
+                  cursor: "pointer",
+                },
               },
               "& .MuiDataGrid-overlay": {
                 // Styling for the 'No Rows' overlay
@@ -350,7 +359,7 @@ function Details() {
           >
             <Typography
               variant="h3"
-              sx={{ color: theme.palette.secondary[100] }}
+              sx={{ color: theme.palette.secondary[200] }}
               textAlign="center"
               mb="20px"
             >

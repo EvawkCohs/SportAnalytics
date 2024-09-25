@@ -9,6 +9,15 @@ export const GetTotalGoals = (games, teamId) => {
   });
   return totalGoals;
 };
+export const GetTotalGoalsConceded = (games, teamId) => {
+  let totalGoalsConceded = 0;
+  games.forEach((game) => {
+    game.summary.homeTeam.id === teamId
+      ? (totalGoalsConceded += game.summary.awayGoals)
+      : (totalGoalsConceded += game.summary.homeGoals);
+  });
+  return totalGoalsConceded;
+};
 
 export const GetAverageGoalsLastFive = (dataLastFiveGames, teamId) => {
   const gamesPlayed = dataLastFiveGames.length;
@@ -22,6 +31,17 @@ export const GetAverageGoalsLastFive = (dataLastFiveGames, teamId) => {
   });
   const averageGoalsLastFive = totalGoalsLastFive / gamesPlayed;
   return averageGoalsLastFive;
+};
+
+export const GetAverageGoalsConcededLastFive = (dataLastFiveGames, teamId) => {
+  const gamesPlayed = dataLastFiveGames.length;
+  let totalGoalsConcededLastFive = 0;
+  dataLastFiveGames.forEach((game) => {
+    game.summary.homeTeam.id === teamId
+      ? (totalGoalsConcededLastFive += game.summary.awayGoals)
+      : (totalGoalsConcededLastFive += game.summary.homeGoals);
+  });
+  return totalGoalsConcededLastFive / gamesPlayed;
 };
 
 export const GetAverageAttendance = (games, teamId) => {

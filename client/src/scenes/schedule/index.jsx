@@ -6,6 +6,8 @@ import {
   FormControl,
   MenuItem,
   InputLabel,
+  Fade,
+  TextField,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import Header from "components/Header";
@@ -71,9 +73,10 @@ function Schedule() {
     gameID: gameIDs[index] || "N/A",
   }));
   const allGamesDetails = useFetchAllGamesDetails(gameIDs);
+  const [isChecked, setIsChecked] = useState(false);
   useEffect(() => {
+    setIsChecked(true);
     if (!allGamesDetails || allGamesDetails.length < 30) return;
-
     handleAddGame(allGamesDetails);
   }, [allGamesDetails, dispatch]);
 
@@ -155,46 +158,105 @@ function Schedule() {
 
   return (
     <Box m="1.5rem  2.5rem">
-      <Box
-        display="grid"
-        gridTemplateColumns="6"
-        gridTemplateRows="1"
-        sx={{
-          "& > div": {
-            gridColumn: isNonMediumScreens ? undefined : "span 12",
-          },
-        }}
-      >
-        <Header
-          title="SCHEDULE"
-          subtitle="Schedule der Mannschaft"
-          gridColumn="1/3"
-        />
-        {/*Staffelauswahl Dropdown*/}
+      <Header
+        title="SCHEDULE"
+        subtitle="Schedule der Mannschaft"
+        gridColumn="1/3"
+      />
+      {/*Staffelauswahl Dropdown*/}
+      <Box display="flex" justifyContent="space-evenly" flexDirection="column">
         <Box
-          gridColumn="4"
           display="flex"
-          flexDirection="column"
-          justifyContent="space-between"
-          p="0 2rem"
+          flexDirection="row"
+          justifyContent="flex-start"
+          mt="2rem"
+          mb="1rem"
           flex="1 1 100%"
+          gap="1rem"
           borderRadius="0.55rem"
         >
-          <FormControl fullWidth>
-            <InputLabel id="Staffelauswahl">Staffel</InputLabel>
-            <Select value={group} label="group" onChange={handleGroupChange}>
+          <FormControl sx={{ width: "300px" }}>
+            <InputLabel
+              id="Staffelauswahl"
+              sx={{
+                "&.Mui-focused": {
+                  color: theme.palette.secondary[300],
+                },
+                color: theme.palette.secondary[200],
+              }}
+            >
+              Staffel
+            </InputLabel>
+            <Select
+              value={group}
+              onChange={handleGroupChange}
+              label="group"
+              sx={{
+                "&.MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: theme.palette.secondary[200], // Standardborderfarbe
+                  },
+                  "&:hover fieldset": {
+                    borderColor: theme.palette.secondary[500], // Farbe beim Hovern
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: theme.palette.secondary[500], // Farbe beim Fokussieren
+                  },
+                },
+                "& .MuiSelect-select": {
+                  color: theme.palette.secondary[200],
+                },
+                "& .MuiSelect-select.MuiSelect-select": {
+                  color: theme.palette.secondary[200],
+                },
+              }}
+            >
               <MenuItem value="SW">3. Liga Staffel Süd-West</MenuItem>
               <MenuItem value="S">3. Liga Staffel Süd</MenuItem>
               <MenuItem value="NO">3. Liga Staffel Nord-Ost</MenuItem>
               <MenuItem value="NW">3. Liga Staffel Nord-West</MenuItem>
             </Select>
           </FormControl>
-        </Box>
-        {/*Teamauswahl Dropdown*/}
-        <Box gridColumn="5/6">
-          <FormControl fullWidth>
-            <InputLabel id="Mannschaftsauswahl">Mannschaft</InputLabel>
-            <Select value={team} label="team" onChange={handleTeamChange}>
+
+          {/*Teamauswahl Dropdown*/}
+
+          <FormControl sx={{ width: "300px" }}>
+            <InputLabel
+              id="Mannschaftsauswahl"
+              sx={{
+                "&.Mui-focused": {
+                  color: theme.palette.secondary[300],
+                },
+                color: theme.palette.secondary[200],
+              }}
+            >
+              Mannschaft
+            </InputLabel>
+            <Select
+              value={team}
+              label="mannschaft"
+              onChange={handleTeamChange}
+              variant="outlined"
+              sx={{
+                "&.MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: theme.palette.secondary[200], // Standardborderfarbe
+                  },
+                  "&:hover fieldset": {
+                    borderColor: theme.palette.secondary[500], // Farbe beim Hovern
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: theme.palette.secondary[500], // Farbe beim Fokussieren
+                  },
+                },
+                "& .MuiSelect-select": {
+                  color: theme.palette.secondary[200],
+                },
+                "& .MuiSelect-select.MuiSelect-select": {
+                  color: theme.palette.secondary[200],
+                },
+              }}
+            >
               {isLoading ? (
                 <MenuItem disabled>Loading...</MenuItem> // Anzeige während des Ladens
               ) : (
@@ -211,53 +273,50 @@ function Schedule() {
             </Select>
           </FormControl>
         </Box>
-      </Box>
+        <Fade in={isChecked} timeout={500}>
+          <Box
+            backgroundColor={theme.palette.background.alt}
+            borderRadius="0.55rem"
+            className="data-display"
+            maxHeight="75vh"
+            overflow="auto"
+            sx={{
+              "& .MuiDataGrid-root": {
+                borderBottom: "none",
+              },
+              "& .MuiDataGrid-cell": {
+                color: theme.palette.secondary[200],
+                fontSize: 14,
+              },
 
-      <Box
-        mt="40px"
-        height="75vh"
-        sx={{
-          "& .MuiDataGrid-root": {
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-            backgroundColor: theme.palette.grey[800],
-            cursor: "pointer",
-            ":hover": {
-              backgroundColor: theme.palette.grey[700],
-            },
-          },
+              "& .MuiDataGrid-columnHeaders": {
+                color: theme.palette.secondary[200],
+                borderBottom: "none",
+                fontSize: 20,
+              },
 
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[100],
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: theme.palette.primary.light,
-          },
-          "& .MuiDataGrid-footerContainer": {
-            backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[400],
-            borderTop: "none",
-          },
-          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-            color: `${theme.palette.secondary[400]} !important`,
-          },
-        }}
-      >
-        <DataGrid
-          rows={row || []}
-          columns={cols}
-          components={{ ColumnMenu: CustomColumnMenu }}
-          onCellClick={handleCellClick}
-          sx={{
-            "& .MuiDataGrid-row:hover": {
-              backgroundColor: theme.palette.secondary[400],
-            },
-          }}
-        />
+              "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+                color: `${theme.palette.secondary[400]} !important`,
+              },
+              "& .MuiDataGrid-row": {
+                "&:hover": {
+                  backgroundColor: theme.palette.primary[600],
+                  cursor: "pointer",
+                },
+              },
+              "& .MuiDataGrid-footerContainer": {
+                display: "none", // Ausblenden des Footers
+              },
+            }}
+          >
+            <DataGrid
+              rows={row || []}
+              columns={cols}
+              components={{ ColumnMenu: CustomColumnMenu }}
+              onCellClick={handleCellClick}
+            />
+          </Box>
+        </Fade>
       </Box>
     </Box>
   );

@@ -89,6 +89,7 @@ function VideoAnalyse() {
       headerAlign: "center",
       align: "left",
       flex: 1,
+      sortable: false,
       renderCell: (params) => {
         return `${params.row.time !== "" ? `${params.row.time} | ` : ""}${
           params.row.message
@@ -353,9 +354,9 @@ function VideoAnalyse() {
         {/*Button Box für Hinzufügen Startzeiten */}
         <Box
           display="flex"
+          gap="1rem"
           gridColumn="2/3"
-          gap="2rem"
-          justifyContent="flex-start"
+          justifyContent="flex-end"
         >
           <TextField
             id="start-ersteHZ"
@@ -364,6 +365,28 @@ function VideoAnalyse() {
             onChange={(e) => setGameStart(e.target.value)}
             error={error.firstHalfTime}
             helperText={error.firstHalfTime ? errorMessage : ""}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: theme.palette.grey[700],
+                },
+                "&:hover fieldset": {
+                  borderColor: theme.palette.secondary[300],
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: theme.palette.secondary[300],
+                },
+              },
+              "& .MuiInputLabel-root": {
+                color: theme.palette.grey[700],
+              },
+              "&:hover .MuiInputLabel-root": {
+                color: theme.palette.secondary[200],
+              },
+              "& .Mui-focused .MuiInputLabel-root": {
+                color: theme.palette.secondary[200],
+              },
+            }}
           />
           <TextField
             id="start-zweiteHZ"
@@ -372,7 +395,30 @@ function VideoAnalyse() {
             onChange={(e) => setSecondHalfStart(e.target.value)}
             error={error.secondHalfTime}
             helperText={error.secondHalfTime ? errorMessage : ""}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: theme.palette.grey[700],
+                },
+                "&:hover fieldset": {
+                  borderColor: theme.palette.secondary[300],
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: theme.palette.secondary[300],
+                },
+              },
+              "& .MuiInputLabel-root": {
+                color: theme.palette.grey[700],
+              },
+              "&:hover .MuiInputLabel-root": {
+                color: theme.palette.secondary[200],
+              },
+              "& .Mui-focused .MuiInputLabel-root": {
+                color: theme.palette.secondary[200],
+              },
+            }}
           />
+
           <SimpleButton text="Speichern" onClick={handleTimeSave} />
         </Box>
         <Box
@@ -399,14 +445,14 @@ function VideoAnalyse() {
               flexDirection="column"
               justifyContent="center"
               alignItems="center"
-              border={`2px dashed ${theme.palette.secondary[200]}`}
+              border={`2px dashed ${theme.palette.grey[700]}`}
               position="relative"
               sx={{
                 cursor: "pointer",
-                "&:hover": { borderColor: theme.palette.primary.main },
+                "&:hover": { borderColor: theme.palette.secondary[300] },
                 aspectRatio: "16/9", // Stellt sicher, dass die Box ein 16:9-Verhältnis beibehält
                 width: "100%", // Nimmt die gesamte Breite der Elternbox ein
-                height: "auto",
+                height: "100%",
               }}
               onDrop={handleDrop}
               onDragOver={handleDragOver}
@@ -439,15 +485,16 @@ function VideoAnalyse() {
         {/* Event-Box */}
         <Box
           gridColumn="2/3"
-          maxHeight="710px"
           overflow="auto"
           borderRadius="0.55rem"
+          maxHeight="850px"
+          minHeight="710px"
           border={`1px solid ${theme.palette.secondary[200]}`}
           sx={{
             "& .MuiDataGrid-cell": {
               cursor: videoUrl ? "pointer" : "default",
               fontSize: 16,
-              color: theme.palette.secondary[100],
+              color: theme.palette.secondary[200],
             },
             "& .MuiDataGrid-columnHeaders": {
               color: theme.palette.secondary[200],
@@ -468,6 +515,25 @@ function VideoAnalyse() {
             checkboxSelection
             onRowSelectionModelChange={(index) => {
               setRowDeletionIds(index);
+            }}
+            sx={{
+              "& .MuiDataGrid-row.Mui-selected": {
+                backgroundColor: theme.palette.grey[800],
+                "&:hover": {
+                  backgroundColor: theme.palette.grey[800],
+                },
+              },
+              "& .MuiDataGrid-checkbox": {
+                color: theme.palette.secondary[300], // Farbe des Auswahlkästchens
+              },
+              "& .Mui-checked": {
+                color: theme.palette.secondary[300], // Farbe des Häkchens in der Checkbox
+              },
+              "& .MuiDataGrid-row": {
+                "&:hover": {
+                  backgroundColor: theme.palette.grey[800],
+                },
+              },
             }}
           />
         </Box>
@@ -496,7 +562,6 @@ function VideoAnalyse() {
             open={openDialogDeletion}
             onClose={handleCloseDialogDeletion}
             onConfirm={handleDeleteEvents}
-            text={"Möchtest du die ausgewählten Events wirklich löschen?"}
           />
           {/*Button zum Neuladen von Eventdaten */}
           <LightTooltip title="Neuladen der Eventdaten">
@@ -512,7 +577,6 @@ function VideoAnalyse() {
             open={openDialogReloadData}
             onClose={handleCloseDialogReloadData}
             onConfirm={handleReloadEventData}
-            text={"Möchtest du die ursprünglichen Eventdaten neu laden?"}
           />
           {/*Button zum Hinzufügen von Eventdaten */}
           <LightTooltip title="Neues Event hinzufügen">
@@ -537,7 +601,6 @@ function VideoAnalyse() {
           <ConfirmSaveDialog
             open={openDialogSave}
             onClose={handleCloseDialogSave}
-            text="Daten wurden erfolgreich lokal gespeichert!"
           />
           <AddEventDialog
             open={openDialogAddEvent}

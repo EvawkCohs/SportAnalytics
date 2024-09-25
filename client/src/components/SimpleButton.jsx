@@ -7,7 +7,7 @@ const SimpleButton = ({ text, Icon, onClick }) => {
   return (
     <Button
       sx={{
-        backgroundColor: theme.palette.secondary[200],
+        backgroundColor: theme.palette.secondary[300],
         color: theme.palette.background.alt,
         fontSize: "14px",
         fontWeight: "bold",
@@ -16,6 +16,7 @@ const SimpleButton = ({ text, Icon, onClick }) => {
         "&:hover": {
           backgroundColor: theme.palette.grey[600],
         },
+        minWidth: "150px",
       }}
       onClick={onClick}
     >

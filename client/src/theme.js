@@ -16,16 +16,20 @@ export const tokensDark = {
     1000: "#000000", // manually adjusted
   },
   primary: {
-    // blue
-    100: "#d3d4de",
-    200: "#a6a9be",
-    300: "#7a7f9d",
-    400: "#4d547d",
-    500: "#21295c",
-    600: "#191F45", // manually adjusted
-    700: "#141937",
-    800: "#0d1025",
-    900: "#070812",
+    // grey
+    0: "#ffffff", // manually adjusted
+    10: "#f6f6f6", // manually adjusted
+    50: "#f0f0f0", // manually adjusted
+    100: "#e0e0e0",
+    200: "#c2c2c2",
+    300: "#a3a3a3",
+    400: "#858585",
+    500: "#666666",
+    600: "#525252",
+    700: "#3d3d3d",
+    800: "#292929",
+    900: "#141414",
+    1000: "#000000",
   },
   secondary: {
     // yellow
@@ -41,7 +45,15 @@ export const tokensDark = {
     900: "#332a14",
   },
   red: {
-    100: "#ff4848",
+    100: "#ffdada",
+    200: "#ffb6b6",
+    300: "#ff9191",
+    400: "#ff6d6d",
+    500: "#ff4848",
+    600: "#cc3a3a",
+    700: "#992b2b",
+    800: "#661d1d",
+    900: "#330e0e",
   },
 };
 
@@ -89,7 +101,7 @@ export const themeSettings = (mode) => {
             },
             red: {
               ...tokensDark.red,
-              default: tokensDark.red[100],
+              default: tokensDark.red[500],
             },
           }
         : {
@@ -114,7 +126,7 @@ export const themeSettings = (mode) => {
             },
             red: {
               ...tokensLight.red,
-              default: tokensDark.red[100],
+              default: tokensDark.red[500],
             },
           }),
     },

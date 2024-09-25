@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Box, Divider, Typography } from "@mui/material";
+import { Box, Divider, Typography, Tooltip } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import SimpleStatBox from "components/SimpleStatBox";
 import FlexBetween from "components/FlexBetween";
 import Header from "components/Header";
 import SportsSoccerOutlinedIcon from "@mui/icons-material/SportsSoccerOutlined";
 import "index.css";
-
+import twoMinutes from "./Icons/twoMinutes.png";
+import redCard from "./Icons/redCard.png";
+import yellowCard from "./Icons/yellowCard.png";
+import penaltyMissed from "./Icons/penaltyMissed.png";
+import Fade from "@mui/material/Fade";
 const PlayerDetailsGame = () => {
   const location = useLocation();
   const theme = useTheme();
@@ -58,55 +62,156 @@ const PlayerDetailsGame = () => {
               borderBottomColor: theme.palette.grey[600],
             }}
           />
-          {events.map((event, index) => (
-            <Box
-              key={index}
-              sx={{
-                position: "absolute",
-                left: `${(parseInt(event.time.slice(0, 2)) * 100) / 60}%`,
-                top: 0,
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-              }}
-            >
-              <Box
-                display="flex"
-                justifyContent="center"
-                flexDirection="column"
-              >
-                {/* Dot */}
-                <SportsSoccerOutlinedIcon
-                  fontSize="large"
-                  onMouseEnter={() => setHoveredIndex(index)}
-                  onMouseLeave={() => setHoveredIndex(null)}
-                  sx={{ color: theme.palette.secondary[300] }}
-                />
+          {events.map((event, index) => {
+            const isOverlapping =
+              index > 0 &&
+              event.time.slice(0, 2) === events[index - 1]?.time.slice(0, 2); // Check if the current event overlaps with the previous one
 
-                {/* Connecting line */}
+            return (
+              <Box
+                key={index}
+                sx={{
+                  position: "absolute",
+                  left: `${
+                    isOverlapping && index > 0
+                      ? (parseInt(event.time.slice(0, 2)) * 100) / 60 + 1
+                      : (parseInt(event.time.slice(0, 2)) * 100) / 60
+                  }%`,
+                  top: 0,
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                }}
+              >
                 <Box
-                  sx={{
-                    width: 3,
-                    height: 72,
-                    backgroundColor: theme.palette.grey[600],
-                    marginLeft: "13px",
-                  }}
-                />
-              </Box>
-              {hoveredIndex === index && (
-                <Typography
-                  variant="body2"
-                  sx={{
-                    mt: 1,
-                    textAlign: "center",
-                    color: theme.palette.secondary[200],
-                  }}
+                  display="flex"
+                  justifyContent="center"
+                  flexDirection="column"
                 >
-                  {event.type} {event.time}
-                </Typography>
-              )}
-            </Box>
-          ))}
+                  {index > 0 && isOverlapping ? (
+                    // Render only Icon
+                    <>
+                      <Tooltip
+                        title={
+                          <Typography
+                            variant="h5"
+                            sx={{ color: theme.palette.secondary[200] }}
+                          >
+                            {event.type} {event.time}
+                          </Typography>
+                        }
+                        TransitionComponent={Fade}
+                        TransitionProps={{ timeout: 600 }}
+                        placement="top"
+                        arrow={true}
+                      >
+                        {event.type === "Goal" ||
+                        event.type === "SevenMeterGoal" ? (
+                          <SportsSoccerOutlinedIcon
+                            fontSize="large"
+                            onMouseEnter={() => setHoveredIndex(index)}
+                            onMouseLeave={() => setHoveredIndex(null)}
+                            sx={{ color: theme.palette.secondary[300] }}
+                          />
+                        ) : event.type === "TwoMinutePenalty" ? (
+                          <img
+                            src={twoMinutes}
+                            onMouseEnter={() => setHoveredIndex(index)}
+                            onMouseLeave={() => setHoveredIndex(null)}
+                            alt="Two Minute Penalty"
+                          />
+                        ) : event.type === "Warning" ? (
+                          <img
+                            src={yellowCard}
+                            onMouseEnter={() => setHoveredIndex(index)}
+                            onMouseLeave={() => setHoveredIndex(null)}
+                            alt="Warning"
+                          />
+                        ) : event.type === "Disqualification" ? (
+                          <img
+                            src={redCard}
+                            onMouseEnter={() => setHoveredIndex(index)}
+                            onMouseLeave={() => setHoveredIndex(null)}
+                            alt="Disqualification"
+                          />
+                        ) : event.type === "SevenMeterMissed" ? (
+                          <img
+                            src={penaltyMissed}
+                            onMouseEnter={() => setHoveredIndex(index)}
+                            onMouseLeave={() => setHoveredIndex(null)}
+                            alt="penaltyMissed"
+                          />
+                        ) : null}
+                      </Tooltip>
+                    </>
+                  ) : (
+                    // Render Complete Event
+                    <Tooltip
+                      title={
+                        <Typography
+                          variant="h5"
+                          sx={{ color: theme.palette.secondary[200] }}
+                        >
+                          {event.type} {event.time}
+                        </Typography>
+                      }
+                      placement="top"
+                      TransitionComponent={Fade}
+                      TransitionProps={{ timeout: 600 }}
+                      arrow={true}
+                    >
+                      {event.type === "Goal" ||
+                      event.type === "SevenMeterGoal" ? (
+                        <SportsSoccerOutlinedIcon
+                          fontSize="large"
+                          onMouseEnter={() => setHoveredIndex(index)}
+                          onMouseLeave={() => setHoveredIndex(null)}
+                          sx={{ color: theme.palette.secondary[300] }}
+                        />
+                      ) : event.type === "TwoMinutePenalty" ? (
+                        <img
+                          src={twoMinutes}
+                          onMouseEnter={() => setHoveredIndex(index)}
+                          onMouseLeave={() => setHoveredIndex(null)}
+                          alt="Two Minute Penalty"
+                        />
+                      ) : event.type === "Warning" ? (
+                        <img
+                          src={yellowCard}
+                          onMouseEnter={() => setHoveredIndex(index)}
+                          onMouseLeave={() => setHoveredIndex(null)}
+                          alt="Warning"
+                        />
+                      ) : event.type === "Disqualification" ? (
+                        <img
+                          src={redCard}
+                          onMouseEnter={() => setHoveredIndex(index)}
+                          onMouseLeave={() => setHoveredIndex(null)}
+                          alt="Disqualification"
+                        />
+                      ) : event.type === "SevenMeterMissed" ? (
+                        <img
+                          src={penaltyMissed}
+                          onMouseEnter={() => setHoveredIndex(index)}
+                          onMouseLeave={() => setHoveredIndex(null)}
+                          alt="penaltyMissed"
+                        />
+                      ) : null}
+
+                      <Box
+                        sx={{
+                          width: 3,
+                          height: 66,
+                          backgroundColor: theme.palette.grey[600],
+                          marginLeft: "13px",
+                        }}
+                      />
+                    </Tooltip>
+                  )}
+                </Box>
+              </Box>
+            );
+          })}
           {minutes.map((minutes) => (
             <Box
               display="flex"

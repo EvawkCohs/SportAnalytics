@@ -23,6 +23,7 @@ const TeamGoalChart = ({ data }) => {
       flex="1 1 100%"
       backgroundColor={theme.palette.background.alt}
       borderRadius="0.55rem"
+      className="data-display"
     >
       <Typography
         variant="h3"
@@ -62,7 +63,8 @@ const TeamGoalChart = ({ data }) => {
           },
           tooltip: {
             container: {
-              color: theme.palette.primary.main,
+              color: theme.palette.secondary[200],
+              backgroundColor: theme.palette.primary[700],
             },
           },
         }}

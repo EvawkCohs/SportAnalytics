@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { useLocation } from "react-router-dom";
 import CustomColumnMenu from "components/DataGridCustomColumnMenu";
-import { Box, useMediaQuery, Typography } from "@mui/material";
+import { Box, useMediaQuery, Typography, Fade } from "@mui/material";
 import {
   GetPlayerGoalsDataLine,
   GetPlayerStatisticsPerGame,
@@ -42,9 +42,11 @@ const PlayerDetailsCombined = () => {
         overallPlayerStatistics.penaltyMissed)) *
     100;
   const [row, setRow] = useState();
+  const [isChecked, setIsChecked] = useState(false);
   const cols = columnsDataGrid;
   useEffect(() => {
     window.scrollTo(0, 0);
+    setIsChecked(true);
     setRow(
       playerStatisticsPerGame.map((row) => ({
         ...row,
@@ -105,54 +107,57 @@ const PlayerDetailsCombined = () => {
           />
         </Box>
         {/* Siebenmeter Tore / Versuche ROW 4 */}
-        <Box
-          gridColumn="7/9"
-          gridRow="span 1"
-          display="flex"
-          flexDirection="column"
-          justifyContent="space-between"
-          p="1.25rem 1rem"
-          flex="1 1 100%"
-          backgroundColor={theme.palette.background.alt}
-          borderRadius="0.55rem"
-        >
-          <Typography
-            variant="h2"
-            sx={{ color: theme.palette.secondary[200] }}
-            textAlign="center"
+        <Fade in={isChecked} timeout={500}>
+          <Box
+            gridColumn="7/9"
+            gridRow="span 1"
+            display="flex"
+            flexDirection="column"
+            justifyContent="space-between"
+            p="1.25rem 1rem"
+            flex="1 1 100%"
+            backgroundColor={theme.palette.background.alt}
+            borderRadius="0.55rem"
+            className="data-display"
           >
-            Siebenmeter
-          </Typography>
-          <Typography
-            variant="h2"
-            sx={{ color: theme.palette.secondary[200] }}
-            textAlign="center"
-          >
-            {overallPlayerStatistics.penaltyGoals} /{" "}
-            {overallPlayerStatistics.penaltyGoals +
-              overallPlayerStatistics.penaltyMissed}
-          </Typography>
-          <Box display="flex" flexDirection="row" justifyContent="center">
             <Typography
-              variant="h3"
-              sx={{ color: theme.palette.secondary[200] }}
-              textAlign="center"
-              mr="2rem"
-            >
-              Quote:
-            </Typography>
-            <Typography
-              variant="h3"
+              variant="h2"
               sx={{ color: theme.palette.secondary[200] }}
               textAlign="center"
             >
-              {penaltyPercentage % 1 === 0
-                ? penaltyPercentage.toString()
-                : penaltyPercentage.toFixed(2).replace(/\.?0+$/, "")}
-              %
+              Siebenmeter
             </Typography>
+            <Typography
+              variant="h2"
+              sx={{ color: theme.palette.secondary[200] }}
+              textAlign="center"
+            >
+              {overallPlayerStatistics.penaltyGoals} /{" "}
+              {overallPlayerStatistics.penaltyGoals +
+                overallPlayerStatistics.penaltyMissed}
+            </Typography>
+            <Box display="flex" flexDirection="row" justifyContent="center">
+              <Typography
+                variant="h3"
+                sx={{ color: theme.palette.secondary[200] }}
+                textAlign="center"
+                mr="2rem"
+              >
+                Quote:
+              </Typography>
+              <Typography
+                variant="h3"
+                sx={{ color: theme.palette.secondary[200] }}
+                textAlign="center"
+              >
+                {penaltyPercentage % 1 === 0
+                  ? penaltyPercentage.toString()
+                  : penaltyPercentage.toFixed(2).replace(/\.?0+$/, "")}
+                %
+              </Typography>
+            </Box>
           </Box>
-        </Box>
+        </Fade>
         {/* Technische Fehler ROW 5 */}
         <Box gridColumn="7/9" gridRow="span 1" display="flex">
           <SimpleStatBox title={"Technische Fehler"} value={0} />{" "}
@@ -179,70 +184,71 @@ const PlayerDetailsCombined = () => {
             value={overallPlayerStatistics.redCards}
           />
         </Box>
-        <Box
-          gridColumn="span 8"
-          gridRow="7 / 12"
-          display="flex"
-          flexDirection="column"
-          justifyContent="space-between"
-          p="1.25rem 1rem"
-          flex="1 1 100%"
-          backgroundColor={theme.palette.background.alt}
-          borderRadius="0.55rem"
-          sx={{
-            "& .MuiDataGrid-root": {
-              borderBottom: "none",
-            },
-            "& .MuiDataGrid-cell": {
-              borderBottom: "none",
-              backgroundColor: theme.palette.background.alt,
-              cursor: "pointer",
-            },
-            "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: theme.palette.background.alt,
-              color: theme.palette.secondary[100],
-              borderBottom: "none",
-            },
-            "& .MuiDataGrid-virtualScroller": {
-              backgroundColor: theme.palette.background.alt,
-            },
-            "& .MuiDataGrid-footerContainer": {
-              backgroundColor: theme.palette.background.alt,
-              color: theme.palette.secondary[400],
-              borderTop: "none",
-            },
-            "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-              color: `${theme.palette.secondary[400]} !important`,
-            },
-            "& .MuiDataGrid-overlay": {
-              // Styling for the 'No Rows' overlay
-              backgroundColor: theme.palette.background.alt,
-              color: theme.palette.secondary[200], // Change the text color
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "1.25rem",
-              fontWeight: "bold",
-            },
-          }}
-        >
-          <Typography
-            variant="h3"
-            sx={{ color: theme.palette.secondary[100] }}
-            textAlign="center"
-            mb="20px"
-          >
-            Statistiken pro Spiel
-          </Typography>
-          <DataGrid
-            rows={row || []}
-            columns={cols}
-            components={{ ColumnMenu: CustomColumnMenu }}
-            localeText={{
-              noRowsLabel: "Noch keine Daten verfügbar",
+        <Fade in={isChecked} timeout={500}>
+          <Box
+            gridColumn="span 8"
+            gridRow="6 / 12"
+            display="flex"
+            flexDirection="column"
+            justifyContent="space-between"
+            p="1.25rem 1rem"
+            flex="1 1 100%"
+            backgroundColor={theme.palette.background.alt}
+            borderRadius="0.55rem"
+            className="data-display"
+            sx={{
+              "& .MuiDataGrid-root": {
+                borderBottom: "none",
+              },
+              "& .MuiDataGrid-cell": {
+                color: theme.palette.secondary[200],
+                fontSize: 14,
+              },
+
+              "& .MuiDataGrid-columnHeaders": {
+                color: theme.palette.secondary[200],
+                borderBottom: "none",
+                fontSize: 20,
+              },
+              "& .MuiDataGrid-row": {
+                "&:hover": {
+                  backgroundColor: theme.palette.primary[600],
+                  cursor: "pointer",
+                },
+              },
+              "& .MuiDataGrid-overlay": {
+                // Styling for the 'No Rows' overlay
+                backgroundColor: theme.palette.background.alt,
+                color: theme.palette.secondary[200],
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "1.25rem",
+                fontWeight: "bold",
+              },
+              "& .MuiDataGrid-footerContainer": {
+                display: "none", // Ausblenden des Footers
+              },
             }}
-          />
-        </Box>
+          >
+            <Typography
+              variant="h3"
+              sx={{ color: theme.palette.secondary[100] }}
+              textAlign="center"
+              mb="20px"
+            >
+              Statistiken pro Spiel
+            </Typography>
+            <DataGrid
+              rows={row || []}
+              columns={cols}
+              components={{ ColumnMenu: CustomColumnMenu }}
+              localeText={{
+                noRowsLabel: "Noch keine Daten verfügbar",
+              }}
+            />
+          </Box>
+        </Fade>
       </Box>
     </Box>
   );

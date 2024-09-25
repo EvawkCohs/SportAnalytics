@@ -16,6 +16,7 @@ const LineChart = ({ data }) => {
       flex="1 1 100%"
       backgroundColor={theme.palette.background.alt}
       borderRadius="0.55rem"
+      className="data-display"
     >
       <Typography
         variant="h3"

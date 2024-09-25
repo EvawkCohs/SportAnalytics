@@ -16,8 +16,8 @@ import {
   Typography,
   Switch,
   Stack,
+  Grow,
 } from "@mui/material";
-import "./styles.css";
 
 const Player = ({
   player,
@@ -30,104 +30,114 @@ const Player = ({
   goals,
   mostGoals,
   games,
+  timeout,
 }) => {
   const theme = useTheme();
   const Navigate = useNavigate();
+  const [checked, setChecked] = useState(false);
   const handleClick = () => {
     Navigate(`/dashboard/playerDetails/${id}`, {
       state: { player: player, allGamesDetails: games },
     });
   };
+  useEffect(() => {
+    setChecked(true);
+  });
   return (
-    <Card
-      className="fade-in"
-      onClick={handleClick}
-      sx={{
-        backgroundImage: "none",
-        backgroundColor: theme.palette.background.alt,
-        borderRadius: "0.55rem",
-        width: "350px",
-        height: "250px",
-        transition: `transform 0.4s ease-out, border-color 0.4s ease-out, box-shadow 0.4s ease-out`,
-        border: `2px solid transparent`,
-        ":hover": {
-          cursor: "pointer",
-          backgroundColor: theme.palette.background.alt,
-          transform: `scale(1.1)`,
-          border: `2px solid ${theme.palette.secondary[400]}`,
-          boxShadow: `0 0 8px ${theme.palette.secondary[500]}`,
-        },
-      }}
-    >
-      <CardContent
+    <Grow in={checked} timeout={1000}>
+      <Card
+        onClick={handleClick}
         sx={{
-          display: "flex",
-          justifyContent: "flex-start",
-          flexDirection: "column",
+          backgroundImage: "none",
+          backgroundColor: theme.palette.background.alt,
+          borderRadius: "0.55rem",
+          width: "350px",
+          height: "250px",
+          transition: `transform 0.4s ease-out, border-color 0.4s ease-out, box-shadow 0.4s ease-out`,
+          border: `2px solid transparent`,
+          ":hover": {
+            cursor: "pointer",
+            backgroundColor: theme.palette.background.alt,
+            transform: `scale(1.1)`,
+            border: `2px solid ${theme.palette.secondary[400]}`,
+            boxShadow: `0 0 8px ${theme.palette.secondary[500]}`,
+          },
         }}
       >
-        <Box display="flex" justifyContent="flex-start" flexDirection="column">
+        <CardContent
+          sx={{
+            display: "flex",
+            justifyContent: "flex-start",
+            flexDirection: "column",
+          }}
+        >
           <Box
             display="flex"
-            justifyContent="space-between"
-            flexDirection="row"
-            gap="50px"
-            alignItems="center"
-            mb="12px"
-            sx={{
-              borderBottom: `2px solid ${theme.palette.grey[500]}`,
-            }}
+            justifyContent="flex-start"
+            flexDirection="column"
           >
             <Box
               display="flex"
-              justifyContent="flex-start"
-              flexDirection="column"
-              alignItems="baseline"
+              justifyContent="space-between"
+              flexDirection="row"
+              gap="50px"
+              alignItems="center"
+              mb="12px"
+              sx={{
+                borderBottom: `2px solid ${theme.palette.grey[500]}`,
+              }}
             >
-              <Typography
-                sx={{
-                  fontSize: "32px",
-                  color: theme.palette.secondary[200],
-                }}
+              <Box
+                display="flex"
+                justifyContent="flex-start"
+                flexDirection="column"
+                alignItems="baseline"
               >
-                {lastname}
-              </Typography>
+                <Typography
+                  sx={{
+                    fontSize: "32px",
+                    color: theme.palette.secondary[200],
+                  }}
+                >
+                  {lastname}
+                </Typography>
+                <Typography
+                  sx={{ fontSize: "20px", color: theme.palette.secondary[200] }}
+                >
+                  {firstname}
+                </Typography>
+              </Box>
               <Typography
-                sx={{ fontSize: "20px", color: theme.palette.secondary[200] }}
-              >
-                {firstname}
-              </Typography>
+                sx={{ fontSize: "50px", color: theme.palette.secondary[200] }}
+              >{`# ${number}`}</Typography>
             </Box>
             <Typography
-              sx={{ fontSize: "50px", color: theme.palette.secondary[200] }}
-            >{`# ${number}`}</Typography>
-          </Box>
-          <Typography
-            sx={{ fontSize: "14px", color: theme.palette.secondary[100] }}
-          >{`Position: ${position}`}</Typography>
-          <Typography
-            sx={{ fontSize: "14px", color: theme.palette.secondary[100] }}
-          >{`Spiele: ${gamesPlayed}`}</Typography>
-          <Typography
-            sx={{ fontSize: "14px", color: theme.palette.secondary[100] }}
-          >{`Tore: ${goals}`}</Typography>
-          <Typography
-            sx={{ fontSize: "14px", color: theme.palette.secondary[100] }}
-          >{`Tore pro Spiel: Ø ${
-            Number.isInteger(goals / gamesPlayed)
-              ? goals / gamesPlayed
-              : (goals / gamesPlayed).toFixed(2)
-          }`}</Typography>
-          {mostGoals.slice(0, 1) !== "0" ? (
+              sx={{ fontSize: "14px", color: theme.palette.secondary[100] }}
+            >{`Position: ${position}`}</Typography>
             <Typography
               sx={{ fontSize: "14px", color: theme.palette.secondary[100] }}
-            >{`Meiste Tore: ${mostGoals}`}</Typography>
-          ) : (
-            <Box />
-          )}
-        </Box>
-      </CardContent>
-    </Card>
+            >{`Spiele: ${gamesPlayed}`}</Typography>
+            <Typography
+              sx={{ fontSize: "14px", color: theme.palette.secondary[100] }}
+            >{`Tore: ${goals}`}</Typography>
+            <Typography
+              sx={{ fontSize: "14px", color: theme.palette.secondary[100] }}
+            >{`Tore pro Spiel: Ø ${
+              Number.isInteger(goals / gamesPlayed)
+                ? goals / gamesPlayed
+                : (goals / gamesPlayed).toFixed(2)
+            }`}</Typography>
+            {mostGoals.slice(0, 1) !== "0" ? (
+              <Typography
+                sx={{ fontSize: "14px", color: theme.palette.secondary[100] }}
+              >{`Meiste Tore: ${mostGoals}`}</Typography>
+            ) : (
+              <Box />
+            )}
+          </Box>
+        </CardContent>
+      </Card>
+    </Grow>
   );
 };
 
@@ -185,19 +195,12 @@ const Team = () => {
     }
   );
   const [visiblePlayers, setVisiblePlayers] = useState([]);
+
   useEffect(() => {
     // Spieler beim ersten Rendern hinzufügen
     setVisiblePlayers(overallLineup);
   }, [overallLineup]);
-  useEffect(() => {
-    // Wenn der Sortierstatus geändert wird, Animation auslösen
-    const fadeInElements = document.querySelectorAll(".fade-in");
-    fadeInElements.forEach((element) => {
-      element.classList.remove("fade-in"); // Animation zurücksetzen
-      void element.offsetWidth; // Trigger für die Animation
-      element.classList.add("fade-in"); // Animation wieder hinzufügen
-    });
-  }, [isSwitchChecked]);
+
   if (isLoading || isLoadingTeam) {
     return <div>Loading....</div>;
   }
@@ -207,10 +210,12 @@ const Team = () => {
         title="KADER"
         subtitle={teamData.find((team) => team.id === teamID).name}
       />
+
       <Box display="flex" alignItems="center" flexDirection="column">
         <Typography sx={{ variant: "h5", color: theme.palette.secondary[200] }}>
           Sortieren des Kaders:{" "}
         </Typography>
+
         <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
           <Typography
             sx={{ variant: "h5", color: theme.palette.secondary[200] }}
@@ -255,15 +260,10 @@ const Team = () => {
           gap="20px"
         >
           {visiblePlayers.map(
-            ({
-              firstname,
-              lastname,
-              number,
-              position,
-              gamesPlayed,
-              goals,
-              id,
-            }) => (
+            (
+              { firstname, lastname, number, position, gamesPlayed, goals, id },
+              index
+            ) => (
               (mostGoals = allLineups
                 .filter((player) => player.number === number)
                 .reduce((acc, currentPlayer) => {
@@ -276,22 +276,21 @@ const Team = () => {
                   return acc;
                 }, {})),
               (
-                <div key={id} className="fade-in">
-                  <Player
-                    player={overallLineup
-                      .flat()
-                      .find((player) => player.id === id)}
-                    id={id}
-                    firstname={firstname}
-                    lastname={lastname}
-                    number={number}
-                    position={position}
-                    gamesPlayed={gamesPlayed}
-                    goals={goals}
-                    mostGoals={`${mostGoals[id].goals} gegen ${mostGoals[id].opponent}`}
-                    games={games}
-                  />
-                </div>
+                <Player
+                  player={overallLineup
+                    .flat()
+                    .find((player) => player.id === id)}
+                  id={id}
+                  firstname={firstname}
+                  lastname={lastname}
+                  number={number}
+                  position={position}
+                  gamesPlayed={gamesPlayed}
+                  goals={goals}
+                  mostGoals={`${mostGoals[id].goals} gegen ${mostGoals[id].opponent}`}
+                  games={games}
+                  timeout={index}
+                />
               )
             )
           )}
