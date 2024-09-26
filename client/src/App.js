@@ -13,6 +13,7 @@ import PlayerDetailsCombined from "scenes/playerDetailsCombined";
 import PlayerDetailsGame from "scenes/playerDetailsGame";
 import "./index.css";
 import Team from "scenes/team";
+import HeadToHead from "scenes/headToHead";
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
@@ -39,6 +40,7 @@ function App() {
                 path="/details/:gameId/:player"
                 element={<PlayerDetailsGame />}
               />
+              <Route path="/head-to-head" element={<HeadToHead />} />
             </Route>
           </Routes>
         </ThemeProvider>

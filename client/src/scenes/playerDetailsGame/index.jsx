@@ -19,7 +19,6 @@ const PlayerDetailsGame = () => {
   const player = location.state?.player;
   const opponent = location.state?.opponent;
   const events = location.state?.events;
-  const [hoveredIndex, setHoveredIndex] = useState(null);
   const minutes = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60];
 
   return (
@@ -109,38 +108,16 @@ const PlayerDetailsGame = () => {
                         event.type === "SevenMeterGoal" ? (
                           <SportsSoccerOutlinedIcon
                             fontSize="large"
-                            onMouseEnter={() => setHoveredIndex(index)}
-                            onMouseLeave={() => setHoveredIndex(null)}
                             sx={{ color: theme.palette.secondary[300] }}
                           />
                         ) : event.type === "TwoMinutePenalty" ? (
-                          <img
-                            src={twoMinutes}
-                            onMouseEnter={() => setHoveredIndex(index)}
-                            onMouseLeave={() => setHoveredIndex(null)}
-                            alt="Two Minute Penalty"
-                          />
+                          <img src={twoMinutes} alt="Two Minute Penalty" />
                         ) : event.type === "Warning" ? (
-                          <img
-                            src={yellowCard}
-                            onMouseEnter={() => setHoveredIndex(index)}
-                            onMouseLeave={() => setHoveredIndex(null)}
-                            alt="Warning"
-                          />
+                          <img src={yellowCard} alt="Warning" />
                         ) : event.type === "Disqualification" ? (
-                          <img
-                            src={redCard}
-                            onMouseEnter={() => setHoveredIndex(index)}
-                            onMouseLeave={() => setHoveredIndex(null)}
-                            alt="Disqualification"
-                          />
+                          <img src={redCard} alt="Disqualification" />
                         ) : event.type === "SevenMeterMissed" ? (
-                          <img
-                            src={penaltyMissed}
-                            onMouseEnter={() => setHoveredIndex(index)}
-                            onMouseLeave={() => setHoveredIndex(null)}
-                            alt="penaltyMissed"
-                          />
+                          <img src={penaltyMissed} alt="penaltyMissed" />
                         ) : null}
                       </Tooltip>
                     </>
@@ -164,38 +141,16 @@ const PlayerDetailsGame = () => {
                       event.type === "SevenMeterGoal" ? (
                         <SportsSoccerOutlinedIcon
                           fontSize="large"
-                          onMouseEnter={() => setHoveredIndex(index)}
-                          onMouseLeave={() => setHoveredIndex(null)}
                           sx={{ color: theme.palette.secondary[300] }}
                         />
                       ) : event.type === "TwoMinutePenalty" ? (
-                        <img
-                          src={twoMinutes}
-                          onMouseEnter={() => setHoveredIndex(index)}
-                          onMouseLeave={() => setHoveredIndex(null)}
-                          alt="Two Minute Penalty"
-                        />
+                        <img src={twoMinutes} alt="Two Minute Penalty" />
                       ) : event.type === "Warning" ? (
-                        <img
-                          src={yellowCard}
-                          onMouseEnter={() => setHoveredIndex(index)}
-                          onMouseLeave={() => setHoveredIndex(null)}
-                          alt="Warning"
-                        />
+                        <img src={yellowCard} alt="Warning" />
                       ) : event.type === "Disqualification" ? (
-                        <img
-                          src={redCard}
-                          onMouseEnter={() => setHoveredIndex(index)}
-                          onMouseLeave={() => setHoveredIndex(null)}
-                          alt="Disqualification"
-                        />
+                        <img src={redCard} alt="Disqualification" />
                       ) : event.type === "SevenMeterMissed" ? (
-                        <img
-                          src={penaltyMissed}
-                          onMouseEnter={() => setHoveredIndex(index)}
-                          onMouseLeave={() => setHoveredIndex(null)}
-                          alt="penaltyMissed"
-                        />
+                        <img src={penaltyMissed} alt="penaltyMissed" />
                       ) : null}
 
                       <Box

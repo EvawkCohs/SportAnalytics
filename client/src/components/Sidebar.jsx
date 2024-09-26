@@ -24,6 +24,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FlexBetween from "./FlexBetween.jsx";
 import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
+import ElectricBoltOutlinedIcon from "@mui/icons-material/ElectricBoltOutlined";
 
 const navItems = [
   {
@@ -39,6 +40,7 @@ const navItems = [
     icon: <CalendarMonthOutlined />,
   },
   { text: "Team", icon: <Groups2OutlinedIcon /> },
+  { text: "Head-to-Head", icon: <ElectricBoltOutlinedIcon /> },
 ];
 
 const Sidebar = ({

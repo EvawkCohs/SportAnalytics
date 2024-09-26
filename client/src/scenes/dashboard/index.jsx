@@ -28,10 +28,10 @@ import { columnsDataGrid } from "scenes/dashboard/dataGridDefinitions";
 
 const Dashboard = () => {
   const teamId = useSelector((state) => state.global.teamId);
+  const teamName = useSelector((state) => state.global.teamName);
   const theme = useTheme();
   const Navigate = useNavigate();
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
-  const { data: teamData, isLoadingTeam } = useGetTeamModelQuery();
   const {
     data: games,
     errorGames,
@@ -116,7 +116,15 @@ const Dashboard = () => {
         flex: 1,
       }))
     );
-  }, [games, totalGoals]);
+  }, [
+    isLoadingGames,
+    games,
+    teamId,
+    totalGoals,
+    totalGoalsConceded,
+    dataLastFiveGames,
+    overallLineup,
+  ]);
 
   //beste und schlechteste Periode
   useEffect(() => {
@@ -146,12 +154,11 @@ const Dashboard = () => {
   }, [periodData]);
 
   if (
-    isLoadingTeam ||
+    isLoadingGames ||
     !updatedNextFiveGames ||
     updatedNextFiveGames.length < 5 ||
     !dataLastFiveGames ||
-    dataLastFiveGames.length < 1 ||
-    isLoadingGames
+    dataLastFiveGames.length < 1
   ) {
     return <div>Loading....</div>; // Später noch Ladekreis einbauen oder etwas vergleichbares
   }
@@ -161,11 +168,7 @@ const Dashboard = () => {
   return (
     <Box m="1.5rem 2.5rem">
       <FlexBetween>
-        <Header
-          title={(teamData || []).find((team) => team.id === teamId).name}
-          subtitle={"Überblick"}
-          gridColumn="span 6"
-        />
+        <Header title={teamName} subtitle={"Überblick"} gridColumn="span 6" />
       </FlexBetween>
       <Box
         display="grid"
@@ -674,7 +677,6 @@ const Dashboard = () => {
                 noRowsLabel: "Noch keine Daten verfügbar",
               }}
               onCellClick={handleCellClickPlayerDetails}
-              pagination={false}
             />
           </Box>
         </Fade>

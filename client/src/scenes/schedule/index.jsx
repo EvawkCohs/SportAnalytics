@@ -18,7 +18,7 @@ import useFetchGameIDs from "./useFetchGameID";
 import { useNavigate } from "react-router-dom";
 import { useGetTeamModelQuery } from "state/api";
 import { useDispatch } from "react-redux";
-import { setId, setIsLoaded } from "state";
+import { setId, setTeamName } from "state";
 import Select from "@mui/material/Select";
 import handleAddGame from "scenes/details/usePostGameData";
 import useFetchAllGamesDetails from "./useFetchAllGamesDetails";
@@ -32,14 +32,15 @@ function Schedule() {
   const teamId = useSelector((state) => state.global.teamId);
   const theme = useTheme();
   const navigate = useNavigate();
-  const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
+
   //Change Handle für Dropdown-Auswahl
   const handleTeamChange = (event) => {
     setTeam(event.target.value);
-
     const selectedTeam = event.target.value;
     dispatch(setId(selectedTeam));
-    dispatch(setIsLoaded());
+    dispatch(
+      setTeamName(teamData.find((team) => team.id === selectedTeam).name)
+    );
   };
 
   const handleGroupChange = (event) => {
@@ -149,7 +150,7 @@ function Schedule() {
   }));
 
   //OnClick zu GameDetails
-  const handleCellClick = (param, event) => {
+  const handleCellClick = (param) => {
     navigate(`/details/${param.row.gameID}`);
   };
 
