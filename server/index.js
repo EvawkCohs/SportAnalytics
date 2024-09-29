@@ -38,13 +38,10 @@ app.use("/gameUpload", gameUploadRoutes);
 app.use("/gameUploadCheck", gameUploadCheckRoutes);
 
 //MONGOOSE SETUP
-const PORT = process.env.PORT || 9000;
+const PORT = process.env.PORT || 10000;
 
 mongoose
-  .connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(process.env.MONGO_URL)
   .then(() => {
     app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
 
