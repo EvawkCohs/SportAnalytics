@@ -39,7 +39,7 @@ app.use("/gameUploadCheck", gameUploadCheckRoutes);
 
 //MONGOOSE SETUP
 const PORT = process.env.PORT || 9000;
-const PORT2 = 5002;
+
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
@@ -86,8 +86,4 @@ app.get("/proxy", async (req, res) => {
   } catch (error) {
     res.status(500).send("Fehler beim Abrufen der Daten: " + error.message);
   }
-});
-
-app.listen(PORT2, () => {
-  console.log(`Proxy-Server läuft auf http://localhost:${PORT2}`);
 });

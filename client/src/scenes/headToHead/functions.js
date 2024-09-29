@@ -16,12 +16,12 @@ export const GetLast5WinLose = (games, teamId) => {
     game.summary.homeTeam.id === teamId
       ? game.summary.homeGoals > game.summary.awayGoals
         ? last5WinLose.push("win")
-        : game.summary.homeGoals == game.summary.awayGoals
+        : game.summary.homeGoals === game.summary.awayGoals
         ? last5WinLose.push("tie")
         : last5WinLose.push("lose")
       : game.summary.awayGoals > game.summary.homeGoals
       ? last5WinLose.push("win")
-      : game.summary.awayGoals == game.summary.homeGoals
+      : game.summary.awayGoals === game.summary.homeGoals
       ? last5WinLose.push("tie")
       : last5WinLose.push("lose");
   });
@@ -59,4 +59,24 @@ export const GetAverageGoalsConcededLastFive = (dataLastFiveGames, teamId) => {
       : (totalGoalsConcededLastFive += game.summary.homeGoals);
   });
   return totalGoalsConcededLastFive / gamesPlayed;
+};
+
+export const GetAveragePenaltyStats = (games, teamId) => {
+  let totalPenalties = 0;
+
+  let totalLineup = [];
+  games
+    ?.filter((game) => game.summary.homeGoals > 0)
+    .forEach((game) =>
+      game.summary.homeTeam.id === teamId
+        ? totalLineup.push(game.lineup.home)
+        : totalLineup.push(game.lineup.away)
+    );
+  totalLineup
+    .flat()
+    .map(
+      (player) => (totalPenalties += player.penaltyGoals + player.penaltyMissed)
+    );
+
+  return totalPenalties;
 };

@@ -52,6 +52,6 @@ export const {
   useGetTeamQuery,
   useGetGameModelQuery,
   useGetGamesWithDetailsQuery,
-  useFindExistingGamesQuery,
+
   useGetGamesWithParticipationQuery,
 } = api;

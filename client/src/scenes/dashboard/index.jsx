@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Box, Fade, Typography, useMediaQuery, useTheme } from "@mui/material";
-import { DataGrid, gridClasses } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import Header from "components/Header";
-import {
-  useGetTeamModelQuery,
-  useGetGamesWithParticipationQuery,
-} from "state/api";
+import { useGetGamesWithParticipationQuery } from "state/api";
+
 import StatBoxGameInfo from "components/StatBoxGameInfo";
 import formatTimestamp from "conversionScripts/formatTimestamp";
 import { useNavigate } from "react-router-dom";
@@ -152,7 +150,9 @@ const Dashboard = () => {
     setBestPeriod([bestPeriodKey, bestPeriodValue.toFixed(2)]);
     setWorstPeriod([worstPeriodKey, worstPeriodValue.toFixed(2)]);
   }, [periodData]);
-
+  if (errorGames) {
+    return <div>Fehler beim Laden der Daten</div>;
+  }
   if (
     isLoadingGames ||
     !updatedNextFiveGames ||
@@ -162,9 +162,7 @@ const Dashboard = () => {
   ) {
     return <div>Loading....</div>; // Später noch Ladekreis einbauen oder etwas vergleichbares
   }
-  if (errorGames) {
-    return <div>Fehler beim Laden der Daten</div>;
-  }
+
   return (
     <Box m="1.5rem 2.5rem">
       <FlexBetween>
@@ -475,10 +473,13 @@ const Dashboard = () => {
                 justifyContent="center"
                 gap="0.5rem"
               >
-                <TrendingUpIcon sx={{ color: "green" }} fontSize="large" />
+                <TrendingUpIcon
+                  sx={{ color: theme.palette.red[500] }}
+                  fontSize="large"
+                />
                 <Typography
                   variant="h4"
-                  sx={{ color: "green" }}
+                  sx={{ color: theme.palette.red[500] }}
                   textAlign="center"
                 >
                   +{" "}
@@ -505,13 +506,10 @@ const Dashboard = () => {
                 justifyContent="center"
                 gap="0.5rem"
               >
-                <TrendingDownIcon
-                  sx={{ color: theme.palette.red[600] }}
-                  fontSize="large"
-                />
+                <TrendingDownIcon sx={{ color: "green" }} fontSize="large" />
                 <Typography
                   variant="h4"
-                  sx={{ color: theme.palette.red[600] }}
+                  sx={{ color: "green" }}
                   textAlign="center"
                 >
                   -{" "}

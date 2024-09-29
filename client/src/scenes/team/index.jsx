@@ -42,7 +42,7 @@ const Player = ({
   };
   useEffect(() => {
     setChecked(true);
-  });
+  }, []);
   return (
     <Grow in={checked} timeout={1000}>
       <Card
@@ -263,7 +263,7 @@ const Team = () => {
             (
               { firstname, lastname, number, position, gamesPlayed, goals, id },
               index
-            ) => (
+            ) =>
               (mostGoals = allLineups
                 .filter((player) => player.number === number)
                 .reduce((acc, currentPlayer) => {
@@ -274,8 +274,7 @@ const Team = () => {
                     acc[currentPlayer.id] = currentPlayer;
                   }
                   return acc;
-                }, {})),
-              (
+                }, {}))(
                 <Player
                   player={overallLineup
                     .flat()
@@ -292,7 +291,6 @@ const Team = () => {
                   timeout={index}
                 />
               )
-            )
           )}
         </Box>
       ) : (

@@ -17,7 +17,10 @@ import {
   GetAverageGoalsLastFive,
   GetAverageGoalsConcededLastFive,
   GetTotalGoalsConceded,
+  GetAveragePenaltyStats,
 } from "./functions";
+
+import RadarChart from "components/RadarChart";
 
 const HeadToHead = () => {
   const theme = useTheme();
@@ -124,6 +127,61 @@ const HeadToHead = () => {
       }
       return 0;
     });
+  const averagePenaltiesTeamA = GetAveragePenaltyStats(teamAGames, teamAId);
+  const averagePenaltiesTeamB = GetAveragePenaltyStats(teamBGames, teamBId);
+
+  //Radar Daten
+  const dataRadar = [
+    {
+      stat: " Tore",
+      teamAName: averageGoalsTeamA,
+      teamBName: averageGoalsTeamB,
+    },
+    {
+      stat: " Gegentore",
+      teamAName: averageGoalsConcededTeamA,
+      teamBName: averageGoalsConcededTeamB,
+    },
+    {
+      stat: " 7-Meter ",
+      teamAName: averagePenaltiesTeamA,
+      teamBName: averagePenaltiesTeamA,
+    },
+  ];
+
+  const testData = [
+    {
+      taste: "fruity",
+      chardonay: 41,
+      carmenere: 25,
+      syrah: 42,
+    },
+    {
+      taste: "bitter",
+      chardonay: 113,
+      carmenere: 21,
+      syrah: 51,
+    },
+    {
+      taste: "heavy",
+      chardonay: 119,
+      carmenere: 22,
+      syrah: 61,
+    },
+    {
+      taste: "strong",
+      chardonay: 110,
+      carmenere: 35,
+      syrah: 32,
+    },
+    {
+      taste: "sunny",
+      chardonay: 77,
+      carmenere: 52,
+      syrah: 79,
+    },
+  ];
+  //Handler
   const handleGroupChangeB = (event) => {
     setGroupB(event.target.value);
   };
@@ -149,6 +207,9 @@ const HeadToHead = () => {
     isLoadingTeamB
   ) {
     return <div>Loading...</div>;
+  }
+  if (errorTeamA || errorTeamB) {
+    return <div>ERROR</div>;
   }
   return (
     <Box m="1.5rem 2.5rem">
@@ -591,7 +652,7 @@ const HeadToHead = () => {
                 textAlign="center"
                 mb="2rem"
               >
-                Durchschnittliche Tore
+                Durchschnittliche Gegentore
               </Typography>
               <Typography
                 variant="h2"
@@ -613,10 +674,13 @@ const HeadToHead = () => {
                   justifyContent="center"
                   gap="0.5rem"
                 >
-                  <TrendingUpIcon sx={{ color: "green" }} fontSize="large" />
+                  <TrendingUpIcon
+                    sx={{ color: theme.palette.red[500] }}
+                    fontSize="large"
+                  />
                   <Typography
                     variant="h4"
-                    sx={{ color: "green" }}
+                    sx={{ color: theme.palette.red[500] }}
                     textAlign="center"
                   >
                     +{" "}
@@ -647,13 +711,10 @@ const HeadToHead = () => {
                   justifyContent="center"
                   gap="0.5rem"
                 >
-                  <TrendingDownIcon
-                    sx={{ color: theme.palette.red[500] }}
-                    fontSize="large"
-                  />
+                  <TrendingDownIcon sx={{ color: "green" }} fontSize="large" />
                   <Typography
                     variant="h4"
-                    sx={{ color: theme.palette.red[500] }}
+                    sx={{ color: "green" }}
                     textAlign="center"
                   >
                     -{" "}
@@ -1120,7 +1181,7 @@ const HeadToHead = () => {
                 textAlign="center"
                 mb="2rem"
               >
-                Durchschnittliche Tore
+                Durchschnittliche Gegentore
               </Typography>
               <Typography
                 variant="h2"
@@ -1142,10 +1203,13 @@ const HeadToHead = () => {
                   justifyContent="center"
                   gap="0.5rem"
                 >
-                  <TrendingUpIcon sx={{ color: "green" }} fontSize="large" />
+                  <TrendingUpIcon
+                    sx={{ color: theme.palette.red[500] }}
+                    fontSize="large"
+                  />
                   <Typography
                     variant="h4"
-                    sx={{ color: "green" }}
+                    sx={{ color: theme.palette.red[500] }}
                     textAlign="center"
                   >
                     +{" "}
@@ -1176,13 +1240,10 @@ const HeadToHead = () => {
                   justifyContent="center"
                   gap="0.5rem"
                 >
-                  <TrendingDownIcon
-                    sx={{ color: theme.palette.red[500] }}
-                    fontSize="large"
-                  />
+                  <TrendingDownIcon sx={{ color: "green" }} fontSize="large" />
                   <Typography
                     variant="h4"
-                    sx={{ color: theme.palette.red[500] }}
+                    sx={{ color: "green" }}
                     textAlign="center"
                   >
                     -{" "}
@@ -1216,6 +1277,7 @@ const HeadToHead = () => {
               </Typography>
             </Box>
           </Box>
+          {/*Radar Chart */}
         </Box>
       </Box>
     </Box>
