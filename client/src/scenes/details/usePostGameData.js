@@ -1,12 +1,15 @@
 const handleAddGame = async (games) => {
   try {
-    const response = await fetch("http://localhost:5001/gameUpload/add-games", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(games),
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/gameUpload/add-games`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(games),
+      }
+    );
 
     if (response.ok) {
       const data = await response.json();
