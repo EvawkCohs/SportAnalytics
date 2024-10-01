@@ -29,12 +29,7 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(
-  cors({
-    origin: process.env.REACT_APP_BASE_URL, // Die URL deines Frontends
-    methods: "GET,POST,PUT,DELETE", // Erlaube spezifische Methoden
-  })
-);
+app.use(cors());
 
 //ROUTES SETUP
 app.use("/client", clientRoutes);

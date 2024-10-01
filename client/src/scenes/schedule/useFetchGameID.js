@@ -8,7 +8,7 @@ const useFetchGameIDs = (teamId) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const proxyUrl = `${process.env.local.REACT_APP_BASE_URL}/proxy`;
+      const proxyUrl = `${process.env.REACT_APP_BASE_URL}/proxy`;
       const targetUrl = encodeURIComponent(url);
       const fullUrl = `${proxyUrl}?url=${targetUrl}`;
 

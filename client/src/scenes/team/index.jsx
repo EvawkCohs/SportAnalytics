@@ -42,6 +42,7 @@ const Player = ({
   useEffect(() => {
     setChecked(true);
   }, []);
+  console.log(process.env.REACT_APP_BASE_URL);
 
   return (
     <Grow in={checked} timeout={1000}>
