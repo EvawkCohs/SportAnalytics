@@ -12,7 +12,7 @@ const useFetchSchedule = (teamId, teamUrlEnding) => {
   useEffect(() => {
     const fetchData = async () => {
       //Proxy verwenden
-      const proxyUrl = "http://localhost:5002/proxy";
+      const proxyUrl = `${process.env.local.REACT_APP_BASE_URL}/proxy`;
       const targetUrl = encodeURIComponent(url);
 
       const fullUrl = `${proxyUrl}?url=${targetUrl}`;

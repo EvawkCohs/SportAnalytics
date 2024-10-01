@@ -13,7 +13,7 @@ const useFetchAllGamesDetails = (gameIds) => {
       const results = await Promise.all(
         gameIds.map(async (gameId) => {
           const combinedUrl = baseUrl + gameId + endUrl;
-          const proxyUrl = "http://localhost:5002/proxy";
+          const proxyUrl = `${process.env.local.REACT_APP_BASE_URL}/proxy`;
           const targetUrl = encodeURIComponent(combinedUrl);
           const fullUrl = `${proxyUrl}?url=${targetUrl}`;
           const response = await fetch(fullUrl);
