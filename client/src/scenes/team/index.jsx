@@ -1,5 +1,5 @@
 import { useTheme } from "@emotion/react";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { alpha } from "@mui/material/styles";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -42,7 +42,6 @@ const Player = ({
   useEffect(() => {
     setChecked(true);
   }, []);
-  console.log(process.env.REACT_APP_BASE_URL);
 
   return (
     <Grow in={checked} timeout={1000}>
@@ -138,13 +137,17 @@ const Player = ({
 const Team = () => {
   const teamID = useSelector((state) => state.global.teamId);
   const theme = useTheme();
-  const [isSwitchChecked, setIsSwitchChecked] = useState(false);
+  const [isSwitchChecked, setIsSwitchChecked] = useState(true);
   const handleSwitchChange = (event) => {
     setIsSwitchChecked(event.target.checked);
-    setVisiblePlayers(overallLineup);
   };
   const { data: teamData, isLoadingTeam } = useGetTeamModelQuery();
-
+  useEffect(() => {
+    const sortedLineup = isSwitchChecked
+      ? [...overallLineup].sort((a, b) => a.number - b.number)
+      : [...overallLineup].sort((a, b) => b.goals - a.goals);
+    setVisiblePlayers(sortedLineup);
+  }, [isSwitchChecked]);
   const {
     data: games,
     error,
@@ -152,15 +155,18 @@ const Team = () => {
   } = useGetGamesWithParticipationQuery(teamID);
 
   //OVERALL LINEUP
-  const overallLineup = GetOverallLineupData(games || [], teamID).sort(
-    (a, b) => {
-      return isSwitchChecked ? a.number - b.number : b.goals - a.goals;
-    }
-  );
+  const overallLineup = useMemo(() => {
+    return GetOverallLineupData(games || [], teamID).sort(
+      (a, b) => a.number - b.number
+    );
+  }, [games, teamID]);
   const [visiblePlayers, setVisiblePlayers] = useState(overallLineup);
 
   if (isLoading || isLoadingTeam) {
     return <div>Loading....</div>;
+  }
+  if (error) {
+    return <div>error</div>;
   }
   return (
     <Box m="1.5rem 2.5rem">
@@ -181,7 +187,7 @@ const Team = () => {
             Nach Toren
           </Typography>
           <Switch
-            defaultChecked={false}
+            defaultChecked={true}
             checked={isSwitchChecked}
             onChange={handleSwitchChange}
             sx={{
