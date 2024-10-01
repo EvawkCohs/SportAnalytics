@@ -38,10 +38,13 @@ app.use("/gameUpload", gameUploadRoutes);
 app.use("/gameUploadCheck", gameUploadCheckRoutes);
 
 //MONGOOSE SETUP
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 9000;
 
 mongoose
-  .connect(process.env.MONGO_URL)
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
 
@@ -51,36 +54,3 @@ mongoose
     //TeamModel.insertMany(dataTeams);
   })
   .catch((error) => console.log(`${error} did not connect`));
-
-app.get("/proxy", async (req, res) => {
-  const { url } = req.query; // URL aus den Query-Parametern holen
-
-  if (!url) {
-    return res.status(400).send("Fehlende URL");
-  }
-
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`HTTP-Fehler! Status: ${response.status}`);
-    }
-
-    const contentType = response.headers.get("content-type");
-    if (contentType.includes("application/json")) {
-      const data = await response.json();
-      res.json(data);
-    } else if (contentType.includes("text/csv")) {
-      const data = await response.text();
-      res.header("Content-Type", "text/csv");
-      res.send(data);
-    } else if (contentType.includes("text/html")) {
-      const data = await response.text();
-      res.header("Content-Type", "text/html");
-      res.send(data);
-    } else {
-      throw new Error("Unsupported content type: " + contentType);
-    }
-  } catch (error) {
-    res.status(500).send("Fehler beim Abrufen der Daten: " + error.message);
-  }
-});

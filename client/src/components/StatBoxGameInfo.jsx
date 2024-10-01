@@ -29,7 +29,7 @@ const StatBoxGameInfo = ({
 
     setHomeTeamLogo(teamData.find((team) => team.name === homeTeam).logo);
     setAwayTeamLogo(teamData.find((team) => team.name === awayTeam).logo);
-  });
+  }, [teamData]);
 
   return (
     <Box>

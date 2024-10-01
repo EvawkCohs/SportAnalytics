@@ -8,7 +8,7 @@ const SimpleStatBox = ({ value, secondaryValue, title, icon }) => {
 
   useEffect(() => {
     setisChecked(true);
-  });
+  }, [isChecked]);
   return (
     <Fade in={isChecked} timeout={500}>
       <Box

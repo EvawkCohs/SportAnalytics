@@ -27,6 +27,7 @@ export const GetPlayerStatisticsPerGame = (
     .filter((lineup) => lineup.length > 0)
     .flat()
     .filter((player) => player.id === playerId);
+
   return playerStatisticsPerGame;
 };
 

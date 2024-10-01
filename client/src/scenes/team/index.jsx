@@ -28,9 +28,8 @@ const Player = ({
   number,
   gamesPlayed,
   goals,
-  mostGoals,
+
   games,
-  timeout,
 }) => {
   const theme = useTheme();
   const Navigate = useNavigate();
@@ -43,6 +42,7 @@ const Player = ({
   useEffect(() => {
     setChecked(true);
   }, []);
+
   return (
     <Grow in={checked} timeout={1000}>
       <Card
@@ -127,13 +127,6 @@ const Player = ({
                 ? goals / gamesPlayed
                 : (goals / gamesPlayed).toFixed(2)
             }`}</Typography>
-            {mostGoals.slice(0, 1) !== "0" ? (
-              <Typography
-                sx={{ fontSize: "14px", color: theme.palette.secondary[100] }}
-              >{`Meiste Tore: ${mostGoals}`}</Typography>
-            ) : (
-              <Box />
-            )}
           </Box>
         </CardContent>
       </Card>
@@ -147,7 +140,7 @@ const Team = () => {
   const [isSwitchChecked, setIsSwitchChecked] = useState(false);
   const handleSwitchChange = (event) => {
     setIsSwitchChecked(event.target.checked);
-    setVisiblePlayers([]);
+    setVisiblePlayers(overallLineup);
   };
   const { data: teamData, isLoadingTeam } = useGetTeamModelQuery();
 
@@ -156,37 +149,6 @@ const Team = () => {
     error,
     isLoading,
   } = useGetGamesWithParticipationQuery(teamID);
-  const allLineups = games
-    ?.map((game) => {
-      if (game.summary.homeTeam.id === teamID) {
-        const homeLineup = game.lineup.home.map((obj) => ({
-          ...obj,
-          team: game.summary.homeTeam.name,
-          acronym: game.summary.homeTeam.acronym,
-          opponent: game.summary.awayTeam.name,
-        }));
-        return homeLineup;
-      } else if (game.summary.awayTeam.id) {
-        const awayLineup = game.lineup.away.map((obj) => ({
-          ...obj,
-          team: game.summary.awayTeam.name,
-          acronym: game.summary.awayTeam.acronym,
-          opponent: game.summary.homeTeam.name,
-        }));
-        return awayLineup;
-      }
-      return null;
-    })
-    .filter((lineup) => lineup.length !== 0)
-    .flat();
-
-  //LAST FIVE GAMES
-  const lastFive = games
-    ?.filter((game) => new Date(game.summary.startsAt).getTime() < Date.now())
-    .sort((a, b) => new Date(b.summary.startsAt) - new Date(a.summary.startsAt))
-    .slice(0, 5);
-
-  let mostGoals = 0;
 
   //OVERALL LINEUP
   const overallLineup = GetOverallLineupData(games || [], teamID).sort(
@@ -194,12 +156,7 @@ const Team = () => {
       return isSwitchChecked ? a.number - b.number : b.goals - a.goals;
     }
   );
-  const [visiblePlayers, setVisiblePlayers] = useState([]);
-
-  useEffect(() => {
-    // Spieler beim ersten Rendern hinzufügen
-    setVisiblePlayers(overallLineup);
-  }, [overallLineup]);
+  const [visiblePlayers, setVisiblePlayers] = useState(overallLineup);
 
   if (isLoading || isLoadingTeam) {
     return <div>Loading....</div>;
@@ -263,34 +220,20 @@ const Team = () => {
             (
               { firstname, lastname, number, position, gamesPlayed, goals, id },
               index
-            ) =>
-              (mostGoals = allLineups
-                .filter((player) => player.number === number)
-                .reduce((acc, currentPlayer) => {
-                  if (
-                    !acc[currentPlayer.id] ||
-                    currentPlayer.goals > acc[currentPlayer.id].goals
-                  ) {
-                    acc[currentPlayer.id] = currentPlayer;
-                  }
-                  return acc;
-                }, {}))(
-                <Player
-                  player={overallLineup
-                    .flat()
-                    .find((player) => player.id === id)}
-                  id={id}
-                  firstname={firstname}
-                  lastname={lastname}
-                  number={number}
-                  position={position}
-                  gamesPlayed={gamesPlayed}
-                  goals={goals}
-                  mostGoals={`${mostGoals[id].goals} gegen ${mostGoals[id].opponent}`}
-                  games={games}
-                  timeout={index}
-                />
-              )
+            ) => (
+              <Player
+                player={overallLineup.flat().find((player) => player.id === id)}
+                id={id}
+                firstname={firstname}
+                lastname={lastname}
+                number={number}
+                position={position}
+                gamesPlayed={gamesPlayed}
+                goals={goals}
+                games={games}
+                timeout={index}
+              />
+            )
           )}
         </Box>
       ) : (

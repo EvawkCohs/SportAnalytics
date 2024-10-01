@@ -22,16 +22,17 @@ const PlayerDetailsCombined = () => {
   const overallPlayerStatistics = location.state?.player;
   const teamId = useSelector((state) => state.global.teamId);
   const playerId = location.state?.player.id;
-  const allGamesDetails = location.state?.allGamesDetails;
+  const allGamesDetails = location.state?.allGamesDetails.sort(
+    (a, b) => new Date(a.summary.startsAt) - new Date(b.summary.startsAt)
+  );
+
   const playerStatisticsPerGame = GetPlayerStatisticsPerGame(
     allGamesDetails,
     playerId,
     teamId
   );
 
-  const playerGoalDataLine = GetPlayerGoalsDataLine(
-    playerStatisticsPerGame.reverse()
-  );
+  const playerGoalDataLine = GetPlayerGoalsDataLine(playerStatisticsPerGame);
 
   const totalGoals = overallPlayerStatistics.goals;
   const averageGoals =

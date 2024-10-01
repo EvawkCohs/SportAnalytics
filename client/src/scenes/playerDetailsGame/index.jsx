@@ -73,7 +73,7 @@ const PlayerDetailsGame = () => {
                   position: "absolute",
                   left: `${
                     isOverlapping && index > 0
-                      ? (parseInt(event.time.slice(0, 2)) * 100) / 60 + 1
+                      ? (parseInt(event.time.slice(0, 2)) * 100) / 60 - 1
                       : (parseInt(event.time.slice(0, 2)) * 100) / 60
                   }%`,
                   top: 0,
