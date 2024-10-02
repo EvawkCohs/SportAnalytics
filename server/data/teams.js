@@ -50,7 +50,7 @@ export const dataTeams = [
   },
   {
     id: "sportradar.dhbdata.516-1648",
-    name: "HG Saarlouis 3. Liga Männer",
+    name: "HG Saarlouis",
     urlEnding: "216i8",
     group: "SW",
     logo: "https://www.handball.net/files/clubs/logos/1736f032-4268-41e9-b7d6-e9fbee615b3c.png?d=100x",
@@ -64,7 +64,7 @@ export const dataTeams = [
   },
   {
     id: "sportradar.dhbdata.438-1648",
-    name: "Saase3 Leutershausen Handball",
+    name: "Saase3 Leutershausen",
     urlEnding: "tnjr1",
     group: "SW",
     logo: "https://www.handball.net/files/clubs/logos/57143ecf-2184-495e-9f3c-221b60c91a1b.png?d=100x",

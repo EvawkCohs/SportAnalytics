@@ -19,9 +19,41 @@ import {
   GetTotalGoalsConceded,
   GetAveragePenaltyStats,
 } from "./functions";
-
-import RadarChart from "components/RadarChart";
-
+import { ResponsiveRadar } from "@nivo/radar";
+const MyResponsiveRadar = ({ data }) => {
+  const theme = useTheme();
+  return (
+    <ResponsiveRadar
+      data={data || []}
+      keys={["Team"]}
+      indexBy="stat"
+      margin={{ top: 70, right: 80, bottom: 40, left: 80 }}
+      borderColor={theme.palette.red[400]}
+      gridLabelOffset={36}
+      gridShape="linear"
+      dotSize={10}
+      dotColor={theme.palette.red[400]}
+      dotBorderWidth={2}
+      colors={theme.palette.red[400]}
+      blendMode="multiply"
+      maxValue={40}
+      theme={{
+        grid: {
+          line: {
+            stroke: theme.palette.grey[600],
+          },
+        },
+        text: { fill: theme.palette.secondary[200] },
+        tooltip: {
+          container: {
+            background: theme.palette.grey[700],
+            color: theme.palette.secondary[200],
+          },
+        },
+      }}
+    />
+  );
+};
 const HeadToHead = () => {
   const theme = useTheme();
   const { data: teamData, isLoading } = useGetTeamModelQuery();
@@ -127,60 +159,49 @@ const HeadToHead = () => {
       }
       return 0;
     });
-  const averagePenaltiesTeamA = GetAveragePenaltyStats(teamAGames, teamAId);
-  const averagePenaltiesTeamB = GetAveragePenaltyStats(teamBGames, teamBId);
-
-  //Radar Daten
-  const dataRadar = [
+  const averagePenaltiesTeamA = teamAGames
+    ? GetAveragePenaltyStats(teamAGames, teamAId) /
+      teamAGames.filter(
+        (game) => new Date(game.summary.startsAt).getTime() < Date.now()
+      ).length
+    : 0;
+  const averagePenaltiesTeamB = teamBGames
+    ? GetAveragePenaltyStats(teamBGames, teamBId) /
+      teamBGames.filter(
+        (game) => new Date(game.summary.startsAt).getTime() < Date.now()
+      ).length
+    : 0;
+  const dataRadarTeamA = [
     {
       stat: " Tore",
-      teamAName: averageGoalsTeamA,
-      teamBName: averageGoalsTeamB,
+      Team: averageGoalsTeamA || 0,
     },
     {
       stat: " Gegentore",
-      teamAName: averageGoalsConcededTeamA,
-      teamBName: averageGoalsConcededTeamB,
+      Team: averageGoalsConcededTeamA || 0,
     },
     {
-      stat: " 7-Meter ",
-      teamAName: averagePenaltiesTeamA,
-      teamBName: averagePenaltiesTeamA,
+      stat: "Ø 7-Meter ",
+      Team: averagePenaltiesTeamA * 5 || 0,
     },
+    { stat: "Zeitstrafen", Team: 0 },
+  ];
+  const dataRadarTeamB = [
+    {
+      stat: " Tore",
+      Team: averageGoalsTeamB || 0,
+    },
+    {
+      stat: " Gegentore",
+      Team: averageGoalsConcededTeamB || 0,
+    },
+    {
+      stat: "Ø 7-Meter ",
+      Team: averagePenaltiesTeamB * 5 || 0,
+    },
+    { stat: "Zeitstrafen", Team: 0 },
   ];
 
-  const testData = [
-    {
-      taste: "fruity",
-      chardonay: 41,
-      carmenere: 25,
-      syrah: 42,
-    },
-    {
-      taste: "bitter",
-      chardonay: 113,
-      carmenere: 21,
-      syrah: 51,
-    },
-    {
-      taste: "heavy",
-      chardonay: 119,
-      carmenere: 22,
-      syrah: 61,
-    },
-    {
-      taste: "strong",
-      chardonay: 110,
-      carmenere: 35,
-      syrah: 32,
-    },
-    {
-      taste: "sunny",
-      chardonay: 77,
-      carmenere: 52,
-      syrah: 79,
-    },
-  ];
   //Handler
   const handleGroupChangeB = (event) => {
     setGroupB(event.target.value);
@@ -212,7 +233,7 @@ const HeadToHead = () => {
     return <div>ERROR</div>;
   }
   return (
-    <Box m="1.5rem 2.5rem">
+    <Box m="1.5rem 1.5rem">
       <Header title="HEAD TO HEAD" subtitle={`${teamAName} vs ${teamBName}`} />
       {/*Flexbox gesamter Inhalt */}
       <Box
@@ -229,7 +250,6 @@ const HeadToHead = () => {
           alignItems="center"
           justifyContent="flex-start"
           gap="1rem"
-          width="50%"
           mr="0.5rem"
         >
           <Typography variant="h2" sx={{ color: theme.palette.secondary[200] }}>
@@ -238,9 +258,10 @@ const HeadToHead = () => {
           {/*Flexbox Staffel und Teamauswahl */}
           <Box
             display="grid"
-            gridTemplateColumns="auto 350px 350px auto"
+            gridTemplateColumns="auto(4)"
             justifyItems="center"
             alignItems="center"
+            gap="1rem"
           >
             {/*Logo */}
             {teamAId ? (
@@ -255,7 +276,7 @@ const HeadToHead = () => {
               <Box mr="2rem" gridColumn="1" width="50px" height="60px" />
             )}
             {/*Staffelauswahl */}
-            <FormControl sx={{ width: "300px", gridColumn: "2" }}>
+            <FormControl sx={{ minWidth: "200px", gridColumn: "2" }}>
               <InputLabel
                 id="Staffelauswahl"
                 sx={{
@@ -298,7 +319,7 @@ const HeadToHead = () => {
               </Select>
             </FormControl>
             {/*Teamauswahl */}
-            <FormControl sx={{ width: "300px", gridColumn: "3" }}>
+            <FormControl sx={{ minWidth: "300px", gridColumn: "3" }}>
               <InputLabel
                 id="Mannschaftsauswahl"
                 sx={{
@@ -440,21 +461,20 @@ const HeadToHead = () => {
           </Box>
           {/*Basic Statistiken */}
           <Box
-            display="grid"
-            gridTemplateColumns="repeat(4, 255px)"
-            justifyItems="center"
+            display="flex"
+            flexDirection="row"
+            justifyItems="flex-start"
             alignItems="center"
-            gap="1.5rem"
+            flexWrap="wrap"
           >
             {/*Tore gesamte Saison */}
             <Box
-              gridColumn="1"
               display="flex"
               m="0.5rem"
               height="250px"
-              width="100%"
               className="AverageGoals"
               borderRadius="0.55rem"
+              width="260px"
               sx={{
                 border:
                   hoveredGroup === "AverageGoals"
@@ -481,7 +501,6 @@ const HeadToHead = () => {
             {/*Tore letzte 5 Spiele */}
 
             <Box
-              gridColumn="2"
               display="flex"
               m="0.5rem "
               flexDirection="column"
@@ -490,6 +509,7 @@ const HeadToHead = () => {
               borderRadius="0.55rem"
               p="1.25rem 1rem"
               className="data-display"
+              width="250px"
               height="250px"
               sx={{
                 border:
@@ -505,10 +525,9 @@ const HeadToHead = () => {
               onMouseLeave={handleMouseLeave}
             >
               <Typography
-                variant="h2"
-                sx={{ color: theme.palette.secondary[200] }}
+                sx={{ color: theme.palette.secondary[200], fontSize: 28 }}
                 textAlign="center"
-                mb="2rem"
+                mb="1.5rem"
               >
                 Durchschnittliche Tore
               </Typography>
@@ -593,10 +612,9 @@ const HeadToHead = () => {
             {/*Gegentore gesamte Saison */}
             <Box
               display="flex"
-              gridColumn="3"
               m="0.5rem"
               height="250px"
-              width="100%"
+              width="250px"
               borderRadius="0.55rem"
               sx={{
                 border:
@@ -623,11 +641,11 @@ const HeadToHead = () => {
             </Box>
             {/* Gegentore letzte 5 Spiele */}
             <Box
-              gridColumn="4"
               display="flex"
               m="0.5rem "
               height="250px"
               flexDirection="column"
+              width="250px"
               justifyContent="flex-start"
               backgroundColor={theme.palette.primary[700]}
               borderRadius="0.55rem"
@@ -647,10 +665,9 @@ const HeadToHead = () => {
               onMouseLeave={handleMouseLeave}
             >
               <Typography
-                variant="h2"
-                sx={{ color: theme.palette.secondary[200] }}
+                sx={{ color: theme.palette.secondary[200], fontSize: 28 }}
                 textAlign="center"
-                mb="2rem"
+                mb="1.5rem"
               >
                 Durchschnittliche Gegentore
               </Typography>
@@ -748,6 +765,36 @@ const HeadToHead = () => {
               </Typography>
             </Box>
           </Box>
+          {/*Radar Chart */}
+          <Box
+            height="45vh"
+            display="flex"
+            flexDirection="row"
+            justifyContent="center"
+            alignItems="center"
+            width="70%"
+          >
+            <MyResponsiveRadar data={dataRadarTeamA} />
+            <Tooltip
+              title={
+                <Typography
+                  variant="h6"
+                  sx={{ color: theme.palette.secondary[200] }}
+                >
+                  Durchschnittswerte aus den Spielen (7m-Wert mit Faktor 5
+                  multipliziert)
+                </Typography>
+              }
+            >
+              <InfoOutlinedIcon
+                fontSize="medium"
+                sx={{
+                  color: theme.palette.secondary[200],
+                  mr: "2rem",
+                }}
+              />
+            </Tooltip>
+          </Box>
         </Box>
 
         {/*Divider */}
@@ -769,9 +816,10 @@ const HeadToHead = () => {
           {/*Flexbox Staffel und Teamauswahl */}
           <Box
             display="grid"
-            gridTemplateColumns="auto 350px 350px auto"
+            gridTemplateColumns="auto(4)"
             justifyItems="center"
             alignItems="center"
+            gap="1rem"
           >
             {/*Logo */}
             {teamBId ? (
@@ -786,7 +834,7 @@ const HeadToHead = () => {
               <Box mr="2rem" gridColumn="1" width="50px" height="60px" />
             )}
             {/*Staffelauswahl */}
-            <FormControl sx={{ width: "300px" }}>
+            <FormControl sx={{ minWidth: "200px", gridColumn: "2" }}>
               <InputLabel
                 id="Staffelauswahl"
                 sx={{
@@ -829,7 +877,7 @@ const HeadToHead = () => {
               </Select>
             </FormControl>
             {/*Teamauswahl */}
-            <FormControl sx={{ width: "300px" }}>
+            <FormControl sx={{ minWidth: "300px", gridColumn: "3" }}>
               <InputLabel
                 id="Mannschaftsauswahl"
                 sx={{
@@ -969,11 +1017,11 @@ const HeadToHead = () => {
           </Box>
           {/*Basic Statistiken */}
           <Box
-            display="grid"
-            gridTemplateColumns="repeat(4, 255px)"
-            justifyItems="center"
+            display="flex"
+            flexDirection="row"
+            justifyItems="flex-start"
             alignItems="center"
-            gap="1.5rem"
+            flexWrap="wrap"
           >
             {/*Tore gesamte Saison */}
             <Box
@@ -981,7 +1029,7 @@ const HeadToHead = () => {
               display="flex"
               m="0.5rem"
               height="250px"
-              width="100%"
+              width="250px"
               className="AverageGoals"
               borderRadius="0.55rem"
               sx={{
@@ -1020,6 +1068,7 @@ const HeadToHead = () => {
               p="1.25rem 1rem"
               className="data-display"
               height="250px"
+              width="250px"
               sx={{
                 border:
                   hoveredGroup === "AverageGoalsLast5"
@@ -1125,7 +1174,7 @@ const HeadToHead = () => {
               gridColumn="3"
               m="0.5rem"
               height="250px"
-              width="100%"
+              width="250px"
               borderRadius="0.55rem"
               sx={{
                 border:
@@ -1155,6 +1204,7 @@ const HeadToHead = () => {
               gridColumn="4"
               display="flex"
               height="250px"
+              width="250px"
               m="0.5rem"
               flexDirection="column"
               justifyContent="flex-start"
@@ -1176,10 +1226,9 @@ const HeadToHead = () => {
               onMouseLeave={handleMouseLeave}
             >
               <Typography
-                variant="h2"
-                sx={{ color: theme.palette.secondary[200] }}
+                sx={{ color: theme.palette.secondary[200], fontSize: 28 }}
                 textAlign="center"
-                mb="2rem"
+                mb="1.5rem"
               >
                 Durchschnittliche Gegentore
               </Typography>
@@ -1278,6 +1327,36 @@ const HeadToHead = () => {
             </Box>
           </Box>
           {/*Radar Chart */}
+          <Box
+            height="45vh"
+            display="flex"
+            flexDirection="row"
+            justifyContent="center"
+            alignItems="center"
+            width="70%"
+          >
+            <MyResponsiveRadar data={dataRadarTeamB} />
+
+            <Tooltip
+              title={
+                <Typography
+                  variant="h6"
+                  sx={{ color: theme.palette.secondary[200] }}
+                >
+                  Durchschnittswerte aus den Spielen (7m-Wert mit Faktor 5
+                  multipliziert)
+                </Typography>
+              }
+            >
+              <InfoOutlinedIcon
+                fontSize="medium"
+                sx={{
+                  color: theme.palette.secondary[200],
+                  mr: "2rem",
+                }}
+              />
+            </Tooltip>
+          </Box>
         </Box>
       </Box>
     </Box>

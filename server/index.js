@@ -15,7 +15,7 @@ import gameUploadCheckRoutes from "./routes/gameUploadCheck.js";
 //MODEL IMPORTS
 // import gameModel from "./models/gameModel.js";
 // import allGamesModel from "./models/allgamesmodel.js";
-// import TeamModel from "./models/TeamModel.js";
+import TeamModel from "./models/TeamModel.js";
 
 //DATA IMPORT
 import { dataTeams } from "./data/teams.js";

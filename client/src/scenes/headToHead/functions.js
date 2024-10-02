@@ -31,6 +31,7 @@ export const GetLast5WinLose = (games, teamId) => {
 export const GetAverageGoalsLastFive = (dataLastFiveGames, teamId) => {
   const gamesPlayed = dataLastFiveGames.length;
   let totalGoalsLastFive = 0;
+
   dataLastFiveGames.forEach((game) => {
     if (game.summary.homeTeam.id === teamId) {
       totalGoalsLastFive += game.summary.homeGoals;
@@ -38,6 +39,7 @@ export const GetAverageGoalsLastFive = (dataLastFiveGames, teamId) => {
       totalGoalsLastFive += game.summary.awayGoals;
     }
   });
+
   const averageGoalsLastFive = totalGoalsLastFive / gamesPlayed;
   return averageGoalsLastFive;
 };
