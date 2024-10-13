@@ -114,15 +114,7 @@ const Dashboard = () => {
         flex: 1,
       }))
     );
-  }, [
-    isLoadingGames,
-    games,
-    teamId,
-    totalGoals,
-    totalGoalsConceded,
-    dataLastFiveGames,
-    overallLineup,
-  ]);
+  }, [isLoadingGames, games, totalGoals, totalGoalsConceded]);
 
   //beste und schlechteste Periode
   useEffect(() => {
@@ -465,7 +457,7 @@ const Dashboard = () => {
                 ? averageGoalsLastFiveConceded
                 : averageGoalsLastFiveConceded.toFixed(2)}
             </Typography>
-            {averageGoalsLastFiveConceded >= averageGoals ? (
+            {averageGoalsLastFiveConceded >= averageGoalsConceded ? (
               <Box
                 alignItems="center"
                 display="flex"

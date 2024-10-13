@@ -41,6 +41,7 @@ export const GetAverageGoalsConcededLastFive = (dataLastFiveGames, teamId) => {
       ? (totalGoalsConcededLastFive += game.summary.awayGoals)
       : (totalGoalsConcededLastFive += game.summary.homeGoals);
   });
+
   return totalGoalsConcededLastFive / gamesPlayed;
 };
 
