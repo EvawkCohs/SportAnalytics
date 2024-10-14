@@ -379,7 +379,7 @@ const HeadToHead = () => {
             justifyContent="flex-start"
             gap="1rem"
             mt="2rem"
-            ml="2rem"
+            ml="1.5rem"
             width="100%"
             alignItems="center"
           >
@@ -474,7 +474,7 @@ const HeadToHead = () => {
               height="250px"
               className="AverageGoals"
               borderRadius="0.55rem"
-              width="260px"
+              width="250px"
               sx={{
                 border:
                   hoveredGroup === "AverageGoals"
@@ -938,6 +938,7 @@ const HeadToHead = () => {
             justifyContent="flex-start"
             gap="1rem"
             mt="2rem"
+            ml="2.5rem"
             width="100%"
           >
             <Typography
@@ -1022,6 +1023,7 @@ const HeadToHead = () => {
             justifyItems="flex-start"
             alignItems="center"
             flexWrap="wrap"
+            mr="3rem"
           >
             {/*Tore gesamte Saison */}
             <Box
@@ -1083,8 +1085,7 @@ const HeadToHead = () => {
               onMouseLeave={handleMouseLeave}
             >
               <Typography
-                variant="h2"
-                sx={{ color: theme.palette.secondary[200] }}
+                sx={{ color: theme.palette.secondary[200], fontSize: 28 }}
                 textAlign="center"
                 mb="2rem"
               >
