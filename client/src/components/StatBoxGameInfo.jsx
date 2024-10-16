@@ -42,19 +42,44 @@ const StatBoxGameInfo = ({
           <Box gridColumn="1">
             {state === "pre" ? (
               <SportsOutlinedIcon
-                fontSize="large"
-                sx={{ color: theme.palette.secondary[200] }}
+                sx={{
+                  color: theme.palette.secondary[200],
+                  fontSize: {
+                    xs: "small",
+                    sm: "small",
+                    md: "medium",
+                    lg: "large",
+                    xl: "large",
+                  },
+                }}
               />
             ) : (
               <SportsScoreOutlinedIcon
-                fontSize="large"
-                sx={{ color: theme.palette.secondary[200] }}
+                sx={{
+                  color: theme.palette.secondary[200],
+                  fontSize: {
+                    xs: "small",
+                    sm: "small",
+                    md: "medium",
+                    lg: "large",
+                    xl: "large",
+                  },
+                }}
               />
             )}
           </Box>
           <Typography
             variant="h2"
-            sx={{ color: theme.palette.secondary[200] }}
+            sx={{
+              color: theme.palette.secondary[200],
+              fontSize: {
+                xs: "0.5rem", // für sehr kleine Bildschirme
+                sm: "0.5rem", // für kleine Bildschirme
+                md: "1rem", // für mittlere Bildschirme
+                lg: "1.5rem", // für größere Bildschirme
+                xl: "2rem",
+              },
+            }}
             textAlign="center"
             gridColumn="3/5"
           >
@@ -64,7 +89,16 @@ const StatBoxGameInfo = ({
       ) : (
         <Typography
           variant="h2"
-          sx={{ color: theme.palette.secondary[200] }}
+          sx={{
+            color: theme.palette.secondary[200],
+            fontSize: {
+              xs: "0.5rem", // für sehr kleine Bildschirme
+              sm: "0.5rem", // für kleine Bildschirme
+              md: "1rem", // für mittlere Bildschirme
+              lg: "1.5rem", // für größere Bildschirme
+              xl: "2rem",
+            },
+          }}
           textAlign="center"
           gridColumn="3/5"
         >
@@ -73,7 +107,16 @@ const StatBoxGameInfo = ({
       )}
       <Typography
         variant="h4"
-        sx={{ color: theme.palette.secondary[100] }}
+        sx={{
+          color: theme.palette.secondary[100],
+          fontSize: {
+            xs: "0.25rem", // für sehr kleine Bildschirme
+            sm: "0.5rem", // für kleine Bildschirme
+            md: "0.75rem", // für mittlere Bildschirme
+            lg: "1rem", // für größere Bildschirme
+            xl: "1.25rem",
+          },
+        }}
         textAlign="center"
       >
         {round}
@@ -82,8 +125,17 @@ const StatBoxGameInfo = ({
       <Box
         display="grid"
         gridTemplateColumns="repeat(3, 1fr)"
-        p="1.25rem 1rem"
+        //Padding einfügen
         alignItems="center"
+        sx={{
+          p: {
+            xs: "0.25rem 0.125rem", // für sehr kleine Bildschirme
+            sm: "0.5rem 0.25rem", // für kleine Bildschirme
+            md: "0.75rem 0.5rem", // für mittlere Bildschirme
+            lg: "1rem 0.75rem", // für größere Bildschirme
+            xl: "1.25rem 1rem",
+          },
+        }}
       >
         {/*ROW 1 */}
 
@@ -91,7 +143,16 @@ const StatBoxGameInfo = ({
           variant="h4"
           textAlign="center"
           fontWeight="300"
-          sx={{ color: theme.palette.secondary[100] }}
+          sx={{
+            color: theme.palette.secondary[100],
+            fontSize: {
+              xs: "0.25rem", // für sehr kleine Bildschirme
+              sm: "0.5rem", // für kleine Bildschirme
+              md: "0.75rem", // für mittlere Bildschirme
+              lg: "1rem", // für größere Bildschirme
+              xl: "1.25rem",
+            },
+          }}
           gridColumn="span 1"
         >
           {homeTeam}
@@ -100,7 +161,16 @@ const StatBoxGameInfo = ({
         <Typography
           variant="h2"
           fontWeight="600"
-          sx={{ color: theme.palette.secondary[200] }}
+          sx={{
+            color: theme.palette.secondary[200],
+            fontSize: {
+              xs: "0.5rem", // für sehr kleine Bildschirme
+              sm: "0.5rem", // für kleine Bildschirme
+              md: "1rem", // für mittlere Bildschirme
+              lg: "1.5rem", // für größere Bildschirme
+              xl: "2rem",
+            },
+          }}
           textAlign="center"
           gridColumn="2"
         >
@@ -111,7 +181,16 @@ const StatBoxGameInfo = ({
           variant="h4"
           textAlign="center"
           fontWeight="300"
-          sx={{ color: theme.palette.secondary[100] }}
+          sx={{
+            color: theme.palette.secondary[100],
+            fontSize: {
+              xs: "0.25rem", // für sehr kleine Bildschirme
+              sm: "0.5rem", // für kleine Bildschirme
+              md: "0.75rem", // für mittlere Bildschirme
+              lg: "1rem", // für größere Bildschirme
+              xl: "1.25rem",
+            },
+          }}
           gridColumn="3"
         >
           {awayTeam}
@@ -121,20 +200,55 @@ const StatBoxGameInfo = ({
 
         {/*Später Vereinslog */}
 
-        <Box display="flex" justifyContent="center" alignItems="center">
-          <img src={homeTeamLogo} height="50px" />
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          sx={{
+            height: {
+              xs: "10px",
+              sm: "20px",
+              md: "30px",
+              lg: "40px",
+              xl: "50px",
+            },
+          }}
+        >
+          <img src={homeTeamLogo} height="100%" />
         </Box>
         <Typography
           variant="h4"
           fontWeight="400"
-          sx={{ color: theme.palette.secondary[200] }}
+          sx={{
+            color: theme.palette.secondary[200],
+            fontSize: {
+              xs: "0.25rem", // für sehr kleine Bildschirme
+              sm: "0.5rem", // für kleine Bildschirme
+              md: "0.75rem", // für mittlere Bildschirme
+              lg: "1rem", // für größere Bildschirme
+              xl: "1.25rem",
+            },
+          }}
           textAlign="center"
         >
           {halftimeScore}
         </Typography>
         {/*Später Vereinslog */}
-        <Box display="flex" justifyContent="center" alignItems="center">
-          <img src={awayTeamLogo} height="50px" />
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center "
+          sx={{
+            height: {
+              xs: "10px",
+              sm: "20px",
+              md: "30px",
+              lg: "40px",
+              xl: "50px",
+            },
+          }}
+        >
+          <img src={awayTeamLogo} height="100%" />
         </Box>
       </Box>
     </Box>

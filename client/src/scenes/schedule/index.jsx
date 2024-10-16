@@ -261,15 +261,11 @@ function Schedule() {
               {isLoading ? (
                 <MenuItem disabled>Loading...</MenuItem> // Anzeige während des Ladens
               ) : (
-                filteredTeams?.map(
-                  (
-                    team // Sicherheitsabfrage, ob teamData existiert
-                  ) => (
-                    <MenuItem key={team.id} value={team.id}>
-                      {team.name}
-                    </MenuItem>
-                  )
-                )
+                filteredTeams?.map((team) => (
+                  <MenuItem key={team.id} value={team.id}>
+                    {team.name}
+                  </MenuItem>
+                ))
               )}
             </Select>
           </FormControl>

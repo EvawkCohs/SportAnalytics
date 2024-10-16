@@ -28,14 +28,14 @@ function App() {
             <Route element={<Layout />}>
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/schedule" element={<Schedule />} />
+              <Route path="/spielplan" element={<Schedule />} />
               <Route path="/details/:id" element={<Details />} />
               <Route path="/videoanalyse/:id" element={<VideoAnalyse />} />
               <Route
                 path="/dashboard/playerDetails/:id/"
                 element={<PlayerDetailsCombined />}
               />
-              <Route path="/team" element={<Team />} />
+              <Route path="/kader" element={<Team />} />
               <Route
                 path="/details/:gameId/:player"
                 element={<PlayerDetailsGame />}

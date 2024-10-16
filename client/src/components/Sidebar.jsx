@@ -31,15 +31,13 @@ const navItems = [
     text: "Dashboard",
     icon: <HomeOutlined />,
   },
+  { text: "Spielplan und Teamauswahl", icon: null },
   {
-    text: "Client Facing",
-    icon: null,
-  },
-  {
-    text: "Schedule",
+    text: "Spielplan",
     icon: <CalendarMonthOutlined />,
   },
-  { text: "Team", icon: <Groups2OutlinedIcon /> },
+  { text: "Statistiken", icon: null },
+  { text: "Kader", icon: <Groups2OutlinedIcon /> },
   { text: "Head-to-Head", icon: <ElectricBoltOutlinedIcon /> },
 ];
 

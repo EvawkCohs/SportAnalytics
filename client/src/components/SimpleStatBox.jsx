@@ -24,21 +24,48 @@ const SimpleStatBox = ({ value, secondaryValue, title, icon }) => {
       >
         <Typography
           variant="h2"
-          sx={{ color: theme.palette.secondary[200] }}
+          sx={{
+            color: theme.palette.secondary[200],
+            fontSize: {
+              xs: "0.5rem", // für sehr kleine Bildschirme
+              sm: "0.5rem", // für kleine Bildschirme
+              md: "1rem", // für mittlere Bildschirme
+              lg: "1.5rem", // für größere Bildschirme
+              xl: "2rem",
+            },
+          }}
           textAlign="center"
         >
           {title}
         </Typography>
         <Typography
           variant="h2"
-          sx={{ color: theme.palette.secondary[200] }}
+          sx={{
+            color: theme.palette.secondary[200],
+            fontSize: {
+              xs: "0.5rem", // für sehr kleine Bildschirme
+              sm: "0.5rem", // für kleine Bildschirme
+              md: "1rem", // für mittlere Bildschirme
+              lg: "1.5rem", // für größere Bildschirme
+              xl: "2rem",
+            },
+          }}
           textAlign="center"
         >
           {value}
         </Typography>
         <Typography
           variant="h4"
-          sx={{ color: theme.palette.secondary[200] }}
+          sx={{
+            color: theme.palette.secondary[200],
+            fontSize: {
+              xs: "0.25rem", // für sehr kleine Bildschirme
+              sm: "0.5rem", // für kleine Bildschirme
+              md: "0.75rem", // für mittlere Bildschirme
+              lg: "1rem", // für größere Bildschirme
+              xl: "1.25rem",
+            },
+          }}
           textAlign="center"
         >
           {secondaryValue}
