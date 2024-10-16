@@ -15,21 +15,29 @@ const SimpleStatBox = ({ value, secondaryValue, title, icon }) => {
         display="flex"
         flexDirection="column"
         justifyContent="space-between"
-        p="1.25rem 1rem"
         backgroundColor={theme.palette.primary[700]}
         borderRadius="0.55rem"
         flex="1 1 100%"
         height="100%"
         className="data-display"
+        sx={{
+          p: {
+            xs: "0.25rem 0.125rem", // für sehr kleine Bildschirme
+            sm: "0.5rem 0.25rem", // für kleine Bildschirme
+            md: "0.75rem 0.5rem", // für mittlere Bildschirme
+            lg: "1rem 0.75rem", // für größere Bildschirme
+            xl: "1.25rem 1rem",
+          },
+        }}
       >
         <Typography
           variant="h2"
           sx={{
             color: theme.palette.secondary[200],
             fontSize: {
-              xs: "0.5rem", // für sehr kleine Bildschirme
-              sm: "0.5rem", // für kleine Bildschirme
-              md: "1rem", // für mittlere Bildschirme
+              xs: "1rem", // für sehr kleine Bildschirme
+              sm: "1rem", // für kleine Bildschirme
+              md: "1.5rem", // für mittlere Bildschirme
               lg: "1.5rem", // für größere Bildschirme
               xl: "2rem",
             },
@@ -43,9 +51,9 @@ const SimpleStatBox = ({ value, secondaryValue, title, icon }) => {
           sx={{
             color: theme.palette.secondary[200],
             fontSize: {
-              xs: "0.5rem", // für sehr kleine Bildschirme
-              sm: "0.5rem", // für kleine Bildschirme
-              md: "1rem", // für mittlere Bildschirme
+              xs: "1rem", // für sehr kleine Bildschirme
+              sm: "1rem", // für kleine Bildschirme
+              md: "1.5rem", // für mittlere Bildschirme
               lg: "1.5rem", // für größere Bildschirme
               xl: "2rem",
             },
@@ -59,9 +67,9 @@ const SimpleStatBox = ({ value, secondaryValue, title, icon }) => {
           sx={{
             color: theme.palette.secondary[200],
             fontSize: {
-              xs: "0.25rem", // für sehr kleine Bildschirme
-              sm: "0.5rem", // für kleine Bildschirme
-              md: "0.75rem", // für mittlere Bildschirme
+              xs: "0.75rem", // für sehr kleine Bildschirme
+              sm: "0.75rem", // für kleine Bildschirme
+              md: "1rem", // für mittlere Bildschirme
               lg: "1rem", // für größere Bildschirme
               xl: "1.25rem",
             },

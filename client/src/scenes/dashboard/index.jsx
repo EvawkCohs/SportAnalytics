@@ -156,7 +156,18 @@ const Dashboard = () => {
   }
 
   return (
-    <Box m="1.5rem 2.5rem">
+    <Box
+      m="1.5rem 2.5rem"
+      sx={{
+        m: {
+          xs: "0.25rem 0.5rem",
+          sm: "0.5rem 1rem",
+          md: "0.75rem 1.5rem",
+          lg: "1rem 2rem",
+          xl: "1.5rem 2.5rem",
+        },
+      }}
+    >
       <FlexBetween>
         <Header title={teamName} subtitle={"Überblick"} gridColumn="span 6" />
       </FlexBetween>
@@ -164,9 +175,6 @@ const Dashboard = () => {
         <Box
           display="grid"
           sx={{
-            "& > div": {
-              gridColumn: isNonMediumScreens ? undefined : "span 12",
-            },
             gridTemplateColumns: {
               xs: "repeat(1, 1fr)",
               sm: "repeat(2, 1fr)",
@@ -211,9 +219,9 @@ const Dashboard = () => {
                   xl: "1/5",
                 },
                 m: {
-                  xs: "0.5rem .5rem",
-                  sm: "0.5rem .5rem",
-                  md: "1rem .5rem",
+                  xs: "0.125rem 0.0625rem",
+                  sm: "0.5rem .125rem",
+                  md: "1rem .25rem",
                   lg: "1.5rem .5rem",
                   xl: "2rem .5rem",
                 },
@@ -311,9 +319,9 @@ const Dashboard = () => {
                   xl: "5/9",
                 },
                 m: {
-                  xs: "0.5rem .5rem",
-                  sm: "0.5rem .5rem",
-                  md: "1rem .5rem",
+                  xs: "0.125rem 0.0625rem",
+                  sm: "0.5rem .125rem",
+                  md: "1rem .25rem",
                   lg: "1.5rem .5rem",
                   xl: "2rem .5rem",
                 },
@@ -380,11 +388,17 @@ const Dashboard = () => {
           {/*Tore gesamte Saison */}
           <Box
             sx={{
-              gridColumn: { xs: "1", sm: "1", md: "1", lg: "1/3", xl: "1/3" },
+              gridColumn: { xs: "1", sm: "1", md: "1/3", lg: "1/3", xl: "1/3" },
               gridRow: { xs: "3", sm: "2", md: "2", lg: "2", xl: "2" },
+              m: {
+                xs: "0.125rem 0.0625rem",
+                sm: "0.125rem",
+                md: "0.25rem",
+                lg: "0.5rem",
+                xl: "0.5rem",
+              },
             }}
             display="flex"
-            m="0.5rem  "
           >
             <SimpleStatBox
               title={"Tore gesamt"}
@@ -395,10 +409,16 @@ const Dashboard = () => {
           {/*Gegentore gesamte Saison */}
           <Box
             display="flex"
-            m="0.5rem  "
             sx={{
-              gridColumn: { xs: "1", sm: "2", md: "3/5", lg: "3/5", xl: "1/3" },
+              gridColumn: { xs: "1", sm: "1", md: "1/3", lg: "3/5", xl: "1/3" },
               gridRow: { xs: "7", sm: "4", md: "4", lg: "3", xl: "3" },
+              m: {
+                xs: "0.125rem 0.0625rem",
+                sm: "0.125rem",
+                md: "0.25rem",
+                lg: "0.5rem",
+                xl: "0.5rem",
+              },
             }}
           >
             <SimpleStatBox
@@ -410,10 +430,16 @@ const Dashboard = () => {
           {/*Tore Durchschnitt Saison */}
           <Box
             display="flex"
-            m="0.5rem "
             sx={{
               gridColumn: { xs: "1", sm: "2", md: "3/5", lg: "3/5", xl: "3/5" },
               gridRow: { xs: "4", sm: "2", md: "2", lg: "2", xl: "2" },
+              m: {
+                xs: "0.125rem 0.0625rem",
+                sm: "0.125rem",
+                md: "0.25rem",
+                lg: "0.5rem",
+                xl: "0.5rem",
+              },
             }}
           >
             <SimpleStatBox
@@ -429,10 +455,16 @@ const Dashboard = () => {
           {/*Gegentore Durchschnitt Saison */}
           <Box
             display="flex"
-            m="0.5rem "
             sx={{
               gridColumn: { xs: "1", sm: "2", md: "3/5", lg: "5/7", xl: "3/5" },
               gridRow: { xs: "8", sm: "4", md: "4", lg: "3", xl: "3" },
+              m: {
+                xs: "0.125rem 0.0625rem",
+                sm: "0.125rem",
+                md: "0.25rem",
+                lg: "0.5rem",
+                xl: "0.5rem",
+              },
             }}
           >
             <SimpleStatBox
@@ -450,7 +482,6 @@ const Dashboard = () => {
           <Fade in={isChecked} timeout={500}>
             <Box
               display="flex"
-              m="0.5rem "
               flexDirection="column"
               justifyContent="space-between"
               backgroundColor={theme.palette.primary[700]}
@@ -460,7 +491,7 @@ const Dashboard = () => {
                 gridColumn: {
                   xs: "1",
                   sm: "1",
-                  md: "3/5",
+                  md: "1/3",
                   lg: "5/7",
                   xl: "5/7",
                 },
@@ -472,6 +503,13 @@ const Dashboard = () => {
                   lg: "1rem 0.75rem", // für größere Bildschirme
                   xl: "1.25rem 1rem",
                 },
+                m: {
+                  xs: "0.125rem 0.0625rem",
+                  sm: "0.125rem",
+                  md: "0.25rem",
+                  lg: "0.5rem",
+                  xl: "0.5rem",
+                },
               }}
             >
               <Typography
@@ -479,9 +517,9 @@ const Dashboard = () => {
                 sx={{
                   color: theme.palette.secondary[200],
                   fontSize: {
-                    xs: "0.5rem", // für sehr kleine Bildschirme
-                    sm: "0.5rem", // für kleine Bildschirme
-                    md: "1rem", // für mittlere Bildschirme
+                    xs: "1rem", // für sehr kleine Bildschirme
+                    sm: "1rem", // für kleine Bildschirme
+                    md: "1.5rem", // für mittlere Bildschirme
                     lg: "1.5rem", // für größere Bildschirme
                     xl: "2rem",
                   },
@@ -495,9 +533,9 @@ const Dashboard = () => {
                 sx={{
                   color: theme.palette.secondary[200],
                   fontSize: {
-                    xs: "0.5rem", // für sehr kleine Bildschirme
-                    sm: "0.5rem", // für kleine Bildschirme
-                    md: "1rem", // für mittlere Bildschirme
+                    xs: "1rem", // für sehr kleine Bildschirme
+                    sm: "1rem", // für kleine Bildschirme
+                    md: "1.5rem", // für mittlere Bildschirme
                     lg: "1.5rem", // für größere Bildschirme
                     xl: "2rem",
                   },
@@ -534,9 +572,9 @@ const Dashboard = () => {
                     sx={{
                       color: "green",
                       fontSize: {
-                        xs: "0.25rem", // für sehr kleine Bildschirme
-                        sm: "0.5rem", // für kleine Bildschirme
-                        md: "0.75rem", // für mittlere Bildschirme
+                        xs: "0.75rem", // für sehr kleine Bildschirme
+                        sm: "0.75rem", // für kleine Bildschirme
+                        md: "1rem", // für mittlere Bildschirme
                         lg: "1rem", // für größere Bildschirme
                         xl: "1.25rem",
                       },
@@ -580,9 +618,9 @@ const Dashboard = () => {
                     sx={{
                       color: theme.palette.red[500],
                       fontSize: {
-                        xs: "0.25rem", // für sehr kleine Bildschirme
-                        sm: "0.5rem", // für kleine Bildschirme
-                        md: "0.75rem", // für mittlere Bildschirme
+                        xs: "0.75rem", // für sehr kleine Bildschirme
+                        sm: "0.75rem", // für kleine Bildschirme
+                        md: "1rem", // für mittlere Bildschirme
                         lg: "1rem", // für größere Bildschirme
                         xl: "1.25rem",
                       },
@@ -607,9 +645,9 @@ const Dashboard = () => {
                 sx={{
                   color: theme.palette.secondary[200],
                   fontSize: {
-                    xs: "0.25rem", // für sehr kleine Bildschirme
-                    sm: "0.5rem", // für kleine Bildschirme
-                    md: "0.75rem", // für mittlere Bildschirme
+                    xs: "0.75rem", // für sehr kleine Bildschirme
+                    sm: "0.75rem", // für kleine Bildschirme
+                    md: "1rem", // für mittlere Bildschirme
                     lg: "1rem", // für größere Bildschirme
                     xl: "1.25rem",
                   },
@@ -624,7 +662,6 @@ const Dashboard = () => {
           <Fade in={isChecked} timeout={500}>
             <Box
               display="flex"
-              m="0.5rem "
               flexDirection="column"
               justifyContent="space-between"
               backgroundColor={theme.palette.primary[700]}
@@ -633,7 +670,7 @@ const Dashboard = () => {
               sx={{
                 gridColumn: {
                   xs: "1",
-                  sm: "2",
+                  sm: "1",
                   md: "1/3",
                   lg: "1/3",
                   xl: "5/7",
@@ -646,6 +683,13 @@ const Dashboard = () => {
                   lg: "1rem 0.75rem", // für größere Bildschirme
                   xl: "1.25rem 1rem",
                 },
+                m: {
+                  xs: "0.125rem 0.0625rem",
+                  sm: "0.125rem",
+                  md: "0.25rem",
+                  lg: "0.5rem",
+                  xl: "0.5rem",
+                },
               }}
             >
               <Typography
@@ -653,9 +697,9 @@ const Dashboard = () => {
                 sx={{
                   color: theme.palette.secondary[200],
                   fontSize: {
-                    xs: "0.5rem", // für sehr kleine Bildschirme
-                    sm: "0.5rem", // für kleine Bildschirme
-                    md: "1rem", // für mittlere Bildschirme
+                    xs: "1rem", // für sehr kleine Bildschirme
+                    sm: "1rem", // für kleine Bildschirme
+                    md: "1.5rem", // für mittlere Bildschirme
                     lg: "1.5rem", // für größere Bildschirme
                     xl: "2rem",
                   },
@@ -669,9 +713,9 @@ const Dashboard = () => {
                 sx={{
                   color: theme.palette.secondary[200],
                   fontSize: {
-                    xs: "0.5rem", // für sehr kleine Bildschirme
-                    sm: "0.5rem", // für kleine Bildschirme
-                    md: "1rem", // für mittlere Bildschirme
+                    xs: "1rem", // für sehr kleine Bildschirme
+                    sm: "1rem", // für kleine Bildschirme
+                    md: "1.5rem", // für mittlere Bildschirme
                     lg: "1.5rem", // für größere Bildschirme
                     xl: "2rem",
                   },
@@ -708,9 +752,9 @@ const Dashboard = () => {
                     sx={{
                       color: theme.palette.red[500],
                       fontSize: {
-                        xs: "0.25rem", // für sehr kleine Bildschirme
-                        sm: "0.5rem", // für kleine Bildschirme
-                        md: "0.75rem", // für mittlere Bildschirme
+                        xs: "0.75rem", // für sehr kleine Bildschirme
+                        sm: "0.75rem", // für kleine Bildschirme
+                        md: "1rem", // für mittlere Bildschirme
                         lg: "1rem", // für größere Bildschirme
                         xl: "1.25rem",
                       },
@@ -759,9 +803,9 @@ const Dashboard = () => {
                     sx={{
                       color: "green",
                       fontSize: {
-                        xs: "0.25rem", // für sehr kleine Bildschirme
-                        sm: "0.5rem", // für kleine Bildschirme
-                        md: "0.75rem", // für mittlere Bildschirme
+                        xs: "0.75rem", // für sehr kleine Bildschirme
+                        sm: "0.75rem", // für kleine Bildschirme
+                        md: "1rem", // für mittlere Bildschirme
                         lg: "1rem", // für größere Bildschirme
                         xl: "1.25rem",
                       },
@@ -792,9 +836,9 @@ const Dashboard = () => {
                 sx={{
                   color: theme.palette.secondary[200],
                   fontSize: {
-                    xs: "0.25rem", // für sehr kleine Bildschirme
-                    sm: "0.5rem", // für kleine Bildschirme
-                    md: "0.75rem", // für mittlere Bildschirme
+                    xs: "0.75rem", // für sehr kleine Bildschirme
+                    sm: "0.75rem", // für kleine Bildschirme
+                    md: "1rem", // für mittlere Bildschirme
                     lg: "1rem", // für größere Bildschirme
                     xl: "1.25rem",
                   },
@@ -809,7 +853,6 @@ const Dashboard = () => {
           <Fade in={isChecked} timeout={500}>
             <Box
               display="flex"
-              m="0.5rem "
               flexDirection="column"
               justifyContent="space-between"
               backgroundColor={theme.palette.primary[700]}
@@ -831,6 +874,13 @@ const Dashboard = () => {
                   lg: "1rem 0.75rem", // für größere Bildschirme
                   xl: "1.25rem 1rem",
                 },
+                m: {
+                  xs: "0.125rem 0.0625rem",
+                  sm: "0.125rem",
+                  md: "0.25rem",
+                  lg: "0.5rem",
+                  xl: "0.5rem",
+                },
               }}
             >
               <Typography
@@ -838,9 +888,9 @@ const Dashboard = () => {
                 sx={{
                   color: theme.palette.secondary[200],
                   fontSize: {
-                    xs: "0.5rem", // für sehr kleine Bildschirme
-                    sm: "0.5rem", // für kleine Bildschirme
-                    md: "1rem", // für mittlere Bildschirme
+                    xs: "1rem", // für sehr kleine Bildschirme
+                    sm: "1rem", // für kleine Bildschirme
+                    md: "1.5rem", // für mittlere Bildschirme
                     lg: "1.5rem", // für größere Bildschirme
                     xl: "2rem",
                   },
@@ -859,9 +909,9 @@ const Dashboard = () => {
                   sx={{
                     color: "green",
                     fontSize: {
-                      xs: "0.5rem", // für sehr kleine Bildschirme
-                      sm: "0.5rem", // für kleine Bildschirme
-                      md: "1rem", // für mittlere Bildschirme
+                      xs: "1rem", // für sehr kleine Bildschirme
+                      sm: "1rem", // für kleine Bildschirme
+                      md: "1.5rem", // für mittlere Bildschirme
                       lg: "1.5rem", // für größere Bildschirme
                       xl: "2rem",
                     },
@@ -875,9 +925,9 @@ const Dashboard = () => {
                   sx={{
                     color: theme.palette.red[600],
                     fontSize: {
-                      xs: "0.5rem", // für sehr kleine Bildschirme
-                      sm: "0.5rem", // für kleine Bildschirme
-                      md: "1rem", // für mittlere Bildschirme
+                      xs: "1rem", // für sehr kleine Bildschirme
+                      sm: "1rem", // für kleine Bildschirme
+                      md: "1.5rem", // für mittlere Bildschirme
                       lg: "1.5rem", // für größere Bildschirme
                       xl: "2rem",
                     },
@@ -898,9 +948,9 @@ const Dashboard = () => {
                   sx={{
                     color: theme.palette.secondary[200],
                     fontSize: {
-                      xs: "0.25rem", // für sehr kleine Bildschirme
-                      sm: "0.5rem", // für kleine Bildschirme
-                      md: "0.75rem", // für mittlere Bildschirme
+                      xs: "0.75rem", // für sehr kleine Bildschirme
+                      sm: "0.75rem", // für kleine Bildschirme
+                      md: "1rem", // für mittlere Bildschirme
                       lg: "1rem", // für größere Bildschirme
                       xl: "1.25rem",
                     },
@@ -914,9 +964,9 @@ const Dashboard = () => {
                   sx={{
                     color: theme.palette.secondary[200],
                     fontSize: {
-                      xs: "0.25rem", // für sehr kleine Bildschirme
-                      sm: "0.5rem", // für kleine Bildschirme
-                      md: "0.75rem", // für mittlere Bildschirme
+                      xs: "0.75rem", // für sehr kleine Bildschirme
+                      sm: "0.75rem", // für kleine Bildschirme
+                      md: "1rem", // für mittlere Bildschirme
                       lg: "1rem", // für größere Bildschirme
                       xl: "1.25rem",
                     },
@@ -931,10 +981,16 @@ const Dashboard = () => {
           {/*Zuschauerschnitt */}
           <Box
             display="flex"
-            m="0.5rem  "
             sx={{
               gridColumn: { xs: "1", sm: "2", md: "3/5", lg: "3/5", xl: "7/9" },
               gridRow: { xs: "10", sm: "5", md: "5", lg: "4", xl: "3" },
+              m: {
+                xs: "0.125rem 0.0625rem",
+                sm: "0.125rem",
+                md: "0.25rem",
+                lg: "0.5rem",
+                xl: "0.5rem",
+              },
             }}
           >
             <SimpleStatBox
@@ -955,7 +1011,6 @@ const Dashboard = () => {
             flex="1 1 100%"
             backgroundColor={theme.palette.background.alt}
             borderRadius="0.55rem"
-            m="0.5rem"
             className="data-display"
             sx={{
               "& .MuiDataGrid-root": {
@@ -1007,6 +1062,13 @@ const Dashboard = () => {
               },
               "& .MuiDataGrid-footerContainer": {
                 display: "none", // Ausblenden des Footers
+              },
+              m: {
+                xs: "0.125rem 0.0625rem",
+                sm: "0.125rem",
+                md: "0.25rem",
+                lg: "0.5rem",
+                xl: "0.5rem",
               },
             }}
           >
