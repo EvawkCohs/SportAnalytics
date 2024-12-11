@@ -83,11 +83,8 @@ function Schedule() {
   const [isChecked, setIsChecked] = useState(false);
   useEffect(() => {
     setIsChecked(true);
-
     if (!allGamesDetails) return;
-
     if (allGamesDetails.length !== 30 && allGamesDetails.length !== 22) return;
-
     handleAddGame(allGamesDetails);
   }, [allGamesDetails, dispatch]);
 
@@ -197,7 +194,7 @@ function Schedule() {
                 color: theme.palette.secondary[200],
               }}
             >
-              Staffel
+              Geschlecht
             </InputLabel>
             <Select
               value={gender}
