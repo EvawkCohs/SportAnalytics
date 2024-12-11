@@ -7,7 +7,10 @@ const useFetchAllGamesDetails = (gameIds) => {
 
   useEffect(() => {
     const fetchAllGames = async () => {
-      if (!Array.isArray(gameIds) || gameIds.length !== 30) {
+      if (!Array.isArray(gameIds)) {
+        return;
+      }
+      if (gameIds.length !== 30 && gameIds.length !== 22) {
         return;
       }
       const results = await Promise.all(

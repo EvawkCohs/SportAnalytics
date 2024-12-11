@@ -4,6 +4,7 @@ export const dataTeams = [
     name: "Bergische Panther",
     urlEnding: "144cl",
     group: "SW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/b49d3d0a-9b2f-42a5-b22b-6ccebb5263fd.png?d=100x",
   },
   {
@@ -11,6 +12,7 @@ export const dataTeams = [
     name: "HLZ Friesenheim-Hochdorf  II",
     urlEnding: "9icjw",
     group: "SW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/24628054-5c4a-4ea5-8711-85ffb5ea3ab0.png?d=100x",
   },
   {
@@ -18,6 +20,7 @@ export const dataTeams = [
     name: "VTV Mundenheim 1883",
     urlEnding: "bknsb",
     group: "SW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/0a08aea0-43d0-44ed-b85f-eb81624eb532.png?d=100x",
   },
   {
@@ -25,6 +28,7 @@ export const dataTeams = [
     name: "HSG Dutenhofen-M\u00fcnchholzhausen II",
     urlEnding: "1sann",
     group: "SW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/b2e9613a-f3f1-41fa-a5d9-b57320236df6.jpeg?d=100x",
   },
   {
@@ -32,6 +36,7 @@ export const dataTeams = [
     name: "Longericher SC K\u00f6ln",
     urlEnding: "1sqiw",
     group: "SW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/00940fa6-31a5-4c18-a92a-4c49fe61f191.jpeg?d=100x",
   },
   {
@@ -39,6 +44,7 @@ export const dataTeams = [
     name: "HSG Rodgau Nieder-Roden",
     urlEnding: "18onq",
     group: "SW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/6bd8ac5e-578b-4b39-a2f0-77bce30c65ca.png?d=100x",
   },
   {
@@ -46,6 +52,7 @@ export const dataTeams = [
     name: "TSG Ha\u00dfloch",
     urlEnding: "r382r",
     group: "SW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/7d43c7c0-01bd-4655-a90d-1a6e8084a337.png?d=100x",
   },
   {
@@ -53,6 +60,7 @@ export const dataTeams = [
     name: "HG Saarlouis",
     urlEnding: "216i8",
     group: "SW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/1736f032-4268-41e9-b7d6-e9fbee615b3c.png?d=100x",
   },
   {
@@ -60,6 +68,7 @@ export const dataTeams = [
     name: "TV Gelnhausen",
     urlEnding: "nrmtm",
     group: "SW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/d5b1e08f-1d6e-40f9-8672-b6db9e6a37cd.jpeg?d=100x",
   },
   {
@@ -67,6 +76,7 @@ export const dataTeams = [
     name: "Saase3 Leutershausen",
     urlEnding: "tnjr1",
     group: "SW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/57143ecf-2184-495e-9f3c-221b60c91a1b.png?d=100x",
   },
   {
@@ -74,6 +84,7 @@ export const dataTeams = [
     name: "TuS 1882 Opladen",
     urlEnding: "y1huf",
     group: "SW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/e18b2dd1-f503-4bde-9101-72deeeb85142.jpeg?d=100x",
   },
   {
@@ -81,6 +92,7 @@ export const dataTeams = [
     name: "TV Aldekerk 07",
     urlEnding: "6fz6j",
     group: "SW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/04ee2d5d-5ad1-4cb3-bb0c-2ea0c80824b6.png?d=100x",
   },
   {
@@ -88,6 +100,7 @@ export const dataTeams = [
     name: "HSG Hanau",
     urlEnding: "e6ki2",
     group: "SW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/3f94d7ab-b24b-4d4f-942a-723031185e49.png?d=100x",
   },
   {
@@ -95,6 +108,7 @@ export const dataTeams = [
     name: "TV Korschenbroich",
     urlEnding: "ey297",
     group: "SW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/ff12b07e-7137-4bed-96fb-3eaeef9af31d.jpeg?d=100x",
   },
   {
@@ -102,6 +116,7 @@ export const dataTeams = [
     name: "HSG Krefeld Niederrhein",
     urlEnding: "pd9c7",
     group: "SW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/b989552a-27be-48c5-adb9-651beae8065f.png?d=100x",
   },
   {
@@ -109,6 +124,7 @@ export const dataTeams = [
     name: "TV Kirchzell",
     urlEnding: "18ihl",
     group: "SW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/e9cb0bc5-6c0e-485c-af30-a89835fa45df.png?d=100x",
   },
   {
@@ -116,6 +132,7 @@ export const dataTeams = [
     name: "SC Magdeburg II",
     urlEnding: "qrtrd",
     group: "NO",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/bf0090b2-5214-406d-aaae-5832ddfa1b67.png?d=100x",
   },
   {
@@ -123,6 +140,7 @@ export const dataTeams = [
     name: "HSG Ostsee N/G",
     urlEnding: "10cw2",
     group: "NO",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/97cdfb62-4202-426d-bb43-0e9f8888f6fa.png?d=100x",
   },
   {
@@ -130,6 +148,7 @@ export const dataTeams = [
     name: "DHK Flensborg",
     urlEnding: "bauie",
     group: "NO",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/4f15fd07-2f20-49fe-bcee-eeeeaec88c31.jpeg?d=100x",
   },
   {
@@ -137,6 +156,7 @@ export const dataTeams = [
     name: "Oranienburger HC",
     urlEnding: "5usug",
     group: "NO",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/f5de04f2-17ae-4f5b-8a76-8698cec135ed.png?d=100x",
   },
   {
@@ -144,6 +164,7 @@ export const dataTeams = [
     name: "HC Empor Rostock",
     urlEnding: "1adtn",
     group: "NO",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/f4e8ad83-bdbe-447a-ab4a-8f494a080352.png?d=100x",
   },
   {
@@ -151,6 +172,7 @@ export const dataTeams = [
     name: "TSV Altenholz",
     urlEnding: "fvqfh",
     group: "NO",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/fcc5e244-fb58-4c65-9afd-ed25f221b410.jpeg?d=100x",
   },
   {
@@ -158,6 +180,7 @@ export const dataTeams = [
     name: "SV Anhalt Bernburg",
     urlEnding: "1pusw",
     group: "NO",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/63d2aec1-ece4-4ea3-a19b-85d0628e73ca.jpeg?d=100x",
   },
   {
@@ -165,6 +188,7 @@ export const dataTeams = [
     name: "Füchse Berlin Reinickendorf II",
     urlEnding: "10src",
     group: "NO",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/c65b8c01-f7b8-4d3f-ac3b-236faeb96081.png?d=100x",
   },
   {
@@ -172,6 +196,7 @@ export const dataTeams = [
     name: "SC DHFK Leipzig II",
     urlEnding: "1i9q2",
     group: "NO",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/a6c07b59-0f0c-4499-b226-79852ac9d220.jpeg?d=100x",
   },
   {
@@ -179,6 +204,7 @@ export const dataTeams = [
     name: "TuS Vinnhorst von 1956",
     urlEnding: "1g5w4",
     group: "NO",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/686c874f-297d-402d-b95f-43f612747d6d.png?d=100x",
   },
   {
@@ -186,6 +212,7 @@ export const dataTeams = [
     name: "HSG Eider Harde",
     urlEnding: "1x1mv",
     group: "NO",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/2a2bcad4-33dc-455d-a028-894ae799bbe2.jpeg?d=100x",
   },
   {
@@ -193,6 +220,7 @@ export const dataTeams = [
     name: "Stralsunder HV",
     urlEnding: "15owd",
     group: "NO",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/b4509e36-fbfc-4e3a-8228-4eaa14fce569.png?d=100x",
   },
   {
@@ -200,6 +228,7 @@ export const dataTeams = [
     name: "HC Burgenland",
     urlEnding: "ec5vb",
     group: "NO",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/b587e3e6-cede-478e-8fbb-3c927b9d2367.jpeg?d=100x",
   },
   {
@@ -207,6 +236,7 @@ export const dataTeams = [
     name: "MTV Braunschweig",
     urlEnding: "1pe8c",
     group: "NO",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/df91816c-1dc7-49e0-a52c-7e181f4c52b5.png?d=100x",
   },
   {
@@ -214,6 +244,7 @@ export const dataTeams = [
     name: "TSV Anderten",
     urlEnding: "1hoji",
     group: "NO",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/4bb6a5bc-4136-4460-bd54-ba4a3d6c257e.jpeg?d=100x",
   },
   {
@@ -221,6 +252,7 @@ export const dataTeams = [
     name: "LHC Cottbus",
     urlEnding: "1kxne",
     group: "NO",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/010cfa33-8122-48cd-a647-a6d1598ccef4.jpeg?d=100x",
   },
   {
@@ -228,6 +260,7 @@ export const dataTeams = [
     name: "HC Eintracht Hildesheim",
     urlEnding: "vcpog",
     group: "NW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/39a40db6-1f1b-439a-bac4-3eb5458ff5c1.jpeg?d=100x",
   },
   {
@@ -235,6 +268,7 @@ export const dataTeams = [
     name: "GSV Eintracht Baunatal",
     urlEnding: "1iplb",
     group: "NW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/8830afa7-c85c-493c-b39b-e561425ae89a.png?d=100x",
   },
   {
@@ -242,6 +276,7 @@ export const dataTeams = [
     name: "Ahlener SG",
     urlEnding: "13ohc",
     group: "NW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/1cc76c11-30a9-4ebf-8f2d-7920e28a8cac.png?d=100x",
   },
   {
@@ -249,6 +284,7 @@ export const dataTeams = [
     name: "Team HandbALL Lippe II",
     urlEnding: "159zc",
     group: "NW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/f6432cca-91d7-44d4-80b3-481a0175bd4c.png?d=100x",
   },
   {
@@ -256,6 +292,7 @@ export const dataTeams = [
     name: "VFL Gummersbach II",
     urlEnding: "y8fo5",
     group: "NW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/e8421e35-f29a-4291-ab7d-74201111d9a6.png?d=100x",
   },
   {
@@ -263,6 +300,7 @@ export const dataTeams = [
     name: "TuS Spenge",
     urlEnding: "96e3l",
     group: "NW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/55c45682-5742-4688-ab39-936e15521fbc.png?d=100x",
   },
   {
@@ -270,6 +308,7 @@ export const dataTeams = [
     name: "SGSH Dragons",
     urlEnding: "1nqci",
     group: "NW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/d5ef995a-6f7c-4c9a-880a-cf82742095c4.png?d=100x",
   },
   {
@@ -277,6 +316,7 @@ export const dataTeams = [
     name: "TV Emsdetten",
     urlEnding: "ns3df",
     group: "NW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/a8ed989e-e9e4-472f-b00a-00694a371166.png?d=100x",
   },
   {
@@ -284,6 +324,7 @@ export const dataTeams = [
     name: "Wilhelmshavener HV",
     urlEnding: "1r6rb",
     group: "NW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/a22209c5-1cd4-45e6-9572-c7fbbb40208a.jpeg?d=100x",
   },
   {
@@ -291,6 +332,7 @@ export const dataTeams = [
     name: "OHV Aurich",
     urlEnding: "143yo",
     group: "NW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/a37bb6d7-7111-4b33-8845-67eb3a54253e.png?d=100x",
   },
   {
@@ -298,6 +340,7 @@ export const dataTeams = [
     name: "ATSV Habenhausen",
     urlEnding: "1bh4t",
     group: "NW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/ba496496-bdcf-4594-bc1c-6af840365ade.png?d=100x",
   },
   {
@@ -305,6 +348,7 @@ export const dataTeams = [
     name: "TV Bissendorf-Holte",
     urlEnding: "ksusb",
     group: "NW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/efd6192a-aefe-4011-87ae-349c04779b8d.png?d=100x",
   },
   {
@@ -312,6 +356,7 @@ export const dataTeams = [
     name: "Sportfreunde Söhre von 1947",
     urlEnding: "xspou",
     group: "NW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/64aa7e3f-e079-4376-a18d-20cc293d98a5.png?d=100x",
   },
   {
@@ -319,6 +364,7 @@ export const dataTeams = [
     name: "MT Melsungen II",
     urlEnding: "1g7p7",
     group: "NW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/a8a00a81-86fc-4ee8-ac12-53a959a04a70.png?d=100x",
   },
   {
@@ -326,6 +372,7 @@ export const dataTeams = [
     name: "TSG A-H Bielefeld",
     urlEnding: "a05yj",
     group: "NW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/dbadc80f-2fef-4460-ac66-9483f47422a0.png?d=100x",
   },
   {
@@ -333,6 +380,7 @@ export const dataTeams = [
     name: "VFL Eintracht Hagen II",
     urlEnding: "d99us",
     group: "NW",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/e5efb554-7a91-45de-a27d-510d2e986047.png?d=100x",
   },
   {
@@ -340,6 +388,7 @@ export const dataTeams = [
     name: "HG Oftersheim/Schwetzingen",
     urlEnding: "45mx1",
     group: "S",
+    gender: "male",
     logo: "https://www.handball.net/files/migration/V20210907/H4A_24083_Baden_Oftersheim.png?d=100x",
   },
   {
@@ -347,6 +396,7 @@ export const dataTeams = [
     name: "HC Erlangen II",
     urlEnding: "8qiu4",
     group: "S",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/ed194e9e-e004-4540-b718-719af02b026b.png?d=100x",
   },
   {
@@ -354,6 +404,7 @@ export const dataTeams = [
     name: "Rhein-Neckar Löwen II",
     urlEnding: "9m9d2",
     group: "S",
+    gender: "male",
     logo: "https://www.handball.net/files/migration/V20210907/H4A_21102_Baden_RNLoewen.png?d=100x",
   },
   {
@@ -361,6 +412,7 @@ export const dataTeams = [
     name: "TVS 1907 Baden-Baden",
     urlEnding: "bm8tt",
     group: "S",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/ed36f93a-45ad-41c3-bc0c-7207091593c6.jpeg?d=100x",
   },
   {
@@ -368,6 +420,7 @@ export const dataTeams = [
     name: "TuS Fürstenfeldbruck",
     urlEnding: "wj9qp",
     group: "S",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/33b5bb05-c51f-4b86-bdf9-1a1203263593.png?d=100x",
   },
   {
@@ -375,6 +428,7 @@ export const dataTeams = [
     name: "VFL Pfullingen",
     urlEnding: "16k7b",
     group: "S",
+    gender: "male",
     logo: "https://www.handball.net/files/migration/V20210907/H4A_16_Wuerttemberg_Pfullingen.png?d=100x",
   },
   {
@@ -382,6 +436,7 @@ export const dataTeams = [
     name: "SV Salamander Kornwestheim",
     urlEnding: "1c08z",
     group: "S",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/29db0d6f-52c9-4278-ad89-ccc12857eef1.png?d=100x",
   },
   {
@@ -389,6 +444,7 @@ export const dataTeams = [
     name: "TSB Heilbronn-Horkheim",
     urlEnding: "1145n",
     group: "S",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/fe57e9cb-e204-4c28-afcd-73e3ae8a92d2.jpeg?d=100x",
   },
   {
@@ -396,6 +452,7 @@ export const dataTeams = [
     name: "HC Oppenweiler/Backnang",
     urlEnding: "1ebts",
     group: "S",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/16017b18-8dfd-4d09-b331-4d98eb73541c.png?d=100x",
   },
   {
@@ -403,6 +460,7 @@ export const dataTeams = [
     name: "HBW Balingen-Weilstetten II",
     urlEnding: "1m16k",
     group: "S",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/94dae846-6ecc-4d4a-9255-f7f6f2624b84.png?d=100x",
   },
   {
@@ -410,6 +468,7 @@ export const dataTeams = [
     name: "EHV Aue",
     urlEnding: "15cmm",
     group: "S",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/58d38832-56ce-4290-880f-3476078080cb.jpeg?d=100x",
   },
   {
@@ -417,6 +476,7 @@ export const dataTeams = [
     name: "SG Pforzheim-Eutingen",
     urlEnding: "qe3b8",
     group: "S",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/40232418-631e-48a2-ad58-466787e57d6f.jpeg?d=100x",
   },
   {
@@ -424,6 +484,7 @@ export const dataTeams = [
     name: "SV 04 Plauen-Oberlosa",
     urlEnding: "o4v70",
     group: "S",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/086b4c2a-7530-4505-9a05-5ebfc9027188.jpeg?d=100x",
   },
   {
@@ -431,6 +492,7 @@ export const dataTeams = [
     name: "TSV Neuhausen/Filder 1898",
     urlEnding: "d3rq3",
     group: "S",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/69182514-61d3-4019-81a8-a693bed62fb5.png?d=100x",
   },
   {
@@ -438,6 +500,7 @@ export const dataTeams = [
     name: "Wölfe Würzburg",
     urlEnding: "1pby1",
     group: "S",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/49fea492-3810-4915-ac20-fa2a37b72d14.jpeg?d=100x",
   },
   {
@@ -445,6 +508,296 @@ export const dataTeams = [
     name: "TG Landshut",
     urlEnding: "14m0d",
     group: "S",
+    gender: "male",
     logo: "https://www.handball.net/files/clubs/logos/78c694fb-ec64-48f8-b05f-d20d14a3922b.png?d=100x",
+  },
+  //Frauen-Teams
+  {
+    id: "sportradar.dhbdata.2810-1622",
+    name: "Rostocker Handball Club",
+    urlEnding: "18frz",
+    group: "N",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/213150a1-515e-42f6-9a3b-6f98cd02e617.jpeg?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.687-1622",
+    name: "TV Hannover-Badenstedt",
+    urlEnding: "1w0az",
+    group: "N",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/fd3ee116-7ccf-4f8d-b12b-c09b0aca897a.png?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.789-1622",
+    name: "VFL Oldenburg II",
+    urlEnding: "1ub24",
+    group: "N",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/8f35a88d-b501-4670-8bac-2faa9e234c2f.png?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.3653-1622",
+    name: "TUS 97 Bielefeld/Jöllenbeck",
+    urlEnding: "1qqas",
+    group: "N",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/b7fbb6a9-1db5-45dd-9e2b-0fc9b1afa69c.png?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.699-1622",
+    name: "SV Henstedt-Ulzburg",
+    urlEnding: "1r6jk",
+    group: "N",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/9458fe86-3234-4895-a444-765ca1be8e50.jpeg?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.3104-1622",
+    name: "LIT Tribe 1912",
+    urlEnding: "1xfwi",
+    group: "N",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/3f1f5cf2-e477-4076-b846-d4049f47f831.jpeg?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.705-1622",
+    name: "SV Grün-Weiß Schwerin",
+    urlEnding: "hme17",
+    group: "N",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/b8869c44-4b60-4d9c-b09e-78c0a09fdad3.jpeg?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.681-1622",
+    name: "Buxtehuder SV II",
+    urlEnding: "78bms",
+    group: "N",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/1a144605-e8f2-4ea1-bf43-3a50014fcc4e.jpeg?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.3110-1622",
+    name: "TSV Altenholz von 1948",
+    urlEnding: "1jx4j",
+    group: "N",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/fcc5e244-fb58-4c65-9afd-ed25f221b410.jpeg?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.3914-1622",
+    name: "TSV Nord Harrislee",
+    urlEnding: "12aqr",
+    group: "N",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/c44ea54b-c15b-4bb5-a6bd-e5d0e5319c6a.png?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.3113-1622",
+    name: "Berliner TSC",
+    urlEnding: "18frz",
+    group: "N",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/27ca7c2b-381f-44a5-aeef-54fdc38209c8.png?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.678-1622",
+    name: "Frankfurter Handballclub",
+    urlEnding: "18frz",
+    group: "N",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/cb510c5a-1b99-4514-9bc0-d1b17a08cdfd.jpeg?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.3056-1622",
+    name: "SG 09 Kirchhof",
+    urlEnding: "1rco3",
+    group: "M",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/9cd04058-ac51-460c-8696-5d37adb8cc67.jpeg?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.2822-1622",
+    name: "TB Wülfrath",
+    urlEnding: "cfj3y",
+    group: "M",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/aa1ef84c-3251-43f1-a3ae-70ff3c75948b.png?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.726-1622",
+    name: "SC Markranstädt",
+    urlEnding: "c1a1f",
+    group: "M",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/2f2ea801-8a8e-4b76-8cae-e00cccc6c48a.jpeg?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.3518-1622",
+    name: "HSG Bensheim/Auerbach II",
+    urlEnding: "yiimc",
+    group: "M",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/54e73a26-6d4d-4056-9512-dd93e475c1c3.jpeg?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.3725-1622",
+    name: "SC DJK Everswinkel",
+    urlEnding: "gl57d",
+    group: "M",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/069d2c8d-d508-46c3-9d33-d620e86f9a7e.jpeg?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.2816-1622",
+    name: "PSV Recklinghausen",
+    urlEnding: "pyb2r",
+    group: "M",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/d445f925-1492-4c80-abc6-967b0d255b8b.png?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.804-1622",
+    name: "1.FC Köln 01/07",
+    urlEnding: "1ctnt",
+    group: "M",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/182af5e3-c69e-4e5a-b69a-e566c15e9c20.png?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.816-1622",
+    name: "TV Aldekerk 07",
+    urlEnding: "f5sl5",
+    group: "M",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/04ee2d5d-5ad1-4cb3-bb0c-2ea0c80824b6.png?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.1917-1622",
+    name: "HSG Rodgau Nieder-Roden",
+    urlEnding: "ll2sb",
+    group: "M",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/6bd8ac5e-578b-4b39-a2f0-77bce30c65ca.png?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.711-1622",
+    name: "Thüringer HC II",
+    urlEnding: "1iz6g",
+    group: "M",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/e8ac1a3f-4bfc-4261-8ba5-b44871d0e6df.png?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.792-1622",
+    name: "HSG Blomberg-Lippe II",
+    urlEnding: "4rq6q",
+    group: "M",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/e688ac1a-fa3a-432c-84a2-bd4e759885cc.png?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.744-1622",
+    name: "1.FSV Mainz 05 II",
+    urlEnding: "1w6sj",
+    group: "M",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/472ba120-4db2-4921-ae68-031d3540f009.png?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.3053-1622",
+    name: "HSG Freiburg",
+    urlEnding: "1xndm",
+    group: "S",
+    gender: "female",
+    logo: "https://www.handball.net/files/migration/V20210907/H4A_10064_Suedbaden_HSGFreiburg.png?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.1923-1622",
+    name: "SG Schozach-Bottwartal",
+    urlEnding: "nk0cc",
+    group: "S",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/eba1f556-9f74-4564-9626-7b1d2786c6f1.jpeg?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.3748-1622",
+    name: "TSG Friesenheim",
+    urlEnding: "dt2ep",
+    group: "S",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/a165f01e-fc17-4bf9-a142-b1c0821f951e.png?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.3084-1622",
+    name: "HC Erlangen",
+    urlEnding: "ph0i0",
+    group: "S",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/ed194e9e-e004-4540-b718-719af02b026b.png?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.762-1622",
+    name: "SG Kappelwindeck/Steinbach",
+    urlEnding: "1hb6z",
+    group: "S",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/79ab3d1a-6bc0-426b-87ff-e6588ff32e85.jpeg?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.2804-1622",
+    name: "HSG St. Leon/Reilingen",
+    urlEnding: "1g2i2",
+    group: "S",
+    gender: "female",
+    logo: "https://www.handball.net/files/migration/V20210907/H4A_24249_Baden_HSG.png?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.765-1622",
+    name: "Sportverein Allensbach",
+    urlEnding: "1qloj",
+    group: "S",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/cf42e910-6589-4345-aaed-eb26e5cdafae.jpeg?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.3736-1622",
+    name: "TSV Schwabmünchen",
+    urlEnding: "13x9e",
+    group: "S",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/70222acf-5b57-4e3e-a1c9-fc88b379b95d.png?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.780-1622",
+    name: "HCD Gröbenzell",
+    urlEnding: "12flf",
+    group: "S",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/79e9c16f-e74d-445f-bc41-489920fb2d0b.png?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.750-1622",
+    name: "TSV Haunstetten",
+    urlEnding: "fxy6b",
+    group: "S",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/50862a88-27c3-4863-bb08-93f2ee9cbe5a.jpeg?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.3648-1622",
+    name: "HSG Stuttgart-Metzingen II",
+    urlEnding: "qsrk0",
+    group: "S",
+    gender: "female",
+    logo: "https://www.handball.net/files/clubs/logos/adc8ef1b-4337-404e-afd2-2744132d5873.png?d=100x",
+  },
+  {
+    id: "sportradar.dhbdata.1920-1622",
+    name: "TSV Wolfschlugen",
+    urlEnding: "tupuz",
+    group: "S",
+    gender: "female",
+    logo: "https://www.handball.net/files/migration/V20210907/H4A_872_Wuerttemberg_TSVWolfschlugen.png?d=100x",
   },
 ];

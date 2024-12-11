@@ -27,6 +27,7 @@ function Schedule() {
   const { data: teamData, isLoading } = useGetTeamModelQuery();
   const [team, setTeam] = React.useState("");
   const [group, setGroup] = useState("SW");
+  const [gender, setGender] = useState("male");
   //Id aus GlboalState einlesen
   const dispatch = useDispatch();
   const teamId = useSelector((state) => state.global.teamId);
@@ -37,6 +38,7 @@ function Schedule() {
   const handleTeamChange = (event) => {
     setTeam(event.target.value);
     const selectedTeam = event.target.value;
+    console.log(selectedTeam);
     dispatch(setId(selectedTeam));
     dispatch(
       setTeamName(teamData.find((team) => team.id === selectedTeam).name)
@@ -46,9 +48,13 @@ function Schedule() {
   const handleGroupChange = (event) => {
     setGroup(event.target.value);
   };
+  const handleGenderChange = (event) => {
+    setGender(event.target.value);
+  };
 
   const filteredTeams = (teamData || [])
     .filter((team) => team.group === group)
+    .filter((team) => team.gender === gender)
     .sort((a, b) => {
       const nameA = a.name.toLowerCase();
       const nameB = b.name.toLowerCase();
@@ -77,7 +83,11 @@ function Schedule() {
   const [isChecked, setIsChecked] = useState(false);
   useEffect(() => {
     setIsChecked(true);
-    if (!allGamesDetails || allGamesDetails.length < 30) return;
+
+    if (!allGamesDetails) return;
+
+    if (allGamesDetails.length !== 30 && allGamesDetails.length !== 22) return;
+
     handleAddGame(allGamesDetails);
   }, [allGamesDetails, dispatch]);
 
@@ -176,6 +186,47 @@ function Schedule() {
           gap="1rem"
           borderRadius="0.55rem"
         >
+          {/*Geschlecht Dropdown */}
+          <FormControl sx={{ width: "300px" }}>
+            <InputLabel
+              id="Geschlechtauswahl"
+              sx={{
+                "&.Mui-focused": {
+                  color: theme.palette.secondary[300],
+                },
+                color: theme.palette.secondary[200],
+              }}
+            >
+              Staffel
+            </InputLabel>
+            <Select
+              value={gender}
+              onChange={handleGenderChange}
+              label="gender"
+              sx={{
+                "&.MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: theme.palette.secondary[200], // Standardborderfarbe
+                  },
+                  "&:hover fieldset": {
+                    borderColor: theme.palette.secondary[500], // Farbe beim Hovern
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: theme.palette.secondary[500], // Farbe beim Fokussieren
+                  },
+                },
+                "& .MuiSelect-select": {
+                  color: theme.palette.secondary[200],
+                },
+                "& .MuiSelect-select.MuiSelect-select": {
+                  color: theme.palette.secondary[200],
+                },
+              }}
+            >
+              <MenuItem value="male">Männer</MenuItem>
+              <MenuItem value="female">Damen</MenuItem>
+            </Select>
+          </FormControl>
           <FormControl sx={{ width: "300px" }}>
             <InputLabel
               id="Staffelauswahl"
@@ -212,10 +263,18 @@ function Schedule() {
                 },
               }}
             >
-              <MenuItem value="SW">3. Liga Staffel Süd-West</MenuItem>
-              <MenuItem value="S">3. Liga Staffel Süd</MenuItem>
-              <MenuItem value="NO">3. Liga Staffel Nord-Ost</MenuItem>
-              <MenuItem value="NW">3. Liga Staffel Nord-West</MenuItem>
+              {gender === "male"
+                ? [
+                    <MenuItem value="SW">3. Liga Staffel Süd-West</MenuItem>,
+                    <MenuItem value="S">3. Liga Staffel Süd</MenuItem>,
+                    <MenuItem value="NO">3. Liga Staffel Nord-Ost</MenuItem>,
+                    <MenuItem value="NW">3. Liga Staffel Nord-West</MenuItem>,
+                  ]
+                : [
+                    <MenuItem value="N">3. Liga Staffel Nord</MenuItem>,
+                    <MenuItem value="M">3. Liga Staffel Mitte</MenuItem>,
+                    <MenuItem value="S">3. Liga Staffel Süd</MenuItem>,
+                  ]}
             </Select>
           </FormControl>
 
