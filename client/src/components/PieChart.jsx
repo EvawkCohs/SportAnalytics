@@ -8,7 +8,7 @@ const PieChart = ({ data, title }) => {
   return (
     <Box
       gridColumn="span 2"
-      gridRow="5 /7 "
+      gridRow="span 2"
       display="flex"
       flexDirection="column"
       justifyContent="space-between"
@@ -40,12 +40,16 @@ const PieChart = ({ data, title }) => {
             },
           },
         }}
-        margin={{ top: 5, right: 80, bottom: 80, left: 80 }}
+        margin={{ top: 15, right: 80, bottom: 80, left: 80 }}
         innerRadius={0.5}
         padAngle={0.7}
         cornerRadius={3}
         activeOuterRadiusOffset={8}
-        colors={[theme.palette.secondary[600], theme.palette.secondary[200]]}
+        colors={[
+          theme.palette.secondary[500],
+          theme.palette.secondary[200],
+          theme.palette.secondary[700],
+        ]}
         borderWidth={0}
         enableArcLinkLabels={false}
         arcLinkLabelsSkipAngle={10}
@@ -62,7 +66,7 @@ const PieChart = ({ data, title }) => {
             direction: "row",
             justify: false,
             translateX: 0,
-            translateY: 20,
+            translateY: 30,
             itemsSpacing: 100,
             itemWidth: 100,
             itemHeight: 18,

@@ -25,6 +25,8 @@ import {
   FormatSpecificEventData,
   FormatTableData,
   FormatSpecificEventDataCustomEvents,
+  FormatSpecificGoalDataHome,
+  FormatSpecificGoalDataAway,
 } from "./formatGameData";
 import { columnsDataGrid } from "./dataGridDefinitions";
 import { handleDownload } from "./handleDownload";
@@ -50,6 +52,8 @@ function Details() {
   const [technicalFoulsData, setTechnicalFoulsData] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [mostValuable, setMostValuable] = useState();
+  const [goalDataHomeTeam, setGoalDataHomeTeam] = useState();
+  const [goalDataAwayTeam, setGoalDataAwayTeam] = useState([]);
   const [row, setRow] = useState();
   const hasFetchedData = useRef(false); // Ref für die Datenabfrage
   useEffect(() => {
@@ -69,6 +73,9 @@ function Details() {
     setTableData(formattedTableData);
     setRedCardData(FormatSpecificEventData(gameData, "Disqualification"));
     setSevenMeterData(FormatSpecificEventData(gameData, "SevenMeterGoal"));
+
+    setGoalDataHomeTeam(FormatSpecificGoalDataHome(gameData));
+    setGoalDataAwayTeam(FormatSpecificGoalDataAway(gameData));
 
     //MVP Statistik (Top3 Goalscorer)
     const sortedTableData = formattedTableData.sort(
@@ -157,7 +164,12 @@ function Details() {
     });
   };
 
-  if (tableData.length === undefined || gameData.isLoading) {
+  if (
+    tableData.length === undefined ||
+    gameData.isLoading ||
+    !goalDataAwayTeam ||
+    !goalDataHomeTeam
+  ) {
     return <div>Loading....</div>; // Später noch Ladekreis einbauen oder etwas vergleichbares
   }
 
@@ -305,9 +317,21 @@ function Details() {
           <PieChart data={technicalFoulsData} title={"Technische Fehler"} />
           {/*Box 4th Column */}
           <PieChart data={sevenMeterData} title={"Siebenmetertore"} />
+          {/*Box 5th column */}
+          <PieChart
+            data={goalDataHomeTeam}
+            title={`Tore nach Positionen ${gameData.data.summary.homeTeam.name}`}
+          />
+          {/*Box 6th column */}
+          {
+            <PieChart
+              data={goalDataAwayTeam}
+              title={`Tore nach Positionen ${gameData.data.summary.awayTeam.name}`}
+            />
+          }
           <Box
             gridColumn="span 8"
-            gridRow="7 / 12"
+            gridRow="9 / 14"
             display="flex"
             flexDirection="column"
             justifyContent="space-between"

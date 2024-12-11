@@ -188,3 +188,88 @@ export const FormatTableData = ({ data }) => {
   const tableData = updatedTableDataHome.concat(updatedTableDataAway);
   return tableData;
 };
+
+export const FormatSpecificGoalDataHome = ({ data }) => {
+  const homeLineup = data.lineup.home;
+
+  const wingPlayers = homeLineup.filter(
+    (player) => player.position === "RA" || player.position === "LA"
+  );
+  const pivotPlayers = homeLineup.filter((player) => player.position === "KM");
+  const backPlayers = homeLineup.filter(
+    (player) =>
+      player.position === "RL" ||
+      player.position === "RM" ||
+      player.position === "RR"
+  );
+  const sumGoals = (players) =>
+    players.reduce((total, player) => total + player.goals, 0);
+
+  let wingGoals = sumGoals(wingPlayers);
+  let pivotGoals = sumGoals(pivotPlayers);
+  let backGoals = sumGoals(backPlayers);
+  const goalData = [
+    {
+      id: "Tore von Außen",
+      label: "Tore von Außen",
+      value: wingGoals,
+      color: "hsl(219, 70%, 50%)",
+    },
+    {
+      id: "Tore vom Kreis",
+      label: "Tore vom Kreis",
+      value: pivotGoals,
+      color: "hsl(282, 70%, 50%)",
+    },
+    {
+      id: "Tore vom Rückraum",
+      label: "Tore vom Rückraum",
+      value: backGoals,
+      color: "hsl(60, 70%, 50%)",
+    },
+  ];
+  console.log(goalData);
+  return goalData;
+};
+export const FormatSpecificGoalDataAway = ({ data }) => {
+  const awayLineup = data.lineup.away;
+
+  const wingPlayers = awayLineup.filter(
+    (player) => player.position === "RA" || player.position === "LA"
+  );
+  const pivotPlayers = awayLineup.filter((player) => player.position === "KM");
+  const backPlayers = awayLineup.filter(
+    (player) =>
+      player.position === "RL" ||
+      player.position === "RM" ||
+      player.position === "RR"
+  );
+  const sumGoals = (players) =>
+    players.reduce((total, player) => total + player.goals, 0);
+
+  let wingGoals = sumGoals(wingPlayers);
+  let pivotGoals = sumGoals(pivotPlayers);
+  let backGoals = sumGoals(backPlayers);
+  const goalData = [
+    {
+      id: "Tore von Außen",
+      label: "Tore von Außen",
+      value: wingGoals,
+      color: "hsl(219, 70%, 50%)",
+    },
+    {
+      id: "Tore vom Kreis",
+      label: "Tore vom Kreis",
+      value: pivotGoals,
+      color: "hsl(282, 70%, 50%)",
+    },
+    {
+      id: "Tore vom Rückraum",
+      label: "Tore vom Rückraum",
+      value: backGoals,
+      color: "hsl(60, 70%, 50%)",
+    },
+  ];
+
+  return goalData;
+};
