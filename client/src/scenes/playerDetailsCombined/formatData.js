@@ -11,6 +11,8 @@ export const GetPlayerStatisticsPerGame = (
           team: game.summary.homeTeam.name,
           acronym: game.summary.homeTeam.acronym,
           opponent: game.summary.awayTeam.name,
+          opponentacr: game.summary.awayTeam.acronym,
+          location: "(H)",
         }));
         return homeLineup;
       } else if (game.summary.awayTeam.id === teamId) {
@@ -19,6 +21,8 @@ export const GetPlayerStatisticsPerGame = (
           team: game.summary.awayTeam.name,
           acronym: game.summary.awayTeam.acronym,
           opponent: game.summary.homeTeam.name,
+          opponentacr: game.summary.homeTeam.acronym,
+          location: "(A)",
         }));
         return awayLineup;
       }
@@ -39,8 +43,8 @@ export const GetPlayerGoalsDataLine = (playerStatisticsPerGame) => {
       data: [],
     },
   ];
-  playerStatisticsPerGame.map((game) => {
-    const point1 = { x: game.opponent, y: game.goals };
+  playerStatisticsPerGame.map((game, index) => {
+    const point1 = { x: index + 1, y: game.goals };
     playerGoalDataLine[0].data.push(point1);
   });
   return playerGoalDataLine;

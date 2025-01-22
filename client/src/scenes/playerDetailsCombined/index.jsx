@@ -31,7 +31,7 @@ const PlayerDetailsCombined = () => {
     playerId,
     teamId
   );
-
+  const opponentList = playerStatisticsPerGame.map((game) => game.opponent);
   const playerGoalDataLine = GetPlayerGoalsDataLine(playerStatisticsPerGame);
 
   const totalGoals = overallPlayerStatistics.goals;
@@ -83,7 +83,7 @@ const PlayerDetailsCombined = () => {
         {/*ROW 1 - 5 */}
         {/*Tore pro Spiel Chart ROW 1-5*/}
 
-        <LineChart data={playerGoalDataLine} />
+        <LineChart data={playerGoalDataLine} opponents={opponentList} />
 
         {/*GamesPlayed ROW 1*/}
         <Box gridColumn="7/9" gridRow="span 1" display="flex">

@@ -2,7 +2,7 @@ import React from "react";
 import { useTheme, Typography, Box } from "@mui/material";
 import { ResponsiveLine } from "@nivo/line";
 
-const LineChart = ({ data }) => {
+const LineChart = ({ data, opponents }) => {
   const theme = useTheme();
   return (
     <Box
@@ -95,6 +95,24 @@ const LineChart = ({ data }) => {
         pointLabelYOffset={-12}
         enableTouchCrosshair={true}
         useMesh={true}
+        tooltip={({ point }) => {
+          console.log(opponents);
+          const tooltipText = opponents[point.data.x - 1];
+          return (
+            <div
+              style={{
+                padding: "5px",
+                background: theme.palette.primary.main,
+                color: theme.palette.secondary[200],
+                borderRadius: "3px",
+              }}
+            >
+              <strong>{tooltipText} </strong>
+              <br />
+              Tore: {point.data.y}
+            </div>
+          );
+        }}
       />
     </Box>
   );
