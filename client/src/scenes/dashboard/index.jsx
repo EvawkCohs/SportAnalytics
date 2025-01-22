@@ -541,6 +541,7 @@ const Dashboard = () => {
                   },
                 }}
                 textAlign="center"
+                mt="3rem"
               >
                 Ø{" "}
                 {Number.isInteger(averageGoalsLastFive)
@@ -721,6 +722,7 @@ const Dashboard = () => {
                   },
                 }}
                 textAlign="center"
+                mt="3rem"
               >
                 Ø{" "}
                 {Number.isInteger(averageGoalsLastFiveConceded)
@@ -957,7 +959,7 @@ const Dashboard = () => {
                   }}
                   textAlign="center"
                 >
-                  Zwischen {bestPeriod[0]}
+                  {bestPeriod[0]}
                 </Typography>
                 <Typography
                   variant="h4"
@@ -973,7 +975,7 @@ const Dashboard = () => {
                   }}
                   textAlign="center"
                 >
-                  Zwischen {worstPeriod[0]}
+                  {worstPeriod[0]}
                 </Typography>
               </Box>
             </Box>

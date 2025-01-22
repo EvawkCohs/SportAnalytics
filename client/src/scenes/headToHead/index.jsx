@@ -1,7 +1,6 @@
 import { FormControl, Tooltip, Typography, useTheme } from "@mui/material";
 import Header from "components/Header";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
 import {
   useGetGamesWithParticipationQuery,
   useGetTeamModelQuery,
@@ -808,7 +807,6 @@ const HeadToHead = () => {
           alignItems="center"
           justifyContent="flex-start"
           gap="1rem"
-          width="50%"
         >
           <Typography variant="h2" sx={{ color: theme.palette.secondary[200] }}>
             {teamBName ? teamBName : "Team B auswählen"}
@@ -1023,11 +1021,9 @@ const HeadToHead = () => {
             justifyItems="flex-start"
             alignItems="center"
             flexWrap="wrap"
-            mr="3rem"
           >
             {/*Tore gesamte Saison */}
             <Box
-              gridColumn="1"
               display="flex"
               m="0.5rem"
               height="250px"
@@ -1060,7 +1056,6 @@ const HeadToHead = () => {
             {/*Tore letzte 5 Spiele */}
 
             <Box
-              gridColumn="2"
               display="flex"
               m="0.5rem "
               flexDirection="column"
@@ -1172,7 +1167,6 @@ const HeadToHead = () => {
             {/*Gegentore gesamte Saison */}
             <Box
               display="flex"
-              gridColumn="3"
               m="0.5rem"
               height="250px"
               width="250px"
@@ -1202,7 +1196,6 @@ const HeadToHead = () => {
             </Box>
             {/* Gegentore letzte 5 Spiele */}
             <Box
-              gridColumn="4"
               display="flex"
               height="250px"
               width="250px"
