@@ -130,6 +130,23 @@ const LineChart = ({ data }) => {
             ],
           },
         ]}
+        tooltip={({ point }) => {
+          return (
+            <div
+              style={{
+                padding: "5px",
+                background: theme.palette.primary[600],
+                color: theme.palette.secondary[200],
+                borderRadius: "3px",
+              }}
+            >
+              <strong>{point.id.slice(0, -3)}</strong>
+              <br />
+              {point.data.xFormatted}. min <br />
+              {point.data.y} Tore
+            </div>
+          );
+        }}
       />
     </Box>
   );

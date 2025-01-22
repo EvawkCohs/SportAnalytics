@@ -53,7 +53,7 @@ const LineChart = ({ data, opponents }) => {
 
           tooltip: {
             container: {
-              color: theme.palette.primary.main,
+              color: theme.palette.primary[700],
             },
           },
         }}
@@ -96,13 +96,12 @@ const LineChart = ({ data, opponents }) => {
         enableTouchCrosshair={true}
         useMesh={true}
         tooltip={({ point }) => {
-          console.log(opponents);
           const tooltipText = opponents[point.data.x - 1];
           return (
             <div
               style={{
                 padding: "5px",
-                background: theme.palette.primary.main,
+                background: theme.palette.primary[600],
                 color: theme.palette.secondary[200],
                 borderRadius: "3px",
               }}

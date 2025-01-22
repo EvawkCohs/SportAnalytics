@@ -66,7 +66,7 @@ const PieChart = ({ data, title }) => {
             direction: "row",
             justify: false,
             translateX: 0,
-            translateY: 30,
+            translateY: 25,
             itemsSpacing: 50,
             itemWidth: 50,
             itemHeight: 18,

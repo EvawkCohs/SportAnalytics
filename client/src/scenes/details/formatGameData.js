@@ -200,8 +200,10 @@ export const FormatSpecificGoalDataHome = ({ data }) => {
     (player) =>
       player.position === "RL" ||
       player.position === "RM" ||
-      player.position === "RR"
+      player.position === "RR" ||
+      player.position === "TW"
   );
+
   const sumGoals = (players) =>
     players.reduce((total, player) => total + player.goals, 0);
 
@@ -228,7 +230,7 @@ export const FormatSpecificGoalDataHome = ({ data }) => {
       color: "hsl(60, 70%, 50%)",
     },
   ];
-  console.log(goalData);
+
   return goalData;
 };
 export const FormatSpecificGoalDataAway = ({ data }) => {
@@ -242,7 +244,8 @@ export const FormatSpecificGoalDataAway = ({ data }) => {
     (player) =>
       player.position === "RL" ||
       player.position === "RM" ||
-      player.position === "RR"
+      player.position === "RR" ||
+      player.position === "TW"
   );
   const sumGoals = (players) =>
     players.reduce((total, player) => total + player.goals, 0);
