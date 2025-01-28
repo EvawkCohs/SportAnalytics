@@ -14,6 +14,9 @@ import PlayerDetailsGame from "scenes/playerDetailsGame";
 import "./index.css";
 import Team from "scenes/team";
 import HeadToHead from "scenes/headToHead";
+import ProfilePage from "scenes/profilePage";
+import RegisterPage from "scenes/registerPage";
+import LoginPage from "scenes/loginPage";
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
@@ -41,6 +44,9 @@ function App() {
                 element={<PlayerDetailsGame />}
               />
               <Route path="/head-to-head" element={<HeadToHead />} />
+              <Route path="/profil" element={<ProfilePage />} />
+              <Route path="/registrieren" element={<RegisterPage />} />
+              <Route path="/einloggen" element={<LoginPage />} />
             </Route>
           </Routes>
         </ThemeProvider>

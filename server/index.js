@@ -11,14 +11,15 @@ import clientRoutes from "./routes/client.js";
 import generalRoutes from "./routes/general.js";
 import gameUploadRoutes from "./routes/gameUpload.js";
 import gameUploadCheckRoutes from "./routes/gameUploadCheck.js";
+import userRoutes from "./routes/userRoutes.js";
 
 //MODEL IMPORTS
 // import gameModel from "./models/gameModel.js";
 // import allGamesModel from "./models/allgamesmodel.js";
-import TeamModel from "./models/TeamModel.js";
+//import TeamModel from "./models/TeamModel.js";
 
 //DATA IMPORT
-import { dataTeams } from "./data/teams.js";
+//import { dataTeams } from "./data/teams.js";
 //CONFIGURATION
 dotenv.config();
 const app = express();
@@ -36,6 +37,7 @@ app.use("/client", clientRoutes);
 app.use("/general", generalRoutes);
 app.use("/gameUpload", gameUploadRoutes);
 app.use("/gameUploadCheck", gameUploadCheckRoutes);
+app.use("/users", userRoutes);
 
 //MONGOOSE SETUP
 const PORT = process.env.PORT || 9000;

@@ -25,6 +25,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import FlexBetween from "./FlexBetween.jsx";
 import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
 import ElectricBoltOutlinedIcon from "@mui/icons-material/ElectricBoltOutlined";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import { AccountCircleOutlined } from "@mui/icons-material";
+import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 
 const navItems = [
   {
@@ -39,6 +42,10 @@ const navItems = [
   { text: "Statistiken", icon: null },
   { text: "Kader", icon: <Groups2OutlinedIcon /> },
   { text: "Head-to-Head", icon: <ElectricBoltOutlinedIcon /> },
+  { text: "Registrieren und einloggen", icon: null },
+  { text: "Registrieren", icon: <AppRegistrationIcon /> },
+  { text: "Einloggen", icon: <LoginOutlinedIcon /> },
+  { text: "Profil", icon: <AccountCircleOutlined /> },
 ];
 
 const Sidebar = ({
@@ -140,16 +147,6 @@ const Sidebar = ({
                 );
               })}
             </List>
-          </Box>
-
-          <Box position="absolute" bottom="2rem">
-            <Divider />
-            <FlexBetween textTransform="none" gap="1rem" m="1.5rem 2rem 0 3rem">
-              <Box textAlign="left"></Box>
-              <SettingsOutlined
-                sx={{ color: theme.palette.secondary[300], fontSize: "25px" }}
-              />
-            </FlexBetween>
           </Box>
         </Drawer>
       )}

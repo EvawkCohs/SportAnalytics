@@ -10,6 +10,7 @@ export const api = createApi({
     "game",
     "gamesWithDetails",
     "participation",
+    "user",
   ],
 
   endpoints: (build) => ({
@@ -37,11 +38,24 @@ export const api = createApi({
       },
       providesTags: ["gamesWithDetails"],
     }),
-
     getGamesWithParticipation: build.query({
       query: (teamId) => `client/gamemodels/participation?id=${teamId}`,
-
       providesTags: ["participation"],
+    }),
+    registerUser: build.mutation({
+      query: (userData) => ({
+        url: `users/register`,
+        method: "POST",
+        body: userData,
+      }),
+      invalidatesTags: ["user"],
+    }),
+    logInUser: build.mutation({
+      query: (credentials) => ({
+        url: `users/login`,
+        method: "POST",
+        body: credentials,
+      }),
     }),
   }),
 });
@@ -52,6 +66,7 @@ export const {
   useGetTeamQuery,
   useGetGameModelQuery,
   useGetGamesWithDetailsQuery,
-
   useGetGamesWithParticipationQuery,
+  useRegisterUserMutation,
+  useLogInUserMutation,
 } = api;
