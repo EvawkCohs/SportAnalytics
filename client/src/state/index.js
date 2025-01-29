@@ -4,6 +4,7 @@ const initialState = {
   mode: "dark",
   teamId: "sportradar.dhbdata.411-1648",
   teamName: "TV Gelnhausen",
+  genderMode: "male",
 };
 export const globalSlice = createSlice({
   name: "global",
@@ -18,9 +19,13 @@ export const globalSlice = createSlice({
     setTeamName: (state, action) => {
       state.teamName = action.payload;
     },
+    setGenderMode: (state, action) => {
+      state.genderMode = action.payload;
+    },
   },
 });
 
-export const { setMode, setId, setTeamName } = globalSlice.actions;
+export const { setMode, setId, setTeamName, setGenderMode } =
+  globalSlice.actions;
 
 export default globalSlice.reducer;

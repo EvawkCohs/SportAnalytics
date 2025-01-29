@@ -12,8 +12,7 @@ import Header from "components/Header";
 import ReactPlayer from "react-player";
 import SimpleButton from "components/SimpleButton";
 import LightTooltip from "components/LightTooltip";
-import { useGetGameModelQuery } from "state/api";
-import { gameExampleData } from "scenes/details/gameExample";
+import { useGetGameModelQuery, usePostUserGameMutation } from "state/api";
 import { DataGrid } from "@mui/x-data-grid";
 import CustomColumnMenu from "components/DataGridCustomColumnMenu";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
@@ -26,7 +25,7 @@ import {
   ConfirmReloadDialog,
   ConfirmSaveDialog,
 } from "components/Dialogs";
-import { useSelector } from "react-redux";
+import axios from "axios";
 
 function VideoAnalyse() {
   const { id } = useParams();
@@ -46,41 +45,91 @@ function VideoAnalyse() {
     secondHalfTime: false,
   });
   const [errorMessage, setErrorMessage] = useState("");
-
+  const [profile, setProfile] = useState(null);
+  const [errorProfile, setErrorProfile] = useState("");
+  const [
+    postUserGame,
+    {
+      isLoadingPostUserGame,
+      isSuccessPostUserGame,
+      isErrorPostUserGame,
+      errorPostUserGame,
+    },
+  ] = usePostUserGameMutation();
   //Startzeiten validieren
   const validateTime = (time) => {
     const regex = /^([0-1][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/; // HH:MM format
     return regex.test(time);
   };
-
-  //Eventdata setzen bzw. validieren, ob gameData bereits geladen wurde
+  const [userGameData, setUserGameData] = useState({
+    userId: "",
+    summary: {},
+    lineup: {},
+    events: [],
+  });
   useEffect(() => {
-    if (
-      !gameData ||
-      !gameData.data ||
-      !gameData.data.summary ||
-      !gameData.data.events
-    )
-      return;
+    const fetchProfile = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          setErrorProfile(
+            `Sie sind derzeit nicht eingeloggt! Bitte loggen Sie sich ein, um das Profil zu sehen.`
+          );
+          return;
+        }
 
-    // Setze eventData, wenn die Daten vorhanden sind
-    const key = `eventData.${gameData.data.summary.id}`;
+        const response = await axios.get(
+          "http://localhost:5001/users/profile",
+          {
+            headers: { Authorization: `bearer ${token}` },
+          }
+        );
 
-    // Versuche, die Daten aus localStorage abzurufen
-    const storedData = localStorage.getItem(key);
-    if (storedData) {
-      // Wenn Daten vorhanden sind, parse sie und setze sie in den State
-      setEventData(JSON.parse(storedData).events);
-    } else {
-      // Wenn keine Daten vorhanden sind, setze Fallback-Daten in den State
-      const initialData = gameData.data;
-      setEventData(initialData.events);
+        setProfile(response.data);
+      } catch (err) {
+        setErrorProfile(
+          "Fehler beim Abrufen des Profils: " + err.response?.data?.message ||
+            err.message
+        );
+      }
+    };
 
-      // Speichere die Fallback-Daten im localStorage für zukünftige Verwendungen
+    fetchProfile();
+  }, []); // Dieser Effekt wird nur beim ersten Rendern ausgeführt
 
-      localStorage.setItem(key, JSON.stringify(initialData));
-    }
-  }, [gameData]);
+  useEffect(() => {
+    if (!profile || !profile.username || !id) return;
+
+    const fetchGame = async (gameId, userId) => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5001/userGames/find-Game?gameId=${gameId}&userId=${userId}`
+        );
+        const specificGameData = response.data;
+
+        setUserGameData((prevData) => ({
+          ...prevData,
+          summary: specificGameData.summary,
+          lineup: specificGameData.lineup,
+          events: specificGameData.events,
+        }));
+        setEventData(specificGameData.events);
+      } catch (err) {
+        console.error(
+          "Kein benutzerdefiniertes Spiel gefunden, verwende Handball.net",
+          err
+        );
+        setUserGameData((prevData) => ({
+          summary: gameData.data.summary,
+          lineup: gameData.data.lineup,
+        }));
+        setEventData(gameData.data.events);
+      }
+    };
+
+    fetchGame(id, profile.username);
+  }, [profile, id]); // Der Effekt wird erneut ausgeführt, wenn sich `profile` oder `id` ändert
+
   //Col + Row Definitions für DataGrid
   const cols = [
     {
@@ -240,7 +289,11 @@ function VideoAnalyse() {
 
   //Handler zum Neuladen der Daten
   const handleReloadEventData = () => {
-    setEventData(gameData.data.events);
+    if (userGameData.events.length > 0) {
+      setEventData(userGameData.events);
+    } else {
+      setEventData(gameData.data.events);
+    }
     setOpenDialogReloadData(false);
   };
   //Handler zum Löschen der ausgewählten Events
@@ -319,8 +372,10 @@ function VideoAnalyse() {
     };
 
     setOpenDialogAddEvent(false);
-    eventData.push(event);
-    eventData.sort((a, b) => b.timestamp - a.timestamp);
+    setEventData((prevEventData) => {
+      const newEventData = [...prevEventData, event];
+      return newEventData.sort((a, b) => b.timestamp - a.timestamp);
+    });
   };
   const handleSelectionChangeType = (e) => {
     setType(e.target.value);
@@ -335,16 +390,19 @@ function VideoAnalyse() {
   const handleCloseDialogSave = () => {
     setOpenDialogSave(false);
   };
-  const handleSaveEvents = () => {
-    handleOpenDialogSave();
+  const handleSaveEvents = async () => {
     const updatedGameData = {
-      ...gameData.data, // Erstelle eine flache Kopie des gameData.data Objekts
-      events: eventData, // Überschreibe die events Eigenschaft
+      ...userGameData,
+      events: eventData,
+      userId: profile.username,
     };
-    localStorage.setItem(
-      `eventData.${gameData.data.summary.id}`,
-      JSON.stringify(updatedGameData)
-    );
+
+    try {
+      await postUserGame(updatedGameData).unwrap();
+      alert("Daten Upload erfolgreich!");
+    } catch (err) {
+      console.error("Uploadfehler: ", err);
+    }
   };
 
   return (

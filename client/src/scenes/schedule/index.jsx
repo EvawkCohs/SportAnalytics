@@ -18,7 +18,7 @@ import useFetchGameIDs from "./useFetchGameID";
 import { useNavigate } from "react-router-dom";
 import { useGetTeamModelQuery } from "state/api";
 import { useDispatch } from "react-redux";
-import { setId, setTeamName } from "state";
+import { setId, setTeamName, setGenderMode } from "state";
 import Select from "@mui/material/Select";
 import handleAddGame from "scenes/details/usePostGameData";
 import useFetchAllGamesDetails from "./useFetchAllGamesDetails";
@@ -28,7 +28,7 @@ function Schedule() {
   const [team, setTeam] = React.useState("");
   const [group, setGroup] = useState("SW");
   const [gender, setGender] = useState("male");
-  //Id aus GlboalState einlesen
+  //Id aus GlobalState einlesen
   const dispatch = useDispatch();
   const teamId = useSelector((state) => state.global.teamId);
   const theme = useTheme();
@@ -38,11 +38,11 @@ function Schedule() {
   const handleTeamChange = (event) => {
     setTeam(event.target.value);
     const selectedTeam = event.target.value;
-    console.log(selectedTeam);
     dispatch(setId(selectedTeam));
     dispatch(
       setTeamName(teamData.find((team) => team.id === selectedTeam).name)
     );
+    dispatch(setGenderMode(gender));
   };
 
   const handleGroupChange = (event) => {

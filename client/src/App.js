@@ -17,6 +17,7 @@ import HeadToHead from "scenes/headToHead";
 import ProfilePage from "scenes/profilePage";
 import RegisterPage from "scenes/registerPage";
 import LoginPage from "scenes/loginPage";
+import { AuthProvider } from "state/AuthContext";
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
@@ -25,31 +26,36 @@ function App() {
   return (
     <div className="app">
       <BrowserRouter>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Routes>
-            <Route element={<Layout />}>
-              <Route path="/" element={<Navigate to="/dashboard" replace />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/spielplan" element={<Schedule />} />
-              <Route path="/details/:id" element={<Details />} />
-              <Route path="/videoanalyse/:id" element={<VideoAnalyse />} />
-              <Route
-                path="/dashboard/playerDetails/:id/"
-                element={<PlayerDetailsCombined />}
-              />
-              <Route path="/kader" element={<Team />} />
-              <Route
-                path="/details/:gameId/:player"
-                element={<PlayerDetailsGame />}
-              />
-              <Route path="/head-to-head" element={<HeadToHead />} />
-              <Route path="/profil" element={<ProfilePage />} />
-              <Route path="/registrieren" element={<RegisterPage />} />
-              <Route path="/einloggen" element={<LoginPage />} />
-            </Route>
-          </Routes>
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Routes>
+              <Route element={<Layout />}>
+                <Route
+                  path="/"
+                  element={<Navigate to="/dashboard" replace />}
+                />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/spielplan" element={<Schedule />} />
+                <Route path="/details/:id" element={<Details />} />
+                <Route path="/videoanalyse/:id" element={<VideoAnalyse />} />
+                <Route
+                  path="/dashboard/playerDetails/:id/"
+                  element={<PlayerDetailsCombined />}
+                />
+                <Route path="/kader" element={<Team />} />
+                <Route
+                  path="/details/:gameId/:player"
+                  element={<PlayerDetailsGame />}
+                />
+                <Route path="/head-to-head" element={<HeadToHead />} />
+                <Route path="/profil" element={<ProfilePage />} />
+                <Route path="/registrieren" element={<RegisterPage />} />
+                <Route path="/einloggen" element={<LoginPage />} />
+              </Route>
+            </Routes>
+          </ThemeProvider>
+        </AuthProvider>
       </BrowserRouter>
     </div>
   );

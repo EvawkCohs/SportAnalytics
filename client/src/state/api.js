@@ -4,20 +4,16 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_BASE_URL }),
   reducerPath: "adminApi",
   tagTypes: [
-    "allgamesmodels",
     "teammodels",
     "team",
     "game",
     "gamesWithDetails",
     "participation",
     "user",
+    "userGame",
   ],
 
   endpoints: (build) => ({
-    getallGamesModel: build.query({
-      query: () => `client/allgamesmodels`,
-      providesTags: ["allgamesmodels"],
-    }),
     getTeamModel: build.query({
       query: () => `client/teammodels`,
       providesTags: ["teammodels"],
@@ -57,6 +53,14 @@ export const api = createApi({
         body: credentials,
       }),
     }),
+    postUserGame: build.mutation({
+      query: (userGameData) => ({
+        url: `userGames/add-userGame`,
+        method: "POST",
+        body: userGameData,
+      }),
+      invalidatesTags: ["userGame"],
+    }),
   }),
 });
 
@@ -69,4 +73,5 @@ export const {
   useGetGamesWithParticipationQuery,
   useRegisterUserMutation,
   useLogInUserMutation,
+  usePostUserGameMutation,
 } = api;

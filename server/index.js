@@ -12,10 +12,10 @@ import generalRoutes from "./routes/general.js";
 import gameUploadRoutes from "./routes/gameUpload.js";
 import gameUploadCheckRoutes from "./routes/gameUploadCheck.js";
 import userRoutes from "./routes/userRoutes.js";
+import userGames from "./routes/userGames.js";
 
 //MODEL IMPORTS
 // import gameModel from "./models/gameModel.js";
-// import allGamesModel from "./models/allgamesmodel.js";
 //import TeamModel from "./models/TeamModel.js";
 
 //DATA IMPORT
@@ -38,6 +38,7 @@ app.use("/general", generalRoutes);
 app.use("/gameUpload", gameUploadRoutes);
 app.use("/gameUploadCheck", gameUploadCheckRoutes);
 app.use("/users", userRoutes);
+app.use("/userGames", userGames);
 
 //MONGOOSE SETUP
 const PORT = process.env.PORT || 9000;
@@ -52,7 +53,6 @@ mongoose
 
     //DATA UPLOAD
     //gameModel.insertMany(overalldata);
-    //allGamesModel.insertMany(overalldata);
     //TeamModel.insertMany(dataTeams);
   })
   .catch((error) => console.log(`${error} did not connect`));

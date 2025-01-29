@@ -27,6 +27,7 @@ import { columnsDataGrid } from "scenes/dashboard/dataGridDefinitions";
 const Dashboard = () => {
   const teamId = useSelector((state) => state.global.teamId);
   const teamName = useSelector((state) => state.global.teamName);
+  const gender = useSelector((state) => state.global.genderMode);
   const theme = useTheme();
   const Navigate = useNavigate();
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
@@ -81,7 +82,9 @@ const Dashboard = () => {
   const [isChecked, setIsChecked] = useState(false);
 
   useEffect(() => {
-    if (isLoadingGames || !games || games.length !== 30) return;
+    if (isLoadingGames || !games) return;
+    if (games.length < 30 && gender === "male") return;
+    if (games.length < 22 && gender === "female") return;
 
     //Tore
     setTotalGoals(GetTotalGoals(games, teamId));

@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import { useLogInUserMutation } from "state/api";
 import { useGetTeamModelQuery } from "state/api";
 import { setId, setTeamName } from "state";
+import { useAuth } from "state/AuthContext";
 
 const LoginPage = () => {
   const { data: teamData, isLoadingTeam } = useGetTeamModelQuery();
@@ -23,6 +24,7 @@ const LoginPage = () => {
     username: "",
     password: "",
   });
+  const { login } = useAuth();
   const [loginUser, { isLoading, isSuccess, isError, error }] =
     useLogInUserMutation();
   const Navigate = useNavigate();
@@ -38,8 +40,7 @@ const LoginPage = () => {
     try {
       const response = await loginUser(formData).unwrap();
       const { token, user } = response;
-      localStorage.setItem("token", token);
-      alert(`Willkommen zurück, ${user.username}!`);
+      login(token);
       setFormData({ username: "", password: "" });
       const newTeam = teamData.filter((team) => team.name === user.mannschaft);
       dispatch(setId(newTeam[0].id));
