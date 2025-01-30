@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 //Components
 import Header from "components/Header";
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
@@ -39,7 +40,8 @@ function Details() {
 
   //Daten der Spiele annehmen
   const { id } = useParams();
-  const gameData = useGetGameModelQuery(id);
+  const data = useGetGameModelQuery(id);
+  const gameData = data.data;
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
   const [eventData, setEventData] = useState([]);
 
@@ -55,83 +57,158 @@ function Details() {
   const [goalDataHomeTeam, setGoalDataHomeTeam] = useState();
   const [goalDataAwayTeam, setGoalDataAwayTeam] = useState([]);
   const [row, setRow] = useState();
-  const hasFetchedData = useRef(false); // Ref für die Datenabfrage
+
+  //Profil
+  const [profile, setProfile] = useState(null);
+  const [errorProfile, setErrorProfile] = useState("");
+
+  //Daten aus Nutzerdefinierten Stats
+  const [userGameData, setUserGameData] = useState({
+    userId: "",
+    summary: {},
+    lineup: {},
+    events: [],
+  });
+  const [trigger, setTrigger] = useState(false);
+
+  //LOGIN STATUS USE-EFFECT
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          setErrorProfile(
+            `Sie sind derzeit nicht eingeloggt! Bitte loggen Sie sich ein, um das Profil zu sehen.`
+          );
+          return;
+        }
+
+        const response = await axios.get(
+          "http://localhost:5001/users/profile",
+          {
+            headers: { Authorization: `bearer ${token}` },
+          }
+        );
+
+        setProfile(response.data);
+      } catch (err) {
+        setErrorProfile(
+          "Fehler beim Abrufen des Profils: " + err.response?.data?.message ||
+            err.message
+        );
+      }
+    };
+
+    fetchProfile();
+  }, []); // Dieser Effekt wird nur beim ersten Rendern ausgeführt
+
+  //NUTZERDEFINIERTE STATS EINLESEN USE-EFFECT
+  useEffect(() => {
+    if (!profile || !profile.username || !id || !gameData) return;
+
+    const fetchGame = async (gameId, userId) => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5001/userGames/findUserGames`,
+          { params: { gameId, userId } }
+        );
+        const specificGameData = response.data;
+        // Überprüfung, ob die Antwort leer ist
+        if (!specificGameData || Object.keys(specificGameData).length === 0) {
+          throw new Error("Leere Antwort vom Server erhalten");
+        }
+        setUserGameData((prevData) => ({
+          ...prevData,
+          userId: profile.username,
+          summary: specificGameData.summary,
+          lineup: specificGameData.lineup,
+          events: specificGameData.events,
+        }));
+        setEventData(specificGameData.events);
+        setTrigger(true);
+      } catch (err) {
+        console.error(
+          "Kein benutzerdefiniertes Spiel gefunden, verwende Handball.net",
+          err
+        );
+        setUserGameData((prevData) => ({
+          ...prevData,
+          summary: gameData.summary,
+          lineup: gameData.lineup,
+          events: gameData.events,
+        }));
+        setEventData(gameData.events);
+        setTrigger(true);
+      }
+    };
+
+    fetchGame(id, profile.username);
+  }, [profile, gameData]); // Der Effekt wird erneut ausgeführt, wenn sich `profile` oder `id` ändert
+  //DATENBERECHNUNG USE-EFFECT
   useEffect(() => {
     if (
       !gameData ||
-      !gameData.data ||
-      !gameData.data.summary ||
-      !gameData.data.events
+      !gameData?.lineup ||
+      !gameData?.summary ||
+      !gameData?.events
     )
       return;
 
-    setTeamGoalDataBar(FormatGameDataBar(gameData));
-    setTeamGoalDataLine(FormatGameDataLine(gameData));
+    const dataSource = userGameData;
+    if (!dataSource) return;
+    //Tore pro Sequenz und Differenzverlauf
 
-    setSuspensionData(FormatSpecificEventData(gameData, "TwoMinutePenalty"));
-    const formattedTableData = FormatTableData(gameData);
+    setTeamGoalDataBar(FormatGameDataBar({ data: dataSource }));
+    setTeamGoalDataLine(
+      FormatGameDataLine({
+        data: dataSource,
+      })
+    );
+    //2-min Daten
+    setSuspensionData(
+      FormatSpecificEventData({ data: dataSource }, "TwoMinutePenalty")
+    );
+    //Einzelstatistiken
+    const formattedTableData = FormatTableData({ data: dataSource });
     setTableData(formattedTableData);
-    setRedCardData(FormatSpecificEventData(gameData, "Disqualification"));
-    setSevenMeterData(FormatSpecificEventData(gameData, "SevenMeterGoal"));
-
-    setGoalDataHomeTeam(FormatSpecificGoalDataHome(gameData));
-    setGoalDataAwayTeam(FormatSpecificGoalDataAway(gameData));
+    //Rote Karten Daten
+    setRedCardData(
+      FormatSpecificEventData({ data: dataSource }, "Disqualification")
+    );
+    //7-m Daten
+    setSevenMeterData(
+      FormatSpecificEventData({ data: dataSource }, "SevenMeterGoal")
+    );
+    //Technische Ferhler,Daten
+    setTechnicalFoulsData(
+      FormatSpecificEventData({ data: dataSource }, "technicalFault")
+    );
+    //Tor Daten Heimteam/Auswärtsteam
+    setGoalDataHomeTeam(FormatSpecificGoalDataHome({ data: dataSource }));
+    setGoalDataAwayTeam(FormatSpecificGoalDataAway({ data: dataSource }));
 
     //MVP Statistik (Top3 Goalscorer)
-    const sortedTableData = formattedTableData.sort(
+    const sortedTableData = formattedTableData?.sort(
       (a, b) => b.goals - a.goals
     );
-    setMostValuable(sortedTableData.slice(0, 3));
+    setMostValuable(sortedTableData?.slice(0, 3));
     setRow(
-      sortedTableData.map((row, index) => ({
+      sortedTableData?.map((row, index) => ({
         id: index,
         ...row,
       }))
     );
-  }, [gameData]);
-  useEffect(() => {
-    if (
-      !gameData ||
-      !gameData.data ||
-      !gameData.data.summary ||
-      !gameData.data.events
-    ) {
-      return;
-    }
+  }, [gameData, userGameData]);
 
-    const key = `eventData.${gameData.data.summary.id}`;
-
-    // Versuche, die Daten aus localStorage abzurufen
-    const storedData = localStorage.getItem(key);
-
-    if (storedData) {
-      // Wenn Daten vorhanden sind, parse sie und setze sie in den State
-      const parsedData = JSON.parse(storedData).events;
-      setEventData(parsedData);
-    }
-  }, [gameData]); // Abhängigkeiten auf `gameData` beschränken
-
-  useEffect(() => {
-    if (!eventData || eventData.length === 0) return;
-
-    if (!hasFetchedData.current) {
-      setTechnicalFoulsData(
-        FormatSpecificEventDataCustomEvents(
-          eventData,
-          "technicalFault",
-          gameData.data.summary.homeTeam.name,
-          gameData.data.summary.awayTeam.name
-        )
-      );
-      hasFetchedData.current = true; // Markiere, dass die Daten abgerufen wurden
-    }
-  }, [eventData, gameData]); // Überprüfen von `eventData` und `gameData`
   //Tabellen Spalten und Reihen
   const cols = columnsDataGrid;
+
+  //HANDLER
+  //Navigation zur Analysepage
   const handleAnalyseButton = () => {
     navigate(`/videoanalyse/${id}`);
   };
-
+  //Navigation zu Spielerdetails
   const handleCellClick = (param) => {
     let home = true;
     param.row.team === gameData.data.summary.homeTeam.name
@@ -164,18 +241,10 @@ function Details() {
     });
   };
 
-  if (
-    tableData.length === undefined ||
-    gameData.isLoading ||
-    !goalDataAwayTeam ||
-    !goalDataHomeTeam
-  ) {
+  //Ladeanzeige/Fehlerhandling
+  if (data.isLoading || !goalDataAwayTeam || !goalDataHomeTeam) {
     return <div>Loading....</div>; // Später noch Ladekreis einbauen oder etwas vergleichbares
   }
-
-  // if (error) {
-  //   return <div>Error: {error}</div>; // Fehlermeldung Rendern (später anpassen)
-  // }
 
   return (
     <div id="content">
@@ -183,7 +252,7 @@ function Details() {
         <FlexBetween>
           <Header
             title="GAME DETAILS"
-            subtitle={`${gameData.data.summary.homeTeam.name} vs ${gameData.data.summary.awayTeam.name}`}
+            subtitle={`${gameData.summary.homeTeam.name} vs ${gameData.summary.awayTeam.name}`}
           />
           <Box gap="1.5rem" display="flex" flexDirection="row">
             <SimpleButton
@@ -226,7 +295,7 @@ function Details() {
           }}
         >
           {/* ROW 1*/}
-          {tableData.length > 0 ? (
+          {tableData?.length > 0 ? (
             <StatBoxMVP
               nameMVP={`${mostValuable[0].firstname} ${mostValuable[0].lastname}`}
               goalsMVP={mostValuable[0].goals}
@@ -276,24 +345,24 @@ function Details() {
             className="data-display"
           >
             <StatBoxGameInfo
-              title={`${gameData.data.summary.phase.name}`}
-              round={`${gameData.data.summary.round.name} - ${formatTimestamp(
-                gameData.data.summary.startsAt
+              title={`${gameData.summary.phase.name}`}
+              round={`${gameData.summary.round.name} - ${formatTimestamp(
+                gameData.summary.startsAt
               )}`}
-              finalScore={`${gameData.data.summary.homeGoals ?? "0"} : ${
-                gameData.data.summary.awayGoals ?? "0"
+              finalScore={`${gameData.summary.homeGoals ?? "0"} : ${
+                gameData.summary.awayGoals ?? "0"
               }`}
-              halftimeScore={`(${
-                gameData.data.summary.homeGoalsHalf ?? "0"
-              } : ${gameData.data.summary.awayGoalsHalf ?? "0"})`}
-              homeTeam={gameData.data.summary.homeTeam.name}
-              awayTeam={gameData.data.summary.awayTeam.name}
+              halftimeScore={`(${gameData.summary.homeGoalsHalf ?? "0"} : ${
+                gameData.summary.awayGoalsHalf ?? "0"
+              })`}
+              homeTeam={gameData.summary.homeTeam.name}
+              awayTeam={gameData.summary.awayTeam.name}
             />
           </Box>
           <Box gridColumn="7/9" gridRow="span 1">
             <SimpleStatBox
-              value={gameData.data.summary.attendance}
-              secondaryValue={gameData.data.summary.field.name}
+              value={gameData.summary.attendance}
+              secondaryValue={gameData.summary.field.name}
               title="Zuschauer"
             />
           </Box>
@@ -320,13 +389,13 @@ function Details() {
           {/*Box 5th column */}
           <PieChart
             data={goalDataHomeTeam}
-            title={`Tore nach Positionen ${gameData.data.summary.homeTeam.name}`}
+            title={`Tore nach Positionen ${gameData.summary.homeTeam.name}`}
           />
           {/*Box 6th column */}
           {
             <PieChart
               data={goalDataAwayTeam}
-              title={`Tore nach Positionen ${gameData.data.summary.awayTeam.name}`}
+              title={`Tore nach Positionen ${gameData.summary.awayTeam.name}`}
             />
           }
           <Box

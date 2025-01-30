@@ -103,10 +103,10 @@ function VideoAnalyse() {
     const fetchGame = async (gameId, userId) => {
       try {
         const response = await axios.get(
-          `http://localhost:5001/userGames/find-Game?gameId=${gameId}&userId=${userId}`
+          `http://localhost:5001/userGames/findUserGames`,
+          { params: { gameId, userId } }
         );
         const specificGameData = response.data;
-
         setUserGameData((prevData) => ({
           ...prevData,
           summary: specificGameData.summary,
@@ -120,6 +120,7 @@ function VideoAnalyse() {
           err
         );
         setUserGameData((prevData) => ({
+          ...prevData,
           summary: gameData.data.summary,
           lineup: gameData.data.lineup,
         }));

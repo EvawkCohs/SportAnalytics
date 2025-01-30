@@ -36,7 +36,8 @@ const Dashboard = () => {
     errorGames,
     isLoadingGames,
   } = useGetGamesWithParticipationQuery(teamId);
-
+  //TODO: GameIDS dieser Spiele extrahieren und mit benutzerdefinierten Spielen (und UserId) abgleichen
+  //Dann in den games die entsprechenden Spiele ersetzen und weiter verwenden
   //Nächsten 5 Spiele
 
   const updatedNextFiveGames = games

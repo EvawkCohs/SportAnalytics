@@ -6,7 +6,6 @@ import {
 } from "../controllers/client.js";
 const router = express.Router();
 
-//router.get("/allgamesmodels", getallGamesModel);
 router.get("/teammodels", getTeamModel);
 router.get("/gamemodels/details", getGamesWithDetails);
 router.get("/gamemodels/participation", getGamesWithParticipation);
