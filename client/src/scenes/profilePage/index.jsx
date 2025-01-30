@@ -20,12 +20,10 @@ const ProfilePage = () => {
           return;
         }
 
-        const response = await axios.get(
-          "http://localhost:5001/users/profile",
-          {
-            headers: { Authorization: `bearer ${token}` },
-          }
-        );
+        const apiUrl = process.env.API_URL || "http://localhost:5001";
+        const response = await axios.get(`${apiUrl}/users/profile`, {
+          headers: { Authorization: `bearer ${token}` },
+        });
 
         setProfile(response.data);
       } catch (err) {

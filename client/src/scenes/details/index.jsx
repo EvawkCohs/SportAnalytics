@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 //Components
@@ -25,7 +25,6 @@ import {
   FormatGameDataLine,
   FormatSpecificEventData,
   FormatTableData,
-  FormatSpecificEventDataCustomEvents,
   FormatSpecificGoalDataHome,
   FormatSpecificGoalDataAway,
 } from "./formatGameData";
@@ -57,6 +56,7 @@ function Details() {
   const [goalDataHomeTeam, setGoalDataHomeTeam] = useState();
   const [goalDataAwayTeam, setGoalDataAwayTeam] = useState([]);
   const [row, setRow] = useState();
+  const [missedShotsData, setMissedShotsData] = useState([]);
 
   //Profil
   const [profile, setProfile] = useState(null);
@@ -69,7 +69,6 @@ function Details() {
     lineup: {},
     events: [],
   });
-  const [trigger, setTrigger] = useState(false);
 
   //LOGIN STATUS USE-EFFECT
   useEffect(() => {
@@ -83,12 +82,10 @@ function Details() {
           return;
         }
 
-        const response = await axios.get(
-          "http://localhost:5001/users/profile",
-          {
-            headers: { Authorization: `bearer ${token}` },
-          }
-        );
+        const apiUrl = process.env.API_URL || "http://localhost:5001";
+        const response = await axios.get(`${apiUrl}/users/profile`, {
+          headers: { Authorization: `bearer ${token}` },
+        });
 
         setProfile(response.data);
       } catch (err) {
@@ -125,7 +122,6 @@ function Details() {
           events: specificGameData.events,
         }));
         setEventData(specificGameData.events);
-        setTrigger(true);
       } catch (err) {
         console.error(
           "Kein benutzerdefiniertes Spiel gefunden, verwende Handball.net",
@@ -138,12 +134,11 @@ function Details() {
           events: gameData.events,
         }));
         setEventData(gameData.events);
-        setTrigger(true);
       }
     };
 
     fetchGame(id, profile.username);
-  }, [profile, gameData]); // Der Effekt wird erneut ausgeführt, wenn sich `profile` oder `id` ändert
+  }, [profile, gameData, id]); // Der Effekt wird erneut ausgeführt, wenn sich `profile` oder `id` ändert
   //DATENBERECHNUNG USE-EFFECT
   useEffect(() => {
     if (
@@ -179,14 +174,20 @@ function Details() {
     setSevenMeterData(
       FormatSpecificEventData({ data: dataSource }, "SevenMeterGoal")
     );
-    //Technische Ferhler,Daten
-    setTechnicalFoulsData(
-      FormatSpecificEventData({ data: dataSource }, "technicalFault")
-    );
+
     //Tor Daten Heimteam/Auswärtsteam
     setGoalDataHomeTeam(FormatSpecificGoalDataHome({ data: dataSource }));
     setGoalDataAwayTeam(FormatSpecificGoalDataAway({ data: dataSource }));
 
+    //CUSTOM DATA
+    //Technische Fehler Daten
+    setTechnicalFoulsData(
+      FormatSpecificEventData({ data: dataSource }, "technicalFault")
+    );
+    //Fehlwurf Daten
+    setMissedShotsData(
+      FormatSpecificEventData({ data: dataSource }, "missedShot")
+    );
     //MVP Statistik (Top3 Goalscorer)
     const sortedTableData = formattedTableData?.sort(
       (a, b) => b.goals - a.goals
@@ -398,6 +399,8 @@ function Details() {
               title={`Tore nach Positionen ${gameData.summary.awayTeam.name}`}
             />
           }
+          {/*Box 7th column */}
+          <PieChart data={missedShotsData} title={`Fehlwürfe`} />
           <Box
             gridColumn="span 8"
             gridRow="9 / 14"

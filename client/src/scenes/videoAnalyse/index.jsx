@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import {
   Box,
   useTheme,
-  Grid,
   Typography,
   IconButton,
   TextField,
@@ -77,13 +76,10 @@ function VideoAnalyse() {
           );
           return;
         }
-
-        const response = await axios.get(
-          "http://localhost:5001/users/profile",
-          {
-            headers: { Authorization: `bearer ${token}` },
-          }
-        );
+        const apiUrl = process.env.API_URL || "http://localhost:5001";
+        const response = await axios.get(`${apiUrl}/users/profile`, {
+          headers: { Authorization: `bearer ${token}` },
+        });
 
         setProfile(response.data);
       } catch (err) {
