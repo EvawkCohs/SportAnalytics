@@ -39,6 +39,7 @@ function VideoAnalyse() {
 
   const [videoUrl, setVideoUrl] = useState(null);
   const [eventData, setEventData] = useState([]);
+  const [lineupData, setLineupData] = useState({});
   //Referenz zum Videoplayer
   const videoRef = useRef(null);
 
@@ -82,6 +83,7 @@ function VideoAnalyse() {
       events: gameData.data.events,
     }));
     setEventData(gameData.data.events);
+
     if (!shouldFetch) return;
     if (specificGameData && Object.keys(specificGameData.length > 0)) {
       setUserGameData((prevData) => ({
@@ -271,13 +273,21 @@ function VideoAnalyse() {
     const updatedEventData = eventData.filter(
       (event) => !rowDeletionIds.includes(event.id)
     );
+    let lineupCopy = JSON.parse(JSON.stringify(userGameData.lineup));
+    const player = lineupCopy[team.toLowerCase()].find(
+      (player) => player.number.toString() === jerseyNumber
+    );
+    if (player) {
+      player[etype] -= 1;
+      setLineupData(lineupCopy);
+    }
     setEventData(updatedEventData);
     handleCloseDialogDeletion();
   };
 
   //Handler zum Eventhinzufügen
   const [openDialogAddEvent, setOpenDialogAddEvent] = useState(false);
-  const [type, setType] = useState("");
+  const [etype, setEType] = useState("");
   const [team, setTeam] = useState("Home");
   const [jerseyNumber, setJerseyNumber] = useState("");
   let timestampEvent = 0;
@@ -324,13 +334,13 @@ function VideoAnalyse() {
 
     const event = {
       id: eventData.reduce((maxId, e) => Math.max(maxId, e.id), -Infinity) + 1,
-      message: `${type} von Trikotnummer ${jerseyNumber} ${
+      message: `${etype} von Trikotnummer ${jerseyNumber} ${
         team === "Home"
           ? `(${gameData.data.summary.homeTeam.name})`
           : `(${gameData.data.summary.awayTeam.name})`
       } `,
       timestamp: timestampEvent,
-      type: type,
+      type: etype,
       currentTime: currentPlayerTime,
       team: team,
       playerId:
@@ -340,6 +350,15 @@ function VideoAnalyse() {
       time: "",
       score: "",
     };
+    let lineupCopy = JSON.parse(JSON.stringify(userGameData.lineup));
+    const player = lineupCopy[team.toLowerCase()].find(
+      (player) => player.number.toString() === jerseyNumber
+    );
+
+    if (player) {
+      player[etype] = player[etype] ? player[etype] + 1 : 1;
+      setLineupData(lineupCopy);
+    }
 
     setOpenDialogAddEvent(false);
     setEventData((prevEventData) => {
@@ -348,7 +367,7 @@ function VideoAnalyse() {
     });
   };
   const handleSelectionChangeType = (e) => {
-    setType(e.target.value);
+    setEType(e.target.value);
   };
   const handleSelectionChangeTeam = (e) => {
     setTeam(e.target.value);
@@ -363,8 +382,10 @@ function VideoAnalyse() {
   const handleSaveEvents = async () => {
     const updatedGameData = {
       ...userGameData,
+      summary: userGameData.summary,
       events: eventData,
       userId: profile.username,
+      lineup: lineupData,
     };
 
     try {
@@ -637,7 +658,7 @@ function VideoAnalyse() {
             onChangeType={handleSelectionChangeType}
             onChangeTeam={handleSelectionChangeTeam}
             onChangeTextField={(e) => setJerseyNumber(e.target.value)}
-            value={type}
+            value={etype}
             error={!/^\d{1,2}$/.test(jerseyNumber) && jerseyNumber !== ""}
             helperText={
               !/^\d{1,2}$/.test(jerseyNumber) && jerseyNumber !== ""

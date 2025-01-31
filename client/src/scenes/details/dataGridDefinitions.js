@@ -44,7 +44,24 @@ export const columnsDataGrid = [
     headerName: "Rote Karte",
     flex: 1,
   },
-
+  {
+    field: "technicalFault",
+    headerName: "Technische Fehler",
+    flex: 1,
+    renderCell: (params) => params.value ?? 0,
+  },
+  {
+    field: "missedShot",
+    headerName: "Fehlwürfe",
+    flex: 1,
+    renderCell: (params) => params.value ?? 0,
+  },
+  {
+    field: "assist",
+    headerName: "Assists",
+    flex: 1,
+    renderCell: (params) => params.value ?? 0,
+  },
   {
     field: "team",
     headerName: "Mannschaft",

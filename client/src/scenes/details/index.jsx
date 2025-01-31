@@ -180,20 +180,20 @@ function Details() {
   //Navigation zu Spielerdetails
   const handleCellClick = (param) => {
     let home = true;
-    param.row.team === gameData.data.summary.homeTeam.name
+    param.row.team === userGameData.summary.homeTeam.name
       ? (home = true)
       : (home = false);
 
     const name = `${param.row.firstname} ${param.row.lastname}`;
-    const events = eventData.length !== 0 ? eventData : gameData.data.events;
+    const events = eventData.length !== 0 ? eventData : userGameData.events;
 
     navigate(`/details/${id}/${param.row.firstname}_${param.row.lastname}`, {
       state: {
         player: param.row,
         opponent:
-          gameData.data.summary.homeTeam.name === param.row.team
-            ? gameData.data.summary.awayTeam.name
-            : gameData.data.summary.homeTeam.name,
+          userGameData.summary.homeTeam.name === param.row.team
+            ? userGameData.summary.awayTeam.name
+            : userGameData.summary.homeTeam.name,
         mvp:
           mostValuable[0].number === param.row.number &&
           mostValuable[0].team === param.row.team

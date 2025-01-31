@@ -226,6 +226,24 @@ const PlayerDetailsGame = () => {
           <Box width="300px" className="fade-in" height="150px">
             <SimpleStatBox title={"Rote Karten"} value={player.redCards} />
           </Box>
+          <Box width="300px" className="fade-in" height="150px">
+            <SimpleStatBox
+              title={"Technische Fehler"}
+              value={player.technicalFault ? player.technicalFault : 0}
+            />
+          </Box>
+          <Box width="300px" className="fade-in" height="150px">
+            <SimpleStatBox
+              title={"Fehlwürfe"}
+              value={player.missedShot ? player.missedShot : 0}
+            />
+          </Box>
+          <Box width="300px" className="fade-in" height="150px">
+            <SimpleStatBox
+              title={"Assists"}
+              value={player.assist ? player.assist : 0}
+            />
+          </Box>
         </Box>
       </Box>
     </Box>
