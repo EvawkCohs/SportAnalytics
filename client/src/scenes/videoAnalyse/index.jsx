@@ -11,7 +11,12 @@ import Header from "components/Header";
 import ReactPlayer from "react-player";
 import SimpleButton from "components/SimpleButton";
 import LightTooltip from "components/LightTooltip";
-import { useGetGameModelQuery, usePostUserGameMutation } from "state/api";
+import {
+  useGetGameModelQuery,
+  usePostUserGameMutation,
+  useGetUserProfileQuery,
+  useGetUserGamesQuery,
+} from "state/api";
 import { DataGrid } from "@mui/x-data-grid";
 import CustomColumnMenu from "components/DataGridCustomColumnMenu";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
@@ -24,7 +29,8 @@ import {
   ConfirmReloadDialog,
   ConfirmSaveDialog,
 } from "components/Dialogs";
-import axios from "axios";
+
+import { skipToken } from "@reduxjs/toolkit/query";
 
 function VideoAnalyse() {
   const { id } = useParams();
@@ -44,17 +50,9 @@ function VideoAnalyse() {
     secondHalfTime: false,
   });
   const [errorMessage, setErrorMessage] = useState("");
-  const [profile, setProfile] = useState(null);
-  const [errorProfile, setErrorProfile] = useState("");
-  const [
-    postUserGame,
-    {
-      isLoadingPostUserGame,
-      isSuccessPostUserGame,
-      isErrorPostUserGame,
-      errorPostUserGame,
-    },
-  ] = usePostUserGameMutation();
+  //Profil
+  const { data: profile } = useGetUserProfileQuery();
+  const [postUserGame] = usePostUserGameMutation();
   //Startzeiten validieren
   const validateTime = (time) => {
     const regex = /^([0-1][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/; // HH:MM format
@@ -66,66 +64,41 @@ function VideoAnalyse() {
     lineup: {},
     events: [],
   });
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          setErrorProfile(
-            `Sie sind derzeit nicht eingeloggt! Bitte loggen Sie sich ein, um das Profil zu sehen.`
-          );
-          return;
-        }
-        const apiUrl = process.env.API_URL;
-        const response = await axios.get(`${apiUrl}/users/profile`, {
-          headers: { Authorization: `bearer ${token}` },
-        });
-
-        setProfile(response.data);
-      } catch (err) {
-        setErrorProfile(
-          "Fehler beim Abrufen des Profils: " + err.response?.data?.message ||
-            err.message
-        );
-      }
-    };
-
-    fetchProfile();
-  }, []); // Dieser Effekt wird nur beim ersten Rendern ausgeführt
+  const shouldFetch = profile?.username && id;
+  const {
+    data: specificGameData,
+    errorUserGame,
+    isLoading,
+  } = useGetUserGamesQuery(
+    shouldFetch ? { gameId: id, userId: profile.username } : skipToken
+  );
 
   useEffect(() => {
-    if (!profile || !profile.username || !id) return;
-
-    const fetchGame = async (gameId, userId) => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5001/userGames/findUserGames`,
-          { params: { gameId, userId } }
-        );
-        const specificGameData = response.data;
-        setUserGameData((prevData) => ({
-          ...prevData,
-          summary: specificGameData.summary,
-          lineup: specificGameData.lineup,
-          events: specificGameData.events,
-        }));
-        setEventData(specificGameData.events);
-      } catch (err) {
-        console.error(
-          "Kein benutzerdefiniertes Spiel gefunden, verwende Handball.net",
-          err
-        );
-        setUserGameData((prevData) => ({
-          ...prevData,
-          summary: gameData.data.summary,
-          lineup: gameData.data.lineup,
-        }));
-        setEventData(gameData.data.events);
-      }
-    };
-
-    fetchGame(id, profile.username);
-  }, [profile, id]); // Der Effekt wird erneut ausgeführt, wenn sich `profile` oder `id` ändert
+    if (!gameData || !gameData?.data?.events) return;
+    setUserGameData((prevData) => ({
+      ...prevData,
+      summary: gameData.data.summary,
+      lineup: gameData.data.lineup,
+      events: gameData.data.events,
+    }));
+    setEventData(gameData.data.events);
+    if (!shouldFetch) return;
+    if (specificGameData && Object.keys(specificGameData.length > 0)) {
+      setUserGameData((prevData) => ({
+        ...prevData,
+        userId: profile.username,
+        summary: specificGameData.summary,
+        lineup: specificGameData.lineup,
+        events: specificGameData.events,
+      }));
+      setEventData(specificGameData.events);
+    } else if (error) {
+      console.error(
+        "Kein benutzerdefiniertes Spiel gefunde, verwende Handball.net",
+        error
+      );
+    }
+  }, [profile, id, specificGameData, errorUserGame]);
 
   //Col + Row Definitions für DataGrid
   const cols = [

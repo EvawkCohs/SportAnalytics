@@ -1,7 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const api = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_BASE_URL }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: process.env.REACT_APP_BASE_URL,
+  }),
+
   reducerPath: "adminApi",
   tagTypes: [
     "teammodels",
@@ -61,6 +64,22 @@ export const api = createApi({
       }),
       invalidatesTags: ["userGame"],
     }),
+    getUserProfile: build.query({
+      query: () => ({
+        url: `users/profile`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+        },
+      }),
+      providesTags: ["user"],
+    }),
+    getUserGames: build.query({
+      query: ({ gameId, userId }) => ({
+        url: `userGames/findUserGames`,
+        params: { gameId, userId },
+      }),
+      providesTags: ["userGame"],
+    }),
   }),
 });
 
@@ -74,4 +93,6 @@ export const {
   useRegisterUserMutation,
   useLogInUserMutation,
   usePostUserGameMutation,
+  useGetUserProfileQuery,
+  useGetUserGamesQuery,
 } = api;

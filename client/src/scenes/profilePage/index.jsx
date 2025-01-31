@@ -3,38 +3,14 @@ import Header from "components/Header";
 import axios from "axios";
 import { Box, Typography, useTheme, Divider } from "@mui/material";
 import { AccountCircleOutlined } from "@mui/icons-material";
+import { useGetUserProfileQuery } from "state/api";
 
 const ProfilePage = () => {
-  const [profile, setProfile] = useState(null);
-  const [error, setError] = useState("");
+  //Profil
+  const { data: profile, error, isLoading } = useGetUserProfileQuery();
+
   const theme = useTheme();
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          setError(
-            `Sie sind derzeit nicht eingeloggt! Bitte loggen Sie sich ein, um das Profil zu sehen.`
-          );
-          return;
-        }
-
-        const apiUrl = process.env.API_URL;
-        const response = await axios.get(`${apiUrl}/users/profile`, {
-          headers: { Authorization: `bearer ${token}` },
-        });
-
-        setProfile(response.data);
-      } catch (err) {
-        setError(
-          "Fehler beim Abrufen des Profils: " + err.response?.data?.message ||
-            err.message
-        );
-      }
-    };
-    fetchProfile();
-  }, []);
   if (error) {
     return (
       <Box m="1.5rem 2.5rem">

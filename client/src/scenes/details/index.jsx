@@ -30,7 +30,12 @@ import {
 } from "./formatGameData";
 import { columnsDataGrid } from "./dataGridDefinitions";
 import { handleDownload } from "./handleDownload";
-import { useGetGameModelQuery } from "state/api";
+import {
+  useGetGameModelQuery,
+  useGetUserProfileQuery,
+  useGetUserGamesQuery,
+} from "state/api";
+import { skipToken } from "@reduxjs/toolkit/query";
 
 //Daten Speicherung
 function Details() {
@@ -59,8 +64,7 @@ function Details() {
   const [missedShotsData, setMissedShotsData] = useState([]);
 
   //Profil
-  const [profile, setProfile] = useState(null);
-  const [errorProfile, setErrorProfile] = useState("");
+  const { data: profile } = useGetUserProfileQuery();
 
   //Daten aus Nutzerdefinierten Stats
   const [userGameData, setUserGameData] = useState({
@@ -69,76 +73,40 @@ function Details() {
     lineup: {},
     events: [],
   });
-
-  //LOGIN STATUS USE-EFFECT
+  const shouldFetch = profile?.username && id;
+  const {
+    data: specificGameData,
+    error,
+    isLoading,
+  } = useGetUserGamesQuery(
+    shouldFetch ? { gameId: id, userId: profile.username } : skipToken
+  );
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          setErrorProfile(
-            `Sie sind derzeit nicht eingeloggt! Bitte loggen Sie sich ein, um das Profil zu sehen.`
-          );
-          return;
-        }
+    if (!gameData) return;
+    setUserGameData((prevData) => ({
+      ...prevData,
+      summary: gameData.summary,
+      lineup: gameData.lineup,
+      events: gameData.events,
+    }));
+    if (!shouldFetch) return;
+    if (specificGameData && Object.keys(specificGameData.length > 0)) {
+      setUserGameData((prevData) => ({
+        ...prevData,
+        userId: profile.username,
+        summary: specificGameData.summary,
+        lineup: specificGameData.lineup,
+        events: specificGameData.events,
+      }));
+      setEventData(specificGameData.events);
+    } else if (error) {
+      console.error(
+        "Kein benutzerdefiniertes Spiel gefunde, verwende Handball.net",
+        error
+      );
+    }
+  }, [profile, gameData, id, specificGameData, error]);
 
-        const apiUrl = process.env.API_URL;
-        const response = await axios.get(`${apiUrl}/users/profile`, {
-          headers: { Authorization: `bearer ${token}` },
-        });
-
-        setProfile(response.data);
-      } catch (err) {
-        setErrorProfile(
-          "Fehler beim Abrufen des Profils: " + err.response?.data?.message ||
-            err.message
-        );
-      }
-    };
-
-    fetchProfile();
-  }, []); // Dieser Effekt wird nur beim ersten Rendern ausgeführt
-
-  //NUTZERDEFINIERTE STATS EINLESEN USE-EFFECT
-  useEffect(() => {
-    if (!profile || !profile.username || !id || !gameData) return;
-
-    const fetchGame = async (gameId, userId) => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5001/userGames/findUserGames`,
-          { params: { gameId, userId } }
-        );
-        const specificGameData = response.data;
-        // Überprüfung, ob die Antwort leer ist
-        if (!specificGameData || Object.keys(specificGameData).length === 0) {
-          throw new Error("Leere Antwort vom Server erhalten");
-        }
-        setUserGameData((prevData) => ({
-          ...prevData,
-          userId: profile.username,
-          summary: specificGameData.summary,
-          lineup: specificGameData.lineup,
-          events: specificGameData.events,
-        }));
-        setEventData(specificGameData.events);
-      } catch (err) {
-        console.error(
-          "Kein benutzerdefiniertes Spiel gefunden, verwende Handball.net",
-          err
-        );
-        setUserGameData((prevData) => ({
-          ...prevData,
-          summary: gameData.summary,
-          lineup: gameData.lineup,
-          events: gameData.events,
-        }));
-        setEventData(gameData.events);
-      }
-    };
-
-    fetchGame(id, profile.username);
-  }, [profile, gameData, id]); // Der Effekt wird erneut ausgeführt, wenn sich `profile` oder `id` ändert
   //DATENBERECHNUNG USE-EFFECT
   useEffect(() => {
     if (
