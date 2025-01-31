@@ -82,7 +82,7 @@ function Details() {
           return;
         }
 
-        const apiUrl = process.env.API_URL || "http://localhost:5001";
+        const apiUrl = process.env.API_URL;
         const response = await axios.get(`${apiUrl}/users/profile`, {
           headers: { Authorization: `bearer ${token}` },
         });
