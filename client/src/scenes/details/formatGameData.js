@@ -142,36 +142,36 @@ export const FormatSpecificEventData = ({ data = {} }, type) => {
   }
   return suspensionData;
 };
-export const FormatSpecificEventDataCustomEvents = (
-  data,
-  type,
-  homeTeam,
-  awayTeam
-) => {
-  const suspensionData = [
-    {
-      id: homeTeam,
-      label: homeTeam,
-      value: 0,
-      color: "hsl(219, 70%, 50%)",
-    },
-    {
-      id: awayTeam,
-      label: awayTeam,
-      value: 0,
-      color: "hsl(282, 70%, 50%)",
+
+export const FormatTurnoverData = ({data ={}}) =>{
+  const turnoverData =[
+    {id: data?.summary?.homeTeam?.name,
+      label: data?.summary?.homeTeam?.name,
+      value:0,
+      color:"hsl(219, 70%, 50%",
+
+    }
+    ,
+    {id: data?.summary?.awayTeam?.name,
+      label: data?.summary?.awayTeam?.name,
+      value:0,
+      color:"hsl(282, 70%, 50%",
+
     },
   ];
-  for (const element of data) {
-    if (element.type === type && element.team === "Home") {
-      suspensionData[0].value += 1;
-    } else if (element.type === type && element.team === "Away") {
-      suspensionData[1].value += 1;
+  const eventsData = data?.events ? data.events : [];
+  for (const element of eventsData){
+    if(element.type === "technicalFault" || element.type === "offensiveFoul"){
+      if(element.team === "Home"){
+        turnoverData[0].value +=1;
+      }
+      else{
+        turnoverData[1].value +=1;
+      }
     }
   }
-
-  return suspensionData;
-};
+  return turnoverData;
+}
 
 export const FormatTableData = ({ data }) => {
   const tableDataHome = data?.lineup?.home;

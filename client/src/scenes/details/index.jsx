@@ -27,6 +27,7 @@ import {
   FormatTableData,
   FormatSpecificGoalDataHome,
   FormatSpecificGoalDataAway,
+  FormatTurnoverData,
 } from "./formatGameData";
 import { columnsDataGrid } from "./dataGridDefinitions";
 import { handleDownload } from "./handleDownload";
@@ -56,6 +57,8 @@ function Details() {
   const [redCardData, setRedCardData] = useState([]);
   const [sevenMeterData, setSevenMeterData] = useState([]);
   const [technicalFoulsData, setTechnicalFoulsData] = useState([]);
+  const [turnoverData, setTurnoverData] = useState([]);
+  const [offensiveFoulData, setOffensiveFoulData] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [mostValuable, setMostValuable] = useState();
   const [goalDataHomeTeam, setGoalDataHomeTeam] = useState();
@@ -152,6 +155,10 @@ function Details() {
     setTechnicalFoulsData(
       FormatSpecificEventData({ data: dataSource }, "technicalFault")
     );
+    //Turnover Daten
+    setTurnoverData(FormatTurnoverData({data:dataSource}));
+    //Stürmerfoul Daten
+    setOffensiveFoulData(FormatSpecificEventData({data:dataSource}, "offensiveFoul"));
     //Fehlwurf Daten
     setMissedShotsData(
       FormatSpecificEventData({ data: dataSource }, "missedShot")
@@ -369,9 +376,13 @@ function Details() {
           }
           {/*Box 7th column */}
           <PieChart data={missedShotsData} title={`Fehlwürfe`} />
+          {/*Box 8th column */}
+          <PieChart data={turnoverData} title={"Turnover"}/>
+          {/*Box 9th column */}
+          <PieChart data={offensiveFoulData} title={"Stürmerfouls"}/>
           <Box
             gridColumn="span 8"
-            gridRow="9 / 14"
+            gridRow="11 / 16"
             display="flex"
             flexDirection="column"
             justifyContent="space-between"

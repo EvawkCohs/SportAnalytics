@@ -134,8 +134,12 @@ export const AddEventDialog = ({
               }}
             >
               <MenuItem value={"technicalFault"}>Technischer Fehler</MenuItem>
-              <MenuItem value={"assist"}>Assist</MenuItem>
-              <MenuItem value={"missedShot"}>Fehlwurf</MenuItem>
+              <MenuItem value={"assist"}>Assist</MenuItem>  
+              <MenuItem value={"save"}>Parade</MenuItem>
+              <MenuItem value={"fastbreak"}>Gegenstoß</MenuItem>
+              <MenuItem value={"missedShotCloseRange"}>Fehlwurf (nah)</MenuItem>
+              <MenuItem value={"missedShotDistance"}>Fehlwurf (fern)</MenuItem>
+              <MenuItem value={"offensiveFoul"}>Stürmerfoul</MenuItem>
             </Select>
           </FormControl>
           <TextField

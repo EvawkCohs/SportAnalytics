@@ -11,13 +11,15 @@ const PlayerSchema = new Schema({
   goals: Number,
   assist: Number,
   technicalFault: Number,
+  fastbreak: Number,
+  save: Number,
   missedShot: Number,
   penaltyGoals: Number,
   penaltyMissed: Number,
   penalties: Number,
   yellowCards: Number,
   redCards: Number,
-  blueCards: Number, // Changed to Number for default
+  blueCards: Number, 
   type: String,
 });
 
