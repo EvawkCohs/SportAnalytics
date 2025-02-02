@@ -17,6 +17,7 @@ import HeadToHead from "scenes/headToHead";
 import ProfilePage from "scenes/profilePage";
 import RegisterPage from "scenes/registerPage";
 import LoginPage from "scenes/loginPage";
+import HelpPage from "scenes/hilfe";
 import { AuthProvider } from "state/AuthContext";
 
 function App() {
@@ -52,6 +53,7 @@ function App() {
                 <Route path="/profil" element={<ProfilePage />} />
                 <Route path="/registrieren" element={<RegisterPage />} />
                 <Route path="/einloggen" element={<LoginPage />} />
+                <Route path="/hilfe" element={<HelpPage/>}/>
               </Route>
             </Routes>
           </ThemeProvider>

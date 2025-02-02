@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Header from "components/Header";
-import axios from "axios";
 import { Box, Typography, useTheme, Divider } from "@mui/material";
 import { AccountCircleOutlined } from "@mui/icons-material";
 import { useGetUserProfileQuery } from "state/api";
 
 const ProfilePage = () => {
   //Profil
-  const { data: profile, error, isLoading } = useGetUserProfileQuery();
+  const { data: profile, error } = useGetUserProfileQuery();
 
   const theme = useTheme();
 

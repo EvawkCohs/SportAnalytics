@@ -31,6 +31,7 @@ function Schedule() {
   //Id aus GlobalState einlesen
   const dispatch = useDispatch();
   const teamId = useSelector((state) => state.global.teamId);
+  const teamName = useSelector((state)=>state.global.teamName);
   const theme = useTheme();
   const navigate = useNavigate();
 
@@ -167,8 +168,8 @@ function Schedule() {
   return (
     <Box m="1.5rem  2.5rem">
       <Header
-        title="SCHEDULE"
-        subtitle="Schedule der Mannschaft"
+        title="SPIEPLAN"
+        subtitle={`Spielplan von ${teamName}`}
         gridColumn="1/3"
       />
       {/*Staffelauswahl Dropdown*/}
