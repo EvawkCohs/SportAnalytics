@@ -380,12 +380,14 @@ function VideoAnalyse() {
     setOpenDialogSave(false);
   };
   const handleSaveEvents = async () => {
+   console.log(gameData.lineup)
+
     const updatedGameData = {
       ...userGameData,
       summary: userGameData.summary,
       events: eventData,
       userId: profile.username,
-      lineup: lineupData,
+      lineup: Object.keys(lineupData).length > 0 ? lineupData : userGameData.lineup,
     };
 
     try {

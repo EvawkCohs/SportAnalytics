@@ -12,9 +12,11 @@ const ProfilePage = () => {
   const theme = useTheme();
 
   if (error) {
+    
     return (
       <Box m="1.5rem 2.5rem">
-        <Header title="PROFIL" subtitle={error} />
+        <Header title="PROFIL"/>
+        <Typography variant="h5" sx={{color: theme.palette.secondary[200]}}>Sie sind derzeit nicht eingeloggt.</Typography>
       </Box>
     );
   }

@@ -173,6 +173,36 @@ export const FormatTurnoverData = ({data ={}}) =>{
   return turnoverData;
 }
 
+export const FormatMissedShotsData = ({data ={}}) =>{
+  const missedShotsData =[
+    {id: data?.summary?.homeTeam?.name,
+      label: data?.summary?.homeTeam?.name,
+      value:0,
+      color:"hsl(219, 70%, 50%",
+
+    }
+    ,
+    {id: data?.summary?.awayTeam?.name,
+      label: data?.summary?.awayTeam?.name,
+      value:0,
+      color:"hsl(282, 70%, 50%",
+
+    },
+  ];
+  const eventsData = data?.events ? data.events : [];
+  for (const element of eventsData){
+    if(element.type === "missedShotCloseRange" || element.type === "missedShotDistance"){
+      if(element.team === "Home"){
+        missedShotsData[0].value +=1;
+      }
+      else{
+        missedShotsData[1].value +=1;
+      }
+    }
+  }
+  return missedShotsData;
+}
+
 export const FormatTableData = ({ data }) => {
   const tableDataHome = data?.lineup?.home;
   const tableDataAway = data?.lineup?.away;

@@ -118,7 +118,8 @@ const PlayerDetailsGame = () => {
                           <img src={redCard} alt="Disqualification" />
                         ) : event.type === "SevenMeterMissed" ? (
                           <img src={penaltyMissed} alt="penaltyMissed" />
-                        ) : null}
+                        ) 
+                        :null}
                       </Tooltip>
                     </>
                   ) : (
@@ -151,7 +152,7 @@ const PlayerDetailsGame = () => {
                         <img src={redCard} alt="Disqualification" />
                       ) : event.type === "SevenMeterMissed" ? (
                         <img src={penaltyMissed} alt="penaltyMissed" />
-                      ) : null}
+                      ) :null}
 
                       <Box
                         sx={{
@@ -202,6 +203,21 @@ const PlayerDetailsGame = () => {
           gap="1rem"
           flexWrap="wrap"
         >
+          {player.position === "TW" ? (<><Box width="300px" className="fade-in" height="150px">
+            <SimpleStatBox title={"Position"} value={player.position} />
+          </Box>
+          <Box width="300px" className="fade-in" height="150px">
+            <SimpleStatBox title={"Paraden"} value={player.save ||0} />
+          </Box>
+          <Box width="300px" className="fade-in" height="150px">
+            <SimpleStatBox title={"Tore"} value={player.goals} />
+          </Box>
+          <Box width="300px" className="fade-in" height="150px">
+            <SimpleStatBox title={"Zeitstrafen"} value={player.penalties} />
+          </Box><Box width="300px" className="fade-in" height="150px">
+            <SimpleStatBox title={"Rote Karte"} value={player.redCards} />
+          </Box>
+            </>) : (<>
           <Box width="300px" className="fade-in" height="150px">
             <SimpleStatBox title={"Position"} value={player.position} />
           </Box>
@@ -224,26 +240,40 @@ const PlayerDetailsGame = () => {
             <SimpleStatBox title={"Zeitstrafen"} value={player.penalties} />
           </Box>
           <Box width="300px" className="fade-in" height="150px">
-            <SimpleStatBox title={"Rote Karten"} value={player.redCards} />
+            <SimpleStatBox title={"Rote Karte"} value={player.redCards} />
           </Box>
           <Box width="300px" className="fade-in" height="150px">
             <SimpleStatBox
               title={"Technische Fehler"}
-              value={player.technicalFault ? player.technicalFault : 0}
+              value={player.technicalFault ||0}
             />
           </Box>
           <Box width="300px" className="fade-in" height="150px">
             <SimpleStatBox
-              title={"Fehlwürfe"}
-              value={player.missedShot ? player.missedShot : 0}
+              title={"Fehlwürfe (nah)"}
+              value={player.missedShotCloseRange ||0}
+            />
+          </Box>
+          <Box width="300px" className="fade-in" height="150px">
+            <SimpleStatBox
+              title={"Fehlwürfe (fern)"}
+              value={player.missedShotDistance ||0}
             />
           </Box>
           <Box width="300px" className="fade-in" height="150px">
             <SimpleStatBox
               title={"Assists"}
-              value={player.assist ? player.assist : 0}
+              value={player.assist || 0}
             />
           </Box>
+          <Box width="300px" className="fade-in" height="150px">
+            <SimpleStatBox
+              title={"Stürmerfoul"}
+              value={player.offensiveFoul || 0}
+            /> 
+          </Box>
+          </>)}
+          
         </Box>
       </Box>
     </Box>

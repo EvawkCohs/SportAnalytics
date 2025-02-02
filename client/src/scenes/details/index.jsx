@@ -28,6 +28,7 @@ import {
   FormatSpecificGoalDataHome,
   FormatSpecificGoalDataAway,
   FormatTurnoverData,
+  FormatMissedShotsData
 } from "./formatGameData";
 import { columnsDataGrid } from "./dataGridDefinitions";
 import { handleDownload } from "./handleDownload";
@@ -65,6 +66,7 @@ function Details() {
   const [goalDataAwayTeam, setGoalDataAwayTeam] = useState([]);
   const [row, setRow] = useState();
   const [missedShotsData, setMissedShotsData] = useState([]);
+  const [fastbreakData, setFastbreakData] = useState([]);
 
   //Profil
   const { data: profile } = useGetUserProfileQuery();
@@ -161,8 +163,10 @@ function Details() {
     setOffensiveFoulData(FormatSpecificEventData({data:dataSource}, "offensiveFoul"));
     //Fehlwurf Daten
     setMissedShotsData(
-      FormatSpecificEventData({ data: dataSource }, "missedShot")
+      FormatMissedShotsData({ data: dataSource })
     );
+    //Gegenstoß Daten
+    setFastbreakData(FormatSpecificEventData({data: dataSource}, "fastbreak"));
     //MVP Statistik (Top3 Goalscorer)
     const sortedTableData = formattedTableData?.sort(
       (a, b) => b.goals - a.goals
@@ -358,28 +362,31 @@ function Details() {
           <PieChart data={suspensionData} title={"Zeitstrafen"} />
           {/*Box 2nd Column */}
           <PieChart data={redCardData} title={"Rote Karten"} />
-          {/*Box 3rd Column */}
-          <PieChart data={technicalFoulsData} title={"Technische Fehler"} />
-          {/*Box 4th Column */}
+         
+          {/*Box 3th Column */}
           <PieChart data={sevenMeterData} title={"Siebenmetertore"} />
-          {/*Box 5th column */}
+          {/*Box 4th column */}
           <PieChart
             data={goalDataHomeTeam}
             title={`Tore nach Positionen ${gameData.summary.homeTeam.name}`}
           />
-          {/*Box 6th column */}
+          {/*Box 5th column */}
           {
             <PieChart
               data={goalDataAwayTeam}
               title={`Tore nach Positionen ${gameData.summary.awayTeam.name}`}
             />
           }
+          {/*Box 6th column */}
+          <PieChart data={technicalFoulsData} title={"Technische Fehler"} />
           {/*Box 7th column */}
           <PieChart data={missedShotsData} title={`Fehlwürfe`} />
           {/*Box 8th column */}
           <PieChart data={turnoverData} title={"Turnover"}/>
           {/*Box 9th column */}
           <PieChart data={offensiveFoulData} title={"Stürmerfouls"}/>
+          {/*Box 10th column */}
+          <PieChart data={fastbreakData}  title={"Gegenstöße"}/>
           <Box
             gridColumn="span 8"
             gridRow="11 / 16"
@@ -398,14 +405,20 @@ function Details() {
               "& .MuiDataGrid-cell": {
                 color: theme.palette.secondary[200],
                 fontSize: 14,
+                borderRight: ` 1px solid ${theme.palette.secondary[200]}`,
+                borderBottom:` 1px solid ${theme.palette.secondary[200]}`
               },
-
+              
+              "& .MuiDataGrid-cell:last-child":{
+                borderRight: 'none',
+                
+              },
               "& .MuiDataGrid-columnHeaders": {
                 color: theme.palette.secondary[200],
                 borderBottom: "none",
                 fontSize: 20,
               },
-
+          
               "& .MuiDataGrid-footerContainer": {
                 backgroundColor: theme.palette.grey[850],
                 color: theme.palette.secondary[400],
@@ -447,6 +460,7 @@ function Details() {
               localeText={{
                 noRowsLabel: "Noch keine Daten verfügbar",
               }}
+              columnSeparator
               onCellClick={handleCellClick}
             />
           </Box>
