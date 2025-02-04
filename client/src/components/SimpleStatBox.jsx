@@ -34,13 +34,6 @@ const SimpleStatBox = ({ value, secondaryValue, title, icon }) => {
           variant="h2"
           sx={{
             color: theme.palette.secondary[200],
-            fontSize: {
-              xs: "1rem", // für sehr kleine Bildschirme
-              sm: "1rem", // für kleine Bildschirme
-              md: "1.5rem", // für mittlere Bildschirme
-              lg: "1.5rem", // für größere Bildschirme
-              xl: "2rem",
-            },
           }}
           textAlign="center"
         >
@@ -50,13 +43,6 @@ const SimpleStatBox = ({ value, secondaryValue, title, icon }) => {
           variant="h2"
           sx={{
             color: theme.palette.secondary[200],
-            fontSize: {
-              xs: "1rem", // für sehr kleine Bildschirme
-              sm: "1rem", // für kleine Bildschirme
-              md: "1.5rem", // für mittlere Bildschirme
-              lg: "1.5rem", // für größere Bildschirme
-              xl: "2rem",
-            },
           }}
           textAlign="center"
         >
@@ -66,13 +52,6 @@ const SimpleStatBox = ({ value, secondaryValue, title, icon }) => {
           variant="h4"
           sx={{
             color: theme.palette.secondary[200],
-            fontSize: {
-              xs: "0.75rem", // für sehr kleine Bildschirme
-              sm: "0.75rem", // für kleine Bildschirme
-              md: "1rem", // für mittlere Bildschirme
-              lg: "1rem", // für größere Bildschirme
-              xl: "1.25rem",
-            },
           }}
           textAlign="center"
         >

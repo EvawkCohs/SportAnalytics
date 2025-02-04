@@ -2,12 +2,10 @@ import React, { useState, useEffect } from "react";
 import {
   Box,
   useTheme,
-  useMediaQuery,
   FormControl,
   MenuItem,
   InputLabel,
   Fade,
-  TextField,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import Header from "components/Header";
@@ -31,7 +29,7 @@ function Schedule() {
   //Id aus GlobalState einlesen
   const dispatch = useDispatch();
   const teamId = useSelector((state) => state.global.teamId);
-  const teamName = useSelector((state)=>state.global.teamName);
+  const teamName = useSelector((state) => state.global.teamName);
   const theme = useTheme();
   const navigate = useNavigate();
 

@@ -14,8 +14,22 @@ const TeamGoalChart = ({ data }) => {
   ];
   return (
     <Box
-      gridColumn="span 4"
-      gridRow="2 / 5"
+      sx={{
+        gridColumn: {
+          xs: "1",
+          sm: "1/3",
+          md: "1/5",
+          lg: "5/9",
+          xl: "5/9",
+        },
+        gridRow: {
+          xs: "6/8",
+          sm: "5/7",
+          md: "5/7",
+          lg: "2/5",
+          xl: "2/5",
+        },
+      }}
       display="flex"
       flexDirection="column"
       justifyContent="space-between"

@@ -1,4 +1,6 @@
+import { createTheme } from "@mui/material/styles";
 // color design tokens export
+
 export const tokensDark = {
   grey: {
     0: "#ffffff", // manually adjusted
@@ -76,6 +78,7 @@ export const tokensLight = reverseTokens(tokensDark);
 
 // mui theme settings
 export const themeSettings = (mode) => {
+  const theme = createTheme();
   return {
     palette: {
       mode: mode,
@@ -139,7 +142,13 @@ export const themeSettings = (mode) => {
       },
       h2: {
         fontFamily: ["Inter", "sans-serif"].join(","),
-        fontSize: 32,
+        fontSize: "1.5rem",
+        [theme.breakpoints.down("sm")]: {
+          fontSize: "1rem",
+        },
+        [theme.breakpoints.up("lg")]: {
+          fontSize: "2rem",
+        },
       },
       h3: {
         fontFamily: ["Inter", "sans-serif"].join(","),
@@ -147,7 +156,13 @@ export const themeSettings = (mode) => {
       },
       h4: {
         fontFamily: ["Inter", "sans-serif"].join(","),
-        fontSize: 20,
+        fontSize: "1rem",
+        [theme.breakpoints.down("sm")]: {
+          fontSize: "0.5rem",
+        },
+        [theme.breakpoints.up("lg")]: {
+          fontSize: "1.25rem",
+        },
       },
       h5: {
         fontFamily: ["Inter", "sans-serif"].join(","),

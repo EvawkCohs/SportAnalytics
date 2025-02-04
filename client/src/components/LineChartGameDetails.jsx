@@ -7,8 +7,6 @@ const LineChart = ({ data }) => {
 
   return (
     <Box
-      gridColumn="span 4"
-      gridRow="2 / 5"
       display="flex"
       flexDirection="column"
       justifyContent="space-between"
@@ -17,6 +15,22 @@ const LineChart = ({ data }) => {
       backgroundColor={theme.palette.background.alt}
       borderRadius="0.55rem"
       className="data-display"
+      sx={{
+        gridColumn: {
+          xs: "1",
+          sm: "1/3",
+          md: "1/5",
+          lg: "1/5",
+          xl: "1/5",
+        },
+        gridRow: {
+          xs: "4/6",
+          sm: "3/5",
+          md: "3/5",
+          lg: "2/5",
+          xl: "2/5",
+        },
+      }}
     >
       <Typography
         variant="h3"

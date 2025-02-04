@@ -18,12 +18,33 @@ const StatBoxMVP = ({
   const theme = useTheme();
   return (
     <Box
-      gridColumn="1/3"
+      sx={{
+        gridColumn: {
+          xs: "1",
+          sm: "1",
+          md: "1/3",
+          lg: "1/3",
+          xl: "1/3",
+        },
+        p: {
+          xs: "0.25rem 0.25rem",
+          sm: "0.5rem 0.25rem",
+          md: "0.75rem 0.5rem",
+          lg: "1rem 0.75rem",
+          xl: "1.25rem 1rem",
+        },
+        gridRow: {
+          xs: "2",
+          sm: "2",
+          md: "2",
+          lg: "1",
+          xl: "1",
+        },
+      }}
       gridRow="span 1"
       display="flex"
       flexDirection="column"
       justifyContent="space-between"
-      p="1.25rem 1rem"
       flex="1 1 100%"
       backgroundColor={theme.palette.background.alt}
       borderRadius="0.55rem"

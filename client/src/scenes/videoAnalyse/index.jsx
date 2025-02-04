@@ -66,11 +66,7 @@ function VideoAnalyse() {
     events: [],
   });
   const shouldFetch = profile?.username && id;
-  const {
-    data: specificGameData,
-    errorUserGame,
-    isLoading,
-  } = useGetUserGamesQuery(
+  const { data: specificGameData, errorUserGame } = useGetUserGamesQuery(
     shouldFetch ? { gameId: id, userId: profile.username } : skipToken
   );
 
@@ -100,7 +96,15 @@ function VideoAnalyse() {
         error
       );
     }
-  }, [profile, id, specificGameData, errorUserGame]);
+  }, [
+    profile,
+    id,
+    specificGameData,
+    errorUserGame,
+    error,
+    gameData,
+    shouldFetch,
+  ]);
 
   //Col + Row Definitions für DataGrid
   const cols = [
@@ -270,15 +274,16 @@ function VideoAnalyse() {
   };
   //Handler zum Löschen der ausgewählten Events
   const handleDeleteEvents = () => {
+    const eventType = etypeRef.current;
     const updatedEventData = eventData.filter(
       (event) => !rowDeletionIds.includes(event.id)
     );
-    let lineupCopy = JSON.parse(JSON.stringify(userGameData.lineup));
+    let lineupCopy = JSON.parse(JSON.stringify(lineupData));
     const player = lineupCopy[team.toLowerCase()].find(
       (player) => player.number.toString() === jerseyNumber
     );
     if (player) {
-      player[etype] -= 1;
+      player[eventType] = player[eventType] > 0 ? player[eventType] - 1 : 0;
       setLineupData(lineupCopy);
     }
     setEventData(updatedEventData);
@@ -287,18 +292,32 @@ function VideoAnalyse() {
 
   //Handler zum Eventhinzufügen
   const [openDialogAddEvent, setOpenDialogAddEvent] = useState(false);
-  const [etype, setEType] = useState("");
+  const [etype, setEtype] = useState("");
   const [team, setTeam] = useState("Home");
   const [jerseyNumber, setJerseyNumber] = useState("");
   let timestampEvent = 0;
-
+  const etypeRef = useRef(etype);
+  useEffect(() => {
+    etypeRef.current = etype;
+  }, [etype]);
   const handleOpenDialogAddEvent = () => {
     setOpenDialogAddEvent(true);
   };
   const handleCloseDialogAddEvent = () => {
     setOpenDialogAddEvent(false);
   };
+  //Typübersetzung für Message
+  const eventMessageTypes = {
+    missedShotCloseRange: "Fehlwurf (nah)",
+    missedShotDistance: "Fehlwurf (fern)",
+    offensiveFoul: "Stürmerfoul",
+    save: "Parade",
+    fastbreak: "Gegenstoß",
+    assist: "Assist",
+    technicalFault: "Technischer Fehler",
+  };
   const handleAddEvent = () => {
+    const eventType = etypeRef.current;
     let currentPlayerTime = 0;
     const gameStartTimestamp = eventData[eventData.length - 1].timestamp;
     const secondHalftimeTimestamp = eventData.find(
@@ -334,13 +353,15 @@ function VideoAnalyse() {
 
     const event = {
       id: eventData.reduce((maxId, e) => Math.max(maxId, e.id), -Infinity) + 1,
-      message: `${etype} von Trikotnummer ${jerseyNumber} ${
+      message: `${
+        eventMessageTypes[eventType] || eventType // Falls kein Mapping existiert, Original behalten
+      } von Trikotnummer ${jerseyNumber} ${
         team === "Home"
           ? `(${gameData.data.summary.homeTeam.name})`
           : `(${gameData.data.summary.awayTeam.name})`
-      } `,
+      }`,
       timestamp: timestampEvent,
-      type: etype,
+      type: eventType,
       currentTime: currentPlayerTime,
       team: team,
       playerId:
@@ -350,13 +371,12 @@ function VideoAnalyse() {
       time: "",
       score: "",
     };
-    let lineupCopy = JSON.parse(JSON.stringify(userGameData.lineup));
+    let lineupCopy = JSON.parse(JSON.stringify(lineupData));
     const player = lineupCopy[team.toLowerCase()].find(
       (player) => player.number.toString() === jerseyNumber
     );
-
     if (player) {
-      player[etype] = player[etype] ? player[etype] + 1 : 1;
+      player[eventType] = player[eventType] ? player[eventType] + 1 : 1;
       setLineupData(lineupCopy);
     }
 
@@ -367,27 +387,24 @@ function VideoAnalyse() {
     });
   };
   const handleSelectionChangeType = (e) => {
-    setEType(e.target.value);
+    setEtype(e.target.value);
   };
   const handleSelectionChangeTeam = (e) => {
     setTeam(e.target.value);
   };
   const [openDialogSave, setOpenDialogSave] = useState(false);
-  const handleOpenDialogSave = () => {
-    setOpenDialogSave(true);
-  };
+
   const handleCloseDialogSave = () => {
     setOpenDialogSave(false);
   };
   const handleSaveEvents = async () => {
-   console.log(gameData.lineup)
-
     const updatedGameData = {
       ...userGameData,
       summary: userGameData.summary,
       events: eventData,
       userId: profile.username,
-      lineup: Object.keys(lineupData).length > 0 ? lineupData : userGameData.lineup,
+      lineup:
+        Object.keys(lineupData).length > 0 ? lineupData : userGameData.lineup,
     };
 
     try {

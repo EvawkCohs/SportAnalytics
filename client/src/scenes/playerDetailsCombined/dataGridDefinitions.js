@@ -31,13 +31,21 @@ export const columnsDataGrid = [
     flex: 1,
   },
   {
-    field: "technical Faults",
+    field: "technicalFault",
     headerName: "Technische Fehler",
     flex: 1,
+    renderCell: (params) => params.value ?? 0,
   },
   {
-    field: "assists",
+    field: "missedShot",
+    headerName: "Fehlwürfe",
+    flex: 1,
+    renderCell: (params) => params.value ?? 0,
+  },
+  {
+    field: "assist",
     headerName: "Assists",
     flex: 1,
+    renderCell: (params) => params.value ?? 0,
   },
 ];

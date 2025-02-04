@@ -4,7 +4,6 @@ import { Box, Fade, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import Header from "components/Header";
 import { useGetGamesWithParticipationQuery } from "state/api";
-
 import StatBoxGameInfo from "components/StatBoxGameInfo";
 import formatTimestamp from "conversionScripts/formatTimestamp";
 import { useNavigate } from "react-router-dom";
@@ -30,7 +29,6 @@ const Dashboard = () => {
   const gender = useSelector((state) => state.global.genderMode);
   const theme = useTheme();
   const Navigate = useNavigate();
-  const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
   const {
     data: games,
     errorGames,
@@ -252,35 +250,14 @@ const Dashboard = () => {
               ) : (
                 <Box>
                   <Typography
+                    sx={{ color: theme.palette.secondary[200] }}
                     variant="h2"
-                    sx={{
-                      color: theme.palette.secondary[200],
-                      fontSize: {
-                        xs: "0.5rem", // für sehr kleine Bildschirme
-                        sm: "0.5rem", // für kleine Bildschirme
-                        md: "1rem", // für mittlere Bildschirme
-                        lg: "1.5rem", // für größere Bildschirme
-                        xl: "2rem",
-                      },
-                    }}
-                    textAlign="center"
                   >
                     Nächstes Spiel
                   </Typography>
                   <Typography
+                    sx={{ color: theme.palette.secondary[200] }}
                     variant="h2"
-                    sx={{
-                      color: theme.palette.secondary[100],
-                      fontSize: {
-                        xs: "0.5rem", // für sehr kleine Bildschirme
-                        sm: "0.5rem", // für kleine Bildschirme
-                        md: "1rem", // für mittlere Bildschirme
-                        lg: "1.5rem", // für größere Bildschirme
-                        xl: "2rem",
-                      },
-                    }}
-                    textAlign="center"
-                    mt="50px"
                   >
                     laden...
                   </Typography>
@@ -352,37 +329,16 @@ const Dashboard = () => {
               ) : (
                 <Box>
                   <Typography
+                    sx={{ color: theme.palette.secondary[200] }}
                     variant="h2"
-                    sx={{
-                      color: theme.palette.secondary[200],
-                      fontSize: {
-                        xs: "0.5rem", // für sehr kleine Bildschirme
-                        sm: "0.5rem", // für kleine Bildschirme
-                        md: "1rem", // für mittlere Bildschirme
-                        lg: "1.5rem", // für größere Bildschirme
-                        xl: "2rem",
-                      },
-                    }}
-                    textAlign="center"
                   >
-                    Letztes Spiel
+                    letztes Spiel
                   </Typography>
                   <Typography
+                    sx={{ color: theme.palette.secondary[200] }}
                     variant="h2"
-                    sx={{
-                      color: theme.palette.secondary[100],
-                      fontSize: {
-                        xs: "0.5rem", // für sehr kleine Bildschirme
-                        sm: "0.5rem", // für kleine Bildschirme
-                        md: "1rem", // für mittlere Bildschirme
-                        lg: "1.5rem", // für größere Bildschirme
-                        xl: "2rem",
-                      },
-                    }}
-                    textAlign="center"
-                    mt="50px"
                   >
-                    Noch keine Spiele gespielt!
+                    noch keine Spiele gespielt
                   </Typography>
                 </Box>
               )}
@@ -520,13 +476,6 @@ const Dashboard = () => {
                 variant="h2"
                 sx={{
                   color: theme.palette.secondary[200],
-                  fontSize: {
-                    xs: "1rem", // für sehr kleine Bildschirme
-                    sm: "1rem", // für kleine Bildschirme
-                    md: "1.5rem", // für mittlere Bildschirme
-                    lg: "1.5rem", // für größere Bildschirme
-                    xl: "2rem",
-                  },
                 }}
                 textAlign="center"
               >
@@ -536,22 +485,23 @@ const Dashboard = () => {
                 variant="h2"
                 sx={{
                   color: theme.palette.secondary[200],
-                  fontSize: {
+
+                  marginTop: {
                     xs: "1rem", // für sehr kleine Bildschirme
-                    sm: "1rem", // für kleine Bildschirme
-                    md: "1.5rem", // für mittlere Bildschirme
-                    lg: "1.5rem", // für größere Bildschirme
-                    xl: "2rem",
+                    sm: "1.5rem", // für kleine Bildschirme
+                    md: "2rem", // für mittlere Bildschirme
+                    lg: "2.5rem", // für größere Bildschirme
+                    xl: "3rem", // für extra große Bildschirme
                   },
                 }}
                 textAlign="center"
-                mt="3rem"
               >
                 Ø{" "}
                 {Number.isInteger(averageGoalsLastFive)
                   ? averageGoalsLastFive
                   : averageGoalsLastFive.toFixed(2)}
               </Typography>
+
               {averageGoalsLastFive >= averageGoals ? (
                 <Box
                   alignItems="center"
@@ -576,13 +526,6 @@ const Dashboard = () => {
                     variant="h4"
                     sx={{
                       color: "green",
-                      fontSize: {
-                        xs: "0.75rem", // für sehr kleine Bildschirme
-                        sm: "0.75rem", // für kleine Bildschirme
-                        md: "1rem", // für mittlere Bildschirme
-                        lg: "1rem", // für größere Bildschirme
-                        xl: "1.25rem",
-                      },
                     }}
                     textAlign="center"
                   >
@@ -622,13 +565,6 @@ const Dashboard = () => {
                     variant="h4"
                     sx={{
                       color: theme.palette.red[500],
-                      fontSize: {
-                        xs: "0.75rem", // für sehr kleine Bildschirme
-                        sm: "0.75rem", // für kleine Bildschirme
-                        md: "1rem", // für mittlere Bildschirme
-                        lg: "1rem", // für größere Bildschirme
-                        xl: "1.25rem",
-                      },
                     }}
                     textAlign="center"
                   >
@@ -646,17 +582,8 @@ const Dashboard = () => {
                 </Box>
               )}
               <Typography
+                sx={{ color: theme.palette.secondary[200] }}
                 variant="h4"
-                sx={{
-                  color: theme.palette.secondary[200],
-                  fontSize: {
-                    xs: "0.75rem", // für sehr kleine Bildschirme
-                    sm: "0.75rem", // für kleine Bildschirme
-                    md: "1rem", // für mittlere Bildschirme
-                    lg: "1rem", // für größere Bildschirme
-                    xl: "1.25rem",
-                  },
-                }}
                 textAlign="center"
               >
                 in den letzten 5 Spielen
@@ -701,13 +628,6 @@ const Dashboard = () => {
                 variant="h2"
                 sx={{
                   color: theme.palette.secondary[200],
-                  fontSize: {
-                    xs: "1rem", // für sehr kleine Bildschirme
-                    sm: "1rem", // für kleine Bildschirme
-                    md: "1.5rem", // für mittlere Bildschirme
-                    lg: "1.5rem", // für größere Bildschirme
-                    xl: "2rem",
-                  },
                 }}
                 textAlign="center"
               >
@@ -717,16 +637,15 @@ const Dashboard = () => {
                 variant="h2"
                 sx={{
                   color: theme.palette.secondary[200],
-                  fontSize: {
+                  marginTop: {
                     xs: "1rem", // für sehr kleine Bildschirme
-                    sm: "1rem", // für kleine Bildschirme
-                    md: "1.5rem", // für mittlere Bildschirme
-                    lg: "1.5rem", // für größere Bildschirme
-                    xl: "2rem",
+                    sm: "1.5rem", // für kleine Bildschirme
+                    md: "2rem", // für mittlere Bildschirme
+                    lg: "2.5rem", // für größere Bildschirme
+                    xl: "3rem", // für extra große Bildschirme
                   },
                 }}
                 textAlign="center"
-                mt="3rem"
               >
                 Ø{" "}
                 {Number.isInteger(averageGoalsLastFiveConceded)
@@ -739,7 +658,6 @@ const Dashboard = () => {
                   display="flex"
                   flexDirection="row"
                   justifyContent="center"
-                  gap="0.5rem"
                 >
                   <TrendingUpIcon
                     sx={{
@@ -757,13 +675,6 @@ const Dashboard = () => {
                     variant="h4"
                     sx={{
                       color: theme.palette.red[500],
-                      fontSize: {
-                        xs: "0.75rem", // für sehr kleine Bildschirme
-                        sm: "0.75rem", // für kleine Bildschirme
-                        md: "1rem", // für mittlere Bildschirme
-                        lg: "1rem", // für größere Bildschirme
-                        xl: "1.25rem",
-                      },
                     }}
                     textAlign="center"
                   >
@@ -790,7 +701,6 @@ const Dashboard = () => {
                   display="flex"
                   flexDirection="row"
                   justifyContent="center"
-                  gap="0.5rem"
                 >
                   <TrendingDownIcon
                     sx={{
@@ -808,13 +718,6 @@ const Dashboard = () => {
                     variant="h4"
                     sx={{
                       color: "green",
-                      fontSize: {
-                        xs: "0.75rem", // für sehr kleine Bildschirme
-                        sm: "0.75rem", // für kleine Bildschirme
-                        md: "1rem", // für mittlere Bildschirme
-                        lg: "1rem", // für größere Bildschirme
-                        xl: "1.25rem",
-                      },
                     }}
                     textAlign="center"
                   >
@@ -838,17 +741,8 @@ const Dashboard = () => {
                 </Box>
               )}
               <Typography
+                sx={{ color: theme.palette.secondary[200] }}
                 variant="h4"
-                sx={{
-                  color: theme.palette.secondary[200],
-                  fontSize: {
-                    xs: "0.75rem", // für sehr kleine Bildschirme
-                    sm: "0.75rem", // für kleine Bildschirme
-                    md: "1rem", // für mittlere Bildschirme
-                    lg: "1rem", // für größere Bildschirme
-                    xl: "1.25rem",
-                  },
-                }}
                 textAlign="center"
               >
                 in den letzten 5 Spielen
@@ -893,13 +787,6 @@ const Dashboard = () => {
                 variant="h2"
                 sx={{
                   color: theme.palette.secondary[200],
-                  fontSize: {
-                    xs: "1rem", // für sehr kleine Bildschirme
-                    sm: "1rem", // für kleine Bildschirme
-                    md: "1.5rem", // für mittlere Bildschirme
-                    lg: "1.5rem", // für größere Bildschirme
-                    xl: "2rem",
-                  },
                 }}
                 textAlign="center"
               >
@@ -914,13 +801,6 @@ const Dashboard = () => {
                   variant="h2"
                   sx={{
                     color: "green",
-                    fontSize: {
-                      xs: "1rem", // für sehr kleine Bildschirme
-                      sm: "1rem", // für kleine Bildschirme
-                      md: "1.5rem", // für mittlere Bildschirme
-                      lg: "1.5rem", // für größere Bildschirme
-                      xl: "2rem",
-                    },
                   }}
                   textAlign="center"
                 >
@@ -930,13 +810,6 @@ const Dashboard = () => {
                   variant="h2"
                   sx={{
                     color: theme.palette.red[600],
-                    fontSize: {
-                      xs: "1rem", // für sehr kleine Bildschirme
-                      sm: "1rem", // für kleine Bildschirme
-                      md: "1.5rem", // für mittlere Bildschirme
-                      lg: "1.5rem", // für größere Bildschirme
-                      xl: "2rem",
-                    },
                   }}
                   textAlign="center"
                 >
@@ -950,34 +823,14 @@ const Dashboard = () => {
                 mt="2rem"
               >
                 <Typography
+                  sx={{ color: theme.palette.secondary[200] }}
                   variant="h4"
-                  sx={{
-                    color: theme.palette.secondary[200],
-                    fontSize: {
-                      xs: "0.75rem", // für sehr kleine Bildschirme
-                      sm: "0.75rem", // für kleine Bildschirme
-                      md: "1rem", // für mittlere Bildschirme
-                      lg: "1rem", // für größere Bildschirme
-                      xl: "1.25rem",
-                    },
-                  }}
-                  textAlign="center"
                 >
                   {bestPeriod[0]}
                 </Typography>
                 <Typography
+                  sx={{ color: theme.palette.secondary[200] }}
                   variant="h4"
-                  sx={{
-                    color: theme.palette.secondary[200],
-                    fontSize: {
-                      xs: "0.75rem", // für sehr kleine Bildschirme
-                      sm: "0.75rem", // für kleine Bildschirme
-                      md: "1rem", // für mittlere Bildschirme
-                      lg: "1rem", // für größere Bildschirme
-                      xl: "1.25rem",
-                    },
-                  }}
-                  textAlign="center"
                 >
                   {worstPeriod[0]}
                 </Typography>
