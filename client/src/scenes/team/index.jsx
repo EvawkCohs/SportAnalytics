@@ -54,7 +54,7 @@ const Player = ({
           width: "350px",
           height: "250px",
           transition: `transform 0.4s ease-out, border-color 0.4s ease-out, box-shadow 0.4s ease-out`,
-          border: `2px solid transparent`,
+          border: `1px solid #2f2b38`,
           ":hover": {
             cursor: "pointer",
             backgroundColor: theme.palette.background.alt,

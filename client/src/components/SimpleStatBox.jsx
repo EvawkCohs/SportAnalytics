@@ -15,11 +15,12 @@ const SimpleStatBox = ({ value, secondaryValue, title, icon }) => {
         display="flex"
         flexDirection="column"
         justifyContent="space-between"
-        backgroundColor={theme.palette.primary[700]}
+        backgroundColor={theme.palette.background.alt}
         borderRadius="0.55rem"
         flex="1 1 100%"
         height="100%"
         className="data-display"
+        border="1px solid #2f2b38"
         sx={{
           p: {
             xs: "0.25rem 0.125rem", // für sehr kleine Bildschirme

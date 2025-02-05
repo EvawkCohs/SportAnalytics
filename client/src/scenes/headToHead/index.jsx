@@ -39,7 +39,7 @@ const MyResponsiveRadar = ({ data }) => {
       theme={{
         grid: {
           line: {
-            stroke: theme.palette.grey[600],
+            stroke: theme.palette.primary[600],
           },
         },
         text: { fill: theme.palette.secondary[200] },
@@ -399,7 +399,7 @@ const HeadToHead = () => {
                 {last5TeamA.map((game) =>
                   game === "win" ? (
                     <Box
-                      sx={{ backgroundColor: "green" }}
+                      sx={{ backgroundColor: theme.palette.green[100] }}
                       borderRadius="0.25rem"
                     >
                       <Typography
@@ -412,7 +412,7 @@ const HeadToHead = () => {
                     </Box>
                   ) : game === "tie" ? (
                     <Box
-                      sx={{ backgroundColor: theme.palette.grey[600] }}
+                      sx={{ backgroundColor: theme.palette.primary[600] }}
                       borderRadius="0.25rem"
                     >
                       <Typography
@@ -504,7 +504,7 @@ const HeadToHead = () => {
               m="0.5rem "
               flexDirection="column"
               justifyContent="flex-start"
-              backgroundColor={theme.palette.primary[700]}
+              backgroundColor={theme.palette.background.alt}
               borderRadius="0.55rem"
               p="1.25rem 1rem"
               className="data-display"
@@ -549,10 +549,13 @@ const HeadToHead = () => {
                   justifyContent="center"
                   gap="0.5rem"
                 >
-                  <TrendingUpIcon sx={{ color: "green" }} fontSize="large" />
+                  <TrendingUpIcon
+                    sx={{ color: theme.palette.green[100] }}
+                    fontSize="large"
+                  />
                   <Typography
                     variant="h4"
-                    sx={{ color: "green" }}
+                    sx={{ color: theme.palette.green[100] }}
                     textAlign="center"
                   >
                     +{" "}
@@ -646,7 +649,7 @@ const HeadToHead = () => {
               flexDirection="column"
               width="250px"
               justifyContent="flex-start"
-              backgroundColor={theme.palette.primary[700]}
+              backgroundColor={theme.palette.background.alt}
               borderRadius="0.55rem"
               p="1.25rem 1rem"
               className="data-display"
@@ -727,10 +730,13 @@ const HeadToHead = () => {
                   justifyContent="center"
                   gap="0.5rem"
                 >
-                  <TrendingDownIcon sx={{ color: "green" }} fontSize="large" />
+                  <TrendingDownIcon
+                    sx={{ color: theme.palette.green[100] }}
+                    fontSize="large"
+                  />
                   <Typography
                     variant="h4"
-                    sx={{ color: "green" }}
+                    sx={{ color: theme.palette.green[100] }}
                     textAlign="center"
                   >
                     -{" "}
@@ -955,7 +961,7 @@ const HeadToHead = () => {
                 {last5TeamB.map((game) =>
                   game === "win" ? (
                     <Box
-                      sx={{ backgroundColor: "green" }}
+                      sx={{ backgroundColor: theme.palette.green[100] }}
                       borderRadius="0.25rem"
                     >
                       <Typography
@@ -1060,7 +1066,7 @@ const HeadToHead = () => {
               m="0.5rem "
               flexDirection="column"
               justifyContent="flex-start"
-              backgroundColor={theme.palette.primary[700]}
+              backgroundColor={theme.palette.background.alt}
               borderRadius="0.55rem"
               p="1.25rem 1rem"
               className="data-display"
@@ -1105,10 +1111,13 @@ const HeadToHead = () => {
                   justifyContent="center"
                   gap="0.5rem"
                 >
-                  <TrendingUpIcon sx={{ color: "green" }} fontSize="large" />
+                  <TrendingUpIcon
+                    sx={{ color: theme.palette.green[100] }}
+                    fontSize="large"
+                  />
                   <Typography
                     variant="h4"
-                    sx={{ color: "green" }}
+                    sx={{ color: theme.palette.green[100] }}
                     textAlign="center"
                   >
                     +{" "}
@@ -1202,7 +1211,7 @@ const HeadToHead = () => {
               m="0.5rem"
               flexDirection="column"
               justifyContent="flex-start"
-              backgroundColor={theme.palette.primary[700]}
+              backgroundColor={theme.palette.background.alt}
               borderRadius="0.55rem"
               p="1.25rem 1rem"
               className="data-display"
@@ -1283,10 +1292,13 @@ const HeadToHead = () => {
                   justifyContent="center"
                   gap="0.5rem"
                 >
-                  <TrendingDownIcon sx={{ color: "green" }} fontSize="large" />
+                  <TrendingDownIcon
+                    sx={{ color: theme.palette.green[100] }}
+                    fontSize="large"
+                  />
                   <Typography
                     variant="h4"
-                    sx={{ color: "green" }}
+                    sx={{ color: theme.palette.green[100] }}
                     textAlign="center"
                   >
                     -{" "}

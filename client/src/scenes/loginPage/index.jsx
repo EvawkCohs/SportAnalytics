@@ -74,17 +74,17 @@ const LoginPage = () => {
           sx={{
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
-                borderColor: theme.palette.grey[700],
+                borderColor: theme.palette.grey[400],
               },
               "&:hover fieldset": {
-                borderColor: theme.palette.secondary[300],
+                borderColor: theme.palette.secondary[200],
               },
               "&.Mui-focused fieldset": {
-                borderColor: theme.palette.secondary[300],
+                borderColor: theme.palette.secondary[200],
               },
             },
             "& .MuiInputLabel-root": {
-              color: theme.palette.grey[700],
+              color: theme.palette.grey[400],
             },
             "&:hover .MuiInputLabel-root": {
               color: theme.palette.secondary[200],
@@ -105,17 +105,17 @@ const LoginPage = () => {
           sx={{
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
-                borderColor: theme.palette.grey[700],
+                borderColor: theme.palette.grey[400],
               },
               "&:hover fieldset": {
-                borderColor: theme.palette.secondary[300],
+                borderColor: theme.palette.secondary[200],
               },
               "&.Mui-focused fieldset": {
-                borderColor: theme.palette.secondary[300],
+                borderColor: theme.palette.secondary[200],
               },
             },
             "& .MuiInputLabel-root": {
-              color: theme.palette.grey[700],
+              color: theme.palette.grey[400],
             },
             "&:hover .MuiInputLabel-root": {
               color: theme.palette.secondary[200],
@@ -137,7 +137,7 @@ const LoginPage = () => {
         <Typography
           variant="h5"
           sx={{
-            color: theme.palette.secondary[200],
+            color: theme.palette.secondary[100],
             ":hover": {
               cursor: "pointer",
               color: theme.palette.secondary[100],

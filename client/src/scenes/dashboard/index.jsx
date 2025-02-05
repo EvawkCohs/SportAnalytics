@@ -29,6 +29,7 @@ const Dashboard = () => {
   const gender = useSelector((state) => state.global.genderMode);
   const theme = useTheme();
   const Navigate = useNavigate();
+
   const {
     data: games,
     errorGames,
@@ -202,7 +203,7 @@ const Dashboard = () => {
               flexDirection="column"
               justifyContent="space-between"
               flex="1 1 100%"
-              backgroundColor={theme.palette.primary[700]}
+              backgroundColor={theme.palette.background.alt}
               borderRadius="0.55rem"
               className="data-display"
               sx={{
@@ -272,7 +273,7 @@ const Dashboard = () => {
               flexDirection="column"
               justifyContent="space-between"
               flex="1 1 100%"
-              backgroundColor={theme.palette.primary[700]}
+              backgroundColor={theme.palette.background.alt}
               borderRadius="0.55rem"
               onClick={handleCellClickLastGame}
               className="data-display"
@@ -325,6 +326,8 @@ const Dashboard = () => {
                   homeTeam={dataLastFiveGames[0].summary.homeTeam.name}
                   awayTeam={dataLastFiveGames[0].summary.awayTeam.name}
                   state="post"
+                  homeGoals={dataLastFiveGames[0].summary.homeGoals}
+                  awayGoals={dataLastFiveGames[0].summary.awayGoals}
                 />
               ) : (
                 <Box>
@@ -444,7 +447,7 @@ const Dashboard = () => {
               display="flex"
               flexDirection="column"
               justifyContent="space-between"
-              backgroundColor={theme.palette.primary[700]}
+              backgroundColor={theme.palette.background.alt}
               borderRadius="0.55rem"
               className="data-display"
               sx={{
@@ -512,7 +515,7 @@ const Dashboard = () => {
                 >
                   <TrendingUpIcon
                     sx={{
-                      color: "green",
+                      color: theme.palette.green[100],
                       fontSize: {
                         xs: "small", // für sehr kleine Bildschirme
                         sm: "small", // für kleine Bildschirme
@@ -525,7 +528,7 @@ const Dashboard = () => {
                   <Typography
                     variant="h4"
                     sx={{
-                      color: "green",
+                      color: theme.palette.green[100],
                     }}
                     textAlign="center"
                   >
@@ -596,7 +599,7 @@ const Dashboard = () => {
               display="flex"
               flexDirection="column"
               justifyContent="space-between"
-              backgroundColor={theme.palette.primary[700]}
+              backgroundColor={theme.palette.background.alt}
               borderRadius="0.55rem"
               className="data-display"
               sx={{
@@ -658,6 +661,7 @@ const Dashboard = () => {
                   display="flex"
                   flexDirection="row"
                   justifyContent="center"
+                  gap="0.5rem"
                 >
                   <TrendingUpIcon
                     sx={{
@@ -678,6 +682,7 @@ const Dashboard = () => {
                     }}
                     textAlign="center"
                   >
+                    {" "}
                     +{" "}
                     {Number.isInteger(
                       (averageGoalsLastFiveConceded / averageGoalsConceded -
@@ -701,10 +706,11 @@ const Dashboard = () => {
                   display="flex"
                   flexDirection="row"
                   justifyContent="center"
+                  gap="0.5rem"
                 >
                   <TrendingDownIcon
                     sx={{
-                      color: "green",
+                      color: theme.palette.green[100],
                       fontSize: {
                         xs: "small", // für sehr kleine Bildschirme
                         sm: "small", // für kleine Bildschirme
@@ -717,11 +723,11 @@ const Dashboard = () => {
                   <Typography
                     variant="h4"
                     sx={{
-                      color: "green",
+                      color: theme.palette.green[100],
                     }}
                     textAlign="center"
                   >
-                    -{" "}
+                    {"  "}-{" "}
                     {Number.isInteger(
                       (1 -
                         averageGoalsLastFiveConceded / averageGoalsConceded) *
@@ -755,7 +761,7 @@ const Dashboard = () => {
               display="flex"
               flexDirection="column"
               justifyContent="space-between"
-              backgroundColor={theme.palette.primary[700]}
+              backgroundColor={theme.palette.background.alt}
               borderRadius="0.55rem"
               className="data-display"
               sx={{
@@ -800,7 +806,7 @@ const Dashboard = () => {
                 <Typography
                   variant="h2"
                   sx={{
-                    color: "green",
+                    color: theme.palette.green[100],
                   }}
                   textAlign="center"
                 >

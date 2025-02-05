@@ -29,15 +29,22 @@ const TeamGoalChart = ({ data }) => {
           lg: "2/5",
           xl: "2/5",
         },
+        p: {
+          xs: "1.25rem 0.25rem",
+          sm: "1.25rem 0.25rem",
+          md: "1.25rem 0.5rem",
+          lg: "1.25rem 0.75rem",
+          xl: "1.25rem 1rem",
+        },
       }}
       display="flex"
       flexDirection="column"
       justifyContent="space-between"
-      p="1.25rem 1rem"
       flex="1 1 100%"
       backgroundColor={theme.palette.background.alt}
       borderRadius="0.55rem"
       className="data-display"
+      border="1px solid #2f2b38"
     >
       <Typography
         variant="h3"

@@ -50,7 +50,7 @@ export const columnsDataGrid = [
     flex: 1,
     renderCell: (params) => params.value ?? 0,
   },
-  
+
   {
     field: "assist",
     headerName: "Assists",
@@ -60,6 +60,24 @@ export const columnsDataGrid = [
   {
     field: "team",
     headerName: "Mannschaft",
+    flex: 1,
+  },
+];
+
+export const columnsDataGridSmall = [
+  {
+    field: "firstname",
+    headerName: "Vorname",
+    flex: 1,
+  },
+  {
+    field: "lastname",
+    headerName: "Nachname",
+    flex: 1,
+  },
+  {
+    field: "goals",
+    headerName: "Tore",
     flex: 1,
   },
 ];

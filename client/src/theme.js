@@ -11,9 +11,9 @@ export const tokensDark = {
     300: "#a3a3a3",
     400: "#858585",
     500: "#666666",
-    600: "#525252",
-    700: "#3d3d3d",
-    800: "#292929",
+    600: "#2a2732", //manually
+    700: "#25222c", //manually
+    800: "#19171e", //manually
     900: "#141414",
     1000: "#000000", // manually adjusted
   },
@@ -46,17 +46,29 @@ export const tokensDark = {
     800: "#665429",
     900: "#332a14",
   },
+  text: {
+    100: "#f1f3f5",
+    200: "#e3e7ea",
+    300: "#d6dae0",
+    400: "#c8ced5",
+    500: "#bac2cb",
+    600: "#d9d9d9",
+    700: "#70747a",
+    800: "#4a4e51",
+    900: "#252729",
+  },
   red: {
     100: "#ffdada",
     200: "#ffb6b6",
     300: "#ff9191",
     400: "#ff6d6d",
-    500: "#ff4848",
+    500: "#f77c60", //manually adjusted "leetify color"
     600: "#cc3a3a",
     700: "#992b2b",
     800: "#661d1d",
     900: "#330e0e",
   },
+  green: { 100: "#4dc19d" },
 };
 
 // function that reverses the color palette
@@ -106,6 +118,18 @@ export const themeSettings = (mode) => {
               ...tokensDark.red,
               default: tokensDark.red[500],
             },
+            green: {
+              ...tokensDark.green,
+              default: tokensDark.green[100],
+            },
+            grey: {
+              ...tokensDark.grey,
+              default: tokensDark.grey[700],
+            },
+            text: {
+              ...tokensDark.text,
+              default: tokensDark.text[500],
+            },
           }
         : {
             // palette values for light mode
@@ -130,6 +154,18 @@ export const themeSettings = (mode) => {
             red: {
               ...tokensLight.red,
               default: tokensDark.red[500],
+            },
+            green: {
+              ...tokensLight.green,
+              default: tokensLight.green[100],
+            },
+            grey: {
+              ...tokensLight.grey,
+              default: tokensLight.grey[700],
+            },
+            text: {
+              ...tokensLight.text,
+              default: tokensLight.text[500],
             },
           }),
     },

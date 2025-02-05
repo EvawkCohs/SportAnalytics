@@ -10,11 +10,11 @@ const LineChart = ({ data }) => {
       display="flex"
       flexDirection="column"
       justifyContent="space-between"
-      p="1.25rem 1rem"
       flex="1 1 100%"
       backgroundColor={theme.palette.background.alt}
       borderRadius="0.55rem"
       className="data-display"
+      border="1px solid #2f2b38"
       sx={{
         gridColumn: {
           xs: "1",
@@ -29,6 +29,13 @@ const LineChart = ({ data }) => {
           md: "3/5",
           lg: "2/5",
           xl: "2/5",
+        },
+        p: {
+          xs: "1.25rem 0.25rem",
+          sm: "1.25rem 0.25rem",
+          md: "1.25rem 0.5rem",
+          lg: "1.25rem 0.75rem",
+          xl: "1.25rem 1rem",
         },
       }}
     >
@@ -87,6 +94,7 @@ const LineChart = ({ data }) => {
         xFormat=" >-.1~d"
         colors={[theme.palette.secondary[600], theme.palette.secondary[200]]}
         curve="linear"
+        enableArea={true}
         axisTop={null}
         enableGridX={false}
         enableGridY={false}

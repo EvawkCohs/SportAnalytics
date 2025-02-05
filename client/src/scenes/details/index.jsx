@@ -29,7 +29,7 @@ import {
   FormatTurnoverData,
   FormatMissedShotsData,
 } from "./formatGameData";
-import { columnsDataGrid } from "./dataGridDefinitions";
+import { columnsDataGrid, columnsDataGridSmall } from "./dataGridDefinitions";
 import { handleDownload } from "./handleDownload";
 import {
   useGetGameModelQuery,
@@ -179,6 +179,7 @@ function Details() {
 
   //Tabellen Spalten und Reihen
   const cols = columnsDataGrid;
+  const colsSmall = columnsDataGridSmall;
 
   //HANDLER
   //Navigation zur Analysepage
@@ -328,6 +329,7 @@ function Details() {
                 backgroundColor={theme.palette.background.alt}
                 borderRadius="0.55rem"
                 className="data-display"
+                border="1px solid #2f2b38"
               >
                 <Typography
                   variant="h2"
@@ -369,6 +371,7 @@ function Details() {
               backgroundColor={theme.palette.background.alt}
               borderRadius="0.55rem"
               className="data-display"
+              border="1px solid #2f2b38"
             >
               <StatBoxGameInfo
                 title={`${gameData.summary.phase.name}`}
@@ -383,6 +386,8 @@ function Details() {
                 })`}
                 homeTeam={gameData.summary.homeTeam.name}
                 awayTeam={gameData.summary.awayTeam.name}
+                homeGoals={gameData.summary.homeGoals}
+                awayGoals={gameData.summary.awayGoals}
               />
             </Box>
             <Box
@@ -463,6 +468,7 @@ function Details() {
             backgroundColor={theme.palette.background.alt}
             borderRadius="0.55rem"
             className="data-display"
+            border="1px solid #2f2b38"
             sx={{
               "& .MuiDataGrid-root": {
                 borderBottom: "none",
@@ -519,7 +525,7 @@ function Details() {
             </Typography>
             <DataGrid
               rows={row || []}
-              columns={cols}
+              columns={isNonMediumScreens ? cols : colsSmall}
               components={{ ColumnMenu: CustomColumnMenu }}
               localeText={{
                 noRowsLabel: "Noch keine Daten verfügbar",

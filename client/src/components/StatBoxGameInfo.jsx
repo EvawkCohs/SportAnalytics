@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Box, Typography, useTheme } from "@mui/material";
 import SportsScoreOutlinedIcon from "@mui/icons-material/SportsScoreOutlined";
 import SportsOutlinedIcon from "@mui/icons-material/SportsOutlined";
@@ -12,11 +13,16 @@ const StatBoxGameInfo = ({
   halftimeScore,
   round,
   state,
+  homeGoals,
+  awayGoals,
 }) => {
   const theme = useTheme();
   const { data: teamData, isLoading } = useGetTeamModelQuery();
   const [homeTeamLogo, setHomeTeamLogo] = useState("");
   const [awayTeamLogo, setAwayTeamLogo] = useState("");
+  const [isWin, setIsWin] = useState(false);
+  const [isLose, setIsLose] = useState(false);
+  const teamName = useSelector((state) => state.global.teamName);
   useEffect(() => {
     if (
       isLoading ||
@@ -29,7 +35,17 @@ const StatBoxGameInfo = ({
 
     setHomeTeamLogo(teamData.find((team) => team.name === homeTeam).logo);
     setAwayTeamLogo(teamData.find((team) => team.name === awayTeam).logo);
-  }, [teamData]);
+    if (teamName === homeTeam) {
+      setIsWin(homeGoals > awayGoals);
+      setIsLose(homeGoals < awayGoals);
+    } else if (teamName === awayTeam) {
+      setIsWin(awayGoals > homeGoals);
+      setIsLose(awayGoals < homeGoals);
+    } else {
+      setIsWin(false);
+      setIsLose(false);
+    }
+  }, [teamData, homeGoals, awayGoals, homeTeam, awayTeam, teamName, isLoading]);
 
   return (
     <Box>
@@ -162,7 +178,11 @@ const StatBoxGameInfo = ({
           variant="h2"
           fontWeight="600"
           sx={{
-            color: theme.palette.secondary[200],
+            color: isWin
+              ? theme.palette.green[100]
+              : isLose
+              ? theme.palette.red[500]
+              : theme.palette.secondary[100],
             fontSize: {
               xs: "1rem", // für sehr kleine Bildschirme
               sm: "1rem", // für kleine Bildschirme
