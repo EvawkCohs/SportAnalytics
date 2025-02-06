@@ -22,6 +22,7 @@ import FlexBetween from "components/FlexBetween";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import { columnsDataGrid } from "scenes/dashboard/dataGridDefinitions";
+import HalfCircleChart from "components/HalfCircleChart";
 
 const Dashboard = () => {
   const teamId = useSelector((state) => state.global.teamId);
@@ -484,106 +485,25 @@ const Dashboard = () => {
               >
                 Durchschnittliche Tore
               </Typography>
-              <Typography
-                variant="h2"
+              <Box
+                display="flex"
+                justifyContent="center"
                 sx={{
-                  color: theme.palette.secondary[200],
-
-                  marginTop: {
-                    xs: "1rem", // für sehr kleine Bildschirme
-                    sm: "1.5rem", // für kleine Bildschirme
-                    md: "2rem", // für mittlere Bildschirme
-                    lg: "2.5rem", // für größere Bildschirme
-                    xl: "3rem", // für extra große Bildschirme
+                  mt: {
+                    xs: "0.5rem",
+                    sm: "0.5rem",
+                    md: "0.75rem",
+                    lg: "1rem",
+                    xl: "1rem",
                   },
                 }}
-                textAlign="center"
               >
-                Ø{" "}
-                {Number.isInteger(averageGoalsLastFive)
-                  ? averageGoalsLastFive
-                  : averageGoalsLastFive.toFixed(2)}
-              </Typography>
-
-              {averageGoalsLastFive >= averageGoals ? (
-                <Box
-                  alignItems="center"
-                  display="flex"
-                  flexDirection="row"
-                  justifyContent="center"
-                  gap="0.5rem"
-                >
-                  <TrendingUpIcon
-                    sx={{
-                      color: theme.palette.green[100],
-                      fontSize: {
-                        xs: "small", // für sehr kleine Bildschirme
-                        sm: "small", // für kleine Bildschirme
-                        md: "medium", // für mittlere Bildschirme
-                        lg: "large", // für größere Bildschirme
-                        xl: "large",
-                      },
-                    }}
-                  />
-                  <Typography
-                    variant="h4"
-                    sx={{
-                      color: theme.palette.green[100],
-                    }}
-                    textAlign="center"
-                  >
-                    +{" "}
-                    {Number.isInteger(
-                      (averageGoalsLastFive / averageGoals - 1) * 100
-                    )
-                      ? (averageGoalsLastFive / averageGoals - 1) * 100
-                      : (
-                          (averageGoalsLastFive / averageGoals - 1) *
-                          100
-                        ).toFixed(2)}{" "}
-                    %
-                  </Typography>
-                </Box>
-              ) : (
-                <Box
-                  alignItems="center"
-                  display="flex"
-                  flexDirection="row"
-                  justifyContent="center"
-                  gap="0.5rem"
-                >
-                  <TrendingDownIcon
-                    sx={{
-                      color: theme.palette.red[500],
-                      fontSize: {
-                        xs: "small", // für sehr kleine Bildschirme
-                        sm: "small", // für kleine Bildschirme
-                        md: "medium", // für mittlere Bildschirme
-                        lg: "large", // für größere Bildschirme
-                        xl: "large",
-                      },
-                    }}
-                  />
-                  <Typography
-                    variant="h4"
-                    sx={{
-                      color: theme.palette.red[500],
-                    }}
-                    textAlign="center"
-                  >
-                    -{" "}
-                    {Number.isInteger(
-                      (1 - averageGoalsLastFive / averageGoals) * 100
-                    )
-                      ? (1 - averageGoalsLastFive / averageGoals) * 100
-                      : (
-                          (1 - averageGoalsLastFive / averageGoals) *
-                          100
-                        ).toFixed(2)}
-                    %
-                  </Typography>
-                </Box>
-              )}
+                <HalfCircleChart
+                  value={averageGoalsLastFive}
+                  compareValue={averageGoals}
+                  mode="high"
+                />
+              </Box>
               <Typography
                 sx={{ color: theme.palette.secondary[200] }}
                 variant="h4"
@@ -636,116 +556,25 @@ const Dashboard = () => {
               >
                 Durchschnittliche Gegentore
               </Typography>
-              <Typography
-                variant="h2"
+              <Box
+                display="flex"
+                justifyContent="center"
                 sx={{
-                  color: theme.palette.secondary[200],
-                  marginTop: {
-                    xs: "1rem", // für sehr kleine Bildschirme
-                    sm: "1.5rem", // für kleine Bildschirme
-                    md: "2rem", // für mittlere Bildschirme
-                    lg: "2.5rem", // für größere Bildschirme
-                    xl: "3rem", // für extra große Bildschirme
+                  mt: {
+                    xs: "0.5rem",
+                    sm: "0.5rem",
+                    md: "0.75rem",
+                    lg: "1rem",
+                    xl: "1rem",
                   },
                 }}
-                textAlign="center"
               >
-                Ø{" "}
-                {Number.isInteger(averageGoalsLastFiveConceded)
-                  ? averageGoalsLastFiveConceded
-                  : averageGoalsLastFiveConceded.toFixed(2)}
-              </Typography>
-              {averageGoalsLastFiveConceded >= averageGoalsConceded ? (
-                <Box
-                  alignItems="center"
-                  display="flex"
-                  flexDirection="row"
-                  justifyContent="center"
-                  gap="0.5rem"
-                >
-                  <TrendingUpIcon
-                    sx={{
-                      color: theme.palette.red[500],
-                      fontSize: {
-                        xs: "small", // für sehr kleine Bildschirme
-                        sm: "small", // für kleine Bildschirme
-                        md: "medium", // für mittlere Bildschirme
-                        lg: "large", // für größere Bildschirme
-                        xl: "large",
-                      },
-                    }}
-                  />
-                  <Typography
-                    variant="h4"
-                    sx={{
-                      color: theme.palette.red[500],
-                    }}
-                    textAlign="center"
-                  >
-                    {" "}
-                    +{" "}
-                    {Number.isInteger(
-                      (averageGoalsLastFiveConceded / averageGoalsConceded -
-                        1) *
-                        100
-                    )
-                      ? (averageGoalsLastFiveConceded / averageGoalsConceded -
-                          1) *
-                        100
-                      : (
-                          (averageGoalsLastFiveConceded / averageGoalsConceded -
-                            1) *
-                          100
-                        ).toFixed(2)}{" "}
-                    %
-                  </Typography>
-                </Box>
-              ) : (
-                <Box
-                  alignItems="center"
-                  display="flex"
-                  flexDirection="row"
-                  justifyContent="center"
-                  gap="0.5rem"
-                >
-                  <TrendingDownIcon
-                    sx={{
-                      color: theme.palette.green[100],
-                      fontSize: {
-                        xs: "small", // für sehr kleine Bildschirme
-                        sm: "small", // für kleine Bildschirme
-                        md: "medium", // für mittlere Bildschirme
-                        lg: "large", // für größere Bildschirme
-                        xl: "large",
-                      },
-                    }}
-                  />
-                  <Typography
-                    variant="h4"
-                    sx={{
-                      color: theme.palette.green[100],
-                    }}
-                    textAlign="center"
-                  >
-                    {"  "}-{" "}
-                    {Number.isInteger(
-                      (1 -
-                        averageGoalsLastFiveConceded / averageGoalsConceded) *
-                        100
-                    )
-                      ? (1 -
-                          averageGoalsLastFiveConceded / averageGoalsConceded) *
-                        100
-                      : (
-                          (1 -
-                            averageGoalsLastFiveConceded /
-                              averageGoalsConceded) *
-                          100
-                        ).toFixed(2)}
-                    %
-                  </Typography>
-                </Box>
-              )}
+                <HalfCircleChart
+                  value={averageGoalsLastFiveConceded}
+                  compareValue={averageGoalsConceded}
+                  mode="low"
+                />
+              </Box>
               <Typography
                 sx={{ color: theme.palette.secondary[200] }}
                 variant="h4"

@@ -58,6 +58,7 @@ const StatCard = ({
           justifyContent="flex-start"
           alignItems="center"
           backgroundColor={theme.palette.grey[600]}
+          borderBottom={`1px solid ${theme.palette.grey[300]}`}
         >
           <Box m="0rem 1rem">{logo}</Box>
           <Typography
