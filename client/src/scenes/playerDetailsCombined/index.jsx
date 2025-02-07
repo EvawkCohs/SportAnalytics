@@ -3,7 +3,7 @@ import Header from "components/Header";
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import CustomColumnMenu from "components/DataGridCustomColumnMenu";
 import { Box, useMediaQuery, Typography, Fade } from "@mui/material";
 import {
@@ -17,6 +17,7 @@ import { columnsDataGrid,columnsDataGridSmall } from "./dataGridDefinitions";
 
 const PlayerDetailsCombined = () => {
   const location = useLocation();
+  const Navigate = useNavigate();
   const theme = useTheme();
   const isNonMediumScreens = useMediaQuery("(min-width: 1000px)");
   const overallPlayerStatistics = location.state?.player;
@@ -45,6 +46,11 @@ const PlayerDetailsCombined = () => {
   const [row, setRow] = useState();
   const [isChecked, setIsChecked] = useState(false);
   const cols = columnsDataGrid;
+  const handleCellClick = (params)=>{
+    
+    //const id = allGamesDetails[index]
+    Navigate(`/details/${params.row.gameId}`);
+  }
   useEffect(() => {
     window.scrollTo(0, 0);
     setIsChecked(true);
@@ -290,6 +296,7 @@ const PlayerDetailsCombined = () => {
               localeText={{
                 noRowsLabel: "Noch keine Daten verfügbar",
               }}
+              onCellClick={handleCellClick}
             />
           </Box>
         </Fade>
