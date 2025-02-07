@@ -49,3 +49,17 @@ export const columnsDataGrid = [
     renderCell: (params) => params.value ?? 0,
   },
 ];
+export const columnsDataGridSmall = [
+  {
+    field: "opponent",
+    headerName: "Gegner",
+    flex: 2,
+  },
+  
+  {
+    field: "goals",
+    headerName: "Tore",
+    flex: 1,
+  },
+  {field: "penaltyGoals", headerName: "7m Tore" ,flex:1}
+];
