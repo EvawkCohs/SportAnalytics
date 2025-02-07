@@ -1,10 +1,11 @@
 import React from "react";
 import { ResponsivePie } from "@nivo/pie";
-import { useTheme, Box, Typography } from "@mui/material";
+import { useTheme, Box, Typography , useMediaQuery} from "@mui/material";
 
 const PieChart = ({ data, title }) => {
   const theme = useTheme();
   const total = data.reduce((sum, item) => sum + item.value, 0);
+  const isNonMediumScreen = useMediaQuery("(min-width: 1200px)");
   return (
     <Box
       gridColumn="span 2"
@@ -19,6 +20,13 @@ const PieChart = ({ data, title }) => {
           md: "0.75rem 0.5rem",
           lg: "1rem 0.75rem",
           xl: "1.25rem 1rem",
+        },
+        m: {
+          xs: "0.125rem 0.0625rem",
+          sm: "0.125rem",
+          md: "0.25rem",
+          lg: "0.5rem",
+          xl: "0.5rem",
         },
       }}
       flex="1 1 100%"
@@ -49,7 +57,7 @@ const PieChart = ({ data, title }) => {
             },
           },
         }}
-        margin={{ top: 15, right: 80, bottom: 80, left: 80 }}
+        margin={isNonMediumScreen ?{ top: 15, right: 80, bottom: 80, left: 80 } : {top: 10, right: 50, bottom: 60,left:50}}
         innerRadius={0.5}
         padAngle={0.7}
         cornerRadius={3}
@@ -82,7 +90,7 @@ const PieChart = ({ data, title }) => {
             itemTextColor: theme.palette.secondary[200],
             itemDirection: "top-to-bottom",
             itemOpacity: 1,
-            symbolSize: 18,
+            symbolSize: isNonMediumScreen ? 18 : 12,
             symbolShape: "circle",
 
             effects: [

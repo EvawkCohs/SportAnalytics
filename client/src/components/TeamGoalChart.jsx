@@ -1,9 +1,11 @@
 import React from "react";
 import { Typography, useTheme, Box } from "@mui/material";
 import { ResponsiveBar } from "@nivo/bar";
+import {useMediaQuery} from "@mui/material";
 
 const TeamGoalChart = ({ data }) => {
   const theme = useTheme();
+  const isNonMediumScreen = useMediaQuery("(min-width: 1200px)");
   const customColors = [
     theme.palette.secondary[100],
     theme.palette.secondary[200],
@@ -35,6 +37,13 @@ const TeamGoalChart = ({ data }) => {
           md: "1.25rem 0.5rem",
           lg: "1.25rem 0.75rem",
           xl: "1.25rem 1rem",
+        },
+        m: {
+          xs: "0.125rem 0.0625rem",
+          sm: "0.125rem",
+          md: "0.25rem",
+          lg: "0.5rem",
+          xl: "0.5rem",
         },
       }}
       display="flex"
@@ -98,7 +107,7 @@ const TeamGoalChart = ({ data }) => {
           "51 - 60min",
         ]}
         indexBy="Mannschaft"
-        margin={{ top: 50, right: 100, bottom: 50, left: 60 }}
+        margin={ isNonMediumScreen ? { top: 50, right: 100, bottom: 50, left: 60 } : { top: 10, right: 10, bottom: 10, left: 50 }}
         padding={0.25}
         innerPadding={1}
         valueScale={{ type: "linear" }}
@@ -131,7 +140,7 @@ const TeamGoalChart = ({ data }) => {
         labelSkipWidth={12}
         labelSkipHeight={12}
         labelTextColor="black"
-        legends={[
+        legends={isNonMediumScreen ?[ 
           {
             dataFrom: "keys",
             anchor: "bottom-right",
@@ -154,7 +163,7 @@ const TeamGoalChart = ({ data }) => {
               },
             ],
           },
-        ]}
+        ]:[]}
         role="application"
         ariaLabel="TeamGoalChart"
         barAriaLabel={(e) =>

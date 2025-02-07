@@ -20,7 +20,7 @@ const SimpleStatBox = ({ value, secondaryValue, title, icon }) => {
         flex="1 1 100%"
         height="100%"
         className="data-display"
-        border="1px solid #2f2b38"
+        
         sx={{
           p: {
             xs: "0.25rem 0.125rem", // für sehr kleine Bildschirme
@@ -29,6 +29,7 @@ const SimpleStatBox = ({ value, secondaryValue, title, icon }) => {
             lg: "1rem 0.75rem", // für größere Bildschirme
             xl: "1.25rem 1rem",
           },
+          
         }}
       >
         <Typography

@@ -40,6 +40,13 @@ const StatBoxMVP = ({
           lg: "1",
           xl: "1",
         },
+        m: {
+          xs: "0.125rem 0.0625rem",
+          sm: "0.125rem",
+          md: "0.25rem",
+          lg: "0.5rem",
+          xl: "0.5rem",
+        },
       }}
       gridRow="span 1"
       display="flex"
@@ -49,7 +56,7 @@ const StatBoxMVP = ({
       backgroundColor={theme.palette.background.alt}
       borderRadius="0.55rem"
       className="data-display"
-      border="1px solid #2f2b38"
+      
     >
       <Typography
         variant="h2"

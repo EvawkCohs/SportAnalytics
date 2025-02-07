@@ -9,14 +9,16 @@ const SimpleButton = ({ text, Icon, onClick }) => {
       sx={{
         backgroundColor: theme.palette.secondary[300],
         color: theme.palette.background.alt,
-        fontSize: "14px",
+        fontSize: {xs: "6px",
+          sm: "8px", md: "10px", lg:"12px" ,xl: "14px"
+        },
         fontWeight: "bold",
         display: "flex",
         alignItems: "center",
         "&:hover": {
           backgroundColor: theme.palette.grey[600],
         },
-        minWidth: "150px",
+        minWidth: "50px",
       }}
       onClick={onClick}
     >

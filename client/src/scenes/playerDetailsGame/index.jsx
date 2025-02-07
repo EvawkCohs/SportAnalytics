@@ -10,7 +10,6 @@ import {
   Card,
 } from "@mui/material";
 import { useTheme } from "@emotion/react";
-import SimpleStatBox from "components/SimpleStatBox";
 import FlexBetween from "components/FlexBetween";
 import Header from "components/Header";
 import SportsSoccerOutlinedIcon from "@mui/icons-material/SportsSoccerOutlined";
@@ -377,7 +376,7 @@ const PlayerDetailsGame = () => {
                 display="flex"
                 flexDirection="row"
                 justifyContent="flex-start"
-                alignItems="center"
+                alignItems="flex-start"
                 mt="1.5rem"
                 gap="2rem"
                 flexWrap="wrap"
@@ -409,7 +408,7 @@ const PlayerDetailsGame = () => {
                 display="flex"
                 flexDirection="row"
                 justifyContent="flex-start"
-                alignItems="center"
+                alignItems="flex-start"
                 mt="1.5rem"
                 gap="2rem"
                 flexWrap="wrap"
@@ -465,6 +464,8 @@ const PlayerDetailsGame = () => {
                   stat2="Stürmerfouls"
                   value2={player.offensiveFoul || 0}
                   logo={<img src={turnover} height="24px" />}
+                  
+                  
                 />
               </Box>
             </>

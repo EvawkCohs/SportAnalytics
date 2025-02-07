@@ -1,9 +1,10 @@
 import React from "react";
-import { useTheme, Typography, Box } from "@mui/material";
+import { useTheme, Typography, Box , useMediaQuery} from "@mui/material";
 import { ResponsiveLine } from "@nivo/line";
 
 const LineChart = ({ data }) => {
   const theme = useTheme();
+  const isNonMediumScreen = useMediaQuery("(min-width: 1200px)");
 
   return (
     <Box
@@ -36,6 +37,13 @@ const LineChart = ({ data }) => {
           md: "1.25rem 0.5rem",
           lg: "1.25rem 0.75rem",
           xl: "1.25rem 1rem",
+        },
+        m: {
+          xs: "0.125rem 0.0625rem",
+          sm: "0.125rem",
+          md: "0.25rem",
+          lg: "0.5rem",
+          xl: "0.5rem",
         },
       }}
     >
@@ -81,7 +89,7 @@ const LineChart = ({ data }) => {
             },
           },
         }}
-        margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+        margin={isNonMediumScreen ?{ top: 50, right: 110, bottom: 50, left: 60 }:{ top: 5, right: 10, bottom: 25, left: 50 }}
         xScale={{ type: "linear", min: 0, max: 60 }}
         yScale={{
           type: "linear",
@@ -126,7 +134,7 @@ const LineChart = ({ data }) => {
         pointLabelYOffset={-12}
         enableTouchCrosshair={true}
         useMesh={true}
-        legends={[
+        legends={isNonMediumScreen ?[
           {
             anchor: "bottom-right",
             direction: "column",
@@ -151,7 +159,7 @@ const LineChart = ({ data }) => {
               },
             ],
           },
-        ]}
+        ]:[]}
         tooltip={({ point }) => {
           return (
             <div
