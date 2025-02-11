@@ -91,11 +91,11 @@ const Sidebar = ({
                     SPORTANALYTICS
                   </Typography>
                 </Box>
-                {!isNonMobile && (
-                  <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+                  {!isNonMobile ?
+                  <IconButton onClick={() => setIsSidebarOpen(isSidebarOpen)}>
                     <ChevronLeft />
-                  </IconButton>
-                )}
+                  </IconButton> : <></>}
+                
               </FlexBetween>
             </Box>
             <List>

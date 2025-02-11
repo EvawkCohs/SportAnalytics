@@ -230,7 +230,7 @@ function Details() {
         <FlexBetween>
           <Header
             title="GAME DETAILS"
-            subtitle={`${gameData.summary.homeTeam.name} vs ${gameData.summary.awayTeam.name}`}
+            subtitle={isNonMediumScreens ?`${gameData.summary.homeTeam.name} vs ${gameData.summary.awayTeam.name}`:`${gameData.summary.homeTeam.acronym} vs ${gameData.summary.awayTeam.acronym}`}
           />
           <Box gap="1.5rem" display="flex" flexDirection="row">
             <SimpleButton
@@ -261,7 +261,7 @@ function Details() {
         {/* GRID ERSTELLUNG */}
         <Box display="flex" flexDirection="column" justifyContent="flex-start">
           <Box
-            gap="20px"
+            
             mt="20px"
             display="grid"
             sx={{
@@ -276,7 +276,7 @@ function Details() {
                 xs: "repeat(27, 100px)",
                 sm: "repeat(26, 150px)",
                 md: "repeat(16, 200px)",
-                lg: "repeat(10, 250px)",
+                lg: "repeat(10, 200px)",
                 xl: "repeat(10, 200px)",
               },
             }}
@@ -321,6 +321,14 @@ function Details() {
                     lg: "1",
                     xl: "1",
                   },
+                  m: {
+                    xs: "0.125rem 0.0625rem",
+                    sm: "0.125rem",
+                    md: "0.25rem",
+                    lg: "0.5rem",
+                    xl: "0.5rem",
+                  },
+                  
                 }}
                 display="flex"
                 flexDirection="column"
@@ -330,6 +338,7 @@ function Details() {
                 borderRadius="0.55rem"
                 className="data-display"
                 border="1px solid #2f2b38"
+
               >
                 <Typography
                   variant="h2"
@@ -363,6 +372,13 @@ function Details() {
                   lg: "1",
                   xl: "1",
                 },
+                m: {
+                  xs: "0.125rem 0.0625rem",
+                  sm: "0.125rem",
+                  md: "0.25rem",
+                  lg: "0.5rem",
+                  xl: "0.5rem",
+                },
               }}
               display="flex"
               flexDirection="column"
@@ -371,7 +387,7 @@ function Details() {
               backgroundColor={theme.palette.background.alt}
               borderRadius="0.55rem"
               className="data-display"
-              border="1px solid #2f2b38"
+              
             >
               <StatBoxGameInfo
                 title={`${gameData.summary.phase.name}`}
@@ -406,6 +422,14 @@ function Details() {
                   lg: "1",
                   xl: "1",
                 },
+                m: {
+                  xs: "0.125rem 0.0625rem",
+                  sm: "0.125rem",
+                  md: "0.25rem",
+                  lg: "0.5rem",
+                  xl: "0.5rem",
+                },
+               
               }}
             >
               <SimpleStatBox
@@ -468,7 +492,7 @@ function Details() {
             backgroundColor={theme.palette.background.alt}
             borderRadius="0.55rem"
             className="data-display"
-            border="1px solid #2f2b38"
+            
             sx={{
               "& .MuiDataGrid-root": {
                 borderBottom: "none",
@@ -517,9 +541,15 @@ function Details() {
           >
             <Typography
               variant="h3"
-              sx={{ color: theme.palette.secondary[200] }}
+              sx={{ color: theme.palette.secondary[200], m: {
+                xs: "0.125rem 0.0625rem",
+                sm: "0.125rem",
+                md: "0.25rem",
+                lg: "0.5rem",
+                xl: "0.5rem",
+              }, }}
               textAlign="center"
-              mb="20px"
+              
             >
               Einzelstatistiken
             </Typography>
@@ -532,6 +562,7 @@ function Details() {
               }}
               columnSeparator
               onCellClick={handleCellClick}
+              
             />
           </Box>
         </Box>

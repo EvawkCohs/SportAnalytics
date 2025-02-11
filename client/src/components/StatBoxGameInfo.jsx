@@ -63,8 +63,8 @@ const StatBoxGameInfo = ({
                   fontSize: {
                     xs: "16px",
                     sm: "16px",
-                    md: "24px",
-                    lg: "32px",
+                    md: "48px",
+                    lg: "48px",
                     xl: "48px",
                   },
                 }}
@@ -76,8 +76,8 @@ const StatBoxGameInfo = ({
                   fontSize: {
                     xs: "16px",
                     sm: "16px",
-                    md: "24px",
-                    lg: "32px",
+                    md: "48px",
+                    lg: "48px",
                     xl: "48px",
                   },
                 }}
@@ -88,13 +88,7 @@ const StatBoxGameInfo = ({
             variant="h2"
             sx={{
               color: theme.palette.secondary[200],
-              fontSize: {
-                xs: "1rem", // für sehr kleine Bildschirme
-                sm: "1rem", // für kleine Bildschirme
-                md: "1.5rem", // für mittlere Bildschirme
-                lg: "1.5rem", // für größere Bildschirme
-                xl: "2rem",
-              },
+             
             }}
             textAlign="center"
             gridColumn="3/5"
@@ -107,13 +101,7 @@ const StatBoxGameInfo = ({
           variant="h2"
           sx={{
             color: theme.palette.secondary[200],
-            fontSize: {
-              xs: "1rem", // für sehr kleine Bildschirme
-              sm: "1rem", // für kleine Bildschirme
-              md: "1.5rem", // für mittlere Bildschirme
-              lg: "1.5rem", // für größere Bildschirme
-              xl: "2rem",
-            },
+           
           }}
           textAlign="center"
           gridColumn="3/5"
@@ -125,13 +113,7 @@ const StatBoxGameInfo = ({
         variant="h4"
         sx={{
           color: theme.palette.secondary[100],
-          fontSize: {
-            xs: "0.75rem", // für sehr kleine Bildschirme
-            sm: "0.75rem", // für kleine Bildschirme
-            md: "1rem", // für mittlere Bildschirme
-            lg: "1rem", // für größere Bildschirme
-            xl: "1.25rem",
-          },
+          
         }}
         textAlign="center"
       >
@@ -141,15 +123,15 @@ const StatBoxGameInfo = ({
       <Box
         display="grid"
         gridTemplateColumns="repeat(3, 1fr)"
-        //Padding einfügen
+        
         alignItems="center"
         sx={{
           p: {
             xs: "0.25rem 0.125rem", // für sehr kleine Bildschirme
             sm: "0.5rem 0.25rem", // für kleine Bildschirme
-            md: "0.75rem 0.5rem", // für mittlere Bildschirme
-            lg: "1rem 0.75rem", // für größere Bildschirme
-            xl: "1.25rem 1rem",
+            md: "0 0", // für mittlere Bildschirme
+            lg: "0 0", // für größere Bildschirme
+            xl: "0 0",
           },
         }}
       >
@@ -161,13 +143,7 @@ const StatBoxGameInfo = ({
           fontWeight="300"
           sx={{
             color: theme.palette.secondary[100],
-            fontSize: {
-              xs: "0.75rem", // für sehr kleine Bildschirme
-              sm: "0.75rem", // für kleine Bildschirme
-              md: "1rem", // für mittlere Bildschirme
-              lg: "1rem", // für größere Bildschirme
-              xl: "1.25rem",
-            },
+            
           }}
           gridColumn="span 1"
         >
@@ -183,13 +159,7 @@ const StatBoxGameInfo = ({
               : isLose
               ? theme.palette.red[500]
               : theme.palette.secondary[100],
-            fontSize: {
-              xs: "1rem", // für sehr kleine Bildschirme
-              sm: "1rem", // für kleine Bildschirme
-              md: "1.5rem", // für mittlere Bildschirme
-              lg: "1.5rem", // für größere Bildschirme
-              xl: "2rem",
-            },
+          
           }}
           textAlign="center"
           gridColumn="2"
@@ -203,13 +173,7 @@ const StatBoxGameInfo = ({
           fontWeight="300"
           sx={{
             color: theme.palette.secondary[100],
-            fontSize: {
-              xs: "0.75rem", // für sehr kleine Bildschirme
-              sm: "0.75rem", // für kleine Bildschirme
-              md: "1rem", // für mittlere Bildschirme
-              lg: "1rem", // für größere Bildschirme
-              xl: "1.25rem",
-            },
+            
           }}
           gridColumn="3"
         >
@@ -228,8 +192,8 @@ const StatBoxGameInfo = ({
             height: {
               xs: "20px",
               sm: "20px",
-              md: "30px",
-              lg: "40px",
+              md: "50px",
+              lg: "50px",
               xl: "50px",
             },
           }}
@@ -241,13 +205,7 @@ const StatBoxGameInfo = ({
           fontWeight="400"
           sx={{
             color: theme.palette.secondary[200],
-            fontSize: {
-              xs: "0.75rem", // für sehr kleine Bildschirme
-              sm: "0.75rem", // für kleine Bildschirme
-              md: "1rem", // für mittlere Bildschirme
-              lg: "1rem", // für größere Bildschirme
-              xl: "1.25rem",
-            },
+            
           }}
           textAlign="center"
         >
@@ -262,8 +220,8 @@ const StatBoxGameInfo = ({
             height: {
               xs: "20px",
               sm: "20px",
-              md: "30px",
-              lg: "40px",
+              md: "50px",
+              lg: "50px",
               xl: "50px",
             },
           }}

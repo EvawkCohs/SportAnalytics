@@ -12,6 +12,7 @@ export const GetPlayerStatisticsPerGame = (
           acronym: game.summary.homeTeam.acronym,
           opponent: game.summary.awayTeam.name,
           opponentacr: game.summary.awayTeam.acronym,
+          gameId: game.summary.id,
           location: "(H)",
         }));
         return homeLineup;
@@ -23,6 +24,7 @@ export const GetPlayerStatisticsPerGame = (
           opponent: game.summary.homeTeam.name,
           opponentacr: game.summary.homeTeam.acronym,
           location: "(A)",
+          gameId: game.summary.id,
         }));
         return awayLineup;
       }

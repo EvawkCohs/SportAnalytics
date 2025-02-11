@@ -188,7 +188,9 @@ export const themeSettings = (mode) => {
       },
       h3: {
         fontFamily: ["Inter", "sans-serif"].join(","),
-        fontSize: 24,
+        fontSize: "1.25rem",
+        [theme.breakpoints.down("sm")]:{fontSize: "0.75rem"}
+        
       },
       h4: {
         fontFamily: ["Inter", "sans-serif"].join(","),

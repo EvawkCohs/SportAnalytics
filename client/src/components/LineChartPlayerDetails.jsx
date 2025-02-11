@@ -1,24 +1,30 @@
 import React from "react";
-import { useTheme, Typography, Box } from "@mui/material";
+import { useTheme, Typography, Box, useMediaQuery } from "@mui/material";
 import { ResponsiveLine } from "@nivo/line";
 
 const LineChart = ({ data, opponents }) => {
   const theme = useTheme();
+  const isNonMediumScreen = useMediaQuery("(min-width: 1000px)");
   return (
     <Box
-      gridColumn="span 6"
-      gridRow="span 4"
+      
+      
       display="flex"
       flexDirection="column"
       justifyContent="space-between"
-      p="1.25rem 1rem"
+    
       flex="1 1 100%"
       backgroundColor={theme.palette.background.alt}
       borderRadius="0.55rem"
       className="data-display"
+      sx={{
+        gridColumn: {
+          xs: "1/7", sm: "1/7", md:"1/7", lg: "1/7", xl: "1/7"
+        }, gridRow: {xs: "1/5", sm: "1/5", md:"1/5", lg:"1/5", xl: "1/5"}
+      }}
     >
       <Typography
-        variant="h3"
+        variant="h2"
         sx={{ color: theme.palette.secondary[200] }}
         textAlign="center"
       >
@@ -57,7 +63,7 @@ const LineChart = ({ data, opponents }) => {
             },
           },
         }}
-        margin={{ top: 50, right: 80, bottom: 100, left: 80 }}
+        margin={isNonMediumScreen ?{ top: 40, right: 10, bottom: 95, left: 60 }: {top:30, right: 10, bottom: 85, left:50}}
         xScale={{ type: "point" }}
         yScale={{
           type: "linear",

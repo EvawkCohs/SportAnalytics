@@ -13,7 +13,7 @@ const Layout = () => {
       <Sidebar
         isNonMobile={isNonMobile}
         drawerWidth="250px"
-        isSidebarOpen={isSidebarOpen}
+        isSidebarOpen={isNonMobile ?isSidebarOpen : !isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
       />
       <Box flexGrow={1}>

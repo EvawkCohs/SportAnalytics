@@ -778,13 +778,7 @@ const Dashboard = () => {
               variant="h3"
               sx={{
                 color: theme.palette.secondary[200],
-                fontSize: {
-                  xs: "0.5rem", // für sehr kleine Bildschirme
-                  sm: "0.75rem", // für kleine Bildschirme
-                  md: "1rem", // für mittlere Bildschirme
-                  lg: "1.25rem", // für größere Bildschirme
-                  xl: "1.5rem",
-                },
+                
               }}
               textAlign="center"
               mb="20px"
