@@ -17,13 +17,17 @@ const Header = ({ title, subtitle, mvp }) => {
           variant="h2"
           color={theme.palette.secondary[100]}
           fontWeight={"bold"}
-          sx={{ mb: "10px" }}
+          sx={{ mb: "1rem", ml: "1rem" }}
         >
           {title}
         </Typography>
         {mvp ? <MVPBatch /> : <Box />}
       </Box>
-      <Typography variant="h5" color={theme.palette.secondary[300]}>
+      <Typography
+        variant="h5"
+        color={theme.palette.secondary[300]}
+        sx={{ ml: "1rem" }}
+      >
         {subtitle}
       </Typography>
     </Box>

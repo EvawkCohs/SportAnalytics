@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Box, Fade, Typography, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Fade,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import Header from "components/Header";
 import { useGetGamesWithParticipationQuery } from "state/api";
@@ -19,8 +26,6 @@ import {
 } from "./collectGamesAndDetails";
 import SimpleStatBox from "components/SimpleStatBox";
 import FlexBetween from "components/FlexBetween";
-import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import { columnsDataGrid } from "scenes/dashboard/dataGridDefinitions";
 import HalfCircleChart from "components/HalfCircleChart";
 
@@ -156,24 +161,26 @@ const Dashboard = () => {
     !dataLastFiveGames ||
     dataLastFiveGames.length < 1
   ) {
-    return <div>Loading....</div>; // Später noch Ladekreis einbauen oder etwas vergleichbares
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center">
+        <CircularProgress
+          variant="indeterminate"
+          thickness={1}
+          size={200}
+          sx={{
+            color: theme.palette.secondary.main,
+            position: "absolute",
+            zIndex: 2,
+          }}
+        />
+      </Box>
+    );
   }
 
   return (
-    <Box
-      m="1.5rem 2.5rem"
-      sx={{
-        m: {
-          xs: "0.25rem 0.5rem",
-          sm: "0.5rem 1rem",
-          md: "0.75rem 1.5rem",
-          lg: "1rem 2rem",
-          xl: "1.5rem 2.5rem",
-        },
-      }}
-    >
+    <Box>
       <FlexBetween>
-        <Header title={teamName} subtitle={"Überblick"} gridColumn="span 6" />
+        <Header title={teamName} subtitle={"Überblick"} />
       </FlexBetween>
       <Box display="flex" flexDirection="column" justifyContent="flex-start">
         <Box
@@ -193,6 +200,7 @@ const Dashboard = () => {
               lg: "repeat(4, 250px)",
               xl: "repeat(3, 300px)",
             },
+            m: "0 1rem",
           }}
         >
           {/*Row 1 */}
@@ -762,7 +770,7 @@ const Dashboard = () => {
                 sm: "0.125rem",
                 md: "0.25rem",
                 lg: "0.5rem",
-                xl: "0.5rem",
+                xl: "0.5rem ",
               },
             }}
           >
