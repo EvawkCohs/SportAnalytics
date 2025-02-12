@@ -6,6 +6,8 @@ import {
   MenuItem,
   InputLabel,
   Fade,
+  CircularProgress,
+  Typography,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import Header from "components/Header";
@@ -20,9 +22,11 @@ import { setId, setTeamName, setGenderMode } from "state";
 import Select from "@mui/material/Select";
 import handleAddGame from "scenes/details/usePostGameData";
 import useFetchAllGamesDetails from "./useFetchAllGamesDetails";
+import { LoadingCircle } from "components/LoadingCircle";
+import { ErrorMessageServer } from "components/ErrorMessageServer";
 function Schedule() {
   //Teamdaten aus MongoDB auslesen
-  const { data: teamData, isLoading } = useGetTeamModelQuery();
+  const { data: teamData, isLoading, errorTeamModel } = useGetTeamModelQuery();
   const [team, setTeam] = React.useState("");
   const [group, setGroup] = useState("SW");
   const [gender, setGender] = useState("male");
@@ -71,7 +75,7 @@ function Schedule() {
   const { schedule, loading, error } = useFetchSchedule(teamId);
 
   //Zugehörigen gameIDs fetchen
-  const gameIDs = useFetchGameIDs(teamId);
+  const { gameIDs, errorGameIDs } = useFetchGameIDs(teamId);
 
   //Daten mit GameIDs versehen
   const dataWithIDs = schedule.map((item, index) => ({
@@ -88,11 +92,11 @@ function Schedule() {
   }, [allGamesDetails, dispatch]);
 
   if (loading || isLoading) {
-    return <div>Loading....</div>; // Später noch Ladekreis einbauen oder etwas vergleichbares
+    return <LoadingCircle />;
   }
 
-  if (error) {
-    return <div>Error: {error}</div>; // Fehlermeldung Rendern (später anpassen)
+  if (error || errorTeamModel || errorGameIDs) {
+    return <ErrorMessageServer />; // Fehlermeldung Rendern (später anpassen)
   }
 
   const cols = [

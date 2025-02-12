@@ -14,9 +14,16 @@ import { useLogInUserMutation } from "state/api";
 import { useGetTeamModelQuery } from "state/api";
 import { setId, setTeamName } from "state";
 import { useAuth } from "state/AuthContext";
+import { ErrorMessageServer } from "components/ErrorMessageServer";
+import { LoadingCircle } from "components/LoadingCircle";
 
 const LoginPage = () => {
-  const { data: teamData, isLoadingTeam } = useGetTeamModelQuery();
+  const {
+    data: teamData,
+    isLoadingTeam,
+    errorTeamModel,
+  } = useGetTeamModelQuery();
+
   const [team, setTeam] = React.useState("");
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -27,6 +34,7 @@ const LoginPage = () => {
   const { login } = useAuth();
   const [loginUser, { isLoading, isSuccess, isError, error }] =
     useLogInUserMutation();
+  console.log(error);
   const Navigate = useNavigate();
   const handleNavigate = () => {
     Navigate(`/registrieren`);
@@ -50,6 +58,12 @@ const LoginPage = () => {
       console.error("Login-Fehler:", err);
     }
   };
+  if (isLoadingTeam) {
+    return <LoadingCircle />;
+  }
+  if (errorTeamModel) {
+    return <ErrorMessageServer />;
+  }
 
   return (
     <Box m="1.25rem 2.5rem">
@@ -156,7 +170,10 @@ const LoginPage = () => {
       )}
       {isError && (
         <Typography color="error.main" align="center" mt={2}>
-          Fehler: {error?.data?.message || "Ungültige Anmeldedaten."}
+          Fehler:{" "}
+          {error?.status === "FETCH_ERROR"
+            ? "Server derzeit nicht erreichbar"
+            : "Ungültige Anmeldedaten."}
         </Typography>
       )}
     </Box>

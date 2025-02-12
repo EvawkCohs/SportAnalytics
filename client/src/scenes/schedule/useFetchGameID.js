@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 
 const useFetchGameIDs = (teamId) => {
   const [gameIDs, setGameIDs] = useState([]);
+  const [error, setError] = useState(null);
   const url = `https://www.handball.net/mannschaften/${teamId}/spielplan`;
 
   useEffect(() => {
@@ -31,12 +32,11 @@ const useFetchGameIDs = (teamId) => {
         });
         setGameIDs(gameIDs);
       } catch (error) {
-        console.error(error);
-        throw new Error("Error occured while fetching game IDs");
+        setError(error.message);
       }
     };
     fetchData();
   }, [url]);
-  return gameIDs;
+  return { gameIDs, error };
 };
 export default useFetchGameIDs;

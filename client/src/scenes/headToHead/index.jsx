@@ -19,6 +19,8 @@ import {
   GetAveragePenaltyStats,
 } from "./functions";
 import { ResponsiveRadar } from "@nivo/radar";
+import { LoadingCircle } from "components/LoadingCircle";
+import { ErrorMessageServer } from "components/ErrorMessageServer";
 const MyResponsiveRadar = ({ data }) => {
   const theme = useTheme();
   return (
@@ -55,7 +57,7 @@ const MyResponsiveRadar = ({ data }) => {
 };
 const HeadToHead = () => {
   const theme = useTheme();
-  const { data: teamData, isLoading } = useGetTeamModelQuery();
+  const { data: teamData, isLoading, errorTeamModel } = useGetTeamModelQuery();
 
   //TEAM A
   const [teamAId, setTeamAId] = useState("");
@@ -220,16 +222,11 @@ const HeadToHead = () => {
   const handleMouseLeave = () => {
     setHoveredGroup(null);
   };
-  if (
-    isLoading ||
-    !dataLastFiveGamesTeamA ||
-    isLoadingTeamA ||
-    isLoadingTeamB
-  ) {
-    return <div>Loading...</div>;
+  if (isLoading || isLoadingTeamA || isLoadingTeamB) {
+    return <LoadingCircle />;
   }
-  if (errorTeamA || errorTeamB) {
-    return <div>ERROR</div>;
+  if (errorTeamModel || errorTeamA || errorTeamB || !teamData) {
+    return <ErrorMessageServer />;
   }
   return (
     <Box m="1.5rem 1.5rem">

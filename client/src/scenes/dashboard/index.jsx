@@ -28,6 +28,8 @@ import SimpleStatBox from "components/SimpleStatBox";
 import FlexBetween from "components/FlexBetween";
 import { columnsDataGrid } from "scenes/dashboard/dataGridDefinitions";
 import HalfCircleChart from "components/HalfCircleChart";
+import { LoadingCircle } from "components/LoadingCircle";
+import { ErrorMessageServer } from "components/ErrorMessageServer";
 
 const Dashboard = () => {
   const teamId = useSelector((state) => state.global.teamId);
@@ -38,13 +40,13 @@ const Dashboard = () => {
 
   const {
     data: games,
-    errorGames,
+    isError,
     isLoadingGames,
   } = useGetGamesWithParticipationQuery(teamId);
   //TODO: GameIDS dieser Spiele extrahieren und mit benutzerdefinierten Spielen (und UserId) abgleichen
   //Dann in den games die entsprechenden Spiele ersetzen und weiter verwenden
   //Nächsten 5 Spiele
-
+  console.log(useGetGamesWithParticipationQuery(teamId));
   const updatedNextFiveGames = games
     ?.filter((game) => new Date(game.summary.startsAt).getTime() > Date.now())
     .sort((a, b) => new Date(a.summary.startsAt) - new Date(b.summary.startsAt))
@@ -151,8 +153,8 @@ const Dashboard = () => {
     setBestPeriod([bestPeriodKey, bestPeriodValue.toFixed(2)]);
     setWorstPeriod([worstPeriodKey, worstPeriodValue.toFixed(2)]);
   }, [periodData]);
-  if (errorGames) {
-    return <div>Fehler beim Laden der Daten</div>;
+  if (isError) {
+    return <ErrorMessageServer />;
   }
   if (
     isLoadingGames ||
@@ -161,20 +163,7 @@ const Dashboard = () => {
     !dataLastFiveGames ||
     dataLastFiveGames.length < 1
   ) {
-    return (
-      <Box display="flex" justifyContent="center" alignItems="center">
-        <CircularProgress
-          variant="indeterminate"
-          thickness={1}
-          size={200}
-          sx={{
-            color: theme.palette.secondary.main,
-            position: "absolute",
-            zIndex: 2,
-          }}
-        />
-      </Box>
-    );
+    return <LoadingCircle />;
   }
 
   return (
@@ -778,7 +767,6 @@ const Dashboard = () => {
               variant="h3"
               sx={{
                 color: theme.palette.secondary[200],
-                
               }}
               textAlign="center"
               mb="20px"

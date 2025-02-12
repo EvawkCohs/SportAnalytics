@@ -11,7 +11,7 @@ import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 const HalfCircleChart = ({ value, compareValue, mode }) => {
   const theme = useTheme();
   const rawDiff = ((value / compareValue) * 100) / 4 - 25;
-  const adjustedDiff = Math.sign(rawDiff) * Math.pow(Math.abs(rawDiff), 4) + 25;
+  const adjustedDiff = Math.sign(rawDiff) * Math.pow(Math.abs(rawDiff), 3) + 25;
   const isNonMedium = useMediaQuery("(min-width: 900px");
 
   return (

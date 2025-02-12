@@ -16,6 +16,8 @@ import {
 import Header from "components/Header";
 import { useNavigate } from "react-router-dom";
 import { useGetTeamModelQuery } from "state/api";
+import { LoadingCircle } from "components/LoadingCircle";
+import { ErrorMessageServer } from "components/ErrorMessageServer";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -30,7 +32,11 @@ const RegisterPage = () => {
     passwordWdh: "",
     mannschaft: "",
   });
-  const { data: teamData, isLoadingTeam } = useGetTeamModelQuery();
+  const {
+    data: teamData,
+    isLoadingTeam,
+    errorTeamModel,
+  } = useGetTeamModelQuery();
   const filteredTeams = teamData || [];
   const theme = useTheme();
   const Navigate = useNavigate();
@@ -91,6 +97,12 @@ const RegisterPage = () => {
       console.error("Registrierungsfehler:", err);
     }
   };
+  if (isLoadingTeam) {
+    return <LoadingCircle />;
+  }
+  if (errorTeamModel) {
+    return <ErrorMessageServer />;
+  }
 
   return (
     <Box m="1.25rem 2.5rem">
@@ -493,7 +505,10 @@ const RegisterPage = () => {
       )}
       {isError && (
         <Typography color="error.main" align="center">
-          Fehler: {error?.data?.message || "Etwas ist schief gelaufen."}
+          Fehler:{" "}
+          {error?.status === "FETCH_ERROR"
+            ? "Server derzeit nicht erreichbar"
+            : "Es ist etwas schief gelaufen."}
         </Typography>
       )}
     </Box>

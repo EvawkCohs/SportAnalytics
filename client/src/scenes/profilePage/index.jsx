@@ -3,19 +3,23 @@ import Header from "components/Header";
 import { Box, Typography, useTheme, Divider } from "@mui/material";
 import { AccountCircleOutlined } from "@mui/icons-material";
 import { useGetUserProfileQuery } from "state/api";
+import { ErrorMessageServer } from "components/ErrorMessageServer";
 
 const ProfilePage = () => {
   //Profil
   const { data: profile, error } = useGetUserProfileQuery();
 
   const theme = useTheme();
-
+  console.log(error);
   if (error) {
-    
-    return (
+    return error.status === "FETCH_ERROR" ? (
+      <ErrorMessageServer />
+    ) : (
       <Box m="1.5rem 2.5rem">
-        <Header title="PROFIL"/>
-        <Typography variant="h5" sx={{color: theme.palette.secondary[200]}}>Sie sind derzeit nicht eingeloggt.</Typography>
+        <Header title="PROFIL" />
+        <Typography variant="h5" sx={{ color: theme.palette.secondary[200] }}>
+          Sie sind derzeit nicht eingeloggt.
+        </Typography>
       </Box>
     );
   }

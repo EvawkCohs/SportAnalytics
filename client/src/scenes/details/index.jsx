@@ -37,6 +37,8 @@ import {
   useGetUserGamesQuery,
 } from "state/api";
 import { skipToken } from "@reduxjs/toolkit/query";
+import { LoadingCircle } from "components/LoadingCircle";
+import { ErrorMessageServer } from "components/ErrorMessageServer";
 
 //Daten Speicherung
 function Details() {
@@ -46,6 +48,7 @@ function Details() {
   //Daten der Spiele annehmen
   const { id } = useParams();
   const data = useGetGameModelQuery(id);
+
   const gameData = data.data;
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
   const [eventData, setEventData] = useState([]);
@@ -221,7 +224,12 @@ function Details() {
 
   //Ladeanzeige/Fehlerhandling
   if (data.isLoading || !goalDataAwayTeam || !goalDataHomeTeam) {
-    return <div>Loading....</div>; // Später noch Ladekreis einbauen oder etwas vergleichbares
+    if (!data.isError) {
+      return <LoadingCircle />;
+    }
+  }
+  if (data.isError) {
+    return <ErrorMessageServer />;
   }
 
   return (
@@ -230,7 +238,11 @@ function Details() {
         <FlexBetween>
           <Header
             title="GAME DETAILS"
-            subtitle={isNonMediumScreens ?`${gameData.summary.homeTeam.name} vs ${gameData.summary.awayTeam.name}`:`${gameData.summary.homeTeam.acronym} vs ${gameData.summary.awayTeam.acronym}`}
+            subtitle={
+              isNonMediumScreens
+                ? `${gameData.summary.homeTeam.name} vs ${gameData.summary.awayTeam.name}`
+                : `${gameData.summary.homeTeam.acronym} vs ${gameData.summary.awayTeam.acronym}`
+            }
           />
           <Box gap="1.5rem" display="flex" flexDirection="row">
             <SimpleButton
@@ -261,7 +273,6 @@ function Details() {
         {/* GRID ERSTELLUNG */}
         <Box display="flex" flexDirection="column" justifyContent="flex-start">
           <Box
-            
             mt="20px"
             display="grid"
             sx={{
@@ -328,7 +339,6 @@ function Details() {
                     lg: "0.5rem",
                     xl: "0.5rem",
                   },
-                  
                 }}
                 display="flex"
                 flexDirection="column"
@@ -338,7 +348,6 @@ function Details() {
                 borderRadius="0.55rem"
                 className="data-display"
                 border="1px solid #2f2b38"
-
               >
                 <Typography
                   variant="h2"
@@ -387,7 +396,6 @@ function Details() {
               backgroundColor={theme.palette.background.alt}
               borderRadius="0.55rem"
               className="data-display"
-              
             >
               <StatBoxGameInfo
                 title={`${gameData.summary.phase.name}`}
@@ -429,7 +437,6 @@ function Details() {
                   lg: "0.5rem",
                   xl: "0.5rem",
                 },
-               
               }}
             >
               <SimpleStatBox
@@ -492,7 +499,6 @@ function Details() {
             backgroundColor={theme.palette.background.alt}
             borderRadius="0.55rem"
             className="data-display"
-            
             sx={{
               "& .MuiDataGrid-root": {
                 borderBottom: "none",
@@ -541,15 +547,17 @@ function Details() {
           >
             <Typography
               variant="h3"
-              sx={{ color: theme.palette.secondary[200], m: {
-                xs: "0.125rem 0.0625rem",
-                sm: "0.125rem",
-                md: "0.25rem",
-                lg: "0.5rem",
-                xl: "0.5rem",
-              }, }}
+              sx={{
+                color: theme.palette.secondary[200],
+                m: {
+                  xs: "0.125rem 0.0625rem",
+                  sm: "0.125rem",
+                  md: "0.25rem",
+                  lg: "0.5rem",
+                  xl: "0.5rem",
+                },
+              }}
               textAlign="center"
-              
             >
               Einzelstatistiken
             </Typography>
@@ -562,7 +570,6 @@ function Details() {
               }}
               columnSeparator
               onCellClick={handleCellClick}
-              
             />
           </Box>
         </Box>
