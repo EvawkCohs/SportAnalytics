@@ -1,13 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import {
-  Box,
-  Divider,
-  Typography,
-  Tooltip,
-  CardContent,
-  Card,
-} from "@mui/material";
+import { Box, Divider, Typography, Tooltip } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import FlexBetween from "components/FlexBetween";
 import Header from "components/Header";

@@ -24,7 +24,6 @@ const LoginPage = () => {
     errorTeamModel,
   } = useGetTeamModelQuery();
 
-  const [team, setTeam] = React.useState("");
   const dispatch = useDispatch();
   const theme = useTheme();
   const [formData, setFormData] = useState({
@@ -34,7 +33,7 @@ const LoginPage = () => {
   const { login } = useAuth();
   const [loginUser, { isLoading, isSuccess, isError, error }] =
     useLogInUserMutation();
-  console.log(error);
+
   const Navigate = useNavigate();
   const handleNavigate = () => {
     Navigate(`/registrieren`);

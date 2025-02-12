@@ -9,9 +9,7 @@ const SimpleButton = ({ text, Icon, onClick }) => {
       sx={{
         backgroundColor: theme.palette.secondary[300],
         color: theme.palette.background.alt,
-        fontSize: {xs: "6px",
-          sm: "8px", md: "10px", lg:"12px" ,xl: "14px"
-        },
+        fontSize: { xs: "6px", sm: "8px", md: "10px", lg: "12px", xl: "14px" },
         fontWeight: "bold",
         display: "flex",
         alignItems: "center",

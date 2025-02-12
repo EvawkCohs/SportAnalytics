@@ -66,7 +66,7 @@ function VideoAnalyse() {
     events: [],
   });
   const shouldFetch = profile?.username && id;
-  const { data: specificGameData, errorUserGame } = useGetUserGamesQuery(
+  const { data: specificGameData, isErrorUserGame } = useGetUserGamesQuery(
     shouldFetch ? { gameId: id, userId: profile.username } : skipToken
   );
 
@@ -100,7 +100,7 @@ function VideoAnalyse() {
     profile,
     id,
     specificGameData,
-    errorUserGame,
+    isErrorUserGame,
     error,
     gameData,
     shouldFetch,
@@ -316,6 +316,8 @@ function VideoAnalyse() {
     assist: "Assist",
     technicalFault: "Technischer Fehler",
   };
+
+  //Event Hinzugügen
   const handleAddEvent = () => {
     const eventType = etypeRef.current;
     let currentPlayerTime = 0;
@@ -386,6 +388,8 @@ function VideoAnalyse() {
       return newEventData.sort((a, b) => b.timestamp - a.timestamp);
     });
   };
+
+  //EventAuswahl
   const handleSelectionChangeType = (e) => {
     setEtype(e.target.value);
   };
@@ -394,9 +398,7 @@ function VideoAnalyse() {
   };
   const [openDialogSave, setOpenDialogSave] = useState(false);
 
-  const handleCloseDialogSave = () => {
-    setOpenDialogSave(false);
-  };
+  //Events Speichern
   const handleSaveEvents = async () => {
     const updatedGameData = {
       ...userGameData,
@@ -414,87 +416,179 @@ function VideoAnalyse() {
       console.error("Uploadfehler: ", err);
     }
   };
+  const handleCloseDialogSave = () => {
+    setOpenDialogSave(false);
+  };
 
   return (
     <Box m="1.5rem  2.5rem">
       <Header title="VIDEOANALYSE" subtitle="Schaue und analysiere das Video" />
-      <Box display="grid" gridTemplateColumns="2fr 1fr" gap="1rem" mt="1rem">
+      <Box
+        display="grid"
+        gridTemplateColumns="2fr 1fr"
+        gap="1rem"
+        mt="1rem"
+        sx={{
+          gridTemplateRows: {
+            xs: "repeat(3, 400px)",
+            sm: "repeat(3, 400px)",
+            md: "repeat(3, 400px)",
+            lg: "repeat(2, 800px)",
+            xl: "repeat(2, 900px)",
+          },
+        }}
+      >
         {/*Button Box für Hinzufügen Startzeiten */}
         <Box
+          sx={{
+            gridColumn: {
+              xs: "1/3",
+              sm: "1/3",
+              md: "1/3",
+              lg: "2/3",
+              xl: "2/3",
+            },
+            gridRow: {
+              xs: "2",
+              sm: "2",
+              md: "2",
+              lg: "1",
+              xl: "1",
+            },
+          }}
           display="flex"
+          flexDirection="column"
+          justifyContent="flex-start"
+          alignItems="center"
           gap="1rem"
-          gridColumn="2/3"
-          justifyContent="flex-end"
         >
-          <TextField
-            id="start-ersteHZ"
-            label="Startzeit 1. HZ"
-            variant="outlined"
-            onChange={(e) => setGameStart(e.target.value)}
-            error={error.firstHalfTime}
-            helperText={error.firstHalfTime ? errorMessage : ""}
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: theme.palette.grey[700],
+          <Box display="flex" gap="1rem" justifyContent="flex-start">
+            <TextField
+              id="start-ersteHZ"
+              label="Startzeit 1. HZ"
+              variant="outlined"
+              onChange={(e) => setGameStart(e.target.value)}
+              error={error.firstHalfTime}
+              helperText={error.firstHalfTime ? errorMessage : ""}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: theme.palette.grey[700],
+                  },
+                  "&:hover fieldset": {
+                    borderColor: theme.palette.secondary[300],
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: theme.palette.secondary[300],
+                  },
                 },
-                "&:hover fieldset": {
-                  borderColor: theme.palette.secondary[300],
+                "& .MuiInputLabel-root": {
+                  color: theme.palette.grey[700],
                 },
-                "&.Mui-focused fieldset": {
-                  borderColor: theme.palette.secondary[300],
+                "&:hover .MuiInputLabel-root": {
+                  color: theme.palette.secondary[200],
                 },
-              },
-              "& .MuiInputLabel-root": {
-                color: theme.palette.grey[700],
-              },
-              "&:hover .MuiInputLabel-root": {
-                color: theme.palette.secondary[200],
-              },
-              "& .Mui-focused .MuiInputLabel-root": {
-                color: theme.palette.secondary[200],
-              },
-            }}
-          />
-          <TextField
-            id="start-zweiteHZ"
-            label="Startzeit 2. HZ"
-            variant="outlined"
-            onChange={(e) => setSecondHalfStart(e.target.value)}
-            error={error.secondHalfTime}
-            helperText={error.secondHalfTime ? errorMessage : ""}
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: theme.palette.grey[700],
+                "& .Mui-focused .MuiInputLabel-root": {
+                  color: theme.palette.secondary[200],
                 },
-                "&:hover fieldset": {
-                  borderColor: theme.palette.secondary[300],
+              }}
+            />
+            <TextField
+              id="start-zweiteHZ"
+              label="Startzeit 2. HZ"
+              variant="outlined"
+              onChange={(e) => setSecondHalfStart(e.target.value)}
+              error={error.secondHalfTime}
+              helperText={error.secondHalfTime ? errorMessage : ""}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: theme.palette.grey[700],
+                  },
+                  "&:hover fieldset": {
+                    borderColor: theme.palette.secondary[300],
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: theme.palette.secondary[300],
+                  },
                 },
-                "&.Mui-focused fieldset": {
-                  borderColor: theme.palette.secondary[300],
+                "& .MuiInputLabel-root": {
+                  color: theme.palette.grey[700],
                 },
-              },
-              "& .MuiInputLabel-root": {
-                color: theme.palette.grey[700],
-              },
-              "&:hover .MuiInputLabel-root": {
-                color: theme.palette.secondary[200],
-              },
-              "& .Mui-focused .MuiInputLabel-root": {
-                color: theme.palette.secondary[200],
-              },
-            }}
-          />
+                "&:hover .MuiInputLabel-root": {
+                  color: theme.palette.secondary[200],
+                },
+                "& .Mui-focused .MuiInputLabel-root": {
+                  color: theme.palette.secondary[200],
+                },
+              }}
+            />
 
-          <SimpleButton text="Speichern" onClick={handleTimeSave} />
+            <SimpleButton text="Speichern" onClick={handleTimeSave} />
+          </Box>
+          {/* Event-Box */}
+          <Box
+            gridColumn="2/3"
+            overflow="auto"
+            borderRadius="0.55rem"
+            width="100%"
+            border={`1px solid ${theme.palette.secondary[200]}`}
+            sx={{
+              "& .MuiDataGrid-cell": {
+                cursor: videoUrl ? "pointer" : "default",
+                fontSize: 16,
+                color: theme.palette.secondary[200],
+              },
+              "& .MuiDataGrid-columnHeaders": {
+                color: theme.palette.secondary[200],
+                fontSize: 24,
+              },
+            }}
+          >
+            <DataGrid
+              columns={cols}
+              rows={row || []}
+              components={{ ColumnMenu: CustomColumnMenu }}
+              hideFooter
+              onCellClick={(params) => {
+                if (videoUrl) {
+                  handleEventClick(params.row);
+                }
+              }}
+              checkboxSelection
+              onRowSelectionModelChange={(index) => {
+                setRowDeletionIds(index);
+              }}
+              sx={{
+                "& .MuiDataGrid-row.Mui-selected": {
+                  backgroundColor: theme.palette.grey[800],
+                  "&:hover": {
+                    backgroundColor: theme.palette.grey[800],
+                  },
+                },
+                "& .MuiDataGrid-checkbox": {
+                  color: theme.palette.secondary[300], // Farbe des Auswahlkästchens
+                },
+                "& .Mui-checked": {
+                  color: theme.palette.secondary[300], // Farbe des Häkchens in der Checkbox
+                },
+                "& .MuiDataGrid-row": {
+                  "&:hover": {
+                    backgroundColor: theme.palette.grey[800],
+                  },
+                },
+              }}
+            />
+          </Box>
         </Box>
         <Box
           gridColumn="1/2"
+          gridRow="1"
           flexDirection="column"
           p="0 2rem"
           flex="1 1 100%"
           borderRadius="0.55rem"
+          height="100%"
         >
           {videoUrl ? (
             //Video Player
@@ -515,12 +609,10 @@ function VideoAnalyse() {
               alignItems="center"
               border={`2px dashed ${theme.palette.grey[700]}`}
               position="relative"
+              height="100%"
               sx={{
                 cursor: "pointer",
                 "&:hover": { borderColor: theme.palette.secondary[300] },
-                aspectRatio: "16/9", // Stellt sicher, dass die Box ein 16:9-Verhältnis beibehält
-                width: "100%", // Nimmt die gesamte Breite der Elternbox ein
-                height: "100%",
               }}
               onDrop={handleDrop}
               onDragOver={handleDragOver}
@@ -550,68 +642,29 @@ function VideoAnalyse() {
             </Box>
           )}
         </Box>
-        {/* Event-Box */}
-        <Box
-          gridColumn="2/3"
-          overflow="auto"
-          borderRadius="0.55rem"
-          maxHeight="850px"
-          minHeight="710px"
-          border={`1px solid ${theme.palette.secondary[200]}`}
-          sx={{
-            "& .MuiDataGrid-cell": {
-              cursor: videoUrl ? "pointer" : "default",
-              fontSize: 16,
-              color: theme.palette.secondary[200],
-            },
-            "& .MuiDataGrid-columnHeaders": {
-              color: theme.palette.secondary[200],
-              fontSize: 24,
-            },
-          }}
-        >
-          <DataGrid
-            columns={cols}
-            rows={row || []}
-            components={{ ColumnMenu: CustomColumnMenu }}
-            hideFooter
-            onCellClick={(params) => {
-              if (videoUrl) {
-                handleEventClick(params.row);
-              }
-            }}
-            checkboxSelection
-            onRowSelectionModelChange={(index) => {
-              setRowDeletionIds(index);
-            }}
-            sx={{
-              "& .MuiDataGrid-row.Mui-selected": {
-                backgroundColor: theme.palette.grey[800],
-                "&:hover": {
-                  backgroundColor: theme.palette.grey[800],
-                },
-              },
-              "& .MuiDataGrid-checkbox": {
-                color: theme.palette.secondary[300], // Farbe des Auswahlkästchens
-              },
-              "& .Mui-checked": {
-                color: theme.palette.secondary[300], // Farbe des Häkchens in der Checkbox
-              },
-              "& .MuiDataGrid-row": {
-                "&:hover": {
-                  backgroundColor: theme.palette.grey[800],
-                },
-              },
-            }}
-          />
-        </Box>
 
         {/*Button zum Löschen von Events */}
         <Box
           display="flex"
-          gridColumn="2/3"
           ml="0.55rem"
           justifyContent="flex-start"
+          sx={{
+            gridColumn: {
+              xs: "1/3",
+              sm: "1/3",
+              md: "1/3",
+              lg: "2/3",
+              xl: "2/3",
+            },
+            gridRow: {
+              xs: "3",
+              sm: "3",
+              md: "3",
+              lg: "2",
+              xl: "2",
+            },
+          }}
+          height="20px"
         >
           <LightTooltip title="Ausgewählte Events löschen">
             <IconButton
