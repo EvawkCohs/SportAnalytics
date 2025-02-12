@@ -36,10 +36,11 @@ const Dashboard = () => {
     isError,
     isLoadingGames,
   } = useGetGamesWithParticipationQuery(teamId);
+
   //TODO: GameIDS dieser Spiele extrahieren und mit benutzerdefinierten Spielen (und UserId) abgleichen
   //Dann in den games die entsprechenden Spiele ersetzen und weiter verwenden
   //Nächsten 5 Spiele
-  console.log(useGetGamesWithParticipationQuery(teamId));
+
   const updatedNextFiveGames = games
     ?.filter((game) => new Date(game.summary.startsAt).getTime() > Date.now())
     .sort((a, b) => new Date(a.summary.startsAt) - new Date(b.summary.startsAt))

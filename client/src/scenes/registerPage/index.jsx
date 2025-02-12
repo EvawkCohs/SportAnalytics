@@ -18,6 +18,8 @@ import { useNavigate } from "react-router-dom";
 import { useGetTeamModelQuery } from "state/api";
 import { LoadingCircle } from "components/LoadingCircle";
 import { ErrorMessageServer } from "components/ErrorMessageServer";
+import { CustomTextField } from "components/CustomTextField";
+import { CustomInputLabel } from "components/CustomInputLabel";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -133,155 +135,40 @@ const RegisterPage = () => {
               Persönliche Daten:
             </Typography>
             <Divider orientation="horizontal" flexItem />
-            <TextField
+            <CustomTextField
               name="vorname"
               label="Vorname"
-              variant="outlined"
               value={formData.vorname}
               onChange={handleChange}
-              required
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: theme.palette.grey[400],
-                  },
-                  "&:hover fieldset": {
-                    borderColor: theme.palette.secondary[300],
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: theme.palette.secondary[300],
-                  },
-                },
-                "& .MuiInputLabel-root": {
-                  color: theme.palette.grey[400],
-                },
-                "&:hover .MuiInputLabel-root": {
-                  color: theme.palette.secondary[200],
-                },
-                "& .Mui-focused .MuiInputLabel-root": {
-                  color: theme.palette.secondary[200],
-                },
-              }}
+              required={true}
             />
-            <TextField
+            <CustomTextField
               name="nachname"
               label="Nachname"
-              variant="outlined"
               value={formData.nachname}
               onChange={handleChange}
-              required
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: theme.palette.grey[400],
-                  },
-                  "&:hover fieldset": {
-                    borderColor: theme.palette.secondary[300],
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: theme.palette.secondary[300],
-                  },
-                },
-                "& .MuiInputLabel-root": {
-                  color: theme.palette.grey[400],
-                },
-                "&:hover .MuiInputLabel-root": {
-                  color: theme.palette.secondary[200],
-                },
-                "& .Mui-focused .MuiInputLabel-root": {
-                  color: theme.palette.secondary[200],
-                },
-              }}
+              required={true}
             />
-            <TextField
+            <CustomTextField
               name="strasse"
               label="Straße + Hausnummer"
-              variant="outlined"
               value={formData.strasse}
               onChange={handleChange}
-              required
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: theme.palette.grey[400],
-                  },
-                  "&:hover fieldset": {
-                    borderColor: theme.palette.secondary[300],
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: theme.palette.secondary[300],
-                  },
-                },
-                "& .MuiInputLabel-root": {
-                  color: theme.palette.grey[400],
-                },
-                "&:hover .MuiInputLabel-root": {
-                  color: theme.palette.secondary[200],
-                },
-                "& .Mui-focused .MuiInputLabel-root": {
-                  color: theme.palette.secondary[200],
-                },
-              }}
+              required={true}
             />
-            <TextField
+            <CustomTextField
               name="plz"
               label="PLZ"
-              variant="outlined"
               value={formData.plz}
               onChange={handleChange}
-              required
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: theme.palette.grey[400],
-                  },
-                  "&:hover fieldset": {
-                    borderColor: theme.palette.secondary[300],
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: theme.palette.secondary[300],
-                  },
-                },
-                "& .MuiInputLabel-root": {
-                  color: theme.palette.grey[400],
-                },
-                "&:hover .MuiInputLabel-root": {
-                  color: theme.palette.secondary[200],
-                },
-                "& .Mui-focused .MuiInputLabel-root": {
-                  color: theme.palette.secondary[200],
-                },
-              }}
+              required={true}
             />
-            <TextField
+            <CustomTextField
               name="stadt"
               label="Stadt"
-              variant="outlined"
               value={formData.stadt}
               onChange={handleChange}
-              required
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: theme.palette.grey[400],
-                  },
-                  "&:hover fieldset": {
-                    borderColor: theme.palette.secondary[300],
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: theme.palette.secondary[300],
-                  },
-                },
-                "& .MuiInputLabel-root": {
-                  color: theme.palette.grey[400],
-                },
-                "&:hover .MuiInputLabel-root": {
-                  color: theme.palette.secondary[200],
-                },
-                "& .Mui-focused .MuiInputLabel-root": {
-                  color: theme.palette.secondary[200],
-                },
-              }}
+              required={true}
             />
           </Box>
           <Divider orientation="vertical" flexItem />
@@ -299,140 +186,40 @@ const RegisterPage = () => {
               Nutzerdaten:{" "}
             </Typography>
             <Divider orientation="horizontal" flexItem />
-            <TextField
+            <CustomTextField
               name="username"
               label="Benutzername"
-              variant="outlined"
               value={formData.username}
               onChange={handleChange}
-              required
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: theme.palette.grey[400],
-                  },
-                  "&:hover fieldset": {
-                    borderColor: theme.palette.secondary[300],
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: theme.palette.secondary[300],
-                  },
-                },
-                "& .MuiInputLabel-root": {
-                  color: theme.palette.grey[400],
-                },
-                "&:hover .MuiInputLabel-root": {
-                  color: theme.palette.secondary[200],
-                },
-                "& .Mui-focused .MuiInputLabel-root": {
-                  color: theme.palette.secondary[200],
-                },
-              }}
+              required={true}
             />
-            <TextField
+            <CustomTextField
               name="email"
               label="E-mail"
-              variant="outlined"
               value={formData.email}
               onChange={handleChange}
-              required
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: theme.palette.grey[400],
-                  },
-                  "&:hover fieldset": {
-                    borderColor: theme.palette.secondary[300],
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: theme.palette.secondary[300],
-                  },
-                },
-                "& .MuiInputLabel-root": {
-                  color: theme.palette.grey[400],
-                },
-                "&:hover .MuiInputLabel-root": {
-                  color: theme.palette.secondary[200],
-                },
-                "& .Mui-focused .MuiInputLabel-root": {
-                  color: theme.palette.secondary[200],
-                },
-              }}
+              required={true}
             />
-            <TextField
+            <CustomTextField
               name="password"
               label="Passwort"
-              variant="outlined"
               value={formData.password}
               onChange={handleChange}
-              required
+              required={true}
               type="password"
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: theme.palette.grey[400],
-                  },
-                  "&:hover fieldset": {
-                    borderColor: theme.palette.secondary[300],
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: theme.palette.secondary[300],
-                  },
-                },
-                "& .MuiInputLabel-root": {
-                  color: theme.palette.grey[400],
-                },
-                "&:hover .MuiInputLabel-root": {
-                  color: theme.palette.secondary[200],
-                },
-                "& .Mui-focused .MuiInputLabel-root": {
-                  color: theme.palette.secondary[200],
-                },
-              }}
             />
-            <TextField
+            <CustomTextField
               name="passwordWdh"
               label="Passwort wiederholen"
-              variant="outlined"
               value={formData.passwordWdh}
               onChange={handleChange}
-              required
+              required={true}
               type="password"
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: theme.palette.grey[400],
-                  },
-                  "&:hover fieldset": {
-                    borderColor: theme.palette.secondary[300],
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: theme.palette.secondary[300],
-                  },
-                },
-                "& .MuiInputLabel-root": {
-                  color: theme.palette.grey[400],
-                },
-                "&:hover .MuiInputLabel-root": {
-                  color: theme.palette.secondary[200],
-                },
-                "& .Mui-focused .MuiInputLabel-root": {
-                  color: theme.palette.secondary[200],
-                },
-              }}
             />
             <FormControl fullWidth>
-              <InputLabel
-                id="Mannschaftsauswahl"
-                sx={{
-                  "&.Mui-focused": {
-                    color: theme.palette.secondary[300],
-                  },
-                  color: theme.palette.secondary[200],
-                }}
-              >
+              <CustomInputLabel id="Mannschaftsauswahl">
                 Lieblingsmannschaft
-              </InputLabel>
+              </CustomInputLabel>
               <Select
                 name="mannschaft"
                 value={formData.mannschaft}
@@ -443,15 +230,17 @@ const RegisterPage = () => {
                 sx={{
                   "&.MuiOutlinedInput-root": {
                     "& fieldset": {
-                      borderColor: theme.palette.secondary[200], // Standardborderfarbe
+                      borderColor: theme.palette.grey[400],
+                      // Standardborderfarbe
                     },
                     "&:hover fieldset": {
-                      borderColor: theme.palette.secondary[500], // Farbe beim Hovern
+                      borderColor: theme.palette.secondary[300], // Farbe beim Hovern
                     },
                     "&.Mui-focused fieldset": {
-                      borderColor: theme.palette.secondary[500], // Farbe beim Fokussieren
+                      borderColor: theme.palette.secondary[300], // Farbe beim Fokussieren
                     },
                   },
+
                   "& .MuiSelect-select": {
                     color: theme.palette.secondary[200],
                   },

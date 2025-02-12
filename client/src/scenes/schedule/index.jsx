@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Box,
-  useTheme,
-  FormControl,
-  MenuItem,
-  InputLabel,
-  Fade,
-} from "@mui/material";
+import { Box, useTheme, FormControl, MenuItem, Fade } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import Header from "components/Header";
 import { useSelector } from "react-redux";
@@ -17,11 +10,12 @@ import { useNavigate } from "react-router-dom";
 import { useGetTeamModelQuery } from "state/api";
 import { useDispatch } from "react-redux";
 import { setId, setTeamName, setGenderMode } from "state";
-import Select from "@mui/material/Select";
 import handleAddGame from "scenes/details/usePostGameData";
 import useFetchAllGamesDetails from "./useFetchAllGamesDetails";
 import { LoadingCircle } from "components/LoadingCircle";
 import { ErrorMessageServer } from "components/ErrorMessageServer";
+import { CustomSelect } from "components/CustomSelect";
+import { CustomInputLabel } from "components/CustomInputLabel";
 function Schedule() {
   //Teamdaten aus MongoDB auslesen
   const { data: teamData, isLoading, errorTeamModel } = useGetTeamModelQuery();
@@ -162,9 +156,6 @@ function Schedule() {
     navigate(`/details/${param.row.gameID}`);
   };
 
-  //Log für die Entwicklung
-  //console.log(schedule);
-
   return (
     <Box m="1.5rem  2.5rem">
       <Header
@@ -186,80 +177,26 @@ function Schedule() {
         >
           {/*Geschlecht Dropdown */}
           <FormControl sx={{ width: "300px" }}>
-            <InputLabel
-              id="Geschlechtauswahl"
-              sx={{
-                "&.Mui-focused": {
-                  color: theme.palette.secondary[300],
-                },
-                color: theme.palette.secondary[200],
-              }}
-            >
+            <CustomInputLabel id="Geschlechtauswahl">
               Geschlecht
-            </InputLabel>
-            <Select
+            </CustomInputLabel>
+            <CustomSelect
               value={gender}
               onChange={handleGenderChange}
               label="gender"
-              sx={{
-                "&.MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: theme.palette.secondary[200], // Standardborderfarbe
-                  },
-                  "&:hover fieldset": {
-                    borderColor: theme.palette.secondary[500], // Farbe beim Hovern
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: theme.palette.secondary[500], // Farbe beim Fokussieren
-                  },
-                },
-                "& .MuiSelect-select": {
-                  color: theme.palette.secondary[200],
-                },
-                "& .MuiSelect-select.MuiSelect-select": {
-                  color: theme.palette.secondary[200],
-                },
-              }}
+              labelId="Geschlechtauswahl"
             >
               <MenuItem value="male">Männer</MenuItem>
-              <MenuItem value="female">Damen</MenuItem>
-            </Select>
+              <MenuItem value="female">Frauen</MenuItem>
+            </CustomSelect>
           </FormControl>
           <FormControl sx={{ width: "300px" }}>
-            <InputLabel
-              id="Staffelauswahl"
-              sx={{
-                "&.Mui-focused": {
-                  color: theme.palette.secondary[300],
-                },
-                color: theme.palette.secondary[200],
-              }}
-            >
-              Staffel
-            </InputLabel>
-            <Select
+            <CustomInputLabel id="Staffelauswahl">Staffel</CustomInputLabel>
+            <CustomSelect
               value={group}
               onChange={handleGroupChange}
               label="group"
-              sx={{
-                "&.MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: theme.palette.secondary[200], // Standardborderfarbe
-                  },
-                  "&:hover fieldset": {
-                    borderColor: theme.palette.secondary[500], // Farbe beim Hovern
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: theme.palette.secondary[500], // Farbe beim Fokussieren
-                  },
-                },
-                "& .MuiSelect-select": {
-                  color: theme.palette.secondary[200],
-                },
-                "& .MuiSelect-select.MuiSelect-select": {
-                  color: theme.palette.secondary[200],
-                },
-              }}
+              labelId="Staffelauswahl"
             >
               {gender === "male"
                 ? [
@@ -273,47 +210,20 @@ function Schedule() {
                     <MenuItem value="M">3. Liga Staffel Mitte</MenuItem>,
                     <MenuItem value="S">3. Liga Staffel Süd</MenuItem>,
                   ]}
-            </Select>
+            </CustomSelect>
           </FormControl>
 
           {/*Teamauswahl Dropdown*/}
 
           <FormControl sx={{ width: "300px" }}>
-            <InputLabel
-              id="Mannschaftsauswahl"
-              sx={{
-                "&.Mui-focused": {
-                  color: theme.palette.secondary[300],
-                },
-                color: theme.palette.secondary[200],
-              }}
-            >
+            <CustomInputLabel id="Mannschaftsauswahl">
               Mannschaft
-            </InputLabel>
-            <Select
+            </CustomInputLabel>
+            <CustomSelect
               value={team}
               label="mannschaft"
               onChange={handleTeamChange}
-              variant="outlined"
-              sx={{
-                "&.MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: theme.palette.secondary[200], // Standardborderfarbe
-                  },
-                  "&:hover fieldset": {
-                    borderColor: theme.palette.secondary[500], // Farbe beim Hovern
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: theme.palette.secondary[500], // Farbe beim Fokussieren
-                  },
-                },
-                "& .MuiSelect-select": {
-                  color: theme.palette.secondary[200],
-                },
-                "& .MuiSelect-select.MuiSelect-select": {
-                  color: theme.palette.secondary[200],
-                },
-              }}
+              labelId="Mannschaftsauswahl"
             >
               {isLoading ? (
                 <MenuItem disabled>Loading...</MenuItem> // Anzeige während des Ladens
@@ -324,7 +234,7 @@ function Schedule() {
                   </MenuItem>
                 ))
               )}
-            </Select>
+            </CustomSelect>
           </FormControl>
         </Box>
         <Fade in={isChecked} timeout={500}>

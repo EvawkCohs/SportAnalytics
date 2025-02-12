@@ -93,7 +93,7 @@ function Details() {
       events: gameData.events,
     }));
     if (!shouldFetch) return;
-    if (specificGameData && Object.keys(specificGameData.length > 0)) {
+    if (specificGameData && Object.keys(specificGameData).length > 0) {
       setUserGameData((prevData) => ({
         ...prevData,
         userId: profile.username,

@@ -5,7 +5,6 @@ import {
   Button,
   useTheme,
   CircularProgress,
-  TextField,
 } from "@mui/material";
 import Header from "components/Header";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +15,7 @@ import { setId, setTeamName } from "state";
 import { useAuth } from "state/AuthContext";
 import { ErrorMessageServer } from "components/ErrorMessageServer";
 import { LoadingCircle } from "components/LoadingCircle";
+import { CustomTextField } from "components/CustomTextField";
 
 const LoginPage = () => {
   const {
@@ -77,66 +77,20 @@ const LoginPage = () => {
         mt="2rem"
         alignItems="center"
       >
-        <TextField
+        <CustomTextField
           name="username"
           label="Benutzername"
-          variant="outlined"
           value={formData.username}
           onChange={handleChange}
           required
-          sx={{
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderColor: theme.palette.grey[400],
-              },
-              "&:hover fieldset": {
-                borderColor: theme.palette.secondary[200],
-              },
-              "&.Mui-focused fieldset": {
-                borderColor: theme.palette.secondary[200],
-              },
-            },
-            "& .MuiInputLabel-root": {
-              color: theme.palette.grey[400],
-            },
-            "&:hover .MuiInputLabel-root": {
-              color: theme.palette.secondary[200],
-            },
-            "& .Mui-focused .MuiInputLabel-root": {
-              color: theme.palette.secondary[200],
-            },
-          }}
         />
-        <TextField
+        <CustomTextField
           name="password"
           label="Passwort"
-          variant="outlined"
           value={formData.password}
           onChange={handleChange}
           required
           type="password"
-          sx={{
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderColor: theme.palette.grey[400],
-              },
-              "&:hover fieldset": {
-                borderColor: theme.palette.secondary[200],
-              },
-              "&.Mui-focused fieldset": {
-                borderColor: theme.palette.secondary[200],
-              },
-            },
-            "& .MuiInputLabel-root": {
-              color: theme.palette.grey[400],
-            },
-            "&:hover .MuiInputLabel-root": {
-              color: theme.palette.secondary[200],
-            },
-            "& .Mui-focused .MuiInputLabel-root": {
-              color: theme.palette.secondary[200],
-            },
-          }}
         />
         <Button
           type="submit"

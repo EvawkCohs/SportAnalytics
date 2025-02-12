@@ -273,7 +273,7 @@ export const dataTeams = [
   },
   {
     id: "sportradar.dhbdata.456-1648",
-    name: "Ahlener SG",
+    name: "HLZ Ahlener SG",
     urlEnding: "13ohc",
     group: "NW",
     gender: "male",
