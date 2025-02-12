@@ -160,7 +160,7 @@ const Dashboard = () => {
   }
 
   return (
-    <Box>
+    <Box m="1.5rem 2.5rem">
       <FlexBetween>
         <Header title={teamName} subtitle={"Überblick"} />
       </FlexBetween>
@@ -182,7 +182,6 @@ const Dashboard = () => {
               lg: "repeat(4, 250px)",
               xl: "repeat(3, 300px)",
             },
-            m: "0 1rem",
           }}
         >
           {/*Row 1 */}
@@ -686,12 +685,10 @@ const Dashboard = () => {
         </Box>
         <Fade in={isChecked} timeout={500}>
           <Box
-            width="1fr"
             height="600px"
             display="flex"
             flexDirection="column"
             justifyContent="space-between"
-            p="1.25rem 1rem"
             flex="1 1 100%"
             backgroundColor={theme.palette.background.alt}
             borderRadius="0.55rem"
@@ -749,10 +746,17 @@ const Dashboard = () => {
               },
               m: {
                 xs: "0.125rem 0.0625rem",
-                sm: "0.125rem",
-                md: "0.25rem",
-                lg: "0.5rem",
-                xl: "0.5rem ",
+                sm: "0.5rem .125rem",
+                md: "1rem .25rem",
+                lg: "1.5rem .5rem",
+                xl: "2rem .5rem",
+              },
+              p: {
+                xs: "0.25rem 0.25rem",
+                sm: "0.5rem 0.25rem",
+                md: "0.75rem 0.5rem",
+                lg: "1rem 0.75rem",
+                xl: "1.25rem 1rem",
               },
             }}
           >

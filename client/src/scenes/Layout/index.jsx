@@ -13,10 +13,10 @@ const Layout = () => {
       <Sidebar
         isNonMobile={isNonMobile}
         drawerWidth="250px"
-        isSidebarOpen={isNonMobile ?isSidebarOpen : !isSidebarOpen}
+        isSidebarOpen={isNonMobile ? isSidebarOpen : !isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
       />
-      <Box flexGrow={1}>
+      <Box flexGrow={1} overflow="hidden">
         <Navbar
           isSidebarOpen={isSidebarOpen}
           setIsSidebarOpen={setIsSidebarOpen}
