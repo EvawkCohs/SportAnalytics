@@ -80,6 +80,14 @@ export const api = createApi({
       }),
       providesTags: ["userGame"],
     }),
+    updatePlayer: build.mutation({
+      query: (player) => ({
+        url: `userGames/updatePlayer`,
+        method: "POST",
+        body: player,
+      }),
+      providesTags: ["userGame"],
+    }),
   }),
 });
 
@@ -95,4 +103,5 @@ export const {
   usePostUserGameMutation,
   useGetUserProfileQuery,
   useGetUserGamesQuery,
+  useUpdatePlayerMutation,
 } = api;

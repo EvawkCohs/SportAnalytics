@@ -40,3 +40,27 @@ export const findUserGames = async (req, res) => {
     return res.status(500).json({ message: "Serverfehler" });
   }
 };
+
+export const updatePlayer = async (req, res) => {
+  try {
+    const { userId, player } = req.body;
+    const updateGame = await userGameModel.findOneAndUpdate(
+      {
+        userId,
+        "summary.id": player.gameId,
+        $or: [{ "lineup.home.id": player.id }, { "lineup.away.id": player.id }],
+      },
+      { $set: { "lineup.home.$": player, "lineup.away.$": player } }
+    );
+
+    if (updateGame.modifiedCount > 0) {
+      return res
+        .status(200)
+        .json({ message: "Spieler erfolgreich aktualisiert" });
+    } else {
+      return res.status(404).json({ message: "Spieler nicht gefunden" });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: "Serverfehler" });
+  }
+};

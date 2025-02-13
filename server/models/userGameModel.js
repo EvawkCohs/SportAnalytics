@@ -21,8 +21,9 @@ const PlayerSchema = new Schema({
   penalties: Number,
   yellowCards: Number,
   redCards: Number,
-  blueCards: Number, 
+  blueCards: Number,
   type: String,
+  shotPositions: Array,
 });
 
 const OfficialSchema = new Schema({

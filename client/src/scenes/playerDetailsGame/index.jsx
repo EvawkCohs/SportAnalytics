@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Box, Divider, Typography, Tooltip } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import FlexBetween from "components/FlexBetween";
 import Header from "components/Header";
-import SportsSoccerOutlinedIcon from "@mui/icons-material/SportsSoccerOutlined";
+import {
+  SportsSoccerOutlined,
+  HighlightOffOutlined,
+  DoNotDisturbOnOutlined,
+} from "@mui/icons-material";
 import "index.css";
 import twoMinutes from "./Icons/twoMinutes.png";
 import redCard from "./Icons/redCard.png";
@@ -13,14 +17,27 @@ import penaltyMissed from "./Icons/penaltyMissed.png";
 import turnover from "./Icons/turnover.png";
 import Fade from "@mui/material/Fade";
 import { StatCard } from "./StatCard";
+import { useNavigate } from "react-router-dom";
+import SimpleButton from "components/SimpleButton";
+import { useGetUserProfileQuery, useGetUserGamesQuery } from "state/api";
+import { skipToken } from "@reduxjs/toolkit/query";
+import Handballtor from "scenes/shotcard/Handballtor.jpg";
 
 const PlayerDetailsGame = () => {
   const location = useLocation();
   const theme = useTheme();
+  const navigate = useNavigate();
   const mvp = location.state?.mvp;
+  const { data: profile } = useGetUserProfileQuery();
   const player = location.state?.player;
   const opponent = location.state?.opponent;
   const events = location.state?.events;
+  const gameId = location.state?.gameId;
+  const [positions, setPositions] = useState([]);
+  const shouldFetch = profile?.username && gameId;
+  const { data: specificGameData, isErrorUserGame } = useGetUserGamesQuery(
+    shouldFetch ? { gameId: gameId, userId: profile.username } : skipToken
+  );
   const minutes = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60];
   const eventMessageTypes = {
     Goal: "Tor",
@@ -31,6 +48,45 @@ const PlayerDetailsGame = () => {
     SevenMeterMissed: "7m-Fehlwurf",
   };
 
+  const handleShotCardButton = () => {
+    navigate(
+      `/details/${gameId}/${player.firstname}_${player.lastname}/shotcard`,
+      {
+        state: { player: player, gameId: gameId },
+      }
+    );
+  };
+  const iconMap = {
+    Goals: (
+      <SportsSoccerOutlined
+        sx={{ color: theme.palette.secondary[200], fontSize: 60 }}
+      />
+    ),
+    MissedShots: (
+      <HighlightOffOutlined
+        sx={{ color: theme.palette.red[600], fontSize: 60 }}
+      />
+    ),
+    SevenMeterGoals: (
+      <SportsSoccerOutlined
+        sx={{ color: theme.palette.green[100], fontSize: 60 }}
+      />
+    ),
+    SevenMeterMissed: (
+      <DoNotDisturbOnOutlined
+        sx={{ color: theme.palette.red[600], fontSize: 60 }}
+      />
+    ),
+  };
+
+  useEffect(() => {
+    if (specificGameData && Object.keys(specificGameData.length > 0)) {
+      setPositions(
+        specificGameData.lineup.home.find((play) => play.id === player.id)
+          .shotPositions
+      );
+    }
+  }, [profile, gameId, specificGameData, isErrorUserGame, player.id]);
   return (
     <Box
       m="1.5rem 2.5rem"
@@ -46,6 +102,34 @@ const PlayerDetailsGame = () => {
           subtitle={`Statistiken gegen ${opponent}`}
           mvp={mvp}
         />
+        {player.position === "TW" ? (
+          <Box gap="1.5rem" display="flex" flexDirection="row">
+            <SimpleButton
+              sx={{
+                backgroundColor: theme.palette.secondary.light,
+                color: theme.palette.background.alt,
+                fontSize: "14px",
+                fontWeight: "bold",
+              }}
+              text="Paradenanalyse"
+              Icon={SportsSoccerOutlined}
+            ></SimpleButton>
+          </Box>
+        ) : (
+          <Box gap="1.5rem" display="flex" flexDirection="row">
+            <SimpleButton
+              sx={{
+                backgroundColor: theme.palette.secondary.light,
+                color: theme.palette.background.alt,
+                fontSize: "14px",
+                fontWeight: "bold",
+              }}
+              onClick={handleShotCardButton}
+              text="Wurfbildanalyse"
+              Icon={SportsSoccerOutlined}
+            ></SimpleButton>
+          </Box>
+        )}
       </FlexBetween>
       {/*Zeitstrahl */}
       <Box width="100%">
@@ -117,7 +201,7 @@ const PlayerDetailsGame = () => {
                       >
                         {event.type === "Goal" ||
                         event.type === "SevenMeterGoal" ? (
-                          <SportsSoccerOutlinedIcon
+                          <SportsSoccerOutlined
                             fontSize="large"
                             sx={{ color: theme.palette.secondary[300] }}
                           />
@@ -151,7 +235,7 @@ const PlayerDetailsGame = () => {
                     >
                       {event.type === "Goal" ||
                       event.type === "SevenMeterGoal" ? (
-                        <SportsSoccerOutlinedIcon
+                        <SportsSoccerOutlined
                           fontSize="large"
                           sx={{ color: theme.palette.secondary[300] }}
                         />
@@ -276,7 +360,7 @@ const PlayerDetailsGame = () => {
                   stat3="Assists"
                   value3={player.assist || 0}
                   logo={
-                    <SportsSoccerOutlinedIcon
+                    <SportsSoccerOutlined
                       fontSize="large"
                       sx={{ color: theme.palette.secondary[300] }}
                     />
@@ -310,6 +394,64 @@ const PlayerDetailsGame = () => {
                   value2={player.offensiveFoul || 0}
                   logo={<img src={turnover} height="24px" alt="Turnover" />}
                 />
+              </Box>
+            </>
+          )}
+        </Box>
+        {/*Wurfbild  */}
+        <Box
+          display={"flex"}
+          justifyContent={"flex-start"}
+          alignItems={"center"}
+          flexDirection={"column"}
+          gap="1rem"
+          mt="2rem"
+        >
+          <Divider
+            variant="middle"
+            orientation="horizontal"
+            flexItem
+            sx={{
+              borderBottomWidth: 2,
+              borderBottomColor: theme.palette.primary[600],
+              m: "0 8rem",
+            }}
+          />
+          {player.position === "TW" ? (
+            <></> //ParadenBild einfügen
+          ) : (
+            <>
+              <Typography
+                variant="h3"
+                sx={{ color: theme.palette.secondary[100] }}
+              >
+                WURFBILDANALYSE
+              </Typography>
+              <Box
+                sx={{
+                  backgroundImage: `url(${Handballtor})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                  position: "relative",
+                  width: "1100px",
+                  height: "635px",
+                  borderRadius: "0.55rem",
+                }}
+              >
+                {positions.map((pos, index) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      position: "absolute",
+                      top: pos.y - 12,
+                      left: pos.x - 12,
+                    }}
+                  >
+                    {" "}
+                    {iconMap[pos.type]}
+                  </Box>
+                ))}
               </Box>
             </>
           )}

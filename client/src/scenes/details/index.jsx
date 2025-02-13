@@ -218,6 +218,7 @@ function Details() {
           : events
               .filter((event) => event.team === "Away")
               .filter((event) => event.message.includes(name)),
+        gameId: id,
       },
     });
   };

@@ -19,6 +19,7 @@ import RegisterPage from "scenes/registerPage";
 import LoginPage from "scenes/loginPage";
 import HelpPage from "scenes/hilfe";
 import { AuthProvider } from "state/AuthContext";
+import ShotCard from "scenes/shotcard";
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
@@ -53,7 +54,11 @@ function App() {
                 <Route path="/profil" element={<ProfilePage />} />
                 <Route path="/registrieren" element={<RegisterPage />} />
                 <Route path="/einloggen" element={<LoginPage />} />
-                <Route path="/hilfe" element={<HelpPage/>}/>
+                <Route path="/hilfe" element={<HelpPage />} />
+                <Route
+                  path="/details/:gameId/:player/shotcard"
+                  element={<ShotCard />}
+                />
               </Route>
             </Routes>
           </ThemeProvider>

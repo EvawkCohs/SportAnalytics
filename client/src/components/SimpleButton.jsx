@@ -14,7 +14,7 @@ const SimpleButton = ({ text, Icon, onClick }) => {
         display: "flex",
         alignItems: "center",
         "&:hover": {
-          backgroundColor: theme.palette.grey[600],
+          backgroundColor: theme.palette.grey[500],
         },
         minWidth: "50px",
       }}

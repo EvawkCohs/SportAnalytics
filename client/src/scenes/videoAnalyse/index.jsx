@@ -404,7 +404,7 @@ function VideoAnalyse() {
       ...userGameData,
       summary: userGameData.summary,
       events: eventData,
-      userId: profile.username,
+      userId: profile?.username,
       lineup:
         Object.keys(lineupData).length > 0 ? lineupData : userGameData.lineup,
     };
@@ -413,7 +413,10 @@ function VideoAnalyse() {
       await postUserGame(updatedGameData).unwrap();
       alert("Daten Upload erfolgreich!");
     } catch (err) {
-      console.error("Uploadfehler: ", err);
+      if (!profile) {
+        alert("Daten Upload fehlgeschlagen! Bitte loggen sie sich zuerst ein!");
+      }
+      alert("Uploadfehler: ", err);
     }
   };
   const handleCloseDialogSave = () => {
