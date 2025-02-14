@@ -183,8 +183,8 @@ const ShotCard = () => {
   return (
     <Box m="1.5rem 2.5rem">
       <Header
-        title="WURFBILDANALYSE"
-        subtitle={`Wurfbildanalyse von: ${player.firstname} ${player.lastname}`}
+        title={player.position === "TW" ? `PARADENANALYSE` : `WURFANALYSE`}
+        subtitle={player.position === "TW" ? `Paradenanalyse von ${player.firstname} ${player.lastname}`:`Wurfbildanalyse von: ${player.firstname} ${player.lastname}`}
       />
       <Box
         display="flex"

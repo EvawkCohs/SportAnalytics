@@ -111,6 +111,7 @@ const PlayerDetailsGame = () => {
                 fontSize: "14px",
                 fontWeight: "bold",
               }}
+              onClick={handleShotCardButton}
               text="Paradenanalyse"
               Icon={SportsSoccerOutlined}
             ></SimpleButton>
@@ -417,16 +418,13 @@ const PlayerDetailsGame = () => {
               m: "0 8rem",
             }}
           />
-          {player.position === "TW" ? (
-            <></> //ParadenBild einfügen
-          ) : (
-            <>
-              <Typography
+          
+             { player.position === "TW" ?(<><Typography
                 variant="h3"
                 sx={{ color: theme.palette.secondary[100] }}
               >
-                WURFBILDANALYSE
-              </Typography>
+                PARADENANALYSE
+              </Typography></>): <><Typography variant="h3" sx={{color: theme.palette.secondary[100]}}>WURFBILDANALYSE</Typography></>}
               <Box
                 sx={{
                   backgroundImage: `url(${Handballtor})`,
@@ -453,8 +451,8 @@ const PlayerDetailsGame = () => {
                   </Box>
                 ))}
               </Box>
-            </>
-          )}
+        
+          
         </Box>
       </Box>
     </Box>
