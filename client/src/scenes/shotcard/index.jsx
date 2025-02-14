@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { Box, Button, FormControl, useTheme, MenuItem } from "@mui/material";
+import { Box, FormControl, useTheme, MenuItem } from "@mui/material";
 import Header from "components/Header";
 import Handballtor from "./Handballtor.jpg";
 import { CustomSelect } from "components/CustomSelect";
@@ -101,7 +101,7 @@ const ShotCard = () => {
     gameId,
     specificGameData,
     isErrorUserGame,
-
+    player.id,
     gameData,
     shouldFetch,
   ]);
@@ -184,7 +184,11 @@ const ShotCard = () => {
     <Box m="1.5rem 2.5rem">
       <Header
         title={player.position === "TW" ? `PARADENANALYSE` : `WURFANALYSE`}
-        subtitle={player.position === "TW" ? `Paradenanalyse von ${player.firstname} ${player.lastname}`:`Wurfbildanalyse von: ${player.firstname} ${player.lastname}`}
+        subtitle={
+          player.position === "TW"
+            ? `Paradenanalyse von ${player.firstname} ${player.lastname}`
+            : `Wurfbildanalyse von: ${player.firstname} ${player.lastname}`
+        }
       />
       <Box
         display="flex"

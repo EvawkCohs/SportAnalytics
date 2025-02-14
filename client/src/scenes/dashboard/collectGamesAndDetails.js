@@ -222,3 +222,11 @@ export const GetOverallLineupData = (games, teamId) => {
   const playerStatsArray = Object.values(combinedStatistics);
   return playerStatsArray;
 };
+
+export const GetTotalSevenMeterGoalsData = (GetOverallLineupData) => {
+  let totalSevenMeterGoals = 0;
+  GetOverallLineupData.forEach((player) => {
+    totalSevenMeterGoals += player.penaltyGoals;
+  });
+  return totalSevenMeterGoals;
+};

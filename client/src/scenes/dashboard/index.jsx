@@ -16,6 +16,7 @@ import {
   GetOverallLineupData,
   GetTotalGoalsConceded,
   GetAverageGoalsConcededLastFive,
+  GetTotalSevenMeterGoalsData,
 } from "./collectGamesAndDetails";
 import SimpleStatBox from "components/SimpleStatBox";
 import FlexBetween from "components/FlexBetween";
@@ -23,6 +24,7 @@ import { columnsDataGrid } from "scenes/dashboard/dataGridDefinitions";
 import HalfCircleChart from "components/HalfCircleChart";
 import { LoadingCircle } from "components/LoadingCircle";
 import { ErrorMessageServer } from "components/ErrorMessageServer";
+import { CustomSwitch } from "components/CustomSwitch";
 
 const Dashboard = () => {
   const teamId = useSelector((state) => state.global.teamId);
@@ -58,18 +60,23 @@ const Dashboard = () => {
   const [averageGoalsConceded, setAverageGoalsConceded] = useState(0);
   const [averageGoalsLastFiveConceded, setAverageGoalsLastFiveConceded] =
     useState(0);
+  const [totalSevenMeterGoals, setTotalSevenMeterGoals] = useState(0);
+  const [averageSevenMeterGoals, setAverageSevenMeterGoals] = useState(0);
+
   //Zuschauer
   const [averageAttendance, setAverageAttendance] = useState(0);
   //periode
   const [periodData, setPeriodData] = useState([]);
   const [bestPeriod, setBestPeriod] = useState([]);
   const [worstPeriod, setWorstPeriod] = useState([]);
+  const [isCheckedPeriod, setIsCheckedPeriod] = useState(false);
   //SpielerStatistik Gesamt
   const [overallLineup, setOverallLineup] = useState([]);
   //Tabellen Spalten und Reihen
   const [row, setRow] = useState();
   const cols = columnsDataGrid;
 
+  //HANDLER SECTION
   //OnClick zu GameDetails(letztes Spiel)
   const handleCellClickLastGame = () => {
     Navigate(`/details/${dataLastFiveGames[0].summary.id}`);
@@ -81,8 +88,25 @@ const Dashboard = () => {
       state: { player: param.row, allGamesDetails: games },
     });
   };
-  const [isChecked, setIsChecked] = useState(false);
+  //StatboxSwitch für Tore
+  const [isSwitchToreChecked, setIsSwitchToreChecked] = useState(true);
+  const handleSwitchToreChange = (event) => {
+    setIsSwitchToreChecked(event.target.checked);
+  };
+  //StatboxSwitch für Gegentore
+  const [isSwitchGegentoreChecked, setIsSwitchGegentoreChecked] =
+    useState(true);
+  const handleSwitchGegentoreChange = (event) => {
+    setIsSwitchGegentoreChecked(event.target.checked);
+  };
+  //StatboxSwitch für 7m-Tore
+  const [isSwitch7mToreChecked, setIsSwitch7mToreChecked] = useState(true);
+  const handleSwitch7mToreChange = (event) => {
+    setIsSwitch7mToreChecked(event.target.checked);
+  };
 
+  //USEEFFECT SECTION
+  //Statistiken berechnen
   useEffect(() => {
     if (isLoadingGames || !games) return;
     if (games.length < 30 && gender === "male") return;
@@ -119,11 +143,23 @@ const Dashboard = () => {
         flex: 1,
       }))
     );
-  }, [isLoadingGames, games, totalGoals, totalGoalsConceded]);
+    if (overallLineup.length < 1) return;
+    setTotalSevenMeterGoals(GetTotalSevenMeterGoalsData(overallLineup));
+    setAverageSevenMeterGoals(
+      totalSevenMeterGoals /
+        games.filter((game) => game.summary.homeGoals > 0).length
+    );
+  }, [
+    isLoadingGames,
+    games,
+    totalGoals,
+    totalGoalsConceded,
+    totalSevenMeterGoals,
+  ]);
 
   //beste und schlechteste Periode
   useEffect(() => {
-    setIsChecked(true);
+    setIsCheckedPeriod(true);
     if (
       !periodData ||
       periodData === undefined ||
@@ -163,7 +199,7 @@ const Dashboard = () => {
   return (
     <Box m="1.5rem 2.5rem">
       <FlexBetween>
-        <Header title={teamName} subtitle={"Überblick"} />
+        <Header title={teamName} subtitle={"Dashboard"} />
       </FlexBetween>
       <Box display="flex" flexDirection="column" justifyContent="flex-start">
         <Box
@@ -187,7 +223,7 @@ const Dashboard = () => {
         >
           {/*Row 1 */}
           {/*Nächstes Spiel */}
-          <Fade in={isChecked} timeout={500}>
+          <Fade in={isCheckedPeriod} timeout={500}>
             <Box
               gridRow="1"
               display="flex"
@@ -258,7 +294,7 @@ const Dashboard = () => {
             </Box>
           </Fade>
           {/*Letztes Spiel */}
-          <Fade in={isChecked} timeout={500}>
+          <Fade in={isCheckedPeriod} timeout={500}>
             <Box
               display="flex"
               flexDirection="column"
@@ -339,7 +375,9 @@ const Dashboard = () => {
             </Box>
           </Fade>
           {/*Row 1 */}
+
           {/*Tore gesamte Saison */}
+
           <Box
             sx={{
               gridColumn: { xs: "1", sm: "1", md: "1/3", lg: "1/3", xl: "1/3" },
@@ -353,10 +391,27 @@ const Dashboard = () => {
               },
             }}
             display="flex"
+            position={"relative"}
           >
+            <Box sx={{ position: "absolute", top: "8%", left: "83%" }}>
+              <CustomSwitch
+                checked={isSwitchToreChecked}
+                onChange={handleSwitchToreChange}
+              />
+            </Box>
             <SimpleStatBox
-              title={"Tore gesamt"}
-              value={totalGoals}
+              title={
+                isSwitchToreChecked ? "Tore gesamt" : "Durchschnittliche Tore"
+              }
+              value={
+                isSwitchToreChecked
+                  ? totalGoals
+                  : `Ø ${
+                      Number.isInteger(averageGoals)
+                        ? averageGoals
+                        : averageGoals.toFixed(2)
+                    }`
+              }
               secondaryValue={"in dieser Saison"}
             />
           </Box>
@@ -374,10 +429,29 @@ const Dashboard = () => {
                 xl: "0.5rem",
               },
             }}
+            position={"relative"}
           >
+            <Box sx={{ position: "absolute", top: "8%", left: "83%" }}>
+              <CustomSwitch
+                checked={isSwitchGegentoreChecked}
+                onChange={handleSwitchGegentoreChange}
+              />
+            </Box>
             <SimpleStatBox
-              title={"Gegentore gesamt"}
-              value={totalGoalsConceded}
+              title={
+                isSwitchGegentoreChecked
+                  ? "Gegentore gesamt"
+                  : "Durchschnittliche Gegentore"
+              }
+              value={
+                isSwitchGegentoreChecked
+                  ? totalGoalsConceded
+                  : `Ø ${
+                      Number.isInteger(averageGoalsConceded)
+                        ? averageGoalsConceded
+                        : averageGoalsConceded.toFixed(2)
+                    }`
+              }
               secondaryValue={"in dieser Saison"}
             />
           </Box>
@@ -395,14 +469,29 @@ const Dashboard = () => {
                 xl: "0.5rem",
               },
             }}
+            position={"relative"}
           >
+            <Box sx={{ position: "absolute", top: "8%", left: "83%" }}>
+              <CustomSwitch
+                checked={isSwitch7mToreChecked}
+                onChange={handleSwitch7mToreChange}
+              />
+            </Box>
             <SimpleStatBox
-              title={"Durschnittliche Tore"}
-              value={`Ø ${
-                Number.isInteger(averageGoals)
-                  ? averageGoals
-                  : averageGoals.toFixed(2)
-              }`}
+              title={
+                isSwitch7mToreChecked
+                  ? "7m-Tore gesamt"
+                  : "Durchnittliche 7m-Tore"
+              }
+              value={
+                isSwitch7mToreChecked
+                  ? totalSevenMeterGoals
+                  : `Ø ${
+                      Number.isInteger(averageSevenMeterGoals)
+                        ? averageSevenMeterGoals
+                        : averageSevenMeterGoals.toFixed(2)
+                    }`
+              }
               secondaryValue={"in dieser Saison"}
             />
           </Box>
@@ -422,7 +511,7 @@ const Dashboard = () => {
             }}
           >
             <SimpleStatBox
-              title={"Durschnittliche Gegentore"}
+              title={"Durchschnittliche Gegentore"}
               value={`Ø ${
                 Number.isInteger(averageGoalsConceded)
                   ? averageGoalsConceded
@@ -433,7 +522,7 @@ const Dashboard = () => {
           </Box>
 
           {/*Tore Durchschnitt letzte 5 Spiele */}
-          <Fade in={isChecked} timeout={500}>
+          <Fade in={isCheckedPeriod} timeout={500}>
             <Box
               display="flex"
               flexDirection="column"
@@ -480,11 +569,18 @@ const Dashboard = () => {
                 justifyContent="center"
                 sx={{
                   mt: {
-                    xs: "0.5rem",
+                    xs: "0rem",
                     sm: "0.5rem",
-                    md: "0.75rem",
+                    md: "0.5rem",
                     lg: "1rem",
                     xl: "1rem",
+                  },
+                  mb: {
+                    xs: "0.25rem",
+                    sm: "0",
+                    md: "0",
+                    lg: "0",
+                    xl: "0",
                   },
                 }}
               >
@@ -504,7 +600,7 @@ const Dashboard = () => {
             </Box>
           </Fade>
           {/*Gegentor Durchschnitt letzte 5 Spiele */}
-          <Fade in={isChecked} timeout={500}>
+          <Fade in={isCheckedPeriod} timeout={500}>
             <Box
               display="flex"
               flexDirection="column"
@@ -551,11 +647,18 @@ const Dashboard = () => {
                 justifyContent="center"
                 sx={{
                   mt: {
-                    xs: "0.5rem",
+                    xs: "0rem",
                     sm: "0.5rem",
-                    md: "0.75rem",
+                    md: "0.5rem",
                     lg: "1rem",
                     xl: "1rem",
+                  },
+                  mb: {
+                    xs: "0.25rem",
+                    sm: "0",
+                    md: "0",
+                    lg: "0",
+                    xl: "0",
                   },
                 }}
               >
@@ -575,7 +678,7 @@ const Dashboard = () => {
             </Box>
           </Fade>
           {/*Bester/Schlechtester Abschnitt */}
-          <Fade in={isChecked} timeout={500}>
+          <Fade in={isCheckedPeriod} timeout={500}>
             <Box
               display="flex"
               flexDirection="column"
@@ -609,7 +712,7 @@ const Dashboard = () => {
               }}
             >
               <Typography
-                variant="h2"
+                variant="h3"
                 sx={{
                   color: theme.palette.secondary[200],
                 }}
@@ -684,7 +787,7 @@ const Dashboard = () => {
             />
           </Box>
         </Box>
-        <Fade in={isChecked} timeout={500}>
+        <Fade in={isCheckedPeriod} timeout={500}>
           <Box
             height="600px"
             display="flex"

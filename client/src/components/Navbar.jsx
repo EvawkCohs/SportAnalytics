@@ -3,7 +3,6 @@ import {
   LightModeOutlined,
   DarkModeOutlined,
   Menu as MenuIcon,
-  Search,
   SettingsOutlined,
   ArrowDropDownOutlined,
 } from "@mui/icons-material";
@@ -19,19 +18,16 @@ import {
   Box,
   Button,
   IconButton,
-  InputBase,
   Menu,
   MenuItem,
   Toolbar,
   useTheme,
-  Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import axios from "axios";
+
 import { useAuth } from "state/AuthContext";
 
-function Navbar({ user, isSidebarOpen, setIsSidebarOpen }) {
+function Navbar({ isSidebarOpen, setIsSidebarOpen }) {
   const dispatch = useDispatch();
   const theme = useTheme();
   const navigate = useNavigate();

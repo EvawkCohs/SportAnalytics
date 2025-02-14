@@ -1,25 +1,16 @@
 import { useTheme } from "@emotion/react";
 import React, { useState, useEffect, useMemo } from "react";
-import { alpha } from "@mui/material/styles";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import {
   useGetGamesWithParticipationQuery,
   useGetTeamModelQuery,
 } from "state/api";
 import { GetOverallLineupData } from "./dataFormat";
 import Header from "components/Header";
-import {
-  Box,
-  Card,
-  CardContent,
-  Typography,
-  Switch,
-  Stack,
-  Grow,
-} from "@mui/material";
+import { Box, Typography, Stack } from "@mui/material";
 
 import { Player } from "./Player";
+import { CustomSwitch } from "components/CustomSwitch";
 
 const Team = () => {
   const teamID = useSelector((state) => state.global.teamId);
@@ -29,12 +20,7 @@ const Team = () => {
     setIsSwitchChecked(event.target.checked);
   };
   const { data: teamData, isLoadingTeam } = useGetTeamModelQuery();
-  useEffect(() => {
-    const sortedLineup = isSwitchChecked
-      ? [...overallLineup].sort((a, b) => a.number - b.number)
-      : [...overallLineup].sort((a, b) => b.goals - a.goals);
-    setVisiblePlayers(sortedLineup);
-  }, [isSwitchChecked]);
+
   const {
     data: games,
     error,
@@ -48,6 +34,12 @@ const Team = () => {
     );
   }, [games, teamID]);
   const [visiblePlayers, setVisiblePlayers] = useState(overallLineup);
+  useEffect(() => {
+    const sortedLineup = isSwitchChecked
+      ? [...overallLineup].sort((a, b) => a.number - b.number)
+      : [...overallLineup].sort((a, b) => b.goals - a.goals);
+    setVisiblePlayers(sortedLineup);
+  }, [isSwitchChecked, overallLineup]);
 
   if (isLoading || isLoadingTeam) {
     return <div>Loading....</div>;
@@ -73,25 +65,9 @@ const Team = () => {
           >
             Nach Toren
           </Typography>
-          <Switch
-            defaultChecked={true}
+          <CustomSwitch
             checked={isSwitchChecked}
             onChange={handleSwitchChange}
-            sx={{
-              "& .MuiSwitch-switchBase.Mui-checked": {
-                color: theme.palette.secondary[500],
-
-                "&:hover": {
-                  backgroundColor: alpha(theme.palette.secondary[500], 0.1),
-                },
-              },
-              "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-                backgroundColor: theme.palette.secondary[500],
-              },
-              "&.Mui-disabled .MuiSwitch-thumb": {
-                color: theme.palette.secondary[700],
-              },
-            }}
           />
           <Typography
             sx={{ variant: "h5", color: theme.palette.secondary[200] }}

@@ -175,22 +175,31 @@ export const themeSettings = (mode) => {
       h1: {
         fontFamily: ["Inter", "sans-serif"].join(","),
         fontSize: 40,
+        [theme.breakpoints.down("md")]: {
+          fontSize: "1.25rem",
+        },
+        [theme.breakpoints.down("sm")]: {
+          fontSize: "1rem",
+        },
       },
       h2: {
         fontFamily: ["Inter", "sans-serif"].join(","),
         fontSize: "1.5rem",
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down("md")]: {
           fontSize: "1rem",
         },
         [theme.breakpoints.up("lg")]: {
-          fontSize: "2rem",
+          fontSize: "1.75rem",
         },
+        [theme.breakpoints.up("xl")]: { fontSize: "2rem" },
       },
       h3: {
         fontFamily: ["Inter", "sans-serif"].join(","),
         fontSize: "1.25rem",
-        [theme.breakpoints.down("sm")]:{fontSize: "0.75rem"}
-        
+        [theme.breakpoints.down("sm")]: { fontSize: "0.75rem" },
+        [theme.breakpoints.down("md")]: {
+          fontSize: "1rem",
+        },
       },
       h4: {
         fontFamily: ["Inter", "sans-serif"].join(","),

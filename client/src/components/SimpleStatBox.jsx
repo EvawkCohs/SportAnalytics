@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Typography, useTheme, Fade } from "@mui/material";
 import "index.css";
 
-const SimpleStatBox = ({ value, secondaryValue, title, icon }) => {
+const SimpleStatBox = ({ value, secondaryValue, title }) => {
   const theme = useTheme();
   const [isChecked, setisChecked] = useState(false);
 
@@ -20,7 +20,6 @@ const SimpleStatBox = ({ value, secondaryValue, title, icon }) => {
         flex="1 1 100%"
         height="100%"
         className="data-display"
-        
         sx={{
           p: {
             xs: "0.25rem 0.125rem", // für sehr kleine Bildschirme
@@ -29,7 +28,6 @@ const SimpleStatBox = ({ value, secondaryValue, title, icon }) => {
             lg: "1rem 0.75rem", // für größere Bildschirme
             xl: "1.25rem 1rem",
           },
-          
         }}
       >
         <Typography
@@ -42,7 +40,7 @@ const SimpleStatBox = ({ value, secondaryValue, title, icon }) => {
           {title}
         </Typography>
         <Typography
-          variant="h2"
+          variant="h1"
           sx={{
             color: theme.palette.secondary[200],
           }}

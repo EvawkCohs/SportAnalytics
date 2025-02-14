@@ -25,7 +25,6 @@
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.2",
     "npx": "^10.2.2",
-    "papaparse": "^5.4.1",
     "react": "^18.3.0",
     "react-datepicker": "^6.9.0",
     "react-dom": "^18.3.0",

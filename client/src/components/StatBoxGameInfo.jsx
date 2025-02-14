@@ -51,11 +51,11 @@ const StatBoxGameInfo = ({
     <Box>
       {state !== undefined ? (
         <Box
-          display="grid"
-          gridTemplateColumns="repeat(6, 1fr)"
-          alignItems="center"
+          display="flex"
+          justifyContent={"space-between"}
+          alignItems={"center"}
         >
-          <Box gridColumn="1">
+          <Box>
             {state === "pre" ? (
               <SportsOutlinedIcon
                 sx={{
@@ -88,10 +88,9 @@ const StatBoxGameInfo = ({
             variant="h2"
             sx={{
               color: theme.palette.secondary[200],
-             
             }}
             textAlign="center"
-            gridColumn="3/5"
+            flexGrow={1}
           >
             {title}
           </Typography>
@@ -101,10 +100,9 @@ const StatBoxGameInfo = ({
           variant="h2"
           sx={{
             color: theme.palette.secondary[200],
-           
           }}
           textAlign="center"
-          gridColumn="3/5"
+          flexGrow={1}
         >
           {title}
         </Typography>
@@ -113,25 +111,25 @@ const StatBoxGameInfo = ({
         variant="h4"
         sx={{
           color: theme.palette.secondary[100],
-          
         }}
         textAlign="center"
+        flexGrow={1}
       >
         {round}
       </Typography>
 
       <Box
-        display="grid"
-        gridTemplateColumns="repeat(3, 1fr)"
-        
+        display="flex"
+        justifyContent={"space-evenly"}
         alignItems="center"
+        width={"100%"}
         sx={{
           p: {
             xs: "0.25rem 0.125rem", // für sehr kleine Bildschirme
             sm: "0.5rem 0.25rem", // für kleine Bildschirme
             md: "0 0", // für mittlere Bildschirme
             lg: "0 0", // für größere Bildschirme
-            xl: "0 0",
+            xl: "0.5rem 0",
           },
         }}
       >
@@ -139,13 +137,11 @@ const StatBoxGameInfo = ({
 
         <Typography
           variant="h4"
-          textAlign="center"
-          fontWeight="300"
           sx={{
             color: theme.palette.secondary[100],
-            
+            flex: 1,
           }}
-          gridColumn="span 1"
+          textAlign={"center"}
         >
           {homeTeam}
         </Typography>
@@ -159,10 +155,9 @@ const StatBoxGameInfo = ({
               : isLose
               ? theme.palette.red[500]
               : theme.palette.secondary[100],
-          
           }}
           textAlign="center"
-          gridColumn="2"
+          flex={1}
         >
           {finalScore}
         </Typography>
@@ -170,63 +165,89 @@ const StatBoxGameInfo = ({
         <Typography
           variant="h4"
           textAlign="center"
-          fontWeight="300"
+          flex={1}
           sx={{
             color: theme.palette.secondary[100],
-            
           }}
-          gridColumn="3"
         >
           {awayTeam}
         </Typography>
-
+      </Box>
+      <Box
+        display="flex"
+        justifyContent={"space-evenly"}
+        alignItems="center"
+        width={"100%"}
+        sx={{
+          p: {
+            xs: "0.25rem 0.125rem", // für sehr kleine Bildschirme
+            sm: "0 0", // für kleine Bildschirme
+            md: "0 0", // für mittlere Bildschirme
+            lg: "0 0", // für größere Bildschirme
+            xl: "0 0",
+          },
+        }}
+      >
         {/*ROW 2 */}
-
-        {/*Später Vereinslog */}
 
         <Box
           display="flex"
           justifyContent="center"
           alignItems="center"
+          flex={1}
           sx={{
             height: {
               xs: "20px",
               sm: "20px",
-              md: "50px",
+              md: "35px",
               lg: "50px",
               xl: "50px",
             },
+            mr: {
+              xs: "4rem",
+              sm: "2rem",
+              md: "3rem",
+              lg: "4rem",
+              xl: "10rem",
+            },
           }}
         >
-          <img src={homeTeamLogo} height="100%" />
+          <img src={homeTeamLogo} height="100%" alt="hometeam" />
         </Box>
         <Typography
           variant="h4"
           fontWeight="400"
           sx={{
             color: theme.palette.secondary[200],
-            
           }}
           textAlign="center"
         >
           {halftimeScore}
         </Typography>
-        {/*Später Vereinslog */}
+
         <Box
           display="flex"
           justifyContent="center"
-          alignItems="center "
+          alignItems="center"
+          flex={1}
           sx={{
             height: {
               xs: "20px",
               sm: "20px",
-              md: "50px",
+              md: "35px",
               lg: "50px",
               xl: "50px",
             },
+            ml: {
+              xs: "4rem",
+              sm: "2rem",
+              md: "3rem",
+              lg: "4rem",
+              xl: "10rem",
+            },
           }}
         >
-          <img src={awayTeamLogo} height="100%" />
+          <img src={awayTeamLogo} height="100%" alt="awayteam" />
         </Box>
       </Box>
     </Box>

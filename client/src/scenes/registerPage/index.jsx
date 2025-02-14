@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useRegisterUserMutation } from "state/api";
 import {
   Box,
-  TextField,
   Typography,
   useTheme,
   Button,
@@ -11,7 +10,6 @@ import {
   Select,
   MenuItem,
   FormControl,
-  InputLabel,
 } from "@mui/material";
 import Header from "components/Header";
 import { useNavigate } from "react-router-dom";
