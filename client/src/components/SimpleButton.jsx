@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, useTheme } from "@mui/material";
 
-const SimpleButton = ({ text, Icon, onClick }) => {
+const SimpleButton = ({ text, Icon, onClick, disabled }) => {
   const theme = useTheme();
 
   return (
@@ -16,9 +16,14 @@ const SimpleButton = ({ text, Icon, onClick }) => {
         "&:hover": {
           backgroundColor: theme.palette.grey[500],
         },
+        '&.Mui-disabled':{
+          backgroundColor: theme.palette.grey[500],
+          color: theme.palette.red[500]
+        },
         minWidth: "50px",
       }}
       onClick={onClick}
+      disabled={disabled}
     >
       {Icon && <Icon className="icon" sx={{ mr: "0.5rem" }} />}
       {text}

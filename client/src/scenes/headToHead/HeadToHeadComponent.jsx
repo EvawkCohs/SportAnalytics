@@ -88,7 +88,7 @@ export const HeadToHeadComponent = ({ teamData }) => {
     },
     {
       stat: "Ø 7-Meter ",
-      Team: averagePenaltiesTeam * 5 || 0,
+      Team: (averagePenaltiesTeam * 5).toFixed(2) || 0,
     },
     { stat: "Zeitstrafen", Team: 0 },
   ];
