@@ -490,7 +490,7 @@ function Details() {
           </Box>
           <Box
             width="1fr"
-            height="600px"
+            
             display="flex"
             flexDirection="column"
             justifyContent="space-between"

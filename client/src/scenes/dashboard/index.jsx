@@ -789,7 +789,7 @@ const Dashboard = () => {
         </Box>
         <Fade in={isCheckedPeriod} timeout={500}>
           <Box
-            height="600px"
+            
             display="flex"
             flexDirection="column"
             justifyContent="space-between"
