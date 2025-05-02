@@ -88,7 +88,7 @@ export const HeadToHeadComponent = ({ teamData }) => {
     },
     {
       stat: "Ø 7-Meter ",
-      Team: averagePenaltiesTeam * 5 || 0,
+      Team: (averagePenaltiesTeam * 5).toFixed(2) || 0,
     },
     { stat: "Zeitstrafen", Team: 0 },
   ];
@@ -315,7 +315,7 @@ export const HeadToHeadComponent = ({ teamData }) => {
           onMouseLeave={handleMouseLeave}
         >
           <SimpleStatBox
-            title={"Durschnittliche Tore"}
+            title={"Durchschnittliche Tore"}
             value={`Ø ${
               Number.isInteger(averageGoalsTeam)
                 ? averageGoalsTeam

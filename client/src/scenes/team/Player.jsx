@@ -84,7 +84,7 @@ export const Player = ({
               >
                 <Typography
                   sx={{
-                    fontSize: "32px",
+                    fontSize: lastname.length >9 ? "28px" : "32px",
                     color: theme.palette.secondary[200],
                   }}
                 >

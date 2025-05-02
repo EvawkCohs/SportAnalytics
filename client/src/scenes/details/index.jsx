@@ -293,7 +293,7 @@ function Details() {
                 sm: "repeat(26, 150px)",
                 md: "repeat(16, 200px)",
                 lg: "repeat(10, 200px)",
-                xl: "repeat(10, 200px)",
+                xl: "repeat(10, 250px)",
               },
             }}
           >
@@ -503,7 +503,7 @@ function Details() {
           </Box>
           <Box
             width="1fr"
-            height="600px"
+            
             display="flex"
             flexDirection="column"
             justifyContent="space-between"

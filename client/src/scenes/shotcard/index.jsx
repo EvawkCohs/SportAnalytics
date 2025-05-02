@@ -258,6 +258,8 @@ const ShotCard = () => {
           <SimpleButton
             text={"Wurfbild speichern"}
             onClick={handleSaveShotCard}
+            disabled={profile ? false: true}
+
           />
         </Box>
       </Box>
