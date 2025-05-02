@@ -41,7 +41,6 @@ const Dashboard = () => {
 
   //TODO: GameIDS game Spiele extrahieren und mit benutzerdefinierten Spielen (und UserId) abgleichen
   //Dann in den games die entsprechenden Spiele ersetzen und weiter verwenden
-  //Nächsten 5 Spiele
 
   const updatedNextFiveGames = games
     ?.filter((game) => new Date(game.summary.startsAt).getTime() > Date.now())
@@ -782,7 +781,6 @@ const Dashboard = () => {
         </Box>
         <Fade in={isCheckedPeriod} timeout={500}>
           <Box
-            
             display="flex"
             flexDirection="column"
             justifyContent="space-between"
