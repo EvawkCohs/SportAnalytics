@@ -56,7 +56,6 @@ const StatBoxMVP = ({
       backgroundColor={theme.palette.background.alt}
       borderRadius="0.55rem"
       className="data-display"
-      
     >
       <Typography
         variant="h2"

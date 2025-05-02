@@ -29,7 +29,11 @@ import {
   FormatTurnoverData,
   FormatMissedShotsData,
 } from "./formatGameData";
-import { columnsDataGrid, columnsDataGridSmall } from "./dataGridDefinitions";
+import {
+  columnsDataGridLogIn,
+  columnsDataGridLogOut,
+  columnsDataGridSmall,
+} from "./dataGridDefinitions";
 import { handleDownload } from "./handleDownload";
 import {
   useGetGameModelQuery,
@@ -181,7 +185,7 @@ function Details() {
   }, [gameData, userGameData]);
 
   //Tabellen Spalten und Reihen
-  const cols = columnsDataGrid;
+  const cols = profile ? columnsDataGridLogIn : columnsDataGridLogOut;
   const colsSmall = columnsDataGridSmall;
 
   //HANDLER
@@ -477,16 +481,25 @@ function Details() {
                 title={`Tore nach Positionen ${gameData.summary.awayTeam.name}`}
               />
             }
-            {/*Box 6th column */}
-            <PieChart data={technicalFoulsData} title={"Technische Fehler"} />
-            {/*Box 7th column */}
-            <PieChart data={missedShotsData} title={`Fehlwürfe`} />
-            {/*Box 8th column */}
-            <PieChart data={turnoverData} title={"Turnover"} />
-            {/*Box 9th column */}
-            <PieChart data={offensiveFoulData} title={"Stürmerfouls"} />
-            {/*Box 10th column */}
-            <PieChart data={fastbreakData} title={"Gegenstöße"} />
+            {profile ? (
+              <>
+                {/*Box 6th column */}
+                <PieChart
+                  data={technicalFoulsData}
+                  title={"Technische Fehler"}
+                />
+                {/*Box 7th column */}
+                <PieChart data={missedShotsData} title={`Fehlwürfe`} />
+                {/*Box 8th column */}
+                <PieChart data={turnoverData} title={"Turnover"} />
+                {/*Box 9th column */}
+                <PieChart data={offensiveFoulData} title={"Stürmerfouls"} />
+                {/*Box 10th column */}
+                <PieChart data={fastbreakData} title={"Gegenstöße"} />
+              </>
+            ) : (
+              <></>
+            )}
           </Box>
           <Box
             width="1fr"

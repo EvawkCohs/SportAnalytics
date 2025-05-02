@@ -214,6 +214,9 @@ export const themeSettings = (mode) => {
       h5: {
         fontFamily: ["Inter", "sans-serif"].join(","),
         fontSize: 16,
+        [theme.breakpoints.down("md")]: {
+          fontSize: "0.6rem",
+        },
       },
       h6: {
         fontFamily: ["Inter", "sans-serif"].join(","),

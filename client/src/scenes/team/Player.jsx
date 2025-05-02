@@ -41,6 +41,7 @@ export const Player = ({
           borderRadius: "0.55rem",
           width: "350px",
           height: "250px",
+
           transition: `transform 0.4s ease-out, border-color 0.4s ease-out, box-shadow 0.4s ease-out`,
           border: `1px solid #2f2b38`,
           ":hover": {

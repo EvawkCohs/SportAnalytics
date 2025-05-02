@@ -39,7 +39,7 @@ const Dashboard = () => {
     isLoadingGames,
   } = useGetGamesWithParticipationQuery(teamId);
 
-  //TODO: GameIDS dieser Spiele extrahieren und mit benutzerdefinierten Spielen (und UserId) abgleichen
+  //TODO: GameIDS game Spiele extrahieren und mit benutzerdefinierten Spielen (und UserId) abgleichen
   //Dann in den games die entsprechenden Spiele ersetzen und weiter verwenden
   //Nächsten 5 Spiele
 
@@ -189,7 +189,6 @@ const Dashboard = () => {
   if (
     isLoadingGames ||
     !updatedNextFiveGames ||
-    updatedNextFiveGames.length < 5 ||
     !dataLastFiveGames ||
     dataLastFiveGames.length < 1
   ) {
@@ -281,13 +280,7 @@ const Dashboard = () => {
                     sx={{ color: theme.palette.secondary[200] }}
                     variant="h2"
                   >
-                    Nächstes Spiel
-                  </Typography>
-                  <Typography
-                    sx={{ color: theme.palette.secondary[200] }}
-                    variant="h2"
-                  >
-                    laden...
+                    Nächstes Spiel noch nicht verfügbar!
                   </Typography>
                 </Box>
               )}

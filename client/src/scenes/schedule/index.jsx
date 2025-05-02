@@ -68,7 +68,7 @@ function Schedule() {
 
   //Zugehörigen gameIDs fetchen
   const { gameIDs, errorGameIDs } = useFetchGameIDs(teamId);
-
+  console.log(errorGameIDs);
   //Daten mit GameIDs versehen
   const dataWithIDs = schedule.map((item, index) => ({
     ...item,
