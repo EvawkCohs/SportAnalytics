@@ -80,15 +80,15 @@ export const HeadToHeadComponent = ({ teamData }) => {
   const dataRadarTeam = [
     {
       stat: " Tore",
-      Team: averageGoalsTeam || 0,
+      Team: Number(averageGoalsTeam) || 0,
     },
     {
       stat: " Gegentore",
-      Team: averageGoalsConcededTeam || 0,
+      Team: Number(averageGoalsConcededTeam) || 0,
     },
     {
       stat: "Ø 7-Meter ",
-      Team: (averagePenaltiesTeam * 5).toFixed(2) || 0,
+      Team: Number((averagePenaltiesTeam * 5).toFixed(2)) || 0,
     },
     { stat: "Zeitstrafen", Team: 0 },
   ];
@@ -305,11 +305,11 @@ export const HeadToHeadComponent = ({ teamData }) => {
             border:
               hoveredGroup === "AverageGoals"
                 ? `2px solid ${theme.palette.secondary[400]}`
-                : null,
+                : 0,
             boxShadow:
               hoveredGroup === "AverageGoals"
                 ? `0 0 5px ${theme.palette.secondary[500]}`
-                : null,
+                : 0,
           }}
           onMouseEnter={() => handleMouseEnter("AverageGoals")}
           onMouseLeave={handleMouseLeave}
@@ -341,11 +341,11 @@ export const HeadToHeadComponent = ({ teamData }) => {
             border:
               hoveredGroup === "AverageGoalsLast5"
                 ? `2px solid ${theme.palette.secondary[400]}`
-                : null,
+                : 0,
             boxShadow:
               hoveredGroup === "AverageGoalsLast5"
                 ? `0 0 5px ${theme.palette.secondary[500]}`
-                : null,
+                : 0,
           }}
           onMouseEnter={() => handleMouseEnter("AverageGoalsLast5")}
           onMouseLeave={handleMouseLeave}
@@ -447,11 +447,11 @@ export const HeadToHeadComponent = ({ teamData }) => {
             border:
               hoveredGroup === "AverageConceded"
                 ? `2px solid ${theme.palette.secondary[400]}`
-                : null,
+                : 0,
             boxShadow:
               hoveredGroup === "AverageConceded"
                 ? `0 0 5px ${theme.palette.secondary[500]}`
-                : null,
+                : 0,
           }}
           onMouseEnter={() => handleMouseEnter("AverageConceded")}
           onMouseLeave={handleMouseLeave}
@@ -482,11 +482,11 @@ export const HeadToHeadComponent = ({ teamData }) => {
             border:
               hoveredGroup === "AverageConcededLast5"
                 ? `2px solid ${theme.palette.secondary[400]}`
-                : null,
+                : 0,
             boxShadow:
               hoveredGroup === "AverageConcededLast5"
                 ? `0 0 5px ${theme.palette.secondary[500]}`
-                : null,
+                : 0,
           }}
           onMouseEnter={() => handleMouseEnter("AverageConcededLast5")}
           onMouseLeave={handleMouseLeave}

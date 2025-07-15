@@ -11,6 +11,8 @@ import { Box, Typography, Stack } from "@mui/material";
 
 import { Player } from "./Player";
 import { CustomSwitch } from "components/CustomSwitch";
+import { LoadingCircle } from "components/LoadingCircle";
+import { ErrorMessageServer } from "components/ErrorMessageServer";
 
 const Team = () => {
   const teamID = useSelector((state) => state.global.teamId);
@@ -42,10 +44,10 @@ const Team = () => {
   }, [isSwitchChecked, overallLineup]);
 
   if (isLoading || isLoadingTeam) {
-    return <div>Loading....</div>;
+    return <LoadingCircle />;
   }
   if (error) {
-    return <div>error</div>;
+    return <ErrorMessageServer />;
   }
   return (
     <Box m="1.5rem 2.5rem">

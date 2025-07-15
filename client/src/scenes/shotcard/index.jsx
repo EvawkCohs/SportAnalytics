@@ -169,7 +169,7 @@ const ShotCard = () => {
       lineup:
         Object.keys(lineupData).length > 0 ? lineupData : userGameData.lineup,
     };
-    console.log(updatedGameData);
+    
     try {
       await postUserGame(updatedGameData).unwrap();
       alert("Daten Upload erfolgreich!");
