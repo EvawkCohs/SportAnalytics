@@ -39,10 +39,7 @@ const Dashboard = () => {
     isLoadingGames,
   } = useGetGamesWithParticipationQuery(teamId);
 
-  //TODO: GameIDS game Spiele extrahieren und mit benutzerdefinierten Spielen (und UserId) abgleichen
-  //Dann in den games die entsprechenden Spiele ersetzen und weiter verwenden
-  //Nächsten 5 Spiele
-
+  //Nächsten 5 Spiel
   const updatedNextFiveGames = games
     ?.filter((game) => new Date(game.summary.startsAt).getTime() > Date.now())
     .sort((a, b) => new Date(a.summary.startsAt) - new Date(b.summary.startsAt))
@@ -533,10 +530,10 @@ const Dashboard = () => {
                 },
                 gridRow: { xs: "5", sm: "3", md: "3", lg: "2", xl: "2" },
                 p: {
-                  xs: "0.25rem 0.125rem", // für sehr kleine Bildschirme
-                  sm: "0.5rem 0.25rem", // für kleine Bildschirme
-                  md: "0.75rem 0.5rem", // für mittlere Bildschirme
-                  lg: "1rem 0.75rem", // für größere Bildschirme
+                  xs: "0.25rem 0.125rem",
+                  sm: "0.5rem 0.25rem", 
+                  md: "0.75rem 0.5rem", 
+                  lg: "1rem 0.75rem", 
                   xl: "1.25rem 1rem",
                 },
                 m: {
@@ -611,10 +608,10 @@ const Dashboard = () => {
                 },
                 gridRow: { xs: "9", sm: "5", md: "5", lg: "4", xl: "3" },
                 p: {
-                  xs: "0.25rem 0.125rem", // für sehr kleine Bildschirme
-                  sm: "0.5rem 0.25rem", // für kleine Bildschirme
-                  md: "0.75rem 0.5rem", // für mittlere Bildschirme
-                  lg: "1rem 0.75rem", // für größere Bildschirme
+                  xs: "0.25rem 0.125rem", 
+                  sm: "0.5rem 0.25rem", 
+                  md: "0.75rem 0.5rem", 
+                  lg: "1rem 0.75rem", 
                   xl: "1.25rem 1rem",
                 },
                 m: {
@@ -689,10 +686,10 @@ const Dashboard = () => {
                 },
                 gridRow: { xs: "6", sm: "3", md: "3", lg: "3", xl: "2" },
                 p: {
-                  xs: "0.25rem 0.125rem", // für sehr kleine Bildschirme
-                  sm: "0.5rem 0.25rem", // für kleine Bildschirme
-                  md: "0.75rem 0.5rem", // für mittlere Bildschirme
-                  lg: "1rem 0.75rem", // für größere Bildschirme
+                  xs: "0.25rem 0.125rem", 
+                  sm: "0.5rem 0.25rem",
+                  md: "0.75rem 0.5rem", 
+                  lg: "1rem 0.75rem", 
                   xl: "1.25rem 1rem",
                 },
                 m: {
@@ -797,10 +794,10 @@ const Dashboard = () => {
               "& .MuiDataGrid-cell": {
                 color: theme.palette.secondary[200],
                 fontSize: {
-                  xs: "0.375rem", // für sehr kleine Bildschirme
-                  sm: "0.5rem", // für kleine Bildschirme
-                  md: "0.625rem", // für mittlere Bildschirme
-                  lg: "0.750rem", // für größere Bildschirme
+                  xs: "0.375rem", 
+                  sm: "0.5rem", 
+                  md: "0.625rem", 
+                  lg: "0.750rem", 
                   xl: "0.875rem",
                 },
               },
@@ -809,10 +806,10 @@ const Dashboard = () => {
                 color: theme.palette.secondary[200],
                 borderBottom: "none",
                 fontSize: {
-                  xs: "0.25rem", // für sehr kleine Bildschirme
-                  sm: "0.5rem", // für kleine Bildschirme
-                  md: "0.75rem", // für mittlere Bildschirme
-                  lg: "1rem", // für größere Bildschirme
+                  xs: "0.25rem", 
+                  sm: "0.5rem", 
+                  md: "0.75rem", 
+                  lg: "1rem", 
                   xl: "1.25rem",
                 },
               },
@@ -823,23 +820,23 @@ const Dashboard = () => {
                 },
               },
               "& .MuiDataGrid-overlay": {
-                // Styling for the 'No Rows' overlay
+                
                 backgroundColor: theme.palette.background.alt,
                 color: theme.palette.secondary[200],
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 fontSize: {
-                  xs: "0.25rem", // für sehr kleine Bildschirme
-                  sm: "0.5rem", // für kleine Bildschirme
-                  md: "0.75rem", // für mittlere Bildschirme
-                  lg: "1rem", // für größere Bildschirme
+                  xs: "0.25rem", 
+                  sm: "0.5rem", 
+                  md: "0.75rem", 
+                  lg: "1rem", 
                   xl: "1.25rem",
                 },
                 fontWeight: "bold",
               },
               "& .MuiDataGrid-footerContainer": {
-                display: "none", // Ausblenden des Footers
+                display: "none", 
               },
               m: {
                 xs: "0.125rem 0.0625rem",
