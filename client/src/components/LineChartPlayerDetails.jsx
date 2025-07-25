@@ -73,7 +73,7 @@ const LineChart = ({ data, opponents }) => {
           reverse: false,
         }}
         yFormat=" >-.2f"
-        curve="catmullRom"
+        curve="monotoneX"
         enableArea={true}
         enableGridX={false}
         enableGridY={false}

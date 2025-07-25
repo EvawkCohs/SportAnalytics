@@ -10,7 +10,7 @@ const ProfilePage = () => {
   const { data: profile, error } = useGetUserProfileQuery();
 
   const theme = useTheme();
-  console.log(error);
+  
   if (error) {
     return error.status === "FETCH_ERROR" ? (
       <ErrorMessageServer />

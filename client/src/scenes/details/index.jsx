@@ -288,13 +288,21 @@ function Details() {
                 lg: "repeat(8, 1fr)",
                 xl: "repeat(8, 1fr)",
               },
-              gridTemplateRows: {
-                xs: "repeat(27, 100px)",
-                sm: "repeat(26, 150px)",
-                md: "repeat(16, 200px)",
-                lg: "repeat(10, 200px)",
-                xl: "repeat(10, 250px)",
-              },
+              gridTemplateRows: profile
+      ? {
+          xs: "repeat(27, 100px)",
+          sm: "repeat(26, 150px)",
+          md: "repeat(16, 200px)",
+          lg: "repeat(10, 200px)",
+          xl: "repeat(10, 250px)",
+        }
+      : {
+          xs: "repeat(17, 100px)",
+          sm: "repeat(16, 150px)",
+          md: "repeat(12, 200px)",
+          lg: "repeat(8, 200px)",
+          xl: "repeat(8, 250px)",
+        },
             }}
           >
             {/* ROW 1*/}
@@ -548,9 +556,9 @@ function Details() {
                 },
               },
               "& .MuiDataGrid-overlay": {
-                // Styling for the 'No Rows' overlay
+                
                 backgroundColor: theme.palette.background.alt,
-                color: theme.palette.secondary[200], // Change the text color
+                color: theme.palette.secondary[200], 
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
