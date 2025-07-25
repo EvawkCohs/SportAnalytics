@@ -22,6 +22,7 @@ function Schedule() {
   const [team, setTeam] = React.useState("");
   const [group, setGroup] = useState("SW");
   const [gender, setGender] = useState("male");
+  const [season, setSeason] = useState("2025/2026");
   //Id aus GlobalState einlesen
   const dispatch = useDispatch();
   const teamId = useSelector((state) => state.global.teamId);
@@ -46,8 +47,12 @@ function Schedule() {
   const handleGenderChange = (event) => {
     setGender(event.target.value);
   };
+  const handleSeasonChange = (event) => {
+    setSeason(event.target.value);
+  };
 
   const filteredTeams = (teamData || [])
+    .filter((team) => team.season === season)
     .filter((team) => team.group === group)
     .filter((team) => team.gender === gender)
     .sort((a, b) => {
@@ -68,7 +73,7 @@ function Schedule() {
 
   //Zugehörigen gameIDs fetchen
   const { gameIDs, errorGameIDs } = useFetchGameIDs(teamId);
-  console.log(errorGameIDs);
+
   //Daten mit GameIDs versehen
   const dataWithIDs = schedule.map((item, index) => ({
     ...item,
@@ -175,6 +180,19 @@ function Schedule() {
           gap="1rem"
           borderRadius="0.55rem"
         >
+          {/*Season Dropdown */}
+          <FormControl sx={{ width: "300px" }}>
+            <CustomInputLabel id="Saisonauswahl">Saison</CustomInputLabel>
+            <CustomSelect
+              value={season}
+              onChange={handleSeasonChange}
+              label="season"
+              labelId="Saisonauswahl"
+            >
+              <MenuItem value="2024/2025">2024/2025</MenuItem>
+              <MenuItem value="2025/2026">2025/2026</MenuItem>
+            </CustomSelect>
+          </FormControl>
           {/*Geschlecht Dropdown */}
           <FormControl sx={{ width: "300px" }}>
             <CustomInputLabel id="Geschlechtauswahl">
@@ -212,9 +230,7 @@ function Schedule() {
                   ]}
             </CustomSelect>
           </FormControl>
-
           {/*Teamauswahl Dropdown*/}
-
           <FormControl sx={{ width: "300px" }}>
             <CustomInputLabel id="Mannschaftsauswahl">
               Mannschaft

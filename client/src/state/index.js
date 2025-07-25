@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   mode: "dark",
-  teamId: "sportradar.dhbdata.411-1648",
+  teamId: "sportradar.dhbdata.411-1705",
   teamName: "TV Gelnhausen",
   genderMode: "male",
 };

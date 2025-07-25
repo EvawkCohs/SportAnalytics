@@ -185,12 +185,7 @@ const Dashboard = () => {
   if (isError) {
     return <ErrorMessageServer />;
   }
-  if (
-    isLoadingGames ||
-    !updatedNextFiveGames ||
-    !dataLastFiveGames ||
-    dataLastFiveGames.length < 1
-  ) {
+  if (isLoadingGames || !updatedNextFiveGames || !dataLastFiveGames) {
     return <LoadingCircle />;
   }
 

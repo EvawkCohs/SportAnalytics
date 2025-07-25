@@ -8,6 +8,7 @@ const TeamModelSchema = new mongoose.Schema(
     group: String,
     logo: String,
     gender: String,
+    season: String,
   },
   { timestamps: false }
 );
