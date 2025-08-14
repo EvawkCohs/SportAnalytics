@@ -14,20 +14,24 @@ const useFetchGameIDs = (teamId) => {
       const fullUrl = `${proxyUrl}?url=${targetUrl}`;
 
       try {
-        //HTML der Seite abrufen
+        // HTML der Seite abrufen
         const response = await axios.get(fullUrl);
 
-        //HTML parsen
+        // HTML parsen
         const $ = load(response.data);
 
-        //IDS sammeln
+        // IDS sammeln
         let gameIDs = [];
 
-        //Alle entsprechenden divs durchsuchen
-        $("div.space-y-6").each((index, element) => {
-          const id = $(element).attr("id");
-          if (id && id.startsWith("sportradar.dhbdata.")) {
-            gameIDs.push(id);
+        // Alle <a class="contents"> durchsuchen
+        $("a.contents").each((index, element) => {
+          const href = $(element).attr("href");
+          if (href) {
+            const parts = href.split("/");
+            const gameId = parts[parts.length - 1];
+            if (gameId) {
+              gameIDs.push(gameId);
+            }
           }
         });
         setGameIDs(gameIDs);
