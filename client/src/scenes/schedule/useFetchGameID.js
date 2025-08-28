@@ -28,7 +28,7 @@ const useFetchGameIDs = (teamId) => {
           const href = $(element).attr("href");
           if (href) {
             const parts = href.split("/");
-            const gameId = parts[parts.length - 1];
+            const gameId = parts[parts.length - 2];
             if (gameId) {
               gameIDs.push(gameId);
             }
