@@ -1,50 +1,29 @@
 import { useState, useEffect } from "react";
-import Papa from "papaparse";
 
-const useFetchSchedule = (teamId, teamUrlEnding) => {
+const useFetchSchedule = (teamId) => {
   const [schedule, setSchedule] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  //Zusammengesetzte TeamURl
-  const url = `https://www.handball.net/a/sportdata/1/teams/${teamId}/team-schedule.csv?_rsc=${teamUrlEnding}`;
-
   useEffect(() => {
     const fetchData = async () => {
-      //Proxy verwenden
-      const proxyUrl = `${process.env.REACT_APP_BASE_URL}/proxy`;
-      const targetUrl = encodeURIComponent(url);
-
-      const fullUrl = `${proxyUrl}?url=${targetUrl}`;
-
+      const url = `${process.env.REACT_APP_BASE_URL}/client/teamschedule?teamId=${teamId}`;
       try {
         setLoading(true);
-        const response = await fetch(fullUrl);
+        const response = await fetch(url);
         if (!response.ok) {
-          throw new Error(`HTTP-Fehler! Status: ${response.status}`);
+          throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
-        const csvText = await response.text();
-
-        // Parse CSV data
-        Papa.parse(csvText, {
-          header: true,
-          complete: (result) => {
-            const fetchedSchedule = result.data;
-            setSchedule(fetchedSchedule);
-            setLoading(false);
-          },
-          error: (error) => {
-            throw new Error(error.message);
-          },
-        });
+        const data = await response.json();
+        setSchedule(data);
+        setLoading(false);
       } catch (error) {
         setError(error.message);
         setLoading(false);
       }
     };
     fetchData();
-  }, [url]);
-
+  }, [teamId]);
   return { schedule, loading, error };
 };
 
