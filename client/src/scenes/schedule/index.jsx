@@ -79,6 +79,7 @@ function Schedule() {
     ...item,
     gameID: gameIDs[index] || "N/A",
   }));
+
   const allGamesDetails = useFetchAllGamesDetails(gameIDs);
   const [isChecked, setIsChecked] = useState(false);
   useEffect(() => {
