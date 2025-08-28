@@ -2,33 +2,33 @@ import { useEffect, useState } from "react";
 
 const useFetchAllGamesDetails = (gameIds) => {
   const [games, setGames] = useState([]);
-  const baseUrl = "https://www.handball.net/a/sportdata/1/games/";
-  const endUrl = "/combined?";
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (!Array.isArray(gameIds) || gameIds.length === 0) return;
+
     const fetchAllGames = async () => {
-      if (!Array.isArray(gameIds)) {
-        return;
+      setLoading(true);
+      setError(null);
+      try {
+        const url = `${
+          process.env.REACT_APP_BASE_URL
+        }/client/allgamesdetails?gameIds=${gameIds.join(",")}`;
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("Fehler beim Laden der Spieldetails");
+        const details = await response.json();
+        setGames(details);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
       }
-      if (gameIds.length !== 30 && gameIds.length !== 22) {
-        return;
-      }
-      const results = await Promise.all(
-        gameIds.map(async (gameId) => {
-          const combinedUrl = baseUrl + gameId + endUrl;
-          const proxyUrl = `${process.env.REACT_APP_BASE_URL}/proxy`;
-          const targetUrl = encodeURIComponent(combinedUrl);
-          const fullUrl = `${proxyUrl}?url=${targetUrl}`;
-          const response = await fetch(fullUrl);
-          const details = await response.json();
-          return details.data;
-        })
-      );
-      setGames(results);
     };
     fetchAllGames();
   }, [gameIds]);
 
-  return games;
+  return { games, loading, error };
 };
+
 export default useFetchAllGamesDetails;
