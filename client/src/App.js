@@ -50,7 +50,7 @@ function App() {
                   path="/details/:gameId/:player"
                   element={<PlayerDetailsGame />}
                 />
-                <Route path="/head-to-head" element={<HeadToHead />} />
+                {/*Staffelauswahl Dropdown<Route path="/head-to-head" element={<HeadToHead />} />*/}
                 <Route path="/profil" element={<ProfilePage />} />
                 <Route path="/registrieren" element={<RegisterPage />} />
                 <Route path="/einloggen" element={<LoginPage />} />
