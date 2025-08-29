@@ -69,32 +69,48 @@ function Schedule() {
     });
 
   //Spielplan fetchen
-  const { schedule, loading, error } = useFetchSchedule(teamId);
+  const {
+    schedule,
+    loading: loadingSchedule,
+    error: errorSchedule,
+  } = useFetchSchedule(teamId);
 
   //Zugehörigen gameIDs fetchen
-  const { gameIDs, errorGameIDs } = useFetchGameIDs(teamId);
+  const {
+    gameIDs: gameIDs,
+    loading: loadingGameIDs,
+    error: errorGameIDs,
+  } = useFetchGameIDs(teamId);
 
   //Daten mit GameIDs versehen
-  const dataWithIDs = schedule.map((item, index) => ({
-    ...item,
-    gameID: gameIDs[index] || "N/A",
-  }));
+  const dataWithIDs =
+    !loadingGameIDs && gameIDs.length > 0
+      ? schedule.map((item, index) => ({
+          ...item,
+          gameID: gameIDs[index] || "N/A",
+        }))
+      : [];
 
-  const allGamesDetails = useFetchAllGamesDetails(gameIDs);
+  const {
+    games: allGamesDetails,
+    loading: loadingGames,
+    error: errorGames,
+  } = useFetchAllGamesDetails(gameIDs);
   const [isChecked, setIsChecked] = useState(false);
   useEffect(() => {
     setIsChecked(true);
-    if (!allGamesDetails) return;
-    if (allGamesDetails.length !== 30 && allGamesDetails.length !== 22) return;
-    handleAddGame(allGamesDetails);
-  }, [allGamesDetails, dispatch]);
 
-  if (loading || isLoading) {
+    if (loadingGames || errorGames) return;
+    if (allGamesDetails.length === 0) return;
+    handleAddGame(allGamesDetails);
+  }, [allGamesDetails, loadingGames, errorGames, dispatch]);
+
+  if (loadingSchedule || isLoading || loadingGameIDs) {
     return <LoadingCircle />;
   }
 
-  if (error || errorTeamModel || errorGameIDs) {
-    return <ErrorMessageServer />; // Fehlermeldung Rendern (später anpassen)
+  if (errorSchedule || errorTeamModel || errorGameIDs) {
+    return <ErrorMessageServer />;
   }
 
   const cols = [

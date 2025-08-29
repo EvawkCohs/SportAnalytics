@@ -13,7 +13,6 @@ import {
   useTheme,
 } from "@mui/material";
 import {
-  
   ChevronLeft,
   ChevronRightOutlined,
   HomeOutlined,
@@ -27,7 +26,7 @@ import ElectricBoltOutlinedIcon from "@mui/icons-material/ElectricBoltOutlined";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import { AccountCircleOutlined } from "@mui/icons-material";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
-import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
+import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 
 const navItems = [
   {
@@ -41,7 +40,7 @@ const navItems = [
   },
   { text: "Statistiken", icon: null },
   { text: "Kader", icon: <Groups2OutlinedIcon /> },
-  { text: "Head-to-Head", icon: <ElectricBoltOutlinedIcon /> },
+  //{ text: "Head-to-Head", icon: <ElectricBoltOutlinedIcon /> },
   { text: "Registrieren und einloggen", icon: null },
   { text: "Registrieren", icon: <AppRegistrationIcon /> },
   { text: "Einloggen", icon: <LoginOutlinedIcon /> },
@@ -91,11 +90,13 @@ const Sidebar = ({
                     SPORTANALYTICS
                   </Typography>
                 </Box>
-                  {!isNonMobile ?
+                {!isNonMobile ? (
                   <IconButton onClick={() => setIsSidebarOpen(isSidebarOpen)}>
                     <ChevronLeft />
-                  </IconButton> : <></>}
-                
+                  </IconButton>
+                ) : (
+                  <></>
+                )}
               </FlexBetween>
             </Box>
             <List>
@@ -148,36 +149,44 @@ const Sidebar = ({
               })}
             </List>
           </Box>
-          <Box  position="absolute" width="100%" bottom="1rem">
-              <Divider/>
-              <List>
-                <ListItem key="Hilfe" disablePadding><ListItemButton onClick={() => {
-                        navigate(`/hilfe`);
-                        setActive("hilfe");
-                      }}
-                      sx={{
-                        backgroundColor:
-                          active === "hilfe"
-                            ? theme.palette.secondary[300]
-                            : "transparent",
-                        color:
-                          active === "hilfe"
-                            ? theme.palette.primary[600]
-                            : theme.palette.secondary[100],
-                      }}><ListItemIcon
-                      sx={{
-                        ml: "2rem",
-                        color:
-                          active === "hilfe"
-                            ? theme.palette.primary[600]
-                            : theme.palette.secondary[200],
-                      }}
-                    >
-                      {<HelpOutlineOutlinedIcon/>}
-                    </ListItemIcon><ListItemText primary={"Hilfe"} />{active === "hilfe" && (
-                        <ChevronRightOutlined sx={{ ml: "auto" }} />
-                      )}</ListItemButton></ListItem>
-              </List>
+          <Box position="absolute" width="100%" bottom="1rem">
+            <Divider />
+            <List>
+              <ListItem key="Hilfe" disablePadding>
+                <ListItemButton
+                  onClick={() => {
+                    navigate(`/hilfe`);
+                    setActive("hilfe");
+                  }}
+                  sx={{
+                    backgroundColor:
+                      active === "hilfe"
+                        ? theme.palette.secondary[300]
+                        : "transparent",
+                    color:
+                      active === "hilfe"
+                        ? theme.palette.primary[600]
+                        : theme.palette.secondary[100],
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      ml: "2rem",
+                      color:
+                        active === "hilfe"
+                          ? theme.palette.primary[600]
+                          : theme.palette.secondary[200],
+                    }}
+                  >
+                    {<HelpOutlineOutlinedIcon />}
+                  </ListItemIcon>
+                  <ListItemText primary={"Hilfe"} />
+                  {active === "hilfe" && (
+                    <ChevronRightOutlined sx={{ ml: "auto" }} />
+                  )}
+                </ListItemButton>
+              </ListItem>
+            </List>
           </Box>
         </Drawer>
       )}
