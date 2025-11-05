@@ -184,7 +184,20 @@ const Dashboard = () => {
     return <ErrorMessageServer />;
   }
   if (isLoadingGames || !updatedNextFiveGames || !dataLastFiveGames) {
-    return <LoadingCircle />;
+    return (
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <LoadingCircle />{" "}
+        <Typography variant="h4">
+          Hinweis: Das erstmalige Laden nach längerer Zeit kann bis zu 1min
+          dauern
+        </Typography>
+      </Box>
+    );
   }
 
   return (
