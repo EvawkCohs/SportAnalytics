@@ -13,13 +13,14 @@ import gameUploadRoutes from "./routes/gameUpload.js";
 import gameUploadCheckRoutes from "./routes/gameUploadCheck.js";
 import userRoutes from "./routes/userRoutes.js";
 import userGames from "./routes/userGames.js";
+import internalCronRoutes from "./routes/internalCron.js";
 
 //MODEL IMPORTS
 // import gameModel from "./models/gameModel.js";
-//import TeamModel from "./models/TeamModel.js";
+import TeamModel from "./models/TeamModel.js";
 
 //DATA IMPORT
-//import { dataTeams } from "./data/teams.js";
+import { dataTeams } from "./data/teams.js";
 //CONFIGURATION
 dotenv.config();
 const app = express();
@@ -39,6 +40,7 @@ app.use("/gameUpload", gameUploadRoutes);
 app.use("/gameUploadCheck", gameUploadCheckRoutes);
 app.use("/users", userRoutes);
 app.use("/userGames", userGames);
+app.use("/internal", internalCronRoutes);
 
 //MONGOOSE SETUP
 const PORT = process.env.PORT || 9000;
@@ -53,7 +55,7 @@ mongoose
 
     //DATA UPLOAD
     //gameModel.insertMany(overalldata);
-    //TeamModel.insertMany(dataTeams);
+    TeamModel.insertMany(dataTeams);
   })
   .catch((error) => console.log(`${error} did not connect`));
 app.get("/proxy", async (req, res) => {

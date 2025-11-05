@@ -503,7 +503,6 @@ function Details() {
           </Box>
           <Box
             width="1fr"
-            
             display="flex"
             flexDirection="column"
             justifyContent="space-between"

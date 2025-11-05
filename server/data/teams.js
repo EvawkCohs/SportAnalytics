@@ -1184,13 +1184,13 @@ export const dataTeams = [
     logo: "https://www.handball.net/files/clubs/logos/5af9351c-f15d-4daa-9a59-907fdee5e195.jpeg?d=100x",
   },
   {
-    id: "sportradar.dhbdata.4010-1705",
-    name: "HG Hamburg-Barmbek",
+    id: "sportradar.dhbdata.372-1705",
+    name: "HC Empor Rostock",
     urlEnding: "vj9a3",
     group: "NE",
     gender: "male",
     season: "2025/2026",
-    logo: "https://www.handball.net/files/clubs/logos/5af9351c-f15d-4daa-9a59-907fdee5e195.jpeg?d=100x",
+    logo: "https://www.handball.net/files/clubs/logos/484b9c8c-6cb7-4197-8b85-22737a08a9c8.png?d=100x",
   },
   //S
   {
@@ -1394,7 +1394,7 @@ export const dataTeams = [
   },
   {
     id: "sportradar.dhbdata.2715-1705",
-    name: "TuS 1882 Opladen",
+    name: "TuS 82 Opladen",
     urlEnding: "vj9a3",
     group: "SW",
     gender: "male",

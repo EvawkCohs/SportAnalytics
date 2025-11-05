@@ -85,10 +85,12 @@ function Schedule() {
   //Daten mit GameIDs versehen
   const dataWithIDs =
     !loadingGameIDs && gameIDs.length > 0
-      ? schedule.map((item, index) => ({
-          ...item,
-          gameID: gameIDs[index] || "N/A",
-        }))
+      ? schedule
+          .map((item, index) => ({
+            ...item,
+            gameID: gameIDs[index] || "N/A",
+          }))
+          .slice(0, -1)
       : [];
 
   const {
@@ -159,6 +161,22 @@ function Schedule() {
       field: "Uhrzeit",
       headerName: "Uhrzeit",
       flex: 1,
+    },
+    {
+      field: "Ergebnis",
+      headerNAme: "Ergebnis",
+      flex: 1,
+      renderCell: (params) => {
+        if (!allGamesDetails || allGamesDetails.length === 0) return " - : - ";
+        const index = allGamesDetails.findIndex(
+          (game) => game.summary.id === params.row.gameID
+        );
+        if (index === -1 || !allGamesDetails[index]) return " - : - ";
+        if (allGamesDetails[index].summary.state === "Post") {
+          return `${allGamesDetails[index].summary.homeGoals} : ${allGamesDetails[index].summary.awayGoals} `;
+        }
+        return " - : - ";
+      },
     },
     {
       field: "Adresse",

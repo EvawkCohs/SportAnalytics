@@ -1,6 +1,6 @@
 import React from "react";
 import { ResponsivePie } from "@nivo/pie";
-import { useTheme, Box, Typography , useMediaQuery} from "@mui/material";
+import { useTheme, Box, Typography, useMediaQuery } from "@mui/material";
 
 const PieChart = ({ data, title }) => {
   const theme = useTheme();
@@ -57,7 +57,11 @@ const PieChart = ({ data, title }) => {
             },
           },
         }}
-        margin={isNonMediumScreen ?{ top: 15, right: 80, bottom: 80, left: 80 } : {top: 10, right: 50, bottom: 60,left:50}}
+        margin={
+          isNonMediumScreen
+            ? { top: 15, right: 80, bottom: 80, left: 80 }
+            : { top: 10, right: 50, bottom: 60, left: 50 }
+        }
         innerRadius={0.5}
         padAngle={0.7}
         cornerRadius={3}
@@ -118,7 +122,7 @@ const PieChart = ({ data, title }) => {
               textAnchor="middle"
               dominantBaseline="central"
               style={{
-                fontSize: "28px",
+                fontSize: "40px",
                 fontWeight: "600",
                 fill: theme.palette.secondary[200],
               }}

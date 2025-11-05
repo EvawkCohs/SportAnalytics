@@ -25,6 +25,7 @@ import HalfCircleChart from "components/HalfCircleChart";
 import { LoadingCircle } from "components/LoadingCircle";
 import { ErrorMessageServer } from "components/ErrorMessageServer";
 import { CustomSwitch } from "components/CustomSwitch";
+import { skipToken } from "@reduxjs/toolkit/query/react";
 
 const Dashboard = () => {
   const teamId = useSelector((state) => state.global.teamId);
@@ -32,7 +33,7 @@ const Dashboard = () => {
   const gender = useSelector((state) => state.global.genderMode);
   const theme = useTheme();
   const Navigate = useNavigate();
-
+  const [teamIdOpponent, setTeamIdOpponent] = useState(null);
   const {
     data: games,
     isError,
@@ -51,6 +52,41 @@ const Dashboard = () => {
     ?.filter((game) => new Date(game.summary.startsAt).getTime() < Date.now())
     .sort((a, b) => new Date(b.summary.startsAt) - new Date(a.summary.startsAt))
     .slice(0, 5);
+
+  //GEGNER SPIELE
+
+  const {
+    data: gamesOpponent,
+    isError: isErrorOpponent,
+    isLoading: isLoadingOpponent,
+  } = useGetGamesWithParticipationQuery(
+    teamIdOpponent ? teamIdOpponent : skipToken
+  );
+
+  const [opponentPlayerStats, setOpponentPlayerStats] = useState([]);
+  const [mostValuableOpponent, setMostValuableOpponent] = useState([]);
+  const opponentPlayedGames = gamesOpponent?.filter(
+    (game) => game.summary.state === "Post"
+  );
+  const OpponentPlayerStats = opponentPlayedGames
+    ? GetOverallLineupData(opponentPlayedGames, teamIdOpponent)
+    : [];
+  useEffect(() => {
+    if (!updatedNextFiveGames || updatedNextFiveGames.length < 5) return;
+    setTeamIdOpponent(
+      updatedNextFiveGames[0].summary.homeTeam.id === teamId
+        ? updatedNextFiveGames[0].summary.awayTeam.id
+        : updatedNextFiveGames[0].summary.homeTeam.id
+    );
+    if (!opponentPlayedGames || opponentPlayedGames.length < 1) return;
+    setOpponentPlayerStats(
+      GetOverallLineupData(opponentPlayedGames, teamIdOpponent)
+    );
+    setMostValuableOpponent(
+      OpponentPlayerStats.sort((a, b) => b.goals - a.goals).slice(0, 3)
+    );
+  }, [updatedNextFiveGames, opponentPlayedGames]);
+
   //Tore
   const [totalGoals, setTotalGoals] = useState(0);
   const [totalGoalsConceded, setTotalGoalsConceded] = useState(0);
@@ -216,41 +252,54 @@ const Dashboard = () => {
         >
           {/*Row 1 */}
           {/*Nächstes Spiel */}
-          <Fade in={isCheckedPeriod} timeout={500}>
-            <Box
-              gridRow="1"
-              display="flex"
-              flexDirection="column"
-              justifyContent="space-between"
-              flex="1 1 100%"
-              backgroundColor={theme.palette.background.alt}
-              borderRadius="0.55rem"
-              className="data-display"
-              sx={{
-                p: {
-                  xs: "0.25rem 0.25rem",
-                  sm: "0.5rem 0.25rem",
-                  md: "0.75rem 0.5rem",
-                  lg: "1rem 0.75rem",
-                  xl: "1.25rem 1rem",
-                },
-                gridColumn: {
-                  xs: "1",
-                  sm: "1",
-                  md: "1/3",
-                  lg: "1/4",
-                  xl: "1/5",
-                },
-                m: {
-                  xs: "0.125rem 0.0625rem",
-                  sm: "0.5rem .125rem",
-                  md: "1rem .25rem",
-                  lg: "1.5rem .5rem",
-                  xl: "2rem .5rem",
-                },
-              }}
-            >
-              {updatedNextFiveGames.length > 0 ? (
+
+          <Box
+            gridRow="1"
+            display="flex"
+            flexDirection="column"
+            justifyContent="space-between"
+            flex="1 1 100%"
+            backgroundColor={theme.palette.background.alt}
+            borderRadius="0.55rem"
+            className="data-display"
+            maxHeight="300px"
+            sx={{
+              transition: `transform 0.4s ease-out, max-height 0.3s ease-out`,
+              overflow: "hidden",
+              ":hover": {
+                transform: `scale(1.05)`,
+                cursor: "pointer",
+                border: `2px solid ${theme.palette.secondary[400]}`,
+                boxShadow: `0 0 8px ${theme.palette.secondary[500]}`,
+                maxHeight: "500px",
+                height: "500px",
+                zIndex: 10,
+              },
+              p: {
+                xs: "0.25rem 0.25rem",
+                sm: "0.5rem 0.25rem",
+                md: "0.75rem 0.5rem",
+                lg: "1rem 0.75rem",
+                xl: "1.25rem 1rem",
+              },
+              gridColumn: {
+                xs: "1",
+                sm: "1",
+                md: "1/3",
+                lg: "1/4",
+                xl: "1/5",
+              },
+              m: {
+                xs: "0.125rem 0.0625rem",
+                sm: "0.5rem .125rem",
+                md: "1rem .25rem",
+                lg: "1.5rem .5rem",
+                xl: "2rem .5rem",
+              },
+            }}
+          >
+            {updatedNextFiveGames.length > 0 ? (
+              <Box>
                 <StatBoxGameInfo
                   title={`Nächstes Spiel`}
                   round={`${
@@ -268,99 +317,115 @@ const Dashboard = () => {
                   awayTeam={updatedNextFiveGames[0].summary.awayTeam.name}
                   state="pre"
                 />
-              ) : (
                 <Box>
                   <Typography
-                    sx={{ color: theme.palette.secondary[200] }}
                     variant="h2"
+                    sx={{ mt: "50px", color: theme.palette.secondary[200] }}
                   >
-                    Nächstes Spiel noch nicht verfügbar!
+                    Beste Spieler des Gegners:
+                  </Typography>
+                  <Typography
+                    variant="h3"
+                    sx={{ color: theme.palette.secondary[200] }}
+                  >
+                    {` ${mostValuableOpponent[0]?.firstname ?? ""} ${
+                      mostValuableOpponent[0]?.lastname ?? ""
+                    } 
+                    (${mostValuableOpponent[0]?.goals ?? 0} Tore)`}
                   </Typography>
                 </Box>
-              )}
-            </Box>
-          </Fade>
-          {/*Letztes Spiel */}
-          <Fade in={isCheckedPeriod} timeout={500}>
-            <Box
-              display="flex"
-              flexDirection="column"
-              justifyContent="space-between"
-              flex="1 1 100%"
-              backgroundColor={theme.palette.background.alt}
-              borderRadius="0.55rem"
-              onClick={handleCellClickLastGame}
-              className="data-display"
-              sx={{
-                transition: `transform 0.3s ease`,
-                ":hover": {
-                  transform: `translateY(-1rem)`,
-                  cursor: "pointer",
-                  border: `2px solid ${theme.palette.secondary[400]}`,
-                  boxShadow: `0 0 8px ${theme.palette.secondary[500]}`,
-                },
+              </Box>
+            ) : (
+              <Box>
+                <Typography
+                  sx={{ color: theme.palette.secondary[200] }}
+                  variant="h2"
+                >
+                  Nächstes Spiel noch nicht verfügbar!
+                </Typography>
+              </Box>
+            )}
+          </Box>
 
-                p: {
-                  xs: "0.25rem 0.25rem",
-                  sm: "0.5rem 0.25rem",
-                  md: "0.75rem 0.5rem",
-                  lg: "1rem 0.75rem",
-                  xl: "1.25rem 1rem",
-                },
-                gridColumn: {
-                  xs: "1",
-                  sm: "2",
-                  md: "3/5",
-                  lg: "4/7",
-                  xl: "5/9",
-                },
-                m: {
-                  xs: "0.125rem 0.0625rem",
-                  sm: "0.5rem .125rem",
-                  md: "1rem .25rem",
-                  lg: "1.5rem .5rem",
-                  xl: "2rem .5rem",
-                },
-              }}
-            >
-              {dataLastFiveGames.length > 0 ? (
-                <StatBoxGameInfo
-                  title={`Letztes Spiel`}
-                  round={`${
-                    dataLastFiveGames[0].summary.round.name
-                  } - ${formatTimestamp(
-                    dataLastFiveGames[0].summary.startsAt
-                  )}`}
-                  finalScore={`${
-                    dataLastFiveGames[0].summary.homeGoals ?? "0"
-                  } : ${dataLastFiveGames[0].summary.awayGoals ?? "0"}`}
-                  halftimeScore={`(${
-                    dataLastFiveGames[0].summary.homeGoalsHalf ?? "0"
-                  } : ${dataLastFiveGames[0].summary.awayGoalsHalf ?? "0"})`}
-                  homeTeam={dataLastFiveGames[0].summary.homeTeam.name}
-                  awayTeam={dataLastFiveGames[0].summary.awayTeam.name}
-                  state="post"
-                  homeGoals={dataLastFiveGames[0].summary.homeGoals}
-                  awayGoals={dataLastFiveGames[0].summary.awayGoals}
-                />
-              ) : (
-                <Box>
-                  <Typography
-                    sx={{ color: theme.palette.secondary[200] }}
-                    variant="h2"
-                  >
-                    letztes Spiel
-                  </Typography>
-                  <Typography
-                    sx={{ color: theme.palette.secondary[200] }}
-                    variant="h2"
-                  >
-                    noch keine Spiele gespielt
-                  </Typography>
-                </Box>
-              )}
-            </Box>
-          </Fade>
+          {/*Letztes Spiel */}
+
+          <Box
+            display="flex"
+            flexDirection="column"
+            justifyContent="space-between"
+            flex="1 1 100%"
+            backgroundColor={theme.palette.background.alt}
+            borderRadius="0.55rem"
+            onClick={handleCellClickLastGame}
+            className="data-display"
+            sx={{
+              transition: `transform 0.4s ease-out`,
+              ":hover": {
+                transform: `scale(1.05)`,
+                cursor: "pointer",
+                border: `2px solid ${theme.palette.secondary[400]}`,
+                boxShadow: `0 0 8px ${theme.palette.secondary[500]}`,
+              },
+
+              p: {
+                xs: "0.25rem 0.25rem",
+                sm: "0.5rem 0.25rem",
+                md: "0.75rem 0.5rem",
+                lg: "1rem 0.75rem",
+                xl: "1.25rem 1rem",
+              },
+              gridColumn: {
+                xs: "1",
+                sm: "2",
+                md: "3/5",
+                lg: "4/7",
+                xl: "5/9",
+              },
+              m: {
+                xs: "0.125rem 0.0625rem",
+                sm: "0.5rem .125rem",
+                md: "1rem .25rem",
+                lg: "1.5rem .5rem",
+                xl: "2rem .5rem",
+              },
+            }}
+          >
+            {dataLastFiveGames.length > 0 ? (
+              <StatBoxGameInfo
+                title={`Letztes Spiel`}
+                round={`${
+                  dataLastFiveGames[0].summary.round.name
+                } - ${formatTimestamp(dataLastFiveGames[0].summary.startsAt)}`}
+                finalScore={`${
+                  dataLastFiveGames[0].summary.homeGoals ?? "0"
+                } : ${dataLastFiveGames[0].summary.awayGoals ?? "0"}`}
+                halftimeScore={`(${
+                  dataLastFiveGames[0].summary.homeGoalsHalf ?? "0"
+                } : ${dataLastFiveGames[0].summary.awayGoalsHalf ?? "0"})`}
+                homeTeam={dataLastFiveGames[0].summary.homeTeam.name}
+                awayTeam={dataLastFiveGames[0].summary.awayTeam.name}
+                state="post"
+                homeGoals={dataLastFiveGames[0].summary.homeGoals}
+                awayGoals={dataLastFiveGames[0].summary.awayGoals}
+              />
+            ) : (
+              <Box>
+                <Typography
+                  sx={{ color: theme.palette.secondary[200] }}
+                  variant="h2"
+                >
+                  letztes Spiel
+                </Typography>
+                <Typography
+                  sx={{ color: theme.palette.secondary[200] }}
+                  variant="h2"
+                >
+                  noch keine Spiele gespielt
+                </Typography>
+              </Box>
+            )}
+          </Box>
+
           {/*Row 1 */}
 
           {/*Tore gesamte Saison */}

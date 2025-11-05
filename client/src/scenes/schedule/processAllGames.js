@@ -17,9 +17,6 @@ async function useProcessAllGames(allGamesDetails, gameIds) {
     const gamesToInsert = allGamesDetails.filter(
       (game) => !existingGameIds.includes(game.summary.id)
     );
-
-    console.log(gamesToUpdate);
-    console.log(gamesToInsert);
   } catch (error) {
     console.error("Fehler beim Verarbeiten der Spiele: ", error);
   }

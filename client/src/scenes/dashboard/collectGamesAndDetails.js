@@ -1,4 +1,4 @@
-export const GetTotalGoals = (games, teamId) => {
+  export const GetTotalGoals = (games, teamId) => {
   let totalGoals = 0;
   games.forEach((game) => {
     if (game.summary.homeTeam.id === teamId) {

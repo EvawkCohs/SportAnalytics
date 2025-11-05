@@ -85,6 +85,7 @@ const Team = () => {
           alignItems="flex-start"
           flexWrap="wrap"
           gap="20px"
+          sx={{ overflow: "visible" }}
         >
           {visiblePlayers.map(
             (

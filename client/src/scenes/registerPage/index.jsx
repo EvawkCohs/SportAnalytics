@@ -122,13 +122,13 @@ const RegisterPage = () => {
           <Box
             display="flex"
             flexDirection="column"
-            alignItems="flex-start"
+            alignItems="center"
             justifyContent="flex-start"
             gap="1rem"
           >
             <Typography
               variant="h4"
-              sx={{ color: theme.palette.secondary[200] }}
+              sx={{ color: theme.palette.secondary[200], textAlign: "center" }}
             >
               Persönliche Daten:
             </Typography>
@@ -173,7 +173,7 @@ const RegisterPage = () => {
           <Box
             display="flex"
             flexDirection="column"
-            alignItems="flex-start"
+            alignItems="center"
             justifyContent="flex-start"
             gap="1rem"
           >

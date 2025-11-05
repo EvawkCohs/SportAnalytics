@@ -122,7 +122,7 @@ const TeamSchema = new Schema({
 });
 // Summary Schema
 const SummarySchema = new Schema({
-  id: String,
+  id: { type: String, index: true, unique: true },
   tournament: TournamentSchema,
   phase: PhaseSchema,
   round: RoundSchema,
@@ -153,5 +153,8 @@ const GameModelSchema = new Schema({
   lineup: { type: LineupSchema, default: {} },
   events: { type: [EventSchema], default: [] },
 });
+
+GameModelSchema.index({ "summary.id": 1 }, { unique: true });
 const GameModel = mongoose.model("GameModel", GameModelSchema);
+
 export default GameModel;

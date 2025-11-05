@@ -7,20 +7,22 @@ const LineChart = ({ data, opponents }) => {
   const isNonMediumScreen = useMediaQuery("(min-width: 1000px)");
   return (
     <Box
-      
-      
       display="flex"
       flexDirection="column"
       justifyContent="space-between"
-    
       flex="1 1 100%"
       backgroundColor={theme.palette.background.alt}
       borderRadius="0.55rem"
       className="data-display"
       sx={{
         gridColumn: {
-          xs: "1/7", sm: "1/7", md:"1/7", lg: "1/7", xl: "1/7"
-        }, gridRow: {xs: "1/5", sm: "1/5", md:"1/5", lg:"1/5", xl: "1/5"}
+          xs: "1/7",
+          sm: "1/7",
+          md: "1/7",
+          lg: "1/7",
+          xl: "1/7",
+        },
+        gridRow: { xs: "1/5", sm: "1/5", md: "1/5", lg: "1/5", xl: "1/5" },
       }}
     >
       <Typography
@@ -63,7 +65,11 @@ const LineChart = ({ data, opponents }) => {
             },
           },
         }}
-        margin={isNonMediumScreen ?{ top: 40, right: 10, bottom: 95, left: 60 }: {top:30, right: 10, bottom: 85, left:50}}
+        margin={
+          isNonMediumScreen
+            ? { top: 40, right: 10, bottom: 95, left: 60 }
+            : { top: 30, right: 10, bottom: 85, left: 50 }
+        }
         xScale={{ type: "point" }}
         yScale={{
           type: "linear",
